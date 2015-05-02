@@ -8,12 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		AD1A91BA1AF434DA00DC0983 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A91B91AF434DA00DC0983 /* main.m */; };
-		AD1A91BD1AF434DA00DC0983 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A91BC1AF434DA00DC0983 /* AppDelegate.m */; };
-		AD1A91C01AF434DA00DC0983 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A91BF1AF434DA00DC0983 /* ViewController.m */; };
-		AD1A91C31AF434DA00DC0983 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91C11AF434DA00DC0983 /* Main.storyboard */; };
 		AD1A91C51AF434DA00DC0983 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91C41AF434DA00DC0983 /* Images.xcassets */; };
 		AD1A91C81AF434DA00DC0983 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91C61AF434DA00DC0983 /* LaunchScreen.xib */; };
 		AD1A91D41AF434DA00DC0983 /* SqftGardenAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A91D31AF434DA00DC0983 /* SqftGardenAppTests.m */; };
+		AD1A91F61AF43FA900DC0983 /* ic_burger_44.png in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91F51AF43FA900DC0983 /* ic_burger_44.png */; };
+		ADD47F231AF44A5700D7E26F /* ButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */; };
+		ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1C1AF44A5700D7E26F /* DisplayContentSegue.m */; };
+		ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1E1AF44A5700D7E26F /* EditBedViewController.m */; };
+		ADD47F261AF44A5700D7E26F /* MenuDrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F201AF44A5700D7E26F /* MenuDrawViewController.m */; };
+		ADD47F271AF44A5700D7E26F /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F221AF44A5700D7E26F /* MenuViewController.m */; };
+		ADD47F291AF44A7A00D7E26F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADD47F281AF44A7A00D7E26F /* Main.storyboard */; };
+		ADD47F2C1AF44AB100D7E26F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F2B1AF44AB100D7E26F /* AppDelegate.m */; };
+		ADD47F2F1AF44E8700D7E26F /* BedView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F2E1AF44E8700D7E26F /* BedView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,16 +36,27 @@
 		AD1A91B41AF434DA00DC0983 /* SqftGardenApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqftGardenApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD1A91B81AF434DA00DC0983 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD1A91B91AF434DA00DC0983 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		AD1A91BB1AF434DA00DC0983 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		AD1A91BC1AF434DA00DC0983 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		AD1A91BE1AF434DA00DC0983 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		AD1A91BF1AF434DA00DC0983 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		AD1A91C21AF434DA00DC0983 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AD1A91C41AF434DA00DC0983 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AD1A91C71AF434DA00DC0983 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		AD1A91CD1AF434DA00DC0983 /* SqftGardenAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqftGardenAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD1A91D21AF434DA00DC0983 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD1A91D31AF434DA00DC0983 /* SqftGardenAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SqftGardenAppTests.m; sourceTree = "<group>"; };
+		AD1A91F51AF43FA900DC0983 /* ic_burger_44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_burger_44.png; sourceTree = "<group>"; };
+		ADD47F191AF44A5700D7E26F /* ButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonHandler.h; sourceTree = "<group>"; };
+		ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonHandler.m; sourceTree = "<group>"; };
+		ADD47F1B1AF44A5700D7E26F /* DisplayContentSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayContentSegue.h; sourceTree = "<group>"; };
+		ADD47F1C1AF44A5700D7E26F /* DisplayContentSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayContentSegue.m; sourceTree = "<group>"; };
+		ADD47F1D1AF44A5700D7E26F /* EditBedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBedViewController.h; sourceTree = "<group>"; };
+		ADD47F1E1AF44A5700D7E26F /* EditBedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditBedViewController.m; sourceTree = "<group>"; };
+		ADD47F1F1AF44A5700D7E26F /* MenuDrawViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuDrawViewController.h; sourceTree = "<group>"; };
+		ADD47F201AF44A5700D7E26F /* MenuDrawViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuDrawViewController.m; sourceTree = "<group>"; };
+		ADD47F211AF44A5700D7E26F /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		ADD47F221AF44A5700D7E26F /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		ADD47F281AF44A7A00D7E26F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		ADD47F2A1AF44AB100D7E26F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		ADD47F2B1AF44AB100D7E26F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		ADD47F2D1AF44E6C00D7E26F /* BedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BedView.h; sourceTree = "<group>"; };
+		ADD47F2E1AF44E8700D7E26F /* BedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BedView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,12 +98,22 @@
 		AD1A91B61AF434DA00DC0983 /* SqftGardenApp */ = {
 			isa = PBXGroup;
 			children = (
-				AD1A91BB1AF434DA00DC0983 /* AppDelegate.h */,
-				AD1A91BC1AF434DA00DC0983 /* AppDelegate.m */,
-				AD1A91BE1AF434DA00DC0983 /* ViewController.h */,
-				AD1A91BF1AF434DA00DC0983 /* ViewController.m */,
-				AD1A91C11AF434DA00DC0983 /* Main.storyboard */,
+				ADD47F2D1AF44E6C00D7E26F /* BedView.h */,
+				ADD47F2E1AF44E8700D7E26F /* BedView.m */,
+				ADD47F2A1AF44AB100D7E26F /* AppDelegate.h */,
+				ADD47F2B1AF44AB100D7E26F /* AppDelegate.m */,
+				ADD47F191AF44A5700D7E26F /* ButtonHandler.h */,
+				ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */,
+				ADD47F1B1AF44A5700D7E26F /* DisplayContentSegue.h */,
+				ADD47F1C1AF44A5700D7E26F /* DisplayContentSegue.m */,
+				ADD47F1D1AF44A5700D7E26F /* EditBedViewController.h */,
+				ADD47F1E1AF44A5700D7E26F /* EditBedViewController.m */,
+				ADD47F1F1AF44A5700D7E26F /* MenuDrawViewController.h */,
+				ADD47F201AF44A5700D7E26F /* MenuDrawViewController.m */,
+				ADD47F211AF44A5700D7E26F /* MenuViewController.h */,
+				ADD47F221AF44A5700D7E26F /* MenuViewController.m */,
 				AD1A91C41AF434DA00DC0983 /* Images.xcassets */,
+				ADD47F281AF44A7A00D7E26F /* Main.storyboard */,
 				AD1A91C61AF434DA00DC0983 /* LaunchScreen.xib */,
 				AD1A91B71AF434DA00DC0983 /* Supporting Files */,
 			);
@@ -96,6 +123,7 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD1A91F51AF43FA900DC0983 /* ic_burger_44.png */,
 				AD1A91B81AF434DA00DC0983 /* Info.plist */,
 				AD1A91B91AF434DA00DC0983 /* main.m */,
 			);
@@ -199,9 +227,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD1A91C31AF434DA00DC0983 /* Main.storyboard in Resources */,
+				AD1A91F61AF43FA900DC0983 /* ic_burger_44.png in Resources */,
 				AD1A91C81AF434DA00DC0983 /* LaunchScreen.xib in Resources */,
 				AD1A91C51AF434DA00DC0983 /* Images.xcassets in Resources */,
+				ADD47F291AF44A7A00D7E26F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,9 +248,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD1A91C01AF434DA00DC0983 /* ViewController.m in Sources */,
-				AD1A91BD1AF434DA00DC0983 /* AppDelegate.m in Sources */,
+				ADD47F231AF44A5700D7E26F /* ButtonHandler.m in Sources */,
+				ADD47F271AF44A5700D7E26F /* MenuViewController.m in Sources */,
+				ADD47F2F1AF44E8700D7E26F /* BedView.m in Sources */,
 				AD1A91BA1AF434DA00DC0983 /* main.m in Sources */,
+				ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */,
+				ADD47F261AF44A5700D7E26F /* MenuDrawViewController.m in Sources */,
+				ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */,
+				ADD47F2C1AF44AB100D7E26F /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,14 +278,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		AD1A91C11AF434DA00DC0983 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AD1A91C21AF434DA00DC0983 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		AD1A91C61AF434DA00DC0983 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -414,6 +440,7 @@
 				AD1A91D91AF434DA00DC0983 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AD1A91DA1AF434DA00DC0983 /* Build configuration list for PBXNativeTarget "SqftGardenAppTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +449,7 @@
 				AD1A91DC1AF434DA00DC0983 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -7,9 +7,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class MenuDrawerViewController;
 
-@property (strong, nonatomic) UIWindow *window;
+@interface MenuViewController : UITableViewController
+@property(nonatomic, weak) MenuDrawerViewController* menuDrawerViewController;
 
 @end
-

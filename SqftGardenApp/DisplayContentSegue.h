@@ -7,9 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface DisplayContentSegue : UIStoryboardSegue
 
-@property (strong, nonatomic) UIWindow *window;
 
 @end
-
