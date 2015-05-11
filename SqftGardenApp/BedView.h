@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface BedView : UIView
-
+@property (nonatomic, strong) UIColor* color;
+@property (nonatomic, strong) UIColor* fillColor;
 @end

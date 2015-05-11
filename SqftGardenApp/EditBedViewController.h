@@ -9,8 +9,10 @@
 
 
 @interface EditBedViewController : UIViewController
-@property(nonatomic) int *bedRowCount;
-@property(nonatomic) int *bedColumnCount;
+@property(nonatomic) int bedRowCount;
+@property(nonatomic) int bedColumnCount;
+@property(nonatomic) int bedCellCount;
+@property(nonatomic) NSMutableArray *bedViewArray;
 
 @end
 

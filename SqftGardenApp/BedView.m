@@ -40,7 +40,14 @@
 - (void)commonInit
 {
     self.backgroundColor = [UIColor whiteColor];
-    //[self setDefaultParameters];
+    [self setDefaultParameters];
 }
 
+-(void) setDefaultParameters{
+    self.color = [UIColor lightGrayColor];
+    self.fillColor = [self.color colorWithAlphaComponent:0.25];
+    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.layer.borderWidth = 3;
+    self.layer.cornerRadius = 15;
+}
 @end

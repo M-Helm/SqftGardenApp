@@ -4,34 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
-        <!--Edit Bed View Controller-->
-        <scene sceneID="zYc-ki-WDY">
-            <objects>
-                <viewController id="Z1G-ul-5RL" customClass="EditBedViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Q02-yk-oVp"/>
-                        <viewControllerLayoutGuide type="bottom" id="qdk-uH-hlH"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="tfb-xW-md1">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="5Au-Xk-eK7">
-                        <barButtonItem key="rightBarButtonItem" image="ic_burger_44.png" id="o3Z-qn-qBE">
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="handleButton:" destination="U11-1i-S6f" id="QmQ-Zx-jRz"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CTC-wN-DHW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <customObject id="U11-1i-S6f" customClass="ButtonHandler"/>
-            </objects>
-            <point key="canvasLocation" x="768" y="119"/>
-        </scene>
         <!--Menu Drawer View Controller-->
         <scene sceneID="Day-WT-Ern">
             <objects>
@@ -127,15 +99,31 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Z1G-ul-5RL" kind="relationship" relationship="rootViewController" id="mfe-cz-9Ru"/>
+                        <segue destination="O9I-ib-dQX" kind="relationship" relationship="rootViewController" id="de5-74-Fpm"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G7I-jw-rOk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-16" y="123"/>
         </scene>
+        <!--Edit Bed View Controller-->
+        <scene sceneID="LH1-hz-fNs">
+            <objects>
+                <viewController id="O9I-ib-dQX" customClass="EditBedViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Gts-yP-a6U"/>
+                        <viewControllerLayoutGuide type="bottom" id="OVD-h4-1US"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ksn-tK-otd">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="wae-kX-K2z"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R2U-wW-LqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="658" y="121"/>
+        </scene>
     </scenes>
-    <resources>
-        <image name="ic_burger_44.png" width="44" height="44"/>
-    </resources>
 </document>
