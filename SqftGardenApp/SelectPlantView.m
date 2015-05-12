@@ -33,6 +33,7 @@
 - (void)commonInit {
     self.backgroundColor = [UIColor whiteColor];
     [self setDefaultParameters];
+    [self setScrollView];
 }
 
 - (void) setDefaultParameters{
@@ -42,6 +43,34 @@
     self.layer.borderWidth = 3;
     self.layer.cornerRadius = 15;
 }
+
+- (void) setScrollView{
+    
+        // Adjust scroll view content size
+        self.contentSize = CGSizeMake(self.frame.size.width * 3,
+                                            self.frame.size.height);
+        self.pagingEnabled=NO;
+        self.backgroundColor = [UIColor whiteColor];
+        
+        // Generate content for our scroll view using the frame height and width as the reference point
+    
+        /*
+        int i = 0;
+        while (i<=2) {
+            
+            UIView *views = [[UIView alloc]
+                             initWithFrame:CGRectMake(((self.frame.size.width)*i)+20, 10,
+                                                      (self.frame.size.width)-40, self.frame.size.height-20)];
+            //views.backgroundColor=[UIColor yellowColor];
+            [views setTag:i];
+            [self addSubview:views];
+            
+            i++;
+         
+        }
+        */
+    
+    }
 
 
 @end

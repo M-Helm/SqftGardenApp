@@ -9,7 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SelectPlantView : UIView
+@interface SelectPlantView : UIScrollView
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
 
