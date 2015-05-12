@@ -1,21 +1,14 @@
 //
-//  BedView.m
+//  PlantSelectView.m
 //  SqftGardenApp
 //
-//  Created by Matthew Helm on 5/1/15.
+//  Created by Matthew Helm on 5/12/15.
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 //
 
-#import "BedView.h"
+#import "SelectPlantView.h"
 
-@interface BedView ()
-
-@end
-
-@implementation BedView
-
-const int DEFAULT_BORDER = 3;
-const int DEFAULT_CORNER = 15;
+@implementation SelectPlantView
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -46,18 +39,9 @@ const int DEFAULT_CORNER = 15;
     self.color = [UIColor lightGrayColor];
     self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.layer.borderWidth = DEFAULT_BORDER;
-    self.layer.cornerRadius = DEFAULT_CORNER;
+    self.layer.borderWidth = 3;
+    self.layer.cornerRadius = 15;
 }
 
-- (void) setPrimaryPlant{
-    
-}
-- (void) setSecondaryPlant {
-    
-}
-- (void) setTertiaryPlant {
-    
-}
 
 @end

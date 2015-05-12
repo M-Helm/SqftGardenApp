@@ -13,6 +13,7 @@
 @property(nonatomic) int bedColumnCount;
 @property(nonatomic) int bedCellCount;
 @property(nonatomic) NSMutableArray *bedViewArray;
+@property(nonatomic) NSMutableArray *selectPlantArray;
 
 @end
 

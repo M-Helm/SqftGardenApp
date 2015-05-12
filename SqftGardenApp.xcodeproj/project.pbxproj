@@ -12,6 +12,11 @@
 		AD1A91C81AF434DA00DC0983 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91C61AF434DA00DC0983 /* LaunchScreen.xib */; };
 		AD1A91D41AF434DA00DC0983 /* SqftGardenAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A91D31AF434DA00DC0983 /* SqftGardenAppTests.m */; };
 		AD1A91F61AF43FA900DC0983 /* ic_burger_44.png in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91F51AF43FA900DC0983 /* ic_burger_44.png */; };
+		AD2BB4FC1B025DE000E1541C /* PlantModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2BB4FB1B025DE000E1541C /* PlantModel.m */; };
+		AD2BB4FF1B025EC300E1541C /* SelectPlantView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2BB4FE1B025EC300E1541C /* SelectPlantView.m */; };
+		AD2BB5031B026D4200E1541C /* ic_cabbage_78px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2BB5001B026D4200E1541C /* ic_cabbage_78px.png */; };
+		AD2BB5041B026D4200E1541C /* ic_carrot_78px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2BB5011B026D4200E1541C /* ic_carrot_78px.png */; };
+		AD2BB5051B026D4200E1541C /* ic_flower_78px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2BB5021B026D4200E1541C /* ic_flower_78px.png */; };
 		ADD47F231AF44A5700D7E26F /* ButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */; };
 		ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1C1AF44A5700D7E26F /* DisplayContentSegue.m */; };
 		ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1E1AF44A5700D7E26F /* EditBedViewController.m */; };
@@ -42,6 +47,13 @@
 		AD1A91D21AF434DA00DC0983 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD1A91D31AF434DA00DC0983 /* SqftGardenAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SqftGardenAppTests.m; sourceTree = "<group>"; };
 		AD1A91F51AF43FA900DC0983 /* ic_burger_44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_burger_44.png; sourceTree = "<group>"; };
+		AD2BB4FA1B025DD000E1541C /* PlantModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlantModel.h; sourceTree = "<group>"; };
+		AD2BB4FB1B025DE000E1541C /* PlantModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlantModel.m; sourceTree = "<group>"; };
+		AD2BB4FD1B025EB000E1541C /* SelectPlantView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectPlantView.h; sourceTree = "<group>"; };
+		AD2BB4FE1B025EC300E1541C /* SelectPlantView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectPlantView.m; sourceTree = "<group>"; };
+		AD2BB5001B026D4200E1541C /* ic_cabbage_78px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cabbage_78px.png; sourceTree = "<group>"; };
+		AD2BB5011B026D4200E1541C /* ic_carrot_78px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_carrot_78px.png; sourceTree = "<group>"; };
+		AD2BB5021B026D4200E1541C /* ic_flower_78px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_flower_78px.png; sourceTree = "<group>"; };
 		ADD47F191AF44A5700D7E26F /* ButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonHandler.h; sourceTree = "<group>"; };
 		ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonHandler.m; sourceTree = "<group>"; };
 		ADD47F1B1AF44A5700D7E26F /* DisplayContentSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayContentSegue.h; sourceTree = "<group>"; };
@@ -98,6 +110,10 @@
 		AD1A91B61AF434DA00DC0983 /* SqftGardenApp */ = {
 			isa = PBXGroup;
 			children = (
+				AD2BB4FD1B025EB000E1541C /* SelectPlantView.h */,
+				AD2BB4FE1B025EC300E1541C /* SelectPlantView.m */,
+				AD2BB4FA1B025DD000E1541C /* PlantModel.h */,
+				AD2BB4FB1B025DE000E1541C /* PlantModel.m */,
 				ADD47F2D1AF44E6C00D7E26F /* BedView.h */,
 				ADD47F2E1AF44E8700D7E26F /* BedView.m */,
 				ADD47F2A1AF44AB100D7E26F /* AppDelegate.h */,
@@ -123,6 +139,9 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD2BB5001B026D4200E1541C /* ic_cabbage_78px.png */,
+				AD2BB5011B026D4200E1541C /* ic_carrot_78px.png */,
+				AD2BB5021B026D4200E1541C /* ic_flower_78px.png */,
 				AD1A91F51AF43FA900DC0983 /* ic_burger_44.png */,
 				AD1A91B81AF434DA00DC0983 /* Info.plist */,
 				AD1A91B91AF434DA00DC0983 /* main.m */,
@@ -230,7 +249,10 @@
 				AD1A91F61AF43FA900DC0983 /* ic_burger_44.png in Resources */,
 				AD1A91C81AF434DA00DC0983 /* LaunchScreen.xib in Resources */,
 				AD1A91C51AF434DA00DC0983 /* Images.xcassets in Resources */,
+				AD2BB5041B026D4200E1541C /* ic_carrot_78px.png in Resources */,
+				AD2BB5051B026D4200E1541C /* ic_flower_78px.png in Resources */,
 				ADD47F291AF44A7A00D7E26F /* Main.storyboard in Resources */,
+				AD2BB5031B026D4200E1541C /* ic_cabbage_78px.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,10 +271,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADD47F231AF44A5700D7E26F /* ButtonHandler.m in Sources */,
+				AD2BB4FC1B025DE000E1541C /* PlantModel.m in Sources */,
 				ADD47F271AF44A5700D7E26F /* MenuViewController.m in Sources */,
 				ADD47F2F1AF44E8700D7E26F /* BedView.m in Sources */,
 				AD1A91BA1AF434DA00DC0983 /* main.m in Sources */,
 				ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */,
+				AD2BB4FF1B025EC300E1541C /* SelectPlantView.m in Sources */,
 				ADD47F261AF44A5700D7E26F /* MenuDrawViewController.m in Sources */,
 				ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */,
 				ADD47F2C1AF44AB100D7E26F /* AppDelegate.m in Sources */,
