@@ -11,4 +11,8 @@
 @interface BedView : UIView
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
+@property (nonatomic) int index;
+@property (nonatomic) int primaryPlant;
+@property (nonatomic) int secondaryPlant;
+@property (nonatomic) int tertiaryPlant;
 @end

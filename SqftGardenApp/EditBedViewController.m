@@ -35,6 +35,7 @@ UIView *selectPlantView;
     [super viewDidLoad];
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
+    self.selectedCell = -1;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
@@ -42,11 +43,18 @@ UIView *selectPlantView;
     [self initViews];
     
     for(int i =0; i<self.bedViewArray.count; i++){
-        UIView *bed = [self.bedViewArray objectAtIndex:i];
+        BedView *bed = [self.bedViewArray objectAtIndex:i];
         UITapGestureRecognizer *singleFingerTap =
         [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                action:@selector(handleSingleTap:)];
+                                                action:@selector(handleBedSingleTap:)];
         [bed addGestureRecognizer:singleFingerTap];
+    }
+    for(int i =0; i<self.selectPlantArray.count; i++){
+        UIView *box = [self.selectPlantArray objectAtIndex:i];
+        UITapGestureRecognizer *singleFingerTap =
+        [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                action:@selector(handlePlantSingleTap:)];
+        [box addGestureRecognizer:singleFingerTap];
     }
 }
 
@@ -92,15 +100,37 @@ UIView *selectPlantView;
     return bedDimension;
 }
 
-- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
+- (void)handleBedSingleTap:(UITapGestureRecognizer *)recognizer {
     //CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     for(int i = 0; i<self.bedViewArray.count; i++){
         UIView *bed = [self.bedViewArray objectAtIndex:i];
         bed.backgroundColor = [UIColor whiteColor];
         bed.layer.borderColor = [UIColor lightGrayColor].CGColor;
     }
+    //NSLog(@"View Id %@", recognizer.view.description);
     recognizer.view.backgroundColor = [UIColor lightGrayColor];
     recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    BedView *bd = (BedView*)recognizer.view;
+    self.selectedCell = bd.index;
+}
+- (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {
+    for(int i = 0; i<self.selectPlantArray.count; i++){
+        UIView *box = [self.selectPlantArray objectAtIndex:i];
+        box.backgroundColor = [UIColor whiteColor];
+        box.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    }
+    //recognizer.view.backgroundColor = [UIColor lightGrayColor];
+    //recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    if(self.selectedCell > -1){
+        BedView *bed = [self.bedViewArray objectAtIndex:self.selectedCell];
+        BedView *plant = (BedView*)recognizer.view;
+        int index = plant.index;
+        UIImage *icon = [self generateIcon:index];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
+        imageView.frame = bed.bounds;
+        [bed addSubview:imageView];
+    }
+    
 }
 
 - (NSMutableArray *)buildBedViewArray{
@@ -108,13 +138,16 @@ UIView *selectPlantView;
     int bedDimension = [self bedDimension];
     int rowNumber = 0;
     int columnNumber = 0;
+    int cell = 0;
     for(int i=0; i<self.bedRowCount; i++){
         while(columnNumber < self.bedColumnCount){
             BedView *bed = [[BedView alloc] initWithFrame:CGRectMake(1 + (bedDimension*columnNumber),
                             (bedDimension*rowNumber)+1, bedDimension, bedDimension)];
+            bed.index = cell;
             [bedArray addObject:bed];
             //rowNumber++;
             columnNumber++;
+            cell++;
         }
         columnNumber = 0;
         rowNumber++;
@@ -135,8 +168,8 @@ UIView *selectPlantView;
         bed.layer.borderWidth = 2;
         bed.layer.borderColor = [UIColor greenColor].CGColor;
         imageView.frame = bed.bounds;
+        bed.index = i;
         [bed addSubview:imageView];
-        
         [selectArray addObject:bed];
     }
     return selectArray;
