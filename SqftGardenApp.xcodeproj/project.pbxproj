@@ -17,6 +17,7 @@
 		AD2BB5031B026D4200E1541C /* ic_cabbage_78px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2BB5001B026D4200E1541C /* ic_cabbage_78px.png */; };
 		AD2BB5041B026D4200E1541C /* ic_carrot_78px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2BB5011B026D4200E1541C /* ic_carrot_78px.png */; };
 		AD2BB5051B026D4200E1541C /* ic_flower_78px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2BB5021B026D4200E1541C /* ic_flower_78px.png */; };
+		ADCC872C1B03B202003F1A08 /* PlantIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872B1B03B202003F1A08 /* PlantIcon.m */; };
 		ADD47F231AF44A5700D7E26F /* ButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */; };
 		ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1C1AF44A5700D7E26F /* DisplayContentSegue.m */; };
 		ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1E1AF44A5700D7E26F /* EditBedViewController.m */; };
@@ -54,6 +55,8 @@
 		AD2BB5001B026D4200E1541C /* ic_cabbage_78px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cabbage_78px.png; sourceTree = "<group>"; };
 		AD2BB5011B026D4200E1541C /* ic_carrot_78px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_carrot_78px.png; sourceTree = "<group>"; };
 		AD2BB5021B026D4200E1541C /* ic_flower_78px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_flower_78px.png; sourceTree = "<group>"; };
+		ADCC872A1B03B1F1003F1A08 /* PlantIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlantIcon.h; sourceTree = "<group>"; };
+		ADCC872B1B03B202003F1A08 /* PlantIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlantIcon.m; sourceTree = "<group>"; };
 		ADD47F191AF44A5700D7E26F /* ButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonHandler.h; sourceTree = "<group>"; };
 		ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonHandler.m; sourceTree = "<group>"; };
 		ADD47F1B1AF44A5700D7E26F /* DisplayContentSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayContentSegue.h; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 		AD1A91B61AF434DA00DC0983 /* SqftGardenApp */ = {
 			isa = PBXGroup;
 			children = (
+				ADCC872A1B03B1F1003F1A08 /* PlantIcon.h */,
+				ADCC872B1B03B202003F1A08 /* PlantIcon.m */,
 				AD2BB4FD1B025EB000E1541C /* SelectPlantView.h */,
 				AD2BB4FE1B025EC300E1541C /* SelectPlantView.m */,
 				AD2BB4FA1B025DD000E1541C /* PlantModel.h */,
@@ -278,6 +283,7 @@
 				ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */,
 				AD2BB4FF1B025EC300E1541C /* SelectPlantView.m in Sources */,
 				ADD47F261AF44A5700D7E26F /* MenuDrawViewController.m in Sources */,
+				ADCC872C1B03B202003F1A08 /* PlantIcon.m in Sources */,
 				ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */,
 				ADD47F2C1AF44AB100D7E26F /* AppDelegate.m in Sources */,
 			);

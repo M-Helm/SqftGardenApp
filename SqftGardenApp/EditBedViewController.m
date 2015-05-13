@@ -6,6 +6,7 @@
 //
 #import "EditBedViewController.h"
 #import "BedView.h"
+#import "PlantIcon.h"
 #import "PlantModel.h"
 #import "SelectPlantView.h"
 
@@ -115,9 +116,9 @@ UIView *selectPlantView;
 }
 - (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {
     for(int i = 0; i<self.selectPlantArray.count; i++){
-        UIView *box = [self.selectPlantArray objectAtIndex:i];
-        box.backgroundColor = [UIColor whiteColor];
-        box.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        //UIView *box = [self.selectPlantArray objectAtIndex:i];
+        //box.backgroundColor = [UIColor whiteColor];
+        //box.layer.borderColor = [UIColor lightGrayColor].CGColor;
     }
     //recognizer.view.backgroundColor = [UIColor lightGrayColor];
     //recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
@@ -130,7 +131,6 @@ UIView *selectPlantView;
         imageView.frame = bed.bounds;
         [bed addSubview:imageView];
     }
-    
 }
 
 - (NSMutableArray *)buildBedViewArray{
@@ -160,17 +160,17 @@ UIView *selectPlantView;
     //UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
 
     for(int i=0; i<3; i++){
-        BedView *bed = [[BedView alloc] initWithFrame:CGRectMake(6 + (frameDimension*i),
+        PlantIcon *plantIcon = [[PlantIcon alloc] initWithFrame:CGRectMake(6 + (frameDimension*i),
                             2, frameDimension, frameDimension)];
         UIImage *icon = [self generateIcon:i];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-        bed.layer.cornerRadius = frameDimension/2;
-        bed.layer.borderWidth = 2;
-        bed.layer.borderColor = [UIColor greenColor].CGColor;
-        imageView.frame = bed.bounds;
-        bed.index = i;
-        [bed addSubview:imageView];
-        [selectArray addObject:bed];
+        plantIcon.layer.cornerRadius = frameDimension/2;
+        plantIcon.layer.borderWidth = 2;
+        plantIcon.layer.borderColor = [UIColor greenColor].CGColor;
+        imageView.frame = plantIcon.bounds;
+        plantIcon.index = i;
+        [plantIcon addSubview:imageView];
+        [selectArray addObject:plantIcon];
     }
     return selectArray;
 }

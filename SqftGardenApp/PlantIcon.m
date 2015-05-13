@@ -1,21 +1,16 @@
 //
-//  BedView.m
+//  PlantIcon.m
 //  SqftGardenApp
 //
-//  Created by Matthew Helm on 5/1/15.
+//  Created by Matthew Helm on 5/13/15.
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 //
 
-#import "BedView.h"
+#import "PlantIcon.h"
 
-@interface BedView ()
-
-@end
-
-@implementation BedView
-
-const int BED_DEFAULT_BORDER = 3;
-const int BED_DEFAULT_CORNER = 15;
+@implementation PlantIcon
+const int ICON_DEFAULT_BORDER = 3;
+const int ICON_DEFAULT_CORNER = 15;
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -46,18 +41,9 @@ const int BED_DEFAULT_CORNER = 15;
     self.color = [UIColor lightGrayColor];
     self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.layer.borderWidth = BED_DEFAULT_BORDER;
-    self.layer.cornerRadius = BED_DEFAULT_CORNER;
+    self.layer.borderWidth = ICON_DEFAULT_BORDER;
+    self.layer.cornerRadius = ICON_DEFAULT_CORNER;
 }
 
-- (void) setPrimaryPlant{
-    
-}
-- (void) setSecondaryPlant {
-    
-}
-- (void) setTertiaryPlant {
-    
-}
 
 @end
