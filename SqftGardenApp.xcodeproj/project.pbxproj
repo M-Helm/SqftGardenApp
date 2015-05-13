@@ -19,6 +19,7 @@
 		AD2BB5051B026D4200E1541C /* ic_flower_78px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2BB5021B026D4200E1541C /* ic_flower_78px.png */; };
 		ADCC872C1B03B202003F1A08 /* PlantIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872B1B03B202003F1A08 /* PlantIcon.m */; };
 		ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872E1B03B455003F1A08 /* BedDetailViewController.m */; };
+		ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC87311B03C06D003F1A08 /* MainNavigationController.m */; };
 		ADD47F231AF44A5700D7E26F /* ButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */; };
 		ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1C1AF44A5700D7E26F /* DisplayContentSegue.m */; };
 		ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1E1AF44A5700D7E26F /* EditBedViewController.m */; };
@@ -60,6 +61,8 @@
 		ADCC872B1B03B202003F1A08 /* PlantIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlantIcon.m; sourceTree = "<group>"; };
 		ADCC872D1B03B443003F1A08 /* BedDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BedDetailViewController.h; sourceTree = "<group>"; };
 		ADCC872E1B03B455003F1A08 /* BedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BedDetailViewController.m; sourceTree = "<group>"; };
+		ADCC87301B03C061003F1A08 /* MainNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainNavigationController.h; sourceTree = "<group>"; };
+		ADCC87311B03C06D003F1A08 /* MainNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainNavigationController.m; sourceTree = "<group>"; };
 		ADD47F191AF44A5700D7E26F /* ButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonHandler.h; sourceTree = "<group>"; };
 		ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonHandler.m; sourceTree = "<group>"; };
 		ADD47F1B1AF44A5700D7E26F /* DisplayContentSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayContentSegue.h; sourceTree = "<group>"; };
@@ -116,6 +119,8 @@
 		AD1A91B61AF434DA00DC0983 /* SqftGardenApp */ = {
 			isa = PBXGroup;
 			children = (
+				ADCC87301B03C061003F1A08 /* MainNavigationController.h */,
+				ADCC87311B03C06D003F1A08 /* MainNavigationController.m */,
 				ADCC872A1B03B1F1003F1A08 /* PlantIcon.h */,
 				ADCC872B1B03B202003F1A08 /* PlantIcon.m */,
 				AD2BB4FD1B025EB000E1541C /* SelectPlantView.h */,
@@ -283,6 +288,7 @@
 				ADD47F231AF44A5700D7E26F /* ButtonHandler.m in Sources */,
 				AD2BB4FC1B025DE000E1541C /* PlantModel.m in Sources */,
 				ADD47F271AF44A5700D7E26F /* MenuViewController.m in Sources */,
+				ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */,
 				ADD47F2F1AF44E8700D7E26F /* BedView.m in Sources */,
 				AD1A91BA1AF434DA00DC0983 /* main.m in Sources */,
 				ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */,

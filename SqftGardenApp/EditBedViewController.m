@@ -9,6 +9,7 @@
 #import "PlantIcon.h"
 #import "PlantModel.h"
 #import "SelectPlantView.h"
+#import "BedDetailViewController.h"
 
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
@@ -42,6 +43,15 @@ UIView *selectPlantView;
     self.selectPlantArray = [self buildPlantSelectArray];
     
     [self initViews];
+
+}
+
+- (void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    bedFrameView.layer.borderWidth = 3;
+    bedFrameView.layer.cornerRadius = 15;
+    
     
     for(int i =0; i<self.bedViewArray.count; i++){
         BedView *bed = [self.bedViewArray objectAtIndex:i];
@@ -57,13 +67,7 @@ UIView *selectPlantView;
                                                 action:@selector(handlePlantSingleTap:)];
         [box addGestureRecognizer:singleFingerTap];
     }
-}
-
-- (void)viewDidLayoutSubviews{
-    [super viewDidLayoutSubviews];
-    bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    bedFrameView.layer.borderWidth = 3;
-    bedFrameView.layer.cornerRadius = 15;
+    
     [self.view addSubview:bedFrameView];
     [self.view addSubview:selectPlantView];
     
@@ -130,6 +134,7 @@ UIView *selectPlantView;
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         imageView.frame = bed.bounds;
         [bed addSubview:imageView];
+        [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
     }
 }
 
@@ -192,7 +197,6 @@ UIView *selectPlantView;
             break;
     }
 }
-
 
 @end
 

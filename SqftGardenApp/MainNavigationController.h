@@ -1,5 +1,5 @@
 //
-//  BedDetailViewController.h
+//  MainNavigationController.h
 //  SqftGardenApp
 //
 //  Created by Matthew Helm on 5/13/15.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface BedDetailViewController : UIViewController
-@property int plantID;
+@interface MainNavigationController : UINavigationController
+
 
 @end

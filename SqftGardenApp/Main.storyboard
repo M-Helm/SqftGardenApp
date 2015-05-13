@@ -39,6 +39,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="GuX-Zh-0TH">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <items>
+                                <navigationItem title="Title" id="Dqw-fE-lcW"/>
+                            </items>
+                        </navigationBar>
                         <sections>
                             <tableViewSection headerTitle=" " id="loL-wZ-Eob">
                                 <cells>
@@ -89,10 +96,10 @@
             </objects>
             <point key="canvasLocation" x="-754" y="123"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Main Navigation Controller-->
         <scene sceneID="RdR-hp-G0k">
             <objects>
-                <navigationController id="4ri-tO-S0j" sceneMemberID="viewController">
+                <navigationController id="4ri-tO-S0j" customClass="MainNavigationController" sceneMemberID="viewController">
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="PxS-mK-ks1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -100,6 +107,7 @@
                     </navigationBar>
                     <connections>
                         <segue destination="O9I-ib-dQX" kind="relationship" relationship="rootViewController" id="de5-74-Fpm"/>
+                        <segue destination="4Ea-ZV-gdQ" kind="show" identifier="showBedDetail" id="DK9-Tn-V3W"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G7I-jw-rOk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -119,11 +127,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="wae-kX-K2z"/>
+                    <navigationItem key="navigationItem" id="wae-kX-K2z">
+                        <barButtonItem key="rightBarButtonItem" image="ic_burger_44.png" id="6KA-0T-Hs5">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="handleButton:" destination="6VO-41-R7D" id="JEU-0B-hYq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R2U-wW-LqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="6VO-41-R7D" customClass="ButtonHandler"/>
             </objects>
             <point key="canvasLocation" x="658" y="121"/>
         </scene>
+        <!--Bed Detail View Controller-->
+        <scene sceneID="urq-99-lm0">
+            <objects>
+                <viewController id="4Ea-ZV-gdQ" customClass="BedDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kQD-GT-FA7"/>
+                        <viewControllerLayoutGuide type="bottom" id="Xdz-93-wu8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9K2-3k-w7n">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NuD-pn-6aD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="658" y="961"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="ic_burger_44.png" width="44" height="44"/>
+    </resources>
 </document>
