@@ -9,7 +9,9 @@
 #import "PlantIcon.h"
 #import "PlantModel.h"
 #import "SelectPlantView.h"
-#import "BedDetailViewController.h"
+#import "ApplicationGlobals.h"
+//#import "MainNavigationController.h"
+//#import "BedDetailViewController.h"
 
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
@@ -26,6 +28,7 @@ const int BED_LAYOUT_WIDTH_BUFFER = -17;
 
 UIView *bedFrameView;
 UIView *selectPlantView;
+ApplicationGlobals *appGlobals;
 
 - (id)initWithDimensions:(int)rows columns:(int)columns {
     self.bedRowCount = rows;
@@ -37,11 +40,11 @@ UIView *selectPlantView;
     [super viewDidLoad];
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
-    self.selectedCell = -1;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
-    
+    appGlobals = [[ApplicationGlobals alloc] init];
+    appGlobals.selectedCell = -1;
     [self initViews];
 
 }
@@ -116,7 +119,7 @@ UIView *selectPlantView;
     recognizer.view.backgroundColor = [UIColor lightGrayColor];
     recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
     BedView *bd = (BedView*)recognizer.view;
-    self.selectedCell = bd.index;
+    appGlobals.selectedCell = bd.index;
 }
 - (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {
     for(int i = 0; i<self.selectPlantArray.count; i++){
@@ -126,14 +129,15 @@ UIView *selectPlantView;
     }
     //recognizer.view.backgroundColor = [UIColor lightGrayColor];
     //recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    if(self.selectedCell > -1){
-        BedView *bed = [self.bedViewArray objectAtIndex:self.selectedCell];
+    if(appGlobals.selectedCell > -1){
+        BedView *bed = [self.bedViewArray objectAtIndex: appGlobals.selectedCell];
         BedView *plant = (BedView*)recognizer.view;
         int index = plant.index;
         UIImage *icon = [self generateIcon:index];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         imageView.frame = bed.bounds;
         [bed addSubview:imageView];
+        //self.nagigationController.index
         [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
     }
 }

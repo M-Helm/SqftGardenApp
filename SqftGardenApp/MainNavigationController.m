@@ -26,9 +26,7 @@
     NSLog(@"Nav Controller Prepare Segue without changing anything");
     if([segue.identifier isEqualToString:@"showBedDetail"])
     {
-        BedDetailViewController *bedDetail = (BedDetailViewController*)segue.destinationViewController;
-        bedDetail.plantID = 69;
-        
+        //BedDetailViewController *bedDetail = (BedDetailViewController*)segue.destinationViewController;
     }
 }
 @end
