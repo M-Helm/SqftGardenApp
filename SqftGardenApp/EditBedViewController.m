@@ -26,7 +26,7 @@ const int BED_LAYOUT_HEIGHT_BUFFER = 3;
 const int BED_LAYOUT_WIDTH_BUFFER = -17;
 
 
-UIView *bedFrameView;
+//UIView *bedFrameView;
 UIView *selectPlantView;
 ApplicationGlobals *appGlobals;
 
@@ -51,10 +51,9 @@ ApplicationGlobals *appGlobals;
 
 - (void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
-    bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    bedFrameView.layer.borderWidth = 3;
-    bedFrameView.layer.cornerRadius = 15;
-    
+    self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.bedFrameView.layer.borderWidth = 3;
+    self.bedFrameView.layer.cornerRadius = 15;
     
     for(int i =0; i<self.bedViewArray.count; i++){
         BedView *bed = [self.bedViewArray objectAtIndex:i];
@@ -71,7 +70,7 @@ ApplicationGlobals *appGlobals;
         [box addGestureRecognizer:singleFingerTap];
     }
     
-    [self.view addSubview:bedFrameView];
+    [self.view addSubview:self.bedFrameView];
     [self.view addSubview:selectPlantView];
     
 }
@@ -85,10 +84,10 @@ ApplicationGlobals *appGlobals;
     int bedDimension = [self bedDimension];
     float xCo = self.view.bounds.size.width;
     int yCo = self.bedRowCount * bedDimension;
-    bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
+    self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
                     xCo+BED_LAYOUT_WIDTH_BUFFER, yCo+BED_LAYOUT_HEIGHT_BUFFER)];
     for(int i = 0; i<self.bedViewArray.count;i++){
-        [bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
+        [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
     }
     selectPlantView = [[SelectPlantView alloc] initWithFrame:CGRectMake(10,
                                             yCo+BED_LAYOUT_HEIGHT_BUFFER + 110,
@@ -116,7 +115,7 @@ ApplicationGlobals *appGlobals;
         bed.layer.borderColor = [UIColor lightGrayColor].CGColor;
     }
     //NSLog(@"View Id %@", recognizer.view.description);
-    recognizer.view.backgroundColor = [UIColor lightGrayColor];
+    //recognizer.view.backgroundColor = [UIColor lightGrayColor];
     recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
     BedView *bd = (BedView*)recognizer.view;
     appGlobals.selectedCell = bd.index;
@@ -132,12 +131,11 @@ ApplicationGlobals *appGlobals;
     if(appGlobals.selectedCell > -1){
         BedView *bed = [self.bedViewArray objectAtIndex: appGlobals.selectedCell];
         BedView *plant = (BedView*)recognizer.view;
-        int index = plant.index;
-        UIImage *icon = [self generateIcon:index];
+        appGlobals.selectedPlant = plant.index;
+        UIImage *icon = [self generateIcon:plant.index];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         imageView.frame = bed.bounds;
         [bed addSubview:imageView];
-        //self.nagigationController.index
         [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
     }
 }

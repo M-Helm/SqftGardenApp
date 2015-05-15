@@ -11,5 +11,6 @@
 
 @interface ApplicationGlobals : NSObject
 @property (nonatomic) int selectedCell;
+@property (nonatomic) int selectedPlant;
 
 @end
