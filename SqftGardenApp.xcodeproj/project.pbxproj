@@ -14,10 +14,19 @@
 		AD1A91F61AF43FA900DC0983 /* ic_burger_44.png in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91F51AF43FA900DC0983 /* ic_burger_44.png */; };
 		AD2BB4FC1B025DE000E1541C /* PlantModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2BB4FB1B025DE000E1541C /* PlantModel.m */; };
 		AD2BB4FF1B025EC300E1541C /* SelectPlantView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2BB4FE1B025EC300E1541C /* SelectPlantView.m */; };
-		AD2BB5031B026D4200E1541C /* ic_cabbage_78px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2BB5001B026D4200E1541C /* ic_cabbage_78px.png */; };
-		AD2BB5041B026D4200E1541C /* ic_carrot_78px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2BB5011B026D4200E1541C /* ic_carrot_78px.png */; };
-		AD2BB5051B026D4200E1541C /* ic_flower_78px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2BB5021B026D4200E1541C /* ic_flower_78px.png */; };
-		ADCC872C1B03B202003F1A08 /* PlantIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872B1B03B202003F1A08 /* PlantIcon.m */; };
+		ADA752081B06B6E300C56F5F /* ic_bean_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA751FC1B06B6E300C56F5F /* ic_bean_256.png */; };
+		ADA752091B06B6E300C56F5F /* ic_cereal_wheat_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA751FD1B06B6E300C56F5F /* ic_cereal_wheat_256.png */; };
+		ADA7520A1B06B6E300C56F5F /* ic_fruit_strawberry_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA751FE1B06B6E300C56F5F /* ic_fruit_strawberry_256.png */; };
+		ADA7520B1B06B6E300C56F5F /* ic_vegetable_cabbage_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA751FF1B06B6E300C56F5F /* ic_vegetable_cabbage_256.png */; };
+		ADA7520C1B06B6E300C56F5F /* ic_vegetable_capsicum_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA752001B06B6E300C56F5F /* ic_vegetable_capsicum_256.png */; };
+		ADA7520D1B06B6E300C56F5F /* ic_vegetable_carrot_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA752011B06B6E300C56F5F /* ic_vegetable_carrot_256.png */; };
+		ADA7520E1B06B6E300C56F5F /* ic_vegetable_chilly_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA752021B06B6E300C56F5F /* ic_vegetable_chilly_256.png */; };
+		ADA7520F1B06B6E300C56F5F /* ic_vegetable_onion_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA752031B06B6E300C56F5F /* ic_vegetable_onion_256.png */; };
+		ADA752101B06B6E300C56F5F /* ic_vegetable_radish_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA752041B06B6E300C56F5F /* ic_vegetable_radish_256.png */; };
+		ADA752111B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA752051B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png */; };
+		ADA752121B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA752061B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png */; };
+		ADA752131B06B6E300C56F5F /* ic_vegetable_brinjal_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA752071B06B6E300C56F5F /* ic_vegetable_brinjal_256.png */; };
+		ADCC872C1B03B202003F1A08 /* PlantIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872B1B03B202003F1A08 /* PlantIconView.m */; };
 		ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872E1B03B455003F1A08 /* BedDetailViewController.m */; };
 		ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC87311B03C06D003F1A08 /* MainNavigationController.m */; };
 		ADCC87351B04ED4C003F1A08 /* ApplicationGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC87341B04ED4C003F1A08 /* ApplicationGlobals.m */; };
@@ -55,11 +64,20 @@
 		AD2BB4FB1B025DE000E1541C /* PlantModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlantModel.m; sourceTree = "<group>"; };
 		AD2BB4FD1B025EB000E1541C /* SelectPlantView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectPlantView.h; sourceTree = "<group>"; };
 		AD2BB4FE1B025EC300E1541C /* SelectPlantView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectPlantView.m; sourceTree = "<group>"; };
-		AD2BB5001B026D4200E1541C /* ic_cabbage_78px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cabbage_78px.png; sourceTree = "<group>"; };
-		AD2BB5011B026D4200E1541C /* ic_carrot_78px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_carrot_78px.png; sourceTree = "<group>"; };
-		AD2BB5021B026D4200E1541C /* ic_flower_78px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_flower_78px.png; sourceTree = "<group>"; };
-		ADCC872A1B03B1F1003F1A08 /* PlantIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlantIcon.h; sourceTree = "<group>"; };
-		ADCC872B1B03B202003F1A08 /* PlantIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlantIcon.m; sourceTree = "<group>"; };
+		ADA751FC1B06B6E300C56F5F /* ic_bean_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_bean_256.png; sourceTree = "<group>"; };
+		ADA751FD1B06B6E300C56F5F /* ic_cereal_wheat_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cereal_wheat_256.png; sourceTree = "<group>"; };
+		ADA751FE1B06B6E300C56F5F /* ic_fruit_strawberry_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_fruit_strawberry_256.png; sourceTree = "<group>"; };
+		ADA751FF1B06B6E300C56F5F /* ic_vegetable_cabbage_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_cabbage_256.png; sourceTree = "<group>"; };
+		ADA752001B06B6E300C56F5F /* ic_vegetable_capsicum_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_capsicum_256.png; sourceTree = "<group>"; };
+		ADA752011B06B6E300C56F5F /* ic_vegetable_carrot_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_carrot_256.png; sourceTree = "<group>"; };
+		ADA752021B06B6E300C56F5F /* ic_vegetable_chilly_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_chilly_256.png; sourceTree = "<group>"; };
+		ADA752031B06B6E300C56F5F /* ic_vegetable_onion_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_onion_256.png; sourceTree = "<group>"; };
+		ADA752041B06B6E300C56F5F /* ic_vegetable_radish_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_radish_256.png; sourceTree = "<group>"; };
+		ADA752051B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_tomato_01_256.png; sourceTree = "<group>"; };
+		ADA752061B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_tomato_02_256.png; sourceTree = "<group>"; };
+		ADA752071B06B6E300C56F5F /* ic_vegetable_brinjal_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_brinjal_256.png; sourceTree = "<group>"; };
+		ADCC872A1B03B1F1003F1A08 /* PlantIconView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlantIconView.h; sourceTree = "<group>"; };
+		ADCC872B1B03B202003F1A08 /* PlantIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlantIconView.m; sourceTree = "<group>"; };
 		ADCC872D1B03B443003F1A08 /* BedDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BedDetailViewController.h; sourceTree = "<group>"; };
 		ADCC872E1B03B455003F1A08 /* BedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BedDetailViewController.m; sourceTree = "<group>"; };
 		ADCC87301B03C061003F1A08 /* MainNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainNavigationController.h; sourceTree = "<group>"; };
@@ -126,8 +144,8 @@
 				ADCC87341B04ED4C003F1A08 /* ApplicationGlobals.m */,
 				ADCC87301B03C061003F1A08 /* MainNavigationController.h */,
 				ADCC87311B03C06D003F1A08 /* MainNavigationController.m */,
-				ADCC872A1B03B1F1003F1A08 /* PlantIcon.h */,
-				ADCC872B1B03B202003F1A08 /* PlantIcon.m */,
+				ADCC872A1B03B1F1003F1A08 /* PlantIconView.h */,
+				ADCC872B1B03B202003F1A08 /* PlantIconView.m */,
 				AD2BB4FD1B025EB000E1541C /* SelectPlantView.h */,
 				AD2BB4FE1B025EC300E1541C /* SelectPlantView.m */,
 				AD2BB4FA1B025DD000E1541C /* PlantModel.h */,
@@ -159,9 +177,18 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AD2BB5001B026D4200E1541C /* ic_cabbage_78px.png */,
-				AD2BB5011B026D4200E1541C /* ic_carrot_78px.png */,
-				AD2BB5021B026D4200E1541C /* ic_flower_78px.png */,
+				ADA751FC1B06B6E300C56F5F /* ic_bean_256.png */,
+				ADA751FD1B06B6E300C56F5F /* ic_cereal_wheat_256.png */,
+				ADA751FE1B06B6E300C56F5F /* ic_fruit_strawberry_256.png */,
+				ADA751FF1B06B6E300C56F5F /* ic_vegetable_cabbage_256.png */,
+				ADA752001B06B6E300C56F5F /* ic_vegetable_capsicum_256.png */,
+				ADA752011B06B6E300C56F5F /* ic_vegetable_carrot_256.png */,
+				ADA752021B06B6E300C56F5F /* ic_vegetable_chilly_256.png */,
+				ADA752031B06B6E300C56F5F /* ic_vegetable_onion_256.png */,
+				ADA752041B06B6E300C56F5F /* ic_vegetable_radish_256.png */,
+				ADA752051B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png */,
+				ADA752061B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png */,
+				ADA752071B06B6E300C56F5F /* ic_vegetable_brinjal_256.png */,
 				AD1A91F51AF43FA900DC0983 /* ic_burger_44.png */,
 				AD1A91B81AF434DA00DC0983 /* Info.plist */,
 				AD1A91B91AF434DA00DC0983 /* main.m */,
@@ -266,13 +293,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADA752111B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png in Resources */,
+				ADA752081B06B6E300C56F5F /* ic_bean_256.png in Resources */,
+				ADA7520B1B06B6E300C56F5F /* ic_vegetable_cabbage_256.png in Resources */,
+				ADA7520A1B06B6E300C56F5F /* ic_fruit_strawberry_256.png in Resources */,
+				ADA752131B06B6E300C56F5F /* ic_vegetable_brinjal_256.png in Resources */,
+				ADA7520E1B06B6E300C56F5F /* ic_vegetable_chilly_256.png in Resources */,
+				ADA752091B06B6E300C56F5F /* ic_cereal_wheat_256.png in Resources */,
+				ADA752101B06B6E300C56F5F /* ic_vegetable_radish_256.png in Resources */,
+				ADA7520F1B06B6E300C56F5F /* ic_vegetable_onion_256.png in Resources */,
+				ADA7520D1B06B6E300C56F5F /* ic_vegetable_carrot_256.png in Resources */,
+				ADA7520C1B06B6E300C56F5F /* ic_vegetable_capsicum_256.png in Resources */,
 				AD1A91F61AF43FA900DC0983 /* ic_burger_44.png in Resources */,
 				AD1A91C81AF434DA00DC0983 /* LaunchScreen.xib in Resources */,
 				AD1A91C51AF434DA00DC0983 /* Images.xcassets in Resources */,
-				AD2BB5041B026D4200E1541C /* ic_carrot_78px.png in Resources */,
-				AD2BB5051B026D4200E1541C /* ic_flower_78px.png in Resources */,
+				ADA752121B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png in Resources */,
 				ADD47F291AF44A7A00D7E26F /* Main.storyboard in Resources */,
-				AD2BB5031B026D4200E1541C /* ic_cabbage_78px.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +336,7 @@
 				AD2BB4FF1B025EC300E1541C /* SelectPlantView.m in Sources */,
 				ADD47F261AF44A5700D7E26F /* MenuDrawViewController.m in Sources */,
 				ADCC87351B04ED4C003F1A08 /* ApplicationGlobals.m in Sources */,
-				ADCC872C1B03B202003F1A08 /* PlantIcon.m in Sources */,
+				ADCC872C1B03B202003F1A08 /* PlantIconView.m in Sources */,
 				ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */,
 				ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */,
 				ADD47F2C1AF44AB100D7E26F /* AppDelegate.m in Sources */,

@@ -16,6 +16,7 @@
 @property(nonatomic) NSMutableArray *bedViewArray;
 @property(nonatomic) NSMutableArray *selectPlantArray;
 @property(nonatomic) UIView *bedFrameView;
+@property(nonatomic) UIView *selectMessageView;
 
 @end
 

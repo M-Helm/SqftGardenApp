@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 //
 
-#import "PlantIcon.h"
+#import "PlantIconView.h"
 
-@implementation PlantIcon
+@implementation PlantIconView
 const int ICON_DEFAULT_BORDER = 3;
 const int ICON_DEFAULT_CORNER = 15;
 

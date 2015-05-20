@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PlantIcon : UIView
+@interface PlantIconView : UIView
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
 @property (nonatomic) int index;

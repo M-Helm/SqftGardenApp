@@ -6,7 +6,7 @@
 //
 #import "EditBedViewController.h"
 #import "BedView.h"
-#import "PlantIcon.h"
+#import "PlantIconView.h"
 #import "PlantModel.h"
 #import "SelectPlantView.h"
 #import "ApplicationGlobals.h"
@@ -14,8 +14,6 @@
 //#import "BedDetailViewController.h"
 
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-
-
 
 @interface EditBedViewController ()
 
@@ -90,12 +88,20 @@ ApplicationGlobals *appGlobals;
         [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
     }
     selectPlantView = [[SelectPlantView alloc] initWithFrame:CGRectMake(10,
-                                            yCo+BED_LAYOUT_HEIGHT_BUFFER + 110,
+                                            yCo+BED_LAYOUT_HEIGHT_BUFFER + 125,
                                             xCo+BED_LAYOUT_WIDTH_BUFFER,
                                             bedDimension)];
     for(int i = 0; i<self.selectPlantArray.count;i++){
         [selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
     }
+    self.selectMessageView = [[UIView alloc] initWithFrame:CGRectMake(10,
+                                            yCo+BED_LAYOUT_HEIGHT_BUFFER + 102,
+                                            xCo+BED_LAYOUT_WIDTH_BUFFER,
+                                            20)];
+    
+    self.selectMessageView.layer.borderWidth = 3;
+    self.selectMessageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    [self.view addSubview:self.selectMessageView];
 }
 
 -(int)bedDimension{
@@ -121,20 +127,17 @@ ApplicationGlobals *appGlobals;
     appGlobals.selectedCell = bd.index;
 }
 - (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {
-    for(int i = 0; i<self.selectPlantArray.count; i++){
-        //UIView *box = [self.selectPlantArray objectAtIndex:i];
-        //box.backgroundColor = [UIColor whiteColor];
-        //box.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    }
-    //recognizer.view.backgroundColor = [UIColor lightGrayColor];
-    //recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
     if(appGlobals.selectedCell > -1){
         BedView *bed = [self.bedViewArray objectAtIndex: appGlobals.selectedCell];
         BedView *plant = (BedView*)recognizer.view;
         appGlobals.selectedPlant = plant.index;
         UIImage *icon = [self generateIcon:plant.index];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-        imageView.frame = bed.bounds;
+        imageView.frame = CGRectMake(bed.bounds.size.width/4,
+                                     bed.bounds.size.height/4,
+                                     bed.bounds.size.width/2,
+                                     bed.bounds.size.height/2);
+        [[bed subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [bed addSubview:imageView];
         [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
     }
@@ -152,7 +155,6 @@ ApplicationGlobals *appGlobals;
                             (bedDimension*rowNumber)+1, bedDimension, bedDimension)];
             bed.index = cell;
             [bedArray addObject:bed];
-            //rowNumber++;
             columnNumber++;
             cell++;
         }
@@ -164,17 +166,16 @@ ApplicationGlobals *appGlobals;
 - (NSMutableArray *)buildPlantSelectArray{
     NSMutableArray *selectArray = [[NSMutableArray alloc] init];
     int frameDimension = [self bedDimension] - 5;
-    //UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-
-    for(int i=0; i<3; i++){
-        PlantIcon *plantIcon = [[PlantIcon alloc] initWithFrame:CGRectMake(6 + (frameDimension*i),
+    for(int i=0; i<9; i++){
+        PlantIconView *plantIcon = [[PlantIconView alloc] initWithFrame:CGRectMake(6 + (frameDimension*i),
                             2, frameDimension, frameDimension)];
         UIImage *icon = [self generateIcon:i];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-        plantIcon.layer.cornerRadius = frameDimension/2;
-        plantIcon.layer.borderWidth = 2;
-        plantIcon.layer.borderColor = [UIColor greenColor].CGColor;
-        imageView.frame = plantIcon.bounds;
+        plantIcon.layer.borderWidth = 0;
+        imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,
+                                     plantIcon.bounds.size.height/4,
+                                     plantIcon.bounds.size.width/2,
+                                     plantIcon.bounds.size.height/2);
         plantIcon.index = i;
         [plantIcon addSubview:imageView];
         [selectArray addObject:plantIcon];
@@ -182,17 +183,36 @@ ApplicationGlobals *appGlobals;
     return selectArray;
 }
 - (UIImage *)generateIcon:(int)iconNumber{
-    UIImage *icon = [UIImage imageNamed:@"ic_cabbage_78px.png"];
+    UIImage *icon = [UIImage imageNamed:@"ic_fruit_strawberry_256.png"];
     switch (iconNumber) {
         case 0:
+            icon = [UIImage imageNamed:@"ic_bean_256.png"];
             return icon;
             break;
         case 1:
-            icon = [UIImage imageNamed:@"ic_carrot_78px.png"];
+            icon = [UIImage imageNamed:@"ic_vegetable_carrot_256.png"];
             return icon;
             break;
         case 2:
-            icon = [UIImage imageNamed:@"ic_flower_78px.png"];
+            icon = [UIImage imageNamed:@"ic_vegetable_radish_256.png"];
+            return icon;
+        case 3:
+            icon = [UIImage imageNamed:@"ic_vegetable_capsicum_256.png"];
+            return icon;
+        case 4:
+            icon = [UIImage imageNamed:@"ic_vegetable_chilly_256.png"];
+            return icon;
+        case 5:
+            icon = [UIImage imageNamed:@"ic_vegetable_onion_256.png"];
+            return icon;
+        case 6:
+            icon = [UIImage imageNamed:@"ic_vegetable_tomato_01_256.png"];
+            return icon;
+        case 7:
+            icon = [UIImage imageNamed:@"ic_vegetable_brinjal_256.png"];
+            return icon;
+        case 8:
+            icon = [UIImage imageNamed:@"ic_cereal_wheat_256.png"];
             return icon;
         default:
             return icon;

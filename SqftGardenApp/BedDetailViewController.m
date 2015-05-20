@@ -9,7 +9,7 @@
 #import "BedDetailViewController.h"
 #import "BedView.h"
 #import "ApplicationGlobals.h"
-#import "PlantIcon.h"
+#import "PlantIconView.h"
 #import "SelectPlantView.h"
 
 @implementation BedDetailViewController
@@ -27,6 +27,7 @@ ApplicationGlobals *appGlobals;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
+    self.selectPlantArray = [self buildPlantSelectArray];
     NSLog(@"Cell ID: %i", appGlobals.selectedCell);
     [self initGrids];
 }
@@ -43,6 +44,14 @@ ApplicationGlobals *appGlobals;
                                             action:@selector(handleBedSingleTap:)];
     [self.bedFrameView addGestureRecognizer:singleFingerTap];
     */
+    
+    for(int i =0; i<self.selectPlantArray.count; i++){
+        UIView *box = [self.selectPlantArray objectAtIndex:i];
+        UITapGestureRecognizer *singleFingerTap =
+        [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                action:@selector(handlePlantSingleTap:)];
+        [box addGestureRecognizer:singleFingerTap];
+    }
     [self.view addSubview:self.bedFrameView];
     [self.view addSubview:self.selectPlantView];
 }
@@ -66,12 +75,15 @@ ApplicationGlobals *appGlobals;
             bed.index = cell-1;
             bed.layer.borderWidth = 0;
             UIImageView *icon = [self setIcon];
-            icon.frame = bed.bounds;
+            icon.frame = CGRectMake(bed.bounds.size.width/4,
+                                    bed.bounds.size.height/4,
+                                    bed.bounds.size.width/2,
+                                    bed.bounds.size.height/2);
             if(cell % 2){
                 [bed addSubview:icon];
             }
             else {
-                bed.layer.backgroundColor  = [UIColor lightGrayColor].CGColor;
+                //bed.layer.backgroundColor  = [UIColor lightGrayColor].CGColor;
             }
             [bedArray addObject:bed];
             columnNumber++;
@@ -85,16 +97,20 @@ ApplicationGlobals *appGlobals;
 - (NSMutableArray *)buildPlantSelectArray{
     NSMutableArray *selectArray = [[NSMutableArray alloc] init];
     int frameDimension = [self bedDimension] - 5;
-    for(int i=0; i<3; i++){
-        PlantIcon *plantIcon = [[PlantIcon alloc] initWithFrame:CGRectMake(6 + (frameDimension*i),
+    for(int i=0; i<9; i++){
+        PlantIconView *plantIcon = [[PlantIconView alloc] initWithFrame:CGRectMake(6 + (frameDimension*i),
                                                                            2, frameDimension, frameDimension)];
         UIImage *icon = [self generateIcon:i];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         plantIcon.layer.cornerRadius = frameDimension/2;
         plantIcon.layer.borderWidth = 2;
         plantIcon.layer.borderColor = [UIColor greenColor].CGColor;
-        imageView.frame = plantIcon.bounds;
+        imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,
+                                     plantIcon.bounds.size.height/4,
+                                     plantIcon.bounds.size.width/2,
+                                     plantIcon.bounds.size.height/2);
         plantIcon.index = i;
+        plantIcon.layer.borderWidth = 0;
         [plantIcon addSubview:imageView];
         [selectArray addObject:plantIcon];
     }
@@ -133,18 +149,54 @@ ApplicationGlobals *appGlobals;
     return imageView;
     
 }
+- (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {
+    BedView *plant = (BedView*)recognizer.view;
+    appGlobals.selectedPlant = plant.index;
+    UIImage *icon = [self generateIcon:plant.index];
+    for(int i=0;i<self.bedViewArray.count;i++){
+        if(i % 2){
+            BedView *cell = [self.bedViewArray objectAtIndex:i];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
+            imageView.frame = CGRectMake(cell.bounds.size.width/4,
+                                         cell.bounds.size.height/4,
+                                         cell.bounds.size.width/2,
+                                         cell.bounds.size.height/2);
+            [[cell subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+            [cell addSubview:imageView];
+        }
+    }
+}
 - (UIImage *)generateIcon:(int)iconNumber{
-    UIImage *icon = [UIImage imageNamed:@"ic_cabbage_78px.png"];
+    UIImage *icon = [UIImage imageNamed:@"ic_fruit_strawberry_256.png"];
     switch (iconNumber) {
         case 0:
+            icon = [UIImage imageNamed:@"ic_bean_256.png"];
             return icon;
             break;
         case 1:
-            icon = [UIImage imageNamed:@"ic_carrot_78px.png"];
+            icon = [UIImage imageNamed:@"ic_vegetable_carrot_256.png"];
             return icon;
             break;
         case 2:
-            icon = [UIImage imageNamed:@"ic_flower_78px.png"];
+            icon = [UIImage imageNamed:@"ic_vegetable_radish_256.png"];
+            return icon;
+        case 3:
+            icon = [UIImage imageNamed:@"ic_vegetable_capsicum_256.png"];
+            return icon;
+        case 4:
+            icon = [UIImage imageNamed:@"ic_vegetable_chilly_256.png"];
+            return icon;
+        case 5:
+            icon = [UIImage imageNamed:@"ic_vegetable_onion_256.png"];
+            return icon;
+        case 6:
+            icon = [UIImage imageNamed:@"ic_vegetable_tomato_01_256.png"];
+            return icon;
+        case 7:
+            icon = [UIImage imageNamed:@"ic_vegetable_brinjal_256.png"];
+            return icon;
+        case 8:
+            icon = [UIImage imageNamed:@"ic_cereal_wheat_256.png"];
             return icon;
         default:
             return icon;
