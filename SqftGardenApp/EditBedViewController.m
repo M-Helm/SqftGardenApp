@@ -44,7 +44,6 @@ ApplicationGlobals *appGlobals;
     appGlobals = [[ApplicationGlobals alloc] init];
     appGlobals.selectedCell = -1;
     [self initViews];
-
 }
 
 - (void)viewDidLayoutSubviews{
