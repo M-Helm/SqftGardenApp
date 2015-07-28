@@ -16,9 +16,9 @@
 }
 
 + (DBManager*)getSharedDBManager;
+- (BOOL) createTable:(NSString *)tableName;
 - (BOOL) checkTableExists:(NSString *)tableName;
 - (int) getTableRowCount:(NSString *)tableName;
-- (NSString *) getFact:(int) alt;
 - (BOOL) dropTable:(NSString*)table;
 
 

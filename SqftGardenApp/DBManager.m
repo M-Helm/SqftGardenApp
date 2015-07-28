@@ -36,6 +36,37 @@ static NSString *appName = @"sqftGardenApp";
     return sharedDBManager;
 }
 
+-(BOOL) addColumn:(NSString *)tableName : (NSString *)columnName : (NSString *) columnType {
+    NSString *docsDir;
+    NSArray *dirPaths;
+    // Get the documents directory
+    dirPaths = NSSearchPathForDirectoriesInDomains
+    (NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = dirPaths[0];
+    // Build the path to the database file
+    databasePath = [[NSString alloc] initWithString:
+                    [docsDir stringByAppendingPathComponent: appName]];
+    BOOL isSuccess = NO;
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        isSuccess = YES;
+        char *errMsg;
+        NSString *sql_str = [NSString stringWithFormat:@"ALTER TABLE %@ ADD COLUMN %@ %@", tableName, columnName, columnType];
+        const char *sql_stmt = [sql_str UTF8String];
+        
+        if (sqlite3_exec(database, sql_stmt, NULL, NULL, &errMsg)
+            != SQLITE_OK)
+        {
+            isSuccess = NO;
+            NSLog(@"Failed to add column");
+        }
+        //sqlite3_finalize(statement);
+        sqlite3_close(database);
+        return  isSuccess;
+    }
+    return isSuccess;
+}
 
 -(BOOL)createTable:(NSString *)tableName{
     //NSLog(@"create facts table called");
@@ -48,10 +79,11 @@ static NSString *appName = @"sqftGardenApp";
     // Build the path to the database file
     databasePath = [[NSString alloc] initWithString:
                     [docsDir stringByAppendingPathComponent: appName]];
-    BOOL isSuccess = YES;
+    BOOL isSuccess = NO;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
+        isSuccess = YES;
         char *errMsg;
         NSString *sql_str = [NSString stringWithFormat:@"create table if not exists %@ (local_id integer primary key autoincrement)", tableName];
         const char *sql_stmt = [sql_str UTF8String];

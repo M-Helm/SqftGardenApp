@@ -23,8 +23,8 @@ ApplicationGlobals *appGlobals;
     appGlobals = [[ApplicationGlobals alloc] init];
     
     //setup views
-    if((int)self.bedRowCount < 1)self.bedRowCount = 3;
-    if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
+    if((int)self.bedRowCount < 1)self.bedRowCount = 4;
+    if((int)self.bedColumnCount < 1)self.bedColumnCount = 4;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
