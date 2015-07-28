@@ -20,7 +20,6 @@ static ApplicationGlobals *applicationGlobals = nil;
 
 + (id) applicationGlobals {
     if (! applicationGlobals) {
-        
         applicationGlobals = [[ApplicationGlobals alloc] init];
     }
     return applicationGlobals;
@@ -28,7 +27,6 @@ static ApplicationGlobals *applicationGlobals = nil;
 
 - (id) init {
     if (! applicationGlobals) {
-        
         applicationGlobals = [super init];
         // NSLog(@"%s", __PRETTY_FUNCTION__);
     }

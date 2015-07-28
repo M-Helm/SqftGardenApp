@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD0E2DF21B14104E00535139 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0E2DF11B14104E00535139 /* libsqlite3.dylib */; };
+		AD0E2DF51B1412C800535139 /* AttributesPopoverVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0E2DF41B1412C800535139 /* AttributesPopoverVC.m */; };
 		AD1A91BA1AF434DA00DC0983 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A91B91AF434DA00DC0983 /* main.m */; };
 		AD1A91C51AF434DA00DC0983 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91C41AF434DA00DC0983 /* Images.xcassets */; };
 		AD1A91C81AF434DA00DC0983 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91C61AF434DA00DC0983 /* LaunchScreen.xib */; };
@@ -52,6 +54,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AD0E2DF11B14104E00535139 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		AD0E2DF31B1412B800535139 /* AttributesPopoverVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttributesPopoverVC.h; sourceTree = "<group>"; };
+		AD0E2DF41B1412C800535139 /* AttributesPopoverVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesPopoverVC.m; sourceTree = "<group>"; };
 		AD1A91B41AF434DA00DC0983 /* SqftGardenApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqftGardenApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD1A91B81AF434DA00DC0983 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD1A91B91AF434DA00DC0983 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -109,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD0E2DF21B14104E00535139 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +131,7 @@
 		AD1A91AB1AF434DA00DC0983 = {
 			isa = PBXGroup;
 			children = (
+				AD0E2DF11B14104E00535139 /* libsqlite3.dylib */,
 				AD1A91B61AF434DA00DC0983 /* SqftGardenApp */,
 				AD1A91D01AF434DA00DC0983 /* SqftGardenAppTests */,
 				AD1A91B51AF434DA00DC0983 /* Products */,
@@ -143,6 +150,8 @@
 		AD1A91B61AF434DA00DC0983 /* SqftGardenApp */ = {
 			isa = PBXGroup;
 			children = (
+				AD0E2DF31B1412B800535139 /* AttributesPopoverVC.h */,
+				AD0E2DF41B1412C800535139 /* AttributesPopoverVC.m */,
 				AD4B98D01B0E352200EF6F96 /* DBManager.h */,
 				AD4B98D11B0E355100EF6F96 /* DBManager.m */,
 				ADCC87331B04ED3B003F1A08 /* ApplicationGlobals.h */,
@@ -342,6 +351,7 @@
 				ADD47F261AF44A5700D7E26F /* MenuDrawViewController.m in Sources */,
 				AD4B98D21B0E355100EF6F96 /* DBManager.m in Sources */,
 				ADCC87351B04ED4C003F1A08 /* ApplicationGlobals.m in Sources */,
+				AD0E2DF51B1412C800535139 /* AttributesPopoverVC.m in Sources */,
 				ADCC872C1B03B202003F1A08 /* PlantIconView.m in Sources */,
 				ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */,
 				ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */,

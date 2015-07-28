@@ -18,8 +18,10 @@
 + (DBManager*)getSharedDBManager;
 - (BOOL) createTable:(NSString *)tableName;
 - (BOOL) checkTableExists:(NSString *)tableName;
-- (int) getTableRowCount:(NSString *)tableName;
 - (BOOL) dropTable:(NSString*)table;
+- (BOOL) savePlantData:(NSDictionary *)msgJSON;
+- (BOOL) addColumn:(NSString *)tableName : (NSString *)columnName : (NSString *) columnType;
+- (int) getTableRowCount:(NSString *)tableName;
 
 
 @end

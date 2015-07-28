@@ -87,15 +87,6 @@ static NSString *appName = @"sqftGardenApp";
         char *errMsg;
         NSString *sql_str = [NSString stringWithFormat:@"create table if not exists %@ (local_id integer primary key autoincrement)", tableName];
         const char *sql_stmt = [sql_str UTF8String];
-        
-        /*
-        const char *sql_stmt =
-        "create table if not exists APP_TABLE_NAME_GOES_HERE(local_id integer primary key autoincrement, "
-        "timestamp int NOT NULL, "
-        "altitude int, "
-        "fact var_char(255))";
-         */
-        
         if (sqlite3_exec(database, sql_stmt, NULL, NULL, &errMsg)
             != SQLITE_OK)
         {
@@ -111,19 +102,18 @@ static NSString *appName = @"sqftGardenApp";
     return isSuccess;
 }
 
-/*
-- (BOOL) saveFact:(NSDictionary *)msgJSON{
+- (BOOL) savePlantData:(NSDictionary *)msgJSON{
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into facts (timestamp, altitude, fact) values(\"%@\", \"%@\", \"%@\")",
-                               [msgJSON objectForKey:@"timestamp"],
-                               [msgJSON objectForKey:@"alt"],
-                               [msgJSON objectForKey:@"msg"]];
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, icon, maturity) values(\"%@\", \"%@\", \"%@\")",
+                               [msgJSON objectForKey:@"name"],
+                               [msgJSON objectForKey:@"icon"],
+                               [msgJSON objectForKey:@"maturity"]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"fact saved to db");
+            NSLog(@"plant saved to db");
             sqlite3_finalize(statement);
             sqlite3_close(database);
             return true;
@@ -138,7 +128,7 @@ static NSString *appName = @"sqftGardenApp";
     NSLog(@"failed to save message");
     return false;
 }
- 
+/*
  - (NSString *) getFact:(int) alt{
  int altBoundLo = alt - 51;
  int altBoundHi = alt + 51;
@@ -173,6 +163,7 @@ static NSString *appName = @"sqftGardenApp";
 
 - (BOOL) checkTableExists:(NSString *)tableName{
     const char *dbpath = [databasePath UTF8String];
+    BOOL exists = NO;
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
         NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM %@", tableName];
@@ -182,6 +173,7 @@ static NSString *appName = @"sqftGardenApp";
             NSLog(@"msg sql ok");
             if(sqlite3_step(statement) > 0){
                 NSLog(@"step > 0 %i", sqlite3_step(statement));
+                exists = YES;
             }
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
@@ -192,7 +184,7 @@ static NSString *appName = @"sqftGardenApp";
         sqlite3_close(database);
     }
     NSLog(@"Return Nil");
-    return false;
+    return exists;
 }
 
 - (int) getTableRowCount:(NSString *)tableName {
