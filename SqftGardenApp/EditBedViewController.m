@@ -10,6 +10,7 @@
 #import "PlantModel.h"
 #import "SelectPlantView.h"
 #import "ApplicationGlobals.h"
+#import "DBManager.h"
 //#import "MainNavigationController.h"
 //#import "BedDetailViewController.h"
 
@@ -27,6 +28,7 @@ const int BED_LAYOUT_WIDTH_BUFFER = -17;
 //UIView *bedFrameView;
 UIView *selectPlantView;
 ApplicationGlobals *appGlobals;
+DBManager *dbManager;
 
 - (id)initWithDimensions:(int)rows columns:(int)columns {
     self.bedRowCount = rows;
@@ -42,6 +44,7 @@ ApplicationGlobals *appGlobals;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
     appGlobals = [[ApplicationGlobals alloc] init];
+    dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
     [self initViews];
 }
@@ -51,6 +54,7 @@ ApplicationGlobals *appGlobals;
     self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.bedFrameView.layer.borderWidth = 3;
     self.bedFrameView.layer.cornerRadius = 15;
+    //NSMutableArray *selectPlantArray = [self buildPlantSelectArray];
     
     for(int i =0; i<self.bedViewArray.count; i++){
         BedView *bed = [self.bedViewArray objectAtIndex:i];
@@ -81,6 +85,7 @@ ApplicationGlobals *appGlobals;
     int bedDimension = [self bedDimension];
     float xCo = self.view.bounds.size.width;
     int yCo = self.bedRowCount * bedDimension;
+    //NSMutableArray *selectPlantArray = [self buildPlantSelectArray];
     self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
                     xCo+BED_LAYOUT_WIDTH_BUFFER, yCo+BED_LAYOUT_HEIGHT_BUFFER)];
     for(int i = 0; i<self.bedViewArray.count;i++){

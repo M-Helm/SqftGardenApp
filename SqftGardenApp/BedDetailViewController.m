@@ -20,7 +20,7 @@ ApplicationGlobals *appGlobals;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    appGlobals = [[ApplicationGlobals alloc] init];
+    //appGlobals = [[ApplicationGlobals alloc] init];
     
     //setup views
     if((int)self.bedRowCount < 1)self.bedRowCount = 4;

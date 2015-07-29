@@ -8,7 +8,15 @@
 
 
 #import <Foundation/Foundation.h>
+#import "PlantIconView.h"
+
 
 @interface PlantModel : NSObject
+
+//@property (nonatomic, strong)PlantIconView *icon;
+@property (nonatomic)NSString *name;
+@property (nonatomic)NSString *iconResource;
+@property (nonatomic)int maturity;
+@property (nonatomic)int population;
 
 @end

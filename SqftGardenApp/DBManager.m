@@ -20,20 +20,54 @@
 
 @end
 
-static DBManager *sharedDBManager = nil;
+//static DBManager *sharedDBManager = nil;
 static sqlite3 *database = nil;
 static sqlite3_stmt *statement = nil;
 static NSString *appName = @"sqftGardenApp";
+NSString* const initPlantListName = @"init_plants.txt";
 
 @implementation DBManager
 
-+(DBManager*)getSharedDBManager{
-    if (!sharedDBManager) {
-        sharedDBManager = [[super allocWithZone:NULL]init];
-        [sharedDBManager createTable:@"defaults"];
++ (id)getSharedDBManager {
+    static DBManager *sharedDBManager = nil;
+    @synchronized(self) {
+        if (sharedDBManager == nil)
+            sharedDBManager = [[self alloc] init];
         NSLog(@"%s", __PRETTY_FUNCTION__);
     }
     return sharedDBManager;
+}
+
+-(NSArray*)getInitPlants{
+    //NSLog(@"pop Table");
+    //[self createTable:@"plants"];
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSString *filePath = [path stringByAppendingPathComponent:initPlantListName];
+    NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    
+    NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
+    //NSLog(@"%i",(int)[jsonData length]);
+    
+    NSError *e = nil;
+    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
+    //NSLog(@"count %i", (int)[jsonArray count]);
+    //check if data exists in table and return the array w/o saving if so.
+    if([self getTableRowCount:@"plants"] > 1)return jsonArray;
+    //NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
+    //int timestamp = (int)timeInterval;
+    int i = 0;
+    while (i < [jsonArray count]){
+        NSMutableDictionary *json = [jsonArray objectAtIndex:i];
+        json[@"timestamp"] = @0;
+        NSLog(@"json: %@ %@ %@", [json objectForKey:@"name"],
+                                 [json objectForKey:@"timestamp"],
+                                 [json objectForKey:@"icon"]);
+        [self savePlantData:json];
+        i++;
+    }
+    //temp call//
+    [self getPlantData:@"Onions"];
+    return jsonArray;
 }
 
 -(BOOL) addColumn:(NSString *)tableName : (NSString *)columnName : (NSString *) columnType {
@@ -69,7 +103,6 @@ static NSString *appName = @"sqftGardenApp";
 }
 
 -(BOOL)createTable:(NSString *)tableName{
-    //NSLog(@"create facts table called");
     NSString *docsDir;
     NSArray *dirPaths;
     // Get the documents directory
@@ -106,10 +139,12 @@ static NSString *appName = @"sqftGardenApp";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, icon, maturity) values(\"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                                [msgJSON objectForKey:@"name"],
+                               [msgJSON objectForKey:@"timestamp"],
                                [msgJSON objectForKey:@"icon"],
-                               [msgJSON objectForKey:@"maturity"]];
+                               [msgJSON objectForKey:@"maturity"],
+                               [msgJSON objectForKey:@"population"]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
@@ -128,38 +163,63 @@ static NSString *appName = @"sqftGardenApp";
     NSLog(@"failed to save message");
     return false;
 }
-/*
- - (NSString *) getFact:(int) alt{
- int altBoundLo = alt - 51;
- int altBoundHi = alt + 51;
- //NSLog(@"getFact called %i %i", altBoundLo, altBoundHi);
- NSString *fact = @"Database error";
- const char *dbpath = [databasePath UTF8String];
- if (sqlite3_open(dbpath, &database) == SQLITE_OK)
- {
- NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM facts WHERE altitude BETWEEN %i and %i ORDER BY RANDOM() LIMIT 1", altBoundLo, altBoundHi];
- //NSString *querySQL = [NSString stringWithFormat:@"SELECT altitude FROM facts"];
- //NSLog(@"%@", querySQL);
- const char *query_stmt = [querySQL UTF8String];
- 
- if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
- {
- NSLog(@"msg sql ok");
- while (sqlite3_step(statement) == SQLITE_ROW)
- {
- fact = [[NSString alloc] initWithUTF8String:
- (const char *) sqlite3_column_text(statement, 3)];
- }
- }
- sqlite3_finalize(statement);
- sqlite3_close(database);
- }
- //NSLog(@"... %@", fact);
- return fact;
- }
- 
+- (NSDictionary *) getPlantDataById:(int) plantID{
+    NSMutableDictionary *plantData = nil;
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK){
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM plants WHERE local_id = %i LIMIT 1", plantID];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK){
+            NSLog(@"msg sql for plant data ok");
+            while (sqlite3_step(statement) == SQLITE_ROW){
+                NSString *plantName = [[NSString alloc] initWithUTF8String:
+                                       (const char *) sqlite3_column_text(statement, 1)];
+                NSString *plantIcon = [[NSString alloc] initWithUTF8String:
+                                       (const char *) sqlite3_column_text(statement, 3)];
+                NSString *plantMaturity = [[NSString alloc] initWithUTF8String:
+                                           (const char *) sqlite3_column_text(statement, 4)];
+                //NSLog(@"msg sql name: %@", plantName);
+                //NSLog(@"msg sql: %@", plantIcon);
+                //NSLog(@"msg sql: %@", plantMaturity);
+                [plantData setObject:plantName forKey:@"name"];
+                [plantData setObject:plantIcon forKey:@"icon"];
+                [plantData setObject:plantMaturity forKey:@"maturity"];
+            }
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    }
+    return plantData;
+}
 
-*/
+ - (NSDictionary *) getPlantDataByName:(NSString *) name{
+     NSMutableDictionary *plantData = nil;
+     const char *dbpath = [databasePath UTF8String];
+     if (sqlite3_open(dbpath, &database) == SQLITE_OK){
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM plants WHERE name = '%@' LIMIT 1", name];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK){
+            NSLog(@"msg sql for plant data ok");
+            while (sqlite3_step(statement) == SQLITE_ROW){
+                NSString *plantName = [[NSString alloc] initWithUTF8String:
+                        (const char *) sqlite3_column_text(statement, 1)];
+                NSString *plantIcon = [[NSString alloc] initWithUTF8String:
+                        (const char *) sqlite3_column_text(statement, 3)];
+                NSString *plantMaturity = [[NSString alloc] initWithUTF8String:
+                        (const char *) sqlite3_column_text(statement, 4)];
+                //NSLog(@"msg sql name: %@", plantName);
+                //NSLog(@"msg sql: %@", plantIcon);
+                //NSLog(@"msg sql: %@", plantMaturity);
+                [plantData setObject:plantName forKey:@"name"];
+                [plantData setObject:plantIcon forKey:@"icon"];
+                [plantData setObject:plantMaturity forKey:@"maturity"];
+            }
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+     }
+     return plantData;
+}
 
 - (BOOL) checkTableExists:(NSString *)tableName{
     const char *dbpath = [databasePath UTF8String];
@@ -224,7 +284,7 @@ static NSString *appName = @"sqftGardenApp";
     (NSDocumentDirectory, NSUserDomainMask, YES);
     docsDir = dirPaths[0];
     databasePath = [[NSString alloc] initWithString:
-                    [docsDir stringByAppendingPathComponent: @"howhimi.db"]];
+                    [docsDir stringByAppendingPathComponent: appName]];
     const char *dbpath = [databasePath UTF8String];
     const char *drop_stmt = [sql_str UTF8String];
     
@@ -238,10 +298,12 @@ static NSString *appName = @"sqftGardenApp";
             sqlite3_close(database);
             return false;
         }else{
+            NSLog(@"dropped table");
             sqlite3_close(database);
             return true;
         }
     }
+    NSLog(@"Failed to DROP");
     return false;
 }
 

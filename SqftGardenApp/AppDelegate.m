@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import "DBManager.h"
+#import "ApplicationSetup.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong) IBOutlet UIViewController *viewController;
@@ -19,16 +20,13 @@ DBManager *dbManager;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    dbManager = [[DBManager alloc] init];
+    dbManager = [DBManager getSharedDBManager];
+    
     if(![dbManager checkTableExists:@"plants"]){
-        [dbManager createTable:@"plants"];
-        [dbManager addColumn:@"plants" : @"name" : @"char(50)"];
-        [dbManager addColumn:@"plants" : @"icon" : @"char(150)"];
-        [dbManager addColumn:@"plants" : @"maturity" : @"integer"];
+        ApplicationSetup *appSetup = [[ApplicationSetup alloc] init];
+        [appSetup createDB];
     }
     
-    
-
     return YES;
 }
 

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		AD0E2DF21B14104E00535139 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0E2DF11B14104E00535139 /* libsqlite3.dylib */; };
 		AD0E2DF51B1412C800535139 /* AttributesPopoverVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0E2DF41B1412C800535139 /* AttributesPopoverVC.m */; };
+		AD15F26C1B67EE86003A010D /* ApplicationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = AD15F26B1B67EE86003A010D /* ApplicationSetup.m */; };
+		AD15F26E1B6817B3003A010D /* init_plants.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD15F26D1B6817B3003A010D /* init_plants.txt */; };
 		AD1A91BA1AF434DA00DC0983 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A91B91AF434DA00DC0983 /* main.m */; };
 		AD1A91C51AF434DA00DC0983 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91C41AF434DA00DC0983 /* Images.xcassets */; };
 		AD1A91C81AF434DA00DC0983 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91C61AF434DA00DC0983 /* LaunchScreen.xib */; };
@@ -57,6 +59,9 @@
 		AD0E2DF11B14104E00535139 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		AD0E2DF31B1412B800535139 /* AttributesPopoverVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttributesPopoverVC.h; sourceTree = "<group>"; };
 		AD0E2DF41B1412C800535139 /* AttributesPopoverVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesPopoverVC.m; sourceTree = "<group>"; };
+		AD15F26A1B67EE77003A010D /* ApplicationSetup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplicationSetup.h; sourceTree = "<group>"; };
+		AD15F26B1B67EE86003A010D /* ApplicationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationSetup.m; sourceTree = "<group>"; };
+		AD15F26D1B6817B3003A010D /* init_plants.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = init_plants.txt; path = ../../../Documents/init_plants.txt; sourceTree = "<group>"; };
 		AD1A91B41AF434DA00DC0983 /* SqftGardenApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqftGardenApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD1A91B81AF434DA00DC0983 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD1A91B91AF434DA00DC0983 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -150,6 +155,8 @@
 		AD1A91B61AF434DA00DC0983 /* SqftGardenApp */ = {
 			isa = PBXGroup;
 			children = (
+				AD15F26A1B67EE77003A010D /* ApplicationSetup.h */,
+				AD15F26B1B67EE86003A010D /* ApplicationSetup.m */,
 				AD0E2DF31B1412B800535139 /* AttributesPopoverVC.h */,
 				AD0E2DF41B1412C800535139 /* AttributesPopoverVC.m */,
 				AD4B98D01B0E352200EF6F96 /* DBManager.h */,
@@ -191,6 +198,7 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD15F26D1B6817B3003A010D /* init_plants.txt */,
 				ADA751FC1B06B6E300C56F5F /* ic_bean_256.png */,
 				ADA751FD1B06B6E300C56F5F /* ic_cereal_wheat_256.png */,
 				ADA751FE1B06B6E300C56F5F /* ic_fruit_strawberry_256.png */,
@@ -320,6 +328,7 @@
 				ADA7520C1B06B6E300C56F5F /* ic_vegetable_capsicum_256.png in Resources */,
 				AD1A91F61AF43FA900DC0983 /* ic_burger_44.png in Resources */,
 				AD1A91C81AF434DA00DC0983 /* LaunchScreen.xib in Resources */,
+				AD15F26E1B6817B3003A010D /* init_plants.txt in Resources */,
 				AD1A91C51AF434DA00DC0983 /* Images.xcassets in Resources */,
 				ADA752121B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png in Resources */,
 				ADD47F291AF44A7A00D7E26F /* Main.storyboard in Resources */,
@@ -343,6 +352,7 @@
 				ADD47F231AF44A5700D7E26F /* ButtonHandler.m in Sources */,
 				AD2BB4FC1B025DE000E1541C /* PlantModel.m in Sources */,
 				ADD47F271AF44A5700D7E26F /* MenuViewController.m in Sources */,
+				AD15F26C1B67EE86003A010D /* ApplicationSetup.m in Sources */,
 				ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */,
 				ADD47F2F1AF44E8700D7E26F /* BedView.m in Sources */,
 				AD1A91BA1AF434DA00DC0983 /* main.m in Sources */,

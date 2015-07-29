@@ -7,6 +7,7 @@
 //
 
 #import "PlantIconView.h"
+#import "DBManager.h"
 
 @implementation PlantIconView
 const int ICON_DEFAULT_BORDER = 3;
