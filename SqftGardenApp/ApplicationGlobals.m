@@ -17,6 +17,7 @@
 @implementation ApplicationGlobals
 
 static ApplicationGlobals *applicationGlobals = nil;
+static NSMutableDictionary *currentBedState = nil;
 
 + (id)getSharedGlobals {
     static ApplicationGlobals *appGlobals = nil;
@@ -29,4 +30,11 @@ static ApplicationGlobals *applicationGlobals = nil;
     return appGlobals;
 }
 
+- (void) setCurrentBedState:(NSMutableDictionary *)json{
+    if(currentBedState != nil){
+        currentBedState = [[NSMutableDictionary alloc] init];
+    
+    }
+    currentBedState = json;
+}
 @end

@@ -139,11 +139,12 @@
                     <connections>
                         <segue destination="O9I-ib-dQX" kind="relationship" relationship="rootViewController" id="Pb5-za-BjP"/>
                         <segue destination="4Ea-ZV-gdQ" kind="show" identifier="showBedDetail" id="rcr-6R-xSl"/>
+                        <segue destination="faC-UC-sz0" kind="custom" customClass="DisplayContentSegue" id="5jp-Q7-qxT"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G7I-jw-rOk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="948" y="495"/>
+            <point key="canvasLocation" x="884" y="495"/>
         </scene>
         <!--Edit Bed View Controller-->
         <scene sceneID="LH1-hz-fNs">
@@ -193,6 +194,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NuD-pn-6aD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1782" y="779"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="jwS-cp-a5a">
+            <objects>
+                <viewController id="faC-UC-sz0" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gyo-SJ-IRE"/>
+                        <viewControllerLayoutGuide type="bottom" id="D47-cg-d9F"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CVQ-NZ-z47">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PAR-Jb-OjK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1424" y="1433"/>
         </scene>
     </scenes>
     <resources>

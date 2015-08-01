@@ -66,7 +66,7 @@ NSString* const initPlantListName = @"init_plants.txt";
         i++;
     }
     //temp call//
-    [self getPlantDataByName:@"Onions"];
+    //[self getPlantDataByName:@"Onions"];
     return jsonArray;
 }
 
@@ -163,6 +163,40 @@ NSString* const initPlantListName = @"init_plants.txt";
     NSLog(@"failed to save message");
     return false;
 }
+
+- (BOOL) saveBed:(NSDictionary *)msgJSON{
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT into saves (local_id, rows, columns, bedstate, timestamp, name) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+                               [msgJSON objectForKey:@"local_id"],
+                               [msgJSON objectForKey:@"rows"],
+                               [msgJSON objectForKey:@"columns"],
+                               [msgJSON objectForKey:@"bedstate"],
+                               [msgJSON objectForKey:@"timestamp"],
+                               [msgJSON objectForKey:@"name"]];
+                               
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE){
+            NSLog(@"bed saved to db");
+            sqlite3_finalize(statement);
+            sqlite3_close(database);
+            return true;
+        }
+        else{
+            NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
+            sqlite3_close(database);
+            return false;
+        }
+    }
+    sqlite3_close(database);
+    NSLog(@"failed to save message");
+    return false;
+}
+
+
+
 - (NSDictionary *) getPlantDataById:(int) plantID{
     NSMutableDictionary *plantData = [[NSMutableDictionary alloc] init];
     const char *dbpath = [databasePath UTF8String];

@@ -15,6 +15,6 @@
 @property (nonatomic) int selectedCell;
 @property (nonatomic) PlantIconView* selectedPlant;
 @property (nonatomic) int bedDimension;
-@property (nonatomic) NSMutableArray* bedLocationArray;
+- (void) setCurrentBedState:(NSMutableDictionary *)json;
 
 @end

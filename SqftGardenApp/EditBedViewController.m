@@ -10,8 +10,6 @@
 #import "SelectPlantView.h"
 #import "ApplicationGlobals.h"
 #import "DBManager.h"
-//#import "MainNavigationController.h"
-//#import "BedDetailViewController.h"
 
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
@@ -22,6 +20,8 @@
 @implementation EditBedViewController
 const int BED_LAYOUT_HEIGHT_BUFFER = 3;
 const int BED_LAYOUT_WIDTH_BUFFER = -17;
+NSString * const ROW_KEY = @"rows";
+NSString * const COLUMN_KEY = @"columns";
 
 
 
@@ -46,8 +46,8 @@ DBManager *dbManager;
     
     NSNumber *nRows = [NSNumber numberWithInt: self.bedRowCount];
     NSNumber *nCols = [NSNumber numberWithInt: self.bedColumnCount];
-    [self.bedStateDict setObject: nRows forKey:@"rows"];
-    [self.bedStateDict setObject: nCols forKey:@"columns"];
+    [self.bedStateDict setObject: nRows forKey:ROW_KEY];
+    [self.bedStateDict setObject: nCols forKey:COLUMN_KEY];
     
     
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
@@ -107,9 +107,8 @@ DBManager *dbManager;
         [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
     }
     
-
     int i = 0;
-    NSMutableArray *tempArray = [[NSMutableArray alloc]init];
+    //NSMutableArray *tempArray = [[NSMutableArray alloc]init];
     for (UIView *subview in self.bedFrameView.subviews){
         NSString *key = [NSString stringWithFormat:@"cell%i",i];
         int plantId = (int)[[self.bedStateDict valueForKey:key] integerValue];
@@ -119,8 +118,8 @@ DBManager *dbManager;
         UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
 
         //add locations to array for drop & drag
-        NSValue *point = [NSValue valueWithCGPoint: subview.center];
-        [tempArray addObject:point];
+        //NSValue *point = [NSValue valueWithCGPoint: subview.center];
+        //[tempArray addObject:point];
 
         //add icons to bedviews
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
@@ -131,7 +130,7 @@ DBManager *dbManager;
         [subview addSubview:imageView];
         i++;
     }
-    appGlobals.bedLocationArray = tempArray;
+    //appGlobals.bedLocationArray = tempArray;
     //NSLog(@"count: %i", appGlobals.bedLocationArray.count);
     if(selectPlantView != nil){
         [selectPlantView removeFromSuperview];
@@ -171,6 +170,7 @@ DBManager *dbManager;
     recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
     BedView *bd = (BedView*)recognizer.view;
     appGlobals.selectedCell = bd.index;
+    [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
 }
 /*
 - (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {
@@ -258,11 +258,71 @@ DBManager *dbManager;
     NSString *key = [NSString stringWithFormat:@"cell%i",updatedCell];
     //NSLog(@"Insert Function: %i , %@", plantId, key);
     [self.bedStateDict setValue:selectedId forKey: key];
+    
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
+    [self saveCurrentBed:self.bedStateDict];
     [self initViews];
-    
+}
 
+- (BOOL) saveCurrentBed : (NSMutableDictionary *)bedJSON{
+    [dbManager dropTable:@"saves"];
+    NSString *local_id = @"1";
+    long ts = (long)(NSTimeInterval)([[NSDate date] timeIntervalSince1970]);
+    NSString *timestamp = [NSString stringWithFormat:@"%ld", ts];
+    NSString *name = @"autoSave";
+    
+    NSNumber *rows = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:ROW_KEY]integerValue]];
+    if(rows.integerValue < 1)return false;
+    NSNumber *columns = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:COLUMN_KEY] integerValue]];
+    if(columns.integerValue < 1 )return false;
+    
+    if(![dbManager checkTableExists:@"saves"]){
+        NSLog(@"no saves table exists");
+        [dbManager createTable:@"saves"];
+        [dbManager addColumn:@"saves" : @"rows" : @"int"];
+        [dbManager addColumn:@"saves" : @"columns" : @"int" ];
+        [dbManager addColumn:@"saves" : @"bedstate" : @"char(255)" ];
+        [dbManager addColumn:@"saves" : @"timestamp" : @"int"];
+        [dbManager addColumn:@"saves" : @"name" : @"char(140)"];
+    }
+    /*
+     [msgJSON objectForKey:@"local_id"],
+     [msgJSON objectForKey:@"rows"],
+     [msgJSON objectForKey:@"columns"],
+     [msgJSON objectForKey:@"bedstate"],
+     [msgJSON objectForKey:@"timestamp"],
+     [msgJSON objectForKey:@"name"]];
+     */
+    NSMutableDictionary *json = [[NSMutableDictionary alloc] init];
+    [json setObject:local_id forKey:@"local_id"];
+    [json setObject:rows forKey:@"rows"];
+    [json setObject:columns forKey:@"columns"];
+    [json setObject:timestamp forKey:@"timestamp"];
+    [json setObject:name forKey:@"name"];
+    
+    
+    
+    int cellCount = rows.integerValue * columns.integerValue;
+    NSString *tempArrayStr = @"";
+    NSString *tempStr = @"";
+    NSString *key = @"";
+    for(int i=0; i<cellCount; i++){
+        key = [NSString stringWithFormat:@"cell%i", i];
+        int strId = (int)[[bedJSON valueForKey:key] integerValue];
+        tempStr = [NSString stringWithFormat:@"%i", strId];
+        if(i == 0)tempArrayStr = [NSString stringWithFormat:@"%@", tempStr];
+        else tempArrayStr = [NSString stringWithFormat:@"%@,%@", tempArrayStr, tempStr];
+    }
+    tempArrayStr = [NSString stringWithFormat:@"{%@}",tempArrayStr];
+    [json setObject:tempArrayStr forKey:@"bedstate"];
+    if([dbManager saveBed:json]){
+        [appGlobals setCurrentBedState:json];
+    };
+    
+    NSLog(@"json: %@, %@, %@, %@, %@", local_id, rows, columns, timestamp, name);
+    NSLog(@"Temp Array String: %i, %i, %@", rows.integerValue, columns.integerValue, tempArrayStr);
+    return false;
 }
 
 

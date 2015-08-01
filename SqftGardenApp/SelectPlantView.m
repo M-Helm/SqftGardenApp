@@ -108,17 +108,19 @@ PlantIconView *touchedIcon;
         //NSLog(@"TOUCHES ENDED");
         NSLog(@"LOCATION END: x: %f y: %f", touchedView.center.x, touchedView.center.y);
         if(plantView.plantId > 3){
-            xCo = self.mainView.frame.size.width + (17 * 3);
+            xCo = (self.mainView.frame.size.width + 0) * -1;
         }
         if(plantView.plantId > 6){
-            xCo = (self.mainView.frame.size.width)* 2 + (17 * 3);
+            xCo = ((self.mainView.frame.size.width)* 2 + 0) * -1;
         }
         
         NSLog(@"MainView Y: %f, %f, %f", self.mainView.frame.size.height, self.frame.origin.y, self.frame.size.height);
+        NSLog(@"xCO equation = %f + %f", touchedView.center.x, xCo);
+        
         float selectMessageViewHeight = 26.00;
         //float yCo = (self.frame.origin.y - self.frame.size.height + touchedView.center.y);
         yCo = fabs(self.mainView.frame.size.height + touchedView.center.y + selectMessageViewHeight);
-        xCo = fabs(touchedView.center.x - xCo);
+        xCo = fabs(touchedView.center.x + xCo);
         NSLog(@"Adjusted END: x: %f y: %f",  xCo, yCo);
         int i = 0;
         float leastSquare = 500000;
@@ -136,12 +138,12 @@ PlantIconView *touchedIcon;
             }
             i++;
         }
-        int plantId = plantView.plantId;
+        //int plantId = plantView.plantId;
         //NSLog(@"delta squared: %f, %i, %i", leastSquare, targetCell, plantId);
         //NSNumber *selectedId = [NSNumber numberWithInt:plantId];
         //NSString *key = [NSString stringWithFormat:@"cell%i",targetCell];
         //[self.editBedVC.bedStateDict setValue:selectedId forKey: key];
-        [self.editBedVC updatePlantBeds:targetCell:plantId];
+        [self.editBedVC updatePlantBeds:targetCell:plantView.plantId];
     }
 }
     

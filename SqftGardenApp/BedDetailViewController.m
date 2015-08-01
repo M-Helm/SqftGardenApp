@@ -71,7 +71,7 @@ ApplicationGlobals *appGlobals;
     for(int i=0; i<self.bedRowCount; i++){
         while(columnNumber < self.bedColumnCount){
             BedView *bed = [[BedView alloc] initWithFrame:CGRectMake(1+(bedDimension*columnNumber),
-                                                                     (bedDimension*rowNumber)+1, bedDimension, bedDimension)];
+                                        (bedDimension*rowNumber)+1, bedDimension, bedDimension)];
             bed.index = cell-1;
             bed.layer.borderWidth = 0;
             UIImageView *icon = [self setIcon];
@@ -150,7 +150,6 @@ ApplicationGlobals *appGlobals;
     UIImage *icon = [UIImage imageNamed:plant.iconResource];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
     return imageView;
-    
 }
 
 - (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {

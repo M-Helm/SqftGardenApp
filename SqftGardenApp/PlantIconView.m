@@ -11,7 +11,7 @@
 
 @implementation PlantIconView
 const int ICON_DEFAULT_BORDER = 3;
-const int ICON_DEFAULT_CORNER = 15;
+const int ICON_DEFAULT_CORNER = 30;
 //int plantId;
 
 - (id)initWithFrame:(CGRect)frame : (int)plantIndex{
@@ -36,7 +36,7 @@ const int ICON_DEFAULT_CORNER = 15;
 }
 
 - (void)commonInit {
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor blackColor];
     DBManager *dbManager = [DBManager getSharedDBManager];
     
     NSDictionary *json = [dbManager getPlantDataById:_plantId];
@@ -48,11 +48,13 @@ const int ICON_DEFAULT_CORNER = 15;
 }
 
 - (void) setDefaultParameters{
-    self.color = [UIColor lightGrayColor];
+    self.color = [UIColor blackColor];
     self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.layer.borderWidth = ICON_DEFAULT_BORDER;
-    self.layer.cornerRadius = ICON_DEFAULT_CORNER;
+    //self.layer.cornerRadius = ICON_DEFAULT_CORNER;
+    self.layer.cornerRadius = self.frame.size.width / 2;
+    self.layer.backgroundColor = self.fillColor.CGColor;
 }
 
 
