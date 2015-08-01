@@ -19,6 +19,7 @@ DBManager *dbManager;
 
 -(BOOL)createDB{
     dbManager = [DBManager getSharedDBManager];
+    //[dbManager dropTable:@"plants"];
     [dbManager createTable:@"plants"];
     [dbManager addColumn:@"plants" : @"name" : @"char(50)"];
     [dbManager addColumn:@"plants" : @"timestamp" : @"int"];

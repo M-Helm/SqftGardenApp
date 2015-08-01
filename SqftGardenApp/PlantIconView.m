@@ -12,8 +12,10 @@
 @implementation PlantIconView
 const int ICON_DEFAULT_BORDER = 3;
 const int ICON_DEFAULT_CORNER = 15;
+//int plantId;
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame : (int)plantIndex{
+    _plantId = plantIndex;
     self = [super initWithFrame:frame];
     if (self) {
         [self commonInit];
@@ -35,6 +37,13 @@ const int ICON_DEFAULT_CORNER = 15;
 
 - (void)commonInit {
     self.backgroundColor = [UIColor whiteColor];
+    DBManager *dbManager = [DBManager getSharedDBManager];
+    
+    NSDictionary *json = [dbManager getPlantDataById:_plantId];
+    _iconResource = [json objectForKey:@"icon"];
+    _plantName = [json objectForKey:@"name"];
+    NSString *str = [json objectForKey:@"maturity"];
+    _maturity = str.intValue;
     [self setDefaultParameters];
 }
 

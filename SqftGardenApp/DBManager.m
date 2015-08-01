@@ -33,7 +33,7 @@ NSString* const initPlantListName = @"init_plants.txt";
     @synchronized(self) {
         if (sharedDBManager == nil)
             sharedDBManager = [[self alloc] init];
-        NSLog(@"%s", __PRETTY_FUNCTION__);
+        //NSLog(@"%s", __PRETTY_FUNCTION__);
     }
     return sharedDBManager;
 }
@@ -66,7 +66,7 @@ NSString* const initPlantListName = @"init_plants.txt";
         i++;
     }
     //temp call//
-    [self getPlantData:@"Onions"];
+    [self getPlantDataByName:@"Onions"];
     return jsonArray;
 }
 
@@ -164,13 +164,13 @@ NSString* const initPlantListName = @"init_plants.txt";
     return false;
 }
 - (NSDictionary *) getPlantDataById:(int) plantID{
-    NSMutableDictionary *plantData = nil;
+    NSMutableDictionary *plantData = [[NSMutableDictionary alloc] init];
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK){
         NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM plants WHERE local_id = %i LIMIT 1", plantID];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK){
-            NSLog(@"msg sql for plant data ok");
+            //NSLog(@"msg sql for plant data ok");
             while (sqlite3_step(statement) == SQLITE_ROW){
                 NSString *plantName = [[NSString alloc] initWithUTF8String:
                                        (const char *) sqlite3_column_text(statement, 1)];

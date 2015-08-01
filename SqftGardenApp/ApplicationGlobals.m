@@ -9,8 +9,8 @@
 #import "ApplicationGlobals.h"
 
 
+
 @interface ApplicationGlobals()
-+ applicationGlobals;
 
 @end
 
@@ -18,19 +18,15 @@
 
 static ApplicationGlobals *applicationGlobals = nil;
 
-+ (id) applicationGlobals {
-    if (! applicationGlobals) {
-        applicationGlobals = [[ApplicationGlobals alloc] init];
++ (id)getSharedGlobals {
+    static ApplicationGlobals *appGlobals = nil;
+    @synchronized(self) {
+        if (appGlobals == nil){
+            appGlobals = [[self alloc] init];
+        }
+        NSLog(@"%s", __PRETTY_FUNCTION__);
     }
-    return applicationGlobals;
-}
-
-- (id) init {
-    if (! applicationGlobals) {
-        applicationGlobals = [super init];
-        // NSLog(@"%s", __PRETTY_FUNCTION__);
-    }
-    return applicationGlobals;
+    return appGlobals;
 }
 
 @end

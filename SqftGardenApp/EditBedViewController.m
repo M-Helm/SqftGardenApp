@@ -3,11 +3,10 @@
 //  SqftGardenApp
 //  Created by Matthew Helm on 5/1/15.
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
-//
+
 #import "EditBedViewController.h"
 #import "BedView.h"
 #import "PlantIconView.h"
-#import "PlantModel.h"
 #import "SelectPlantView.h"
 #import "ApplicationGlobals.h"
 #import "DBManager.h"
@@ -25,31 +24,43 @@ const int BED_LAYOUT_HEIGHT_BUFFER = 3;
 const int BED_LAYOUT_WIDTH_BUFFER = -17;
 
 
+
 //UIView *bedFrameView;
-UIView *selectPlantView;
+SelectPlantView *selectPlantView;
+
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
 
-- (id)initWithDimensions:(int)rows columns:(int)columns {
+- (id) initWithDimensions:(int)rows columns:(int)columns {
     self.bedRowCount = rows;
     self.bedColumnCount = columns;
     return self;
 }
 
-- (void)viewDidLoad {
+- (void) viewDidLoad {
     [super viewDidLoad];
+    
+    self.bedStateDict = [[NSMutableDictionary alloc]init];
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
+    
+    NSNumber *nRows = [NSNumber numberWithInt: self.bedRowCount];
+    NSNumber *nCols = [NSNumber numberWithInt: self.bedColumnCount];
+    [self.bedStateDict setObject: nRows forKey:@"rows"];
+    [self.bedStateDict setObject: nCols forKey:@"columns"];
+    
+    
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
-    appGlobals = [[ApplicationGlobals alloc] init];
+    appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
+    
     [self initViews];
 }
 
-- (void)viewDidLayoutSubviews{
+- (void) viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.bedFrameView.layer.borderWidth = 3;
@@ -63,6 +74,7 @@ DBManager *dbManager;
                                                 action:@selector(handleBedSingleTap:)];
         [bed addGestureRecognizer:singleFingerTap];
     }
+    /*
     for(int i =0; i<self.selectPlantArray.count; i++){
         UIView *box = [self.selectPlantArray objectAtIndex:i];
         UITapGestureRecognizer *singleFingerTap =
@@ -70,10 +82,11 @@ DBManager *dbManager;
                                                 action:@selector(handlePlantSingleTap:)];
         [box addGestureRecognizer:singleFingerTap];
     }
-    
+    */
+    selectPlantView.mainView = self.bedFrameView;
+    selectPlantView.editBedVC = self;
     [self.view addSubview:self.bedFrameView];
     [self.view addSubview:selectPlantView];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,18 +96,47 @@ DBManager *dbManager;
 
 -(void)initViews{
     int bedDimension = [self bedDimension];
+    int frameDimension = bedDimension - 5;
     float xCo = self.view.bounds.size.width;
     int yCo = self.bedRowCount * bedDimension;
-    //NSMutableArray *selectPlantArray = [self buildPlantSelectArray];
     self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
                     xCo+BED_LAYOUT_WIDTH_BUFFER, yCo+BED_LAYOUT_HEIGHT_BUFFER)];
+    
+    //add my array of beds
     for(int i = 0; i<self.bedViewArray.count;i++){
         [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
     }
-    selectPlantView = [[SelectPlantView alloc] initWithFrame:CGRectMake(10,
-                                            yCo+BED_LAYOUT_HEIGHT_BUFFER + 125,
-                                            xCo+BED_LAYOUT_WIDTH_BUFFER,
-                                            bedDimension)];
+    
+
+    int i = 0;
+    NSMutableArray *tempArray = [[NSMutableArray alloc]init];
+    for (UIView *subview in self.bedFrameView.subviews){
+        NSString *key = [NSString stringWithFormat:@"cell%i",i];
+        int plantId = (int)[[self.bedStateDict valueForKey:key] integerValue];
+        
+        PlantIconView *plantIcon = [[PlantIconView alloc]
+                                    initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : plantId];
+        UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
+
+        //add locations to array for drop & drag
+        NSValue *point = [NSValue valueWithCGPoint: subview.center];
+        [tempArray addObject:point];
+
+        //add icons to bedviews
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
+        imageView.frame = CGRectMake(subview.bounds.size.width/4,
+                                     subview.bounds.size.height/4,
+                                     subview.bounds.size.width/2,
+                                     subview.bounds.size.height/2);
+        [subview addSubview:imageView];
+        i++;
+    }
+    appGlobals.bedLocationArray = tempArray;
+    //NSLog(@"count: %i", appGlobals.bedLocationArray.count);
+    if(selectPlantView != nil){
+        [selectPlantView removeFromSuperview];
+    }
+    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(10, yCo+BED_LAYOUT_HEIGHT_BUFFER + 125, xCo+BED_LAYOUT_WIDTH_BUFFER,bedDimension)];
     for(int i = 0; i<self.selectPlantArray.count;i++){
         [selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
     }
@@ -102,7 +144,6 @@ DBManager *dbManager;
                                             yCo+BED_LAYOUT_HEIGHT_BUFFER + 102,
                                             xCo+BED_LAYOUT_WIDTH_BUFFER,
                                             20)];
-    
     self.selectMessageView.layer.borderWidth = 3;
     self.selectMessageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     [self.view addSubview:self.selectMessageView];
@@ -114,6 +155,7 @@ DBManager *dbManager;
     if(bedDimension > columnDimension){
         bedDimension = columnDimension;
     }
+    [appGlobals setBedDimension:bedDimension];
     return bedDimension;
 }
 
@@ -124,18 +166,21 @@ DBManager *dbManager;
         bed.backgroundColor = [UIColor whiteColor];
         bed.layer.borderColor = [UIColor lightGrayColor].CGColor;
     }
-    //NSLog(@"View Id %@", recognizer.view.description);
+    //NSLog(@"Bed Single Tap View Id %@", recognizer.view.description);
     //recognizer.view.backgroundColor = [UIColor lightGrayColor];
     recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
     BedView *bd = (BedView*)recognizer.view;
     appGlobals.selectedCell = bd.index;
 }
+/*
 - (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {
     if(appGlobals.selectedCell > -1){
+        NSLog(@"Plant Single Tap View Id %@", recognizer.view.description);
         BedView *bed = [self.bedViewArray objectAtIndex: appGlobals.selectedCell];
-        BedView *plant = (BedView*)recognizer.view;
-        appGlobals.selectedPlant = plant.index;
-        UIImage *icon = [self generateIcon:plant.index];
+        PlantIconView *selected = (PlantIconView*)recognizer.view;
+        //PlantModel *plant = [[PlantModel alloc]initWithId:selected.index];
+        appGlobals.selectedPlant = selected;
+        UIImage *icon = [UIImage imageNamed: selected.iconResource];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         imageView.frame = CGRectMake(bed.bounds.size.width/4,
                                      bed.bounds.size.height/4,
@@ -146,17 +191,32 @@ DBManager *dbManager;
         [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
     }
 }
-
+*/
 - (NSMutableArray *)buildBedViewArray{
     NSMutableArray *bedArray = [[NSMutableArray alloc] init];
     int bedDimension = [self bedDimension];
     int rowNumber = 0;
     int columnNumber = 0;
     int cell = 0;
+    //NSNumber *plantId = [NSNumber numberWithInt:0];
+    int cellCount = self.bedRowCount * self.bedColumnCount;
+    if(self.bedStateDict == nil){
+        self.bedStateDict = [[NSMutableDictionary alloc]init];
+    }
+    if([self.bedStateDict objectForKey:@"cell0"] < 0){
+        //NSLog(@"dict initialized");
+        for(int i=0; i<cellCount; i++){
+            NSString *key = [NSString stringWithFormat:@"cell%i",i];
+            [self.bedStateDict setValue:0 forKey: key];
+        }
+    }
     for(int i=0; i<self.bedRowCount; i++){
         while(columnNumber < self.bedColumnCount){
+            NSString *key = [NSString stringWithFormat:@"cell%i",cell];
+            int plantId = (int)[[self.bedStateDict valueForKey:key] integerValue];
+            //NSLog(@"Get Function: %i , %@", plantId, key);
             BedView *bed = [[BedView alloc] initWithFrame:CGRectMake(1 + (bedDimension*columnNumber),
-                            (bedDimension*rowNumber)+1, bedDimension, bedDimension)];
+                                                                     (bedDimension*rowNumber)+1, bedDimension, bedDimension): plantId];
             bed.index = cell;
             [bedArray addObject:bed];
             columnNumber++;
@@ -167,62 +227,46 @@ DBManager *dbManager;
     }
     return bedArray;
 }
+
 - (NSMutableArray *)buildPlantSelectArray{
     NSMutableArray *selectArray = [[NSMutableArray alloc] init];
     int frameDimension = [self bedDimension] - 5;
-    for(int i=0; i<9; i++){
-        PlantIconView *plantIcon = [[PlantIconView alloc] initWithFrame:CGRectMake(6 + (frameDimension*i),
-                            2, frameDimension, frameDimension)];
-        UIImage *icon = [self generateIcon:i];
+    int rowCount = [dbManager getTableRowCount:@"plants"];
+    for(int i=0; i<rowCount; i++){
+        //PlantModel *plant = [[PlantModel alloc] initWithId:i+1];
+        PlantIconView *plantIcon = [[PlantIconView alloc]
+                                    initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : i+1];
+        UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
+        //NSLog(@"res: %@", plantIcon.iconResource);
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         plantIcon.layer.borderWidth = 0;
         imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,
                                      plantIcon.bounds.size.height/4,
                                      plantIcon.bounds.size.width/2,
                                      plantIcon.bounds.size.height/2);
-        plantIcon.index = i;
+        plantIcon.index = i+1;
         [plantIcon addSubview:imageView];
         [selectArray addObject:plantIcon];
     }
     return selectArray;
 }
-- (UIImage *)generateIcon:(int)iconNumber{
-    UIImage *icon = [UIImage imageNamed:@"ic_fruit_strawberry_256.png"];
-    switch (iconNumber) {
-        case 0:
-            icon = [UIImage imageNamed:@"ic_bean_256.png"];
-            return icon;
-            break;
-        case 1:
-            icon = [UIImage imageNamed:@"ic_vegetable_carrot_256.png"];
-            return icon;
-            break;
-        case 2:
-            icon = [UIImage imageNamed:@"ic_vegetable_radish_256.png"];
-            return icon;
-        case 3:
-            icon = [UIImage imageNamed:@"ic_vegetable_capsicum_256.png"];
-            return icon;
-        case 4:
-            icon = [UIImage imageNamed:@"ic_vegetable_chilly_256.png"];
-            return icon;
-        case 5:
-            icon = [UIImage imageNamed:@"ic_vegetable_onion_256.png"];
-            return icon;
-        case 6:
-            icon = [UIImage imageNamed:@"ic_vegetable_tomato_01_256.png"];
-            return icon;
-        case 7:
-            icon = [UIImage imageNamed:@"ic_vegetable_brinjal_256.png"];
-            return icon;
-        case 8:
-            icon = [UIImage imageNamed:@"ic_cereal_wheat_256.png"];
-            return icon;
-        default:
-            return icon;
-            break;
-    }
+
+
+- (void) updatePlantBeds : (int)updatedCell : (int)plantId{
+    //save plant selection to dict
+    NSNumber *selectedId = [NSNumber numberWithInt:plantId];
+    NSString *key = [NSString stringWithFormat:@"cell%i",updatedCell];
+    //NSLog(@"Insert Function: %i , %@", plantId, key);
+    [self.bedStateDict setValue:selectedId forKey: key];
+    self.bedViewArray = [self buildBedViewArray];
+    self.selectPlantArray = [self buildPlantSelectArray];
+    [self initViews];
+    
+
 }
+
+
+
 
 @end
 

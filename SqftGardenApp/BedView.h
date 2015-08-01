@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface BedView : UIView
+- (id)initWithFrame:(CGRect)frame : (int) plantId;
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
 @property (nonatomic) int index;

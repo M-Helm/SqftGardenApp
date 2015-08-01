@@ -17,8 +17,9 @@
 const int BED_DEFAULT_BORDER = 3;
 const int BED_DEFAULT_CORNER = 15;
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame : (int) plantId{
     self = [super initWithFrame:frame];
+    self.primaryPlant = plantId;
     if (self) {
         [self commonInit];
     }
@@ -50,9 +51,6 @@ const int BED_DEFAULT_CORNER = 15;
     self.layer.cornerRadius = BED_DEFAULT_CORNER;
 }
 
-- (void) setPrimaryPlant{
-    
-}
 - (void) setSecondaryPlant {
     
 }

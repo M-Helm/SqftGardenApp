@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "PlantIconView.h"
 
 @interface ApplicationGlobals : NSObject
++ (ApplicationGlobals*)getSharedGlobals;
 @property (nonatomic) int selectedCell;
-@property (nonatomic) int selectedPlant;
+@property (nonatomic) PlantIconView* selectedPlant;
+@property (nonatomic) int bedDimension;
+@property (nonatomic) NSMutableArray* bedLocationArray;
 
 @end

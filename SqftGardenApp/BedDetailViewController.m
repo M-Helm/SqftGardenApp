@@ -23,8 +23,8 @@ ApplicationGlobals *appGlobals;
     //appGlobals = [[ApplicationGlobals alloc] init];
     
     //setup views
-    if((int)self.bedRowCount < 1)self.bedRowCount = 4;
-    if((int)self.bedColumnCount < 1)self.bedColumnCount = 4;
+    if((int)self.bedRowCount < 1)self.bedRowCount = 3;
+    if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
@@ -98,9 +98,10 @@ ApplicationGlobals *appGlobals;
     NSMutableArray *selectArray = [[NSMutableArray alloc] init];
     int frameDimension = [self bedDimension] - 5;
     for(int i=0; i<9; i++){
-        PlantIconView *plantIcon = [[PlantIconView alloc] initWithFrame:CGRectMake(6 + (frameDimension*i),
-                                                                           2, frameDimension, frameDimension)];
-        UIImage *icon = [self generateIcon:i];
+        PlantIconView *plantIcon = [[PlantIconView alloc]
+                                    initWithFrame:CGRectMake(6 + (frameDimension*i),2, frameDimension, frameDimension) : i+1];
+        //PlantModel *plant = [[PlantModel alloc] initWithId:i+1];
+        UIImage *icon = [UIImage imageNamed:plantIcon.iconResource];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         plantIcon.layer.cornerRadius = frameDimension/2;
         plantIcon.layer.borderWidth = 2;
@@ -143,16 +144,20 @@ ApplicationGlobals *appGlobals;
     }
     return bedDimension;
 }
+
 -(UIImageView *) setIcon{
-    UIImage *icon = [self generateIcon:appGlobals.selectedPlant];
+    PlantIconView *plant = appGlobals.selectedPlant;
+    UIImage *icon = [UIImage imageNamed:plant.iconResource];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
     return imageView;
     
 }
+
 - (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {
-    BedView *plant = (BedView*)recognizer.view;
-    appGlobals.selectedPlant = plant.index;
-    UIImage *icon = [self generateIcon:plant.index];
+    PlantIconView *plant = (PlantIconView*)recognizer.view;
+    appGlobals.selectedPlant = plant;
+    //PlantModel *plant = [[PlantModel alloc] initWithId:bed.index];
+    UIImage *icon = [UIImage imageNamed:plant.iconResource];
     for(int i=0;i<self.bedViewArray.count;i++){
         if(i % 2){
             BedView *cell = [self.bedViewArray objectAtIndex:i];
@@ -164,43 +169,6 @@ ApplicationGlobals *appGlobals;
             [[cell subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
             [cell addSubview:imageView];
         }
-    }
-}
-- (UIImage *)generateIcon:(int)iconNumber{
-    UIImage *icon = [UIImage imageNamed:@"ic_fruit_strawberry_256.png"];
-    switch (iconNumber) {
-        case 0:
-            icon = [UIImage imageNamed:@"ic_bean_256.png"];
-            return icon;
-            break;
-        case 1:
-            icon = [UIImage imageNamed:@"ic_vegetable_carrot_256.png"];
-            return icon;
-            break;
-        case 2:
-            icon = [UIImage imageNamed:@"ic_vegetable_radish_256.png"];
-            return icon;
-        case 3:
-            icon = [UIImage imageNamed:@"ic_vegetable_capsicum_256.png"];
-            return icon;
-        case 4:
-            icon = [UIImage imageNamed:@"ic_vegetable_chilly_256.png"];
-            return icon;
-        case 5:
-            icon = [UIImage imageNamed:@"ic_vegetable_onion_256.png"];
-            return icon;
-        case 6:
-            icon = [UIImage imageNamed:@"ic_vegetable_tomato_01_256.png"];
-            return icon;
-        case 7:
-            icon = [UIImage imageNamed:@"ic_vegetable_brinjal_256.png"];
-            return icon;
-        case 8:
-            icon = [UIImage imageNamed:@"ic_cereal_wheat_256.png"];
-            return icon;
-        default:
-            return icon;
-            break;
     }
 }
 
