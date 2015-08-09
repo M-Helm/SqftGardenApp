@@ -164,11 +164,11 @@ NSString* const initPlantListName = @"init_plants.txt";
     return false;
 }
 
-- (BOOL) saveBed:(NSDictionary *)msgJSON{
+- (BOOL) saveBedAutoSave:(NSDictionary *)msgJSON{
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT into saves (local_id, rows, columns, bedstate, timestamp, name) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT or REPLACE into saves (local_id, rows, columns, bedstate, timestamp, name) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                                [msgJSON objectForKey:@"local_id"],
                                [msgJSON objectForKey:@"rows"],
                                [msgJSON objectForKey:@"columns"],
@@ -254,6 +254,42 @@ NSString* const initPlantListName = @"init_plants.txt";
      }
      return plantData;
 }
+- (NSMutableArray *) getBedSaveList{
+    const char *dbpath = [databasePath UTF8String];
+    NSString *tableName = @"saves";
+    NSMutableArray *returnJson = [[NSMutableArray alloc]init];
+    NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        //NSString *querySQL = [NSString stringWithFormat:@"SELECT local_id, timestamp, name FROM %@", tableName];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT local_id, timestamp, name FROM %@", tableName];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            NSLog(@"msg sql ok");
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                int rows = sqlite3_column_int(statement, 0);
+                NSLog(@"SQLite Rows: %i", rows);
+                NSString *saveName = [[NSString alloc] initWithUTF8String:
+                                       (const char *) sqlite3_column_text(statement, 2)];
+                NSString *saveTS = [[NSString alloc] initWithUTF8String:
+                                       (const char *) sqlite3_column_text(statement, 1)];
+                NSString *saveId = [[NSString alloc] initWithUTF8String:
+                                           (const char *) sqlite3_column_text(statement, 0)];
+                [json setObject:saveName forKey:@"name"];
+                [json setObject:saveTS forKey:@"timestamp"];
+                [json setObject:saveId forKey:@"local_id"];
+                [returnJson addObject:json];
+                NSLog(@"JSON added from SAVEs");
+                
+            }
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    }
+    return returnJson;
+}
 
 - (BOOL) checkTableExists:(NSString *)tableName{
     const char *dbpath = [databasePath UTF8String];
@@ -265,19 +301,24 @@ NSString* const initPlantListName = @"init_plants.txt";
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             NSLog(@"msg sql ok");
+
+            /*
             if(sqlite3_step(statement) > 0){
                 NSLog(@"step > 0 %i", sqlite3_step(statement));
                 exists = YES;
             }
+             */
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 //nothing goes here yet
+                int rows = sqlite3_column_int(statement, 0);
+                NSLog(@"SQLite Rows in %@: %i", tableName, rows);
             }
         }
         sqlite3_finalize(statement);
         sqlite3_close(database);
     }
-    NSLog(@"Return Nil");
+    //NSLog(@"Return Nil");
     return exists;
 }
 
@@ -332,7 +373,7 @@ NSString* const initPlantListName = @"init_plants.txt";
             sqlite3_close(database);
             return false;
         }else{
-            NSLog(@"dropped table");
+            NSLog(@"dropped %@ table", tableName);
             sqlite3_close(database);
             return true;
         }

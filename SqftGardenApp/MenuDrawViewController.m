@@ -15,6 +15,16 @@
 
 @implementation MenuDrawerViewController
 
++ (id)getSharedMenuDrawer {
+    static MenuDrawerViewController *sharedMenuDrawer = nil;
+    @synchronized(self) {
+        if (sharedMenuDrawer  == nil)
+            sharedMenuDrawer  = [[self alloc] init];
+        //NSLog(@"%s", __PRETTY_FUNCTION__);
+    }
+    return sharedMenuDrawer ;
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSLog(@"Menu Prepare Segue");
@@ -24,6 +34,10 @@
         menuViewController.menuDrawerViewController = self;
         self.menuDrawViewController = menuViewController;
     }
+}
+
+- (void)showEditView{
+    [self.menuDrawViewController performSegueWithIdentifier:@"showMain" sender:self.menuDrawViewController];
 }
 
 - (void)viewDidLoad

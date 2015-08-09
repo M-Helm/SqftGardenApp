@@ -106,7 +106,7 @@ PlantIconView *touchedIcon;
         float xCo = 0;
         float yCo = 0;
         //NSLog(@"TOUCHES ENDED");
-        NSLog(@"LOCATION END: x: %f y: %f", touchedView.center.x, touchedView.center.y);
+        //NSLog(@"LOCATION END: x: %f y: %f", touchedView.center.x, touchedView.center.y);
         if(plantView.plantId > 3){
             xCo = (self.mainView.frame.size.width + 0) * -1;
         }
@@ -114,14 +114,14 @@ PlantIconView *touchedIcon;
             xCo = ((self.mainView.frame.size.width)* 2 + 0) * -1;
         }
         
-        NSLog(@"MainView Y: %f, %f, %f", self.mainView.frame.size.height, self.frame.origin.y, self.frame.size.height);
-        NSLog(@"xCO equation = %f + %f", touchedView.center.x, xCo);
+        //NSLog(@"MainView Y: %f, %f, %f", self.mainView.frame.size.height, self.frame.origin.y, self.frame.size.height);
+        //NSLog(@"xCO equation = %f + %f", touchedView.center.x, xCo);
         
         float selectMessageViewHeight = 26.00;
         //float yCo = (self.frame.origin.y - self.frame.size.height + touchedView.center.y);
         yCo = fabs(self.mainView.frame.size.height + touchedView.center.y + selectMessageViewHeight);
         xCo = fabs(touchedView.center.x + xCo);
-        NSLog(@"Adjusted END: x: %f y: %f",  xCo, yCo);
+        //NSLog(@"Adjusted END: x: %f y: %f",  xCo, yCo);
         int i = 0;
         float leastSquare = 500000;
         int targetCell = -1;

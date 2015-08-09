@@ -31,10 +31,27 @@ static NSMutableDictionary *currentBedState = nil;
 }
 
 - (void) setCurrentBedState:(NSMutableDictionary *)json{
-    if(currentBedState != nil){
+    if(currentBedState == nil){
         currentBedState = [[NSMutableDictionary alloc] init];
-    
     }
     currentBedState = json;
+    
+    NSString *str = [currentBedState valueForKey:@"bedstate"];
+    NSMutableArray *tempArray = [[NSMutableArray alloc]
+                                 initWithArray:[str componentsSeparatedByString:@","]];
+    //NSMutableArray *tempArray = [str componentsSeparatedByString:@","];
+    
+    NSString *key = [NSString stringWithFormat:@"cell%i",0];
+    int plantId = (int)[[currentBedState valueForKey:key] integerValue];
+    NSLog(@"plant Id IN global set = %i", plantId);
+    
+}
+
+- (NSMutableDictionary *) getCurrentBedState{
+    if(currentBedState == nil){
+        currentBedState = [[NSMutableDictionary alloc] init];
+        
+    }
+    return currentBedState;
 }
 @end

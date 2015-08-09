@@ -25,6 +25,7 @@
 - (NSArray*) getInitPlants;
 - (NSDictionary *) getPlantDataByName:(NSString *) name;
 - (NSDictionary *) getPlantDataById:(int) plantID;
-- (BOOL) saveBed:(NSDictionary *)msgJSON;
+- (BOOL) saveBedAutoSave:(NSDictionary *)msgJSON;
+- (NSMutableArray *) getBedSaveList;
 
 @end

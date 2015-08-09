@@ -12,6 +12,7 @@
 @interface MenuDrawerViewController : UIViewController
 
 @property(nonatomic, weak) UIViewController* content;
-
++ (id) getSharedMenuDrawer;
+- (void) showEditView;
 
 @end

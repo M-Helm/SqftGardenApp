@@ -40,7 +40,15 @@ DBManager *dbManager;
 - (void) viewDidLoad {
     [super viewDidLoad];
     
-    self.bedStateDict = [[NSMutableDictionary alloc]init];
+    if (self.bedStateDict == nil)self.bedStateDict = [[NSMutableDictionary alloc]init];
+    //self.bedStateDict = [appGlobals getCurrentBedState];
+    
+    
+    NSString *key = [NSString stringWithFormat:@"cell%i",0];
+    int plantId = (int)[[self.bedStateDict valueForKey:key] integerValue];
+    NSLog(@"plant Id from globals = %i", plantId);
+    
+    
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
     
@@ -88,6 +96,8 @@ DBManager *dbManager;
     [self.view addSubview:self.bedFrameView];
     [self.view addSubview:selectPlantView];
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -256,7 +266,7 @@ DBManager *dbManager;
     //save plant selection to dict
     NSNumber *selectedId = [NSNumber numberWithInt:plantId];
     NSString *key = [NSString stringWithFormat:@"cell%i",updatedCell];
-    //NSLog(@"Insert Function: %i , %@", plantId, key);
+    NSLog(@"Insert Function: %i , %@", plantId, key);
     [self.bedStateDict setValue:selectedId forKey: key];
     
     self.bedViewArray = [self buildBedViewArray];
@@ -266,16 +276,26 @@ DBManager *dbManager;
 }
 
 - (BOOL) saveCurrentBed : (NSMutableDictionary *)bedJSON{
-    [dbManager dropTable:@"saves"];
+    NSLog(@"step 1");
+    
+    //[dbManager dropTable:@"saves"];
     NSString *local_id = @"1";
     long ts = (long)(NSTimeInterval)([[NSDate date] timeIntervalSince1970]);
     NSString *timestamp = [NSString stringWithFormat:@"%ld", ts];
     NSString *name = @"autoSave";
     
     NSNumber *rows = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:ROW_KEY]integerValue]];
-    if(rows.integerValue < 1)return false;
+    
+    NSLog(@"rows %i", rows.integerValue);
+    
+    //if(rows.integerValue < 1)return false;
+    
+    
     NSNumber *columns = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:COLUMN_KEY] integerValue]];
-    if(columns.integerValue < 1 )return false;
+    
+    NSLog(@"columns %i", columns.integerValue);
+    
+    //if(columns.integerValue < 1 )return false;
     
     if(![dbManager checkTableExists:@"saves"]){
         NSLog(@"no saves table exists");
@@ -286,6 +306,7 @@ DBManager *dbManager;
         [dbManager addColumn:@"saves" : @"timestamp" : @"int"];
         [dbManager addColumn:@"saves" : @"name" : @"char(140)"];
     }
+
     /*
      [msgJSON objectForKey:@"local_id"],
      [msgJSON objectForKey:@"rows"],
@@ -301,7 +322,7 @@ DBManager *dbManager;
     [json setObject:timestamp forKey:@"timestamp"];
     [json setObject:name forKey:@"name"];
     
-    
+    NSLog(@"step 2");
     
     int cellCount = rows.integerValue * columns.integerValue;
     NSString *tempArrayStr = @"";
@@ -314,11 +335,13 @@ DBManager *dbManager;
         if(i == 0)tempArrayStr = [NSString stringWithFormat:@"%@", tempStr];
         else tempArrayStr = [NSString stringWithFormat:@"%@,%@", tempArrayStr, tempStr];
     }
+    
+    NSLog(@"step 3");
+    
     tempArrayStr = [NSString stringWithFormat:@"{%@}",tempArrayStr];
     [json setObject:tempArrayStr forKey:@"bedstate"];
-    if([dbManager saveBed:json]){
-        [appGlobals setCurrentBedState:json];
-    };
+    [dbManager saveBedAutoSave:json];
+    [appGlobals setCurrentBedState:json];
     
     NSLog(@"json: %@, %@, %@, %@, %@", local_id, rows, columns, timestamp, name);
     NSLog(@"Temp Array String: %i, %i, %@", rows.integerValue, columns.integerValue, tempArrayStr);
