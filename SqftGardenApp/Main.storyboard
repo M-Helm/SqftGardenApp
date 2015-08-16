@@ -278,6 +278,7 @@
                     <connections>
                         <segue destination="5kp-sf-cE8" kind="relationship" relationship="rootViewController" id="QB4-Vf-Rim"/>
                         <segue destination="O9I-ib-dQX" kind="show" identifier="showMain" id="9xN-8o-myG"/>
+                        <segue destination="4Ea-ZV-gdQ" kind="show" identifier="showBedDetail" id="vbB-Zd-bn8"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S5J-h1-LRe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -290,5 +291,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="9xN-8o-myG"/>
+        <segue reference="vbB-Zd-bn8"/>
     </inferredMetricsTieBreakers>
 </document>
