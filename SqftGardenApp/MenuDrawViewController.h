@@ -13,6 +13,6 @@
 
 @property(nonatomic, weak) UIViewController* content;
 + (id) getSharedMenuDrawer;
-- (void) showEditView;
+//- (void) showEditView;
 
 @end

@@ -73,4 +73,7 @@ static NSMutableDictionary *currentBedState = nil;
     
     return currentBedState;
 }
+- (void) clearCurrentBedState{
+    if(currentBedState != nil)[currentBedState removeAllObjects];
+}
 @end

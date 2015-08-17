@@ -22,6 +22,8 @@ const int BED_LAYOUT_HEIGHT_BUFFER = 3;
 const int BED_LAYOUT_WIDTH_BUFFER = -17;
 NSString * const ROW_KEY = @"rows";
 NSString * const COLUMN_KEY = @"columns";
+float touchStartX = 0;
+float touchStartY = 0;
 
 
 
@@ -98,13 +100,26 @@ DBManager *dbManager;
 }
 
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 -(void)initViews{
+
+    [self.bedFrameView removeFromSuperview];
+    /*
+    //[self.view.subviews makeObjectsPerformSelector: @selector(removeFromSuperview)];
+    for(UIView *subview in self.view.subviews){
+        if([subview class] == [BedView class]){
+            [subview removeFromSuperview];
+        }
+        if([subview class] == [PlantIconView class]){
+            [subview removeFromSuperview];
+        }
+    }
+    */
+    
     int bedDimension = [self bedDimension];
     int frameDimension = bedDimension - 5;
     float xCo = self.view.bounds.size.width;
@@ -276,7 +291,7 @@ DBManager *dbManager;
 }
 
 - (BOOL) saveCurrentBed : (NSMutableDictionary *)bedJSON{
-    NSLog(@"step 1");
+    //NSLog(@"step 1");
     
     //[dbManager dropTable:@"saves"];
     NSString *local_id = @"1";
@@ -286,9 +301,9 @@ DBManager *dbManager;
     
     NSNumber *rows = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:ROW_KEY]integerValue]];
     
-    NSNumber *rowsD = [NSNumber numberWithInt:(int)[[self.bedStateDict valueForKey:ROW_KEY]integerValue]];
+    //NSNumber *rowsD = [NSNumber numberWithInt:(int)[[self.bedStateDict valueForKey:ROW_KEY]integerValue]];
     
-    NSLog(@"rows %i, rows const: %i", rows.integerValue, rowsD.integerValue);
+   // NSLog(@"rows %i, rows const: %i", rows.integerValue, rowsD.integerValue);
     
     
     //if(rows.integerValue < 1)return false;
@@ -296,11 +311,11 @@ DBManager *dbManager;
     
     NSNumber *columns = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:COLUMN_KEY] integerValue]];
     
-    NSLog(@"columns %i", columns.integerValue);
+   // NSLog(@"columns %i", columns.integerValue);
     
     //if(columns.integerValue < 1 )return false;
     
-    if(![dbManager checkTableExists:@"saves"]){
+    if([dbManager checkTableExists:@"saves"] == false){
         NSLog(@"no saves table exists");
         [dbManager createTable:@"saves"];
         [dbManager addColumn:@"saves" : @"rows" : @"int"];
@@ -309,15 +324,6 @@ DBManager *dbManager;
         [dbManager addColumn:@"saves" : @"timestamp" : @"int"];
         [dbManager addColumn:@"saves" : @"name" : @"char(140)"];
     }
-
-    /*
-     [msgJSON objectForKey:@"local_id"],
-     [msgJSON objectForKey:@"rows"],
-     [msgJSON objectForKey:@"columns"],
-     [msgJSON objectForKey:@"bedstate"],
-     [msgJSON objectForKey:@"timestamp"],
-     [msgJSON objectForKey:@"name"]];
-     */
     NSMutableDictionary *json = [[NSMutableDictionary alloc] init];
     [json setObject:local_id forKey:@"local_id"];
     [json setObject:rows forKey:@"rows"];
@@ -325,7 +331,7 @@ DBManager *dbManager;
     [json setObject:timestamp forKey:@"timestamp"];
     [json setObject:name forKey:@"name"];
     
-    NSLog(@"step 2");
+    //NSLog(@"step 2");
     
     int cellCount = rows.integerValue * columns.integerValue;
     NSString *tempArrayStr = @"";
@@ -334,25 +340,110 @@ DBManager *dbManager;
     for(int i=0; i<cellCount; i++){
         key = [NSString stringWithFormat:@"cell%i", i];
         int strId = (int)[[bedJSON valueForKey:key] integerValue];
-        
-            NSLog(@"strID: %i", strId);
-        
         tempStr = [NSString stringWithFormat:@"%i", strId];
         if(i == 0)tempArrayStr = [NSString stringWithFormat:@"%@", tempStr];
         else tempArrayStr = [NSString stringWithFormat:@"%@,%@", tempArrayStr, tempStr];
     }
     
-    NSLog(@"step 3");
+    //NSLog(@"step 3");
     
     tempArrayStr = [NSString stringWithFormat:@"[%@]",tempArrayStr];
     [json setObject:tempArrayStr forKey:@"bedstate"];
     [dbManager saveBedAutoSave:json];
     [appGlobals setCurrentBedState:json];
     
-    NSLog(@"json: %@, %@, %@, %@, %@", local_id, rows, columns, timestamp, name);
-    NSLog(@"Temp Array String: %i, %i, %@", rows.integerValue, columns.integerValue, tempArrayStr);
+   // NSLog(@"json: %@, %@, %@, %@, %@", local_id, rows, columns, timestamp, name);
+   // NSLog(@"Temp Array String: %i, %i, %@", rows.integerValue, columns.integerValue, tempArrayStr);
     return false;
 }
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"EDIT BED TOUCHES BEGAN");
+    UITouch *touch = [[event allTouches] anyObject];
+    UIView *touchedView;
+    if([touch view] != nil){
+        touchedView = [touch view];
+        touchedView.layer.borderWidth = 0;
+        touchedView.layer.cornerRadius = touchedView.frame.size.width / 2;
+        
+    }
+    if ([touchedView class] == [BedView class]){
+        CGPoint location = [touch locationInView:[self view]];
+        touchStartX = location.x - touchedView.center.x;
+        touchStartY = location.y - touchedView.center.y;
+    }
+}
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    UITouch *touch = [[event allTouches] anyObject];
+    UIView *touchedView;
+    if([touch view] != nil){
+        touchedView = [touch view];
+    }
+    if ([touchedView class] == [BedView class]){
+        touchedView.hidden=FALSE;
+        [self.view bringSubviewToFront:touchedView];
+        [self.bedFrameView bringSubviewToFront:touchedView];
+        
+        CGPoint location = [touch locationInView:[self view]];
+        location.x = location.x - touchStartX;
+        location.y = location.y - touchStartY;
+        touchedView.center = location;
+    }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    UITouch *touch = [[event allTouches] anyObject];
+    UIView *touchedView;
+    if([touch view] != nil){
+        touchedView = [touch view];
+    }
+    if ([touchedView class] == [BedView class]){
+        BedView *bedView = (BedView*)touchedView;
+        float xCo = 0;
+        float yCo = 0;
+        NSLog(@"TOUCHES ENDED");
+        NSLog(@"LOCATION END: x: %f y: %f", touchedView.center.x, touchedView.center.y);
+        
+        [self updatePlantBeds: bedView.index : 0];
+
+        xCo = bedView.center.x;
+        yCo = bedView.center.y;
+        
+        //float yUpperLimit = self.bedFrameView.center.y - self.bedFrameView.frame.size.height / 1.5;
+        float yLowerLimit = self.bedFrameView.center.y + self.bedFrameView.frame.size.height / 3;
+        float yUpperLimit = 0;
+        
+        if(yCo > yLowerLimit)return;
+        if(yCo < yUpperLimit)return;
+        
+        
+        int i = 0;
+        float leastSquare = 500000;
+        int targetCell = -1;
+        for(UIView *subview in self.bedFrameView.subviews){
+            CGPoint location = subview.center;
+            float bedX = fabs(location.x);
+            float bedY = fabs(location.y);
+            float deltaX = fabs(xCo - bedX);
+            float deltaY = fabs(yCo - bedY);
+            float deltaSquare = (deltaX * deltaX) + (deltaY * deltaY);
+            if(leastSquare > deltaSquare){
+                leastSquare = deltaSquare;
+                targetCell = i;
+            }
+            i++;
+        }
+        
+        //int plantId = plantView.plantId;
+        NSLog(@"delta squared: %f, %i, %i", leastSquare, targetCell, 3);
+        //NSNumber *selectedId = [NSNumber numberWithInt:plantId];
+        //NSString *key = [NSString stringWithFormat:@"cell%i",targetCell];
+        //[self.editBedVC.bedStateDict setValue:selectedId forKey: key];
+        
+        [self updatePlantBeds:targetCell:bedView.primaryPlant];
+    }
+}
+
 
 
 

@@ -305,7 +305,7 @@ NSString* const initPlantListName = @"init_plants.txt";
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             NSLog(@"msg sql ok");
-
+            exists = YES;
             /*
             if(sqlite3_step(statement) > 0){
                 NSLog(@"step > 0 %i", sqlite3_step(statement));

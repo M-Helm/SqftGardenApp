@@ -17,4 +17,5 @@
 @property (nonatomic) int bedDimension;
 - (void) setCurrentBedState:(NSMutableDictionary *)json;
 - (NSMutableDictionary *) getCurrentBedState;
+- (void) clearCurrentBedState;
 @end
