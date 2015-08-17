@@ -59,9 +59,9 @@ NSString* const initPlantListName = @"init_plants.txt";
     while (i < [jsonArray count]){
         NSMutableDictionary *json = [jsonArray objectAtIndex:i];
         json[@"timestamp"] = @0;
-        NSLog(@"json: %@ %@ %@", [json objectForKey:@"name"],
-                                 [json objectForKey:@"timestamp"],
-                                 [json objectForKey:@"icon"]);
+        //NSLog(@"json: %@ %@ %@", [json objectForKey:@"name"],
+        //                         [json objectForKey:@"timestamp"],
+        //                         [json objectForKey:@"icon"]);
         [self savePlantData:json];
         i++;
     }
@@ -93,7 +93,7 @@ NSString* const initPlantListName = @"init_plants.txt";
             != SQLITE_OK)
         {
             isSuccess = NO;
-            NSLog(@"Failed to add column");
+            //NSLog(@"Failed to add column");
         }
         //sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -297,15 +297,15 @@ NSString* const initPlantListName = @"init_plants.txt";
 
 - (BOOL) checkTableExists:(NSString *)tableName{
     const char *dbpath = [databasePath UTF8String];
-    BOOL exists = NO;
+    BOOL exists = false;
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
         NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM %@", tableName];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            NSLog(@"msg sql ok");
-            exists = YES;
+            //NSLog(@"msg sql ok");
+            exists = true;
             /*
             if(sqlite3_step(statement) > 0){
                 NSLog(@"step > 0 %i", sqlite3_step(statement));
@@ -315,8 +315,8 @@ NSString* const initPlantListName = @"init_plants.txt";
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 //nothing goes here yet
-                int rows = sqlite3_column_int(statement, 0);
-                NSLog(@"SQLite Rows in %@: %i", tableName, rows);
+                //int rows = sqlite3_column_int(statement, 0);
+                //NSLog(@"SQLite Rows in %@: %i", tableName, rows);
             }
         }
         sqlite3_finalize(statement);
@@ -346,7 +346,7 @@ NSString* const initPlantListName = @"init_plants.txt";
         {
             NSLog( @"Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(database) );
         }
-        NSLog(@"count %i", count);
+        //NSLog(@"count %i", count);
         // Finalize and close database.
         sqlite3_finalize(statement);
         sqlite3_close(database);

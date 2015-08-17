@@ -27,7 +27,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"Menu Prepare Segue");
+    //NSLog(@"Menu Prepare Segue");
     if([segue.identifier isEqualToString:@"embedMenu"])
     {
         MenuViewController* menuViewController = segue.destinationViewController;
@@ -43,7 +43,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"menu draw view loaded");
+    //NSLog(@"menu draw view loaded");
     
     [self.menuDrawViewController performSegueWithIdentifier:@"showMain" sender:self.menuDrawViewController];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(slideDrawer:) name:@"notifyButtonPressed" object:nil];

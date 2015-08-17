@@ -40,7 +40,7 @@ ApplicationGlobals *appGlobals;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([indexPath row] == 0){
-        NSLog(@"NEW BED segue Called");
+        //NSLog(@"NEW BED segue Called");
         [appGlobals clearCurrentBedState];
         [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
         return;

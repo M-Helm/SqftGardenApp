@@ -42,6 +42,7 @@
 		ADD47F291AF44A7A00D7E26F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADD47F281AF44A7A00D7E26F /* Main.storyboard */; };
 		ADD47F2C1AF44AB100D7E26F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F2B1AF44AB100D7E26F /* AppDelegate.m */; };
 		ADD47F2F1AF44E8700D7E26F /* BedView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F2E1AF44E8700D7E26F /* BedView.m */; };
+		ADE704221B826DA0002ABC74 /* SqftGardenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE704211B826DA0002ABC74 /* SqftGardenModel.m */; };
 		ADE78D9D1B6D8CDD00B5D320 /* OpenBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +111,8 @@
 		ADD47F2B1AF44AB100D7E26F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		ADD47F2D1AF44E6C00D7E26F /* BedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BedView.h; sourceTree = "<group>"; };
 		ADD47F2E1AF44E8700D7E26F /* BedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BedView.m; sourceTree = "<group>"; };
+		ADE704211B826DA0002ABC74 /* SqftGardenModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqftGardenModel.m; sourceTree = "<group>"; };
+		ADE704231B826DB6002ABC74 /* SqftGardenModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SqftGardenModel.h; sourceTree = "<group>"; };
 		ADE78D9B1B6D8C5B00B5D320 /* OpenBedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenBedViewController.h; sourceTree = "<group>"; };
 		ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenBedViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -155,6 +158,8 @@
 		AD1A91B61AF434DA00DC0983 /* SqftGardenApp */ = {
 			isa = PBXGroup;
 			children = (
+				ADE704231B826DB6002ABC74 /* SqftGardenModel.h */,
+				ADE704211B826DA0002ABC74 /* SqftGardenModel.m */,
 				ADE78D9B1B6D8C5B00B5D320 /* OpenBedViewController.h */,
 				ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */,
 				AD15F26A1B67EE77003A010D /* ApplicationSetup.h */,
@@ -359,6 +364,7 @@
 				AD2BB4FF1B025EC300E1541C /* SelectPlantView.m in Sources */,
 				ADD47F261AF44A5700D7E26F /* MenuDrawViewController.m in Sources */,
 				AD4B98D21B0E355100EF6F96 /* DBManager.m in Sources */,
+				ADE704221B826DA0002ABC74 /* SqftGardenModel.m in Sources */,
 				ADCC87351B04ED4C003F1A08 /* ApplicationGlobals.m in Sources */,
 				ADE78D9D1B6D8CDD00B5D320 /* OpenBedViewController.m in Sources */,
 				AD0E2DF51B1412C800535139 /* AttributesPopoverVC.m in Sources */,

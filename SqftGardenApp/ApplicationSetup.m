@@ -20,6 +20,8 @@ DBManager *dbManager;
 -(BOOL)createDB{
     dbManager = [DBManager getSharedDBManager];
     //[dbManager dropTable:@"plants"];
+    //[dbManager dropTable:@"saves"];
+    
     [dbManager createTable:@"plants"];
     [dbManager addColumn:@"plants" : @"name" : @"char(50)"];
     [dbManager addColumn:@"plants" : @"timestamp" : @"int"];
@@ -30,6 +32,17 @@ DBManager *dbManager;
     if([dbManager checkTableExists:@"plants"]){
         [dbManager getInitPlants];
     }
+    
+    if([dbManager checkTableExists:@"saves"] == false){
+        NSLog(@"no saves table exists");
+        [dbManager createTable:@"saves"];
+        [dbManager addColumn:@"saves" : @"rows" : @"int"];
+        [dbManager addColumn:@"saves" : @"columns" : @"int" ];
+        [dbManager addColumn:@"saves" : @"bedstate" : @"varchar" ];
+        [dbManager addColumn:@"saves" : @"timestamp" : @"int"];
+        [dbManager addColumn:@"saves" : @"name" : @"char(140)"];
+    }
+    
     return YES;
 }
 

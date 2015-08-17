@@ -22,12 +22,9 @@ const int BED_LAYOUT_HEIGHT_BUFFER = 3;
 const int BED_LAYOUT_WIDTH_BUFFER = -17;
 NSString * const ROW_KEY = @"rows";
 NSString * const COLUMN_KEY = @"columns";
-float touchStartX = 0;
-float touchStartY = 0;
+float evStartX = 0;
+float evStartY = 0;
 
-
-
-//UIView *bedFrameView;
 SelectPlantView *selectPlantView;
 
 ApplicationGlobals *appGlobals;
@@ -41,16 +38,28 @@ DBManager *dbManager;
 
 - (void) viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.hidesBackButton = YES;
     
     if (self.bedStateDict == nil){
         self.bedStateDict = [[NSMutableDictionary alloc]init];
         self.bedStateDict = [appGlobals getCurrentBedState];
     }
+    //self.barIcon0 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:nil action:nil];
+    //self.barIcon0 set
+    //self.barIcon0 = initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:nil action:nil];
+    //NSString *key = [NSString stringWithFormat:@"cell%i",0];
+    //int plantId = (int)[[self.bedStateDict valueForKey:key] integerValue];
+    //NSLog(@"plant Id from globals = %i", plantId);
     
     
-    NSString *key = [NSString stringWithFormat:@"cell%i",0];
-    int plantId = (int)[[self.bedStateDict valueForKey:key] integerValue];
-    NSLog(@"plant Id from globals = %i", plantId);
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    btn.frame = CGRectMake(0, 0, 30, 30);
+    //[btn setImage:[UIImage imageNamed:@"someImage.png"] forState:UIControlStateNormal];
+    [btn addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *Item = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    self.toolbarItems   = [NSArray arrayWithObject:Item];
     
     
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;
@@ -281,7 +290,7 @@ DBManager *dbManager;
     //save plant selection to dict
     NSNumber *selectedId = [NSNumber numberWithInt:plantId];
     NSString *key = [NSString stringWithFormat:@"cell%i",updatedCell];
-    NSLog(@"Insert Function: %i , %@", plantId, key);
+    //NSLog(@"Insert Function: %i , %@", plantId, key);
     [self.bedStateDict setValue:selectedId forKey: key];
     
     self.bedViewArray = [self buildBedViewArray];
@@ -291,49 +300,32 @@ DBManager *dbManager;
 }
 
 - (BOOL) saveCurrentBed : (NSMutableDictionary *)bedJSON{
-    //NSLog(@"step 1");
-    
-    //[dbManager dropTable:@"saves"];
+
+    //temp magic #
     NSString *local_id = @"1";
+    
+    //get standard save info from arg
     long ts = (long)(NSTimeInterval)([[NSDate date] timeIntervalSince1970]);
     NSString *timestamp = [NSString stringWithFormat:@"%ld", ts];
-    NSString *name = @"autoSave";
-    
+    NSString *name = [bedJSON valueForKey:@"name"];
+    if(name == nil)name = @"autoSave";
     NSNumber *rows = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:ROW_KEY]integerValue]];
-    
-    //NSNumber *rowsD = [NSNumber numberWithInt:(int)[[self.bedStateDict valueForKey:ROW_KEY]integerValue]];
-    
-   // NSLog(@"rows %i, rows const: %i", rows.integerValue, rowsD.integerValue);
-    
-    
-    //if(rows.integerValue < 1)return false;
-    
-    
     NSNumber *columns = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:COLUMN_KEY] integerValue]];
     
-   // NSLog(@"columns %i", columns.integerValue);
+    //fail if cell structure is fucked
+    if(rows.integerValue < 1)return false;
+    if(columns.integerValue < 1 )return false;
     
-    //if(columns.integerValue < 1 )return false;
-    
-    if([dbManager checkTableExists:@"saves"] == false){
-        NSLog(@"no saves table exists");
-        [dbManager createTable:@"saves"];
-        [dbManager addColumn:@"saves" : @"rows" : @"int"];
-        [dbManager addColumn:@"saves" : @"columns" : @"int" ];
-        [dbManager addColumn:@"saves" : @"bedstate" : @"char(255)" ];
-        [dbManager addColumn:@"saves" : @"timestamp" : @"int"];
-        [dbManager addColumn:@"saves" : @"name" : @"char(140)"];
-    }
+    //create json pkg for db
     NSMutableDictionary *json = [[NSMutableDictionary alloc] init];
     [json setObject:local_id forKey:@"local_id"];
     [json setObject:rows forKey:@"rows"];
     [json setObject:columns forKey:@"columns"];
     [json setObject:timestamp forKey:@"timestamp"];
     [json setObject:name forKey:@"name"];
-    
-    //NSLog(@"step 2");
-    
-    int cellCount = rows.integerValue * columns.integerValue;
+
+    //compile an array for the bedstate
+    int cellCount = (int)(rows.integerValue * columns.integerValue);
     NSString *tempArrayStr = @"";
     NSString *tempStr = @"";
     NSString *key = @"";
@@ -344,9 +336,7 @@ DBManager *dbManager;
         if(i == 0)tempArrayStr = [NSString stringWithFormat:@"%@", tempStr];
         else tempArrayStr = [NSString stringWithFormat:@"%@,%@", tempArrayStr, tempStr];
     }
-    
-    //NSLog(@"step 3");
-    
+
     tempArrayStr = [NSString stringWithFormat:@"[%@]",tempArrayStr];
     [json setObject:tempArrayStr forKey:@"bedstate"];
     [dbManager saveBedAutoSave:json];
@@ -363,14 +353,14 @@ DBManager *dbManager;
     UIView *touchedView;
     if([touch view] != nil){
         touchedView = [touch view];
-        touchedView.layer.borderWidth = 0;
-        touchedView.layer.cornerRadius = touchedView.frame.size.width / 2;
+        //touchedView.layer.borderWidth = 0;
+        //touchedView.layer.cornerRadius = touchedView.frame.size.width / 2;
         
     }
     if ([touchedView class] == [BedView class]){
         CGPoint location = [touch locationInView:[self view]];
-        touchStartX = location.x - touchedView.center.x;
-        touchStartY = location.y - touchedView.center.y;
+        evStartX = location.x - touchedView.center.x;
+        evStartY = location.y - touchedView.center.y;
     }
 }
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -383,10 +373,9 @@ DBManager *dbManager;
         touchedView.hidden=FALSE;
         [self.view bringSubviewToFront:touchedView];
         [self.bedFrameView bringSubviewToFront:touchedView];
-        
         CGPoint location = [touch locationInView:[self view]];
-        location.x = location.x - touchStartX;
-        location.y = location.y - touchStartY;
+        location.x = location.x - evStartX;
+        location.y = location.y - evStartY;
         touchedView.center = location;
     }
 }
@@ -399,23 +388,17 @@ DBManager *dbManager;
     }
     if ([touchedView class] == [BedView class]){
         BedView *bedView = (BedView*)touchedView;
-        float xCo = 0;
-        float yCo = 0;
-        NSLog(@"TOUCHES ENDED");
-        NSLog(@"LOCATION END: x: %f y: %f", touchedView.center.x, touchedView.center.y);
-        
+        //remove the bed from it's old spot
         [self updatePlantBeds: bedView.index : 0];
 
-        xCo = bedView.center.x;
-        yCo = bedView.center.y;
+        float xCo = bedView.center.x;
+        float yCo = bedView.center.y;
         
-        //float yUpperLimit = self.bedFrameView.center.y - self.bedFrameView.frame.size.height / 1.5;
         float yLowerLimit = self.bedFrameView.center.y + self.bedFrameView.frame.size.height / 3;
         float yUpperLimit = 0;
         
         if(yCo > yLowerLimit)return;
         if(yCo < yUpperLimit)return;
-        
         
         int i = 0;
         float leastSquare = 500000;
@@ -433,13 +416,6 @@ DBManager *dbManager;
             }
             i++;
         }
-        
-        //int plantId = plantView.plantId;
-        NSLog(@"delta squared: %f, %i, %i", leastSquare, targetCell, 3);
-        //NSNumber *selectedId = [NSNumber numberWithInt:plantId];
-        //NSString *key = [NSString stringWithFormat:@"cell%i",targetCell];
-        //[self.editBedVC.bedStateDict setValue:selectedId forKey: key];
-        
         [self updatePlantBeds:targetCell:bedView.primaryPlant];
     }
 }
