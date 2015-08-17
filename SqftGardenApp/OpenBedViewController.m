@@ -100,21 +100,20 @@ NSMutableArray *saveBedJson;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([indexPath row] == 0){
+        //returns us to the main main as "0" is the cancel button position
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
     }
-    NSLog(@"ShowMain segue Called, %@", self.navigationController);
-    [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
-    //[sharedMenuDrawer showEditView];
-    //[self.view removeFromSuperview];
+    //int index = [indexPath row] - 1;
+    //NSLog(@"ShowMain segue Called, json size: %i, row # %i", saveBedJson.count, index);
+    //set the current bed json pkg
+    NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
+    if(saveBedJson.count > [indexPath row] - 1)json = saveBedJson[[indexPath row] - 1];
+    //json = saveBedJson[index];
+    [appGlobals setCurrentBedState:json];
     
-    //NSLog(@"%i", (int)indexPath.row);
-    //json = [matchBucket objectAtIndex:[indexPath row]];
-    //NSLog(@"%@", [json objectForKey:@"fb_id"]);
-    //[appGlobals setMessagingUserFB_ID:[json objectForKey:@"fb_id"]];
-    //[appGlobals setMessagingUser_Pic:[json objectForKey:@"pic_url"]];
-    //[appGlobals setMessagingUser_screen_name:[json objectForKey:@"screen_name"]];
-    //[self.navigationController performSegueWithIdentifier:@"showMessageDetail" sender:self];
+    [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
+
 }
 
 

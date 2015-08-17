@@ -262,7 +262,8 @@ NSString* const initPlantListName = @"init_plants.txt";
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
         //NSString *querySQL = [NSString stringWithFormat:@"SELECT local_id, timestamp, name FROM %@", tableName];
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT local_id, timestamp, name FROM %@", tableName];
+        
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT local_id, timestamp, name, bedstate FROM %@", tableName];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
@@ -277,9 +278,12 @@ NSString* const initPlantListName = @"init_plants.txt";
                                        (const char *) sqlite3_column_text(statement, 1)];
                 NSString *saveId = [[NSString alloc] initWithUTF8String:
                                            (const char *) sqlite3_column_text(statement, 0)];
+                NSString *saveState = [[NSString alloc] initWithUTF8String:
+                                    (const char *) sqlite3_column_text(statement, 3)];
                 [json setObject:saveName forKey:@"name"];
                 [json setObject:saveTS forKey:@"timestamp"];
                 [json setObject:saveId forKey:@"local_id"];
+                [json setObject:saveState forKey:@"bedstate"],
                 [returnJson addObject:json];
                 NSLog(@"JSON added from SAVEs");
                 

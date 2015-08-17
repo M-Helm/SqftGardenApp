@@ -40,8 +40,10 @@ DBManager *dbManager;
 - (void) viewDidLoad {
     [super viewDidLoad];
     
-    if (self.bedStateDict == nil)self.bedStateDict = [[NSMutableDictionary alloc]init];
-    //self.bedStateDict = [appGlobals getCurrentBedState];
+    if (self.bedStateDict == nil){
+        self.bedStateDict = [[NSMutableDictionary alloc]init];
+        self.bedStateDict = [appGlobals getCurrentBedState];
+    }
     
     
     NSString *key = [NSString stringWithFormat:@"cell%i",0];
@@ -52,12 +54,6 @@ DBManager *dbManager;
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
     
-    NSNumber *nRows = [NSNumber numberWithInt: self.bedRowCount];
-    NSNumber *nCols = [NSNumber numberWithInt: self.bedColumnCount];
-    [self.bedStateDict setObject: nRows forKey:ROW_KEY];
-    [self.bedStateDict setObject: nCols forKey:COLUMN_KEY];
-    
-    
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
@@ -65,6 +61,10 @@ DBManager *dbManager;
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
     
+    NSNumber *nRows = [NSNumber numberWithInt: self.bedRowCount];
+    NSNumber *nCols = [NSNumber numberWithInt: self.bedColumnCount];
+    [self.bedStateDict setObject:nRows forKey:ROW_KEY];
+    [self.bedStateDict setObject:nCols forKey:COLUMN_KEY];
     [self initViews];
 }
 
@@ -286,7 +286,10 @@ DBManager *dbManager;
     
     NSNumber *rows = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:ROW_KEY]integerValue]];
     
-    NSLog(@"rows %i", rows.integerValue);
+    NSNumber *rowsD = [NSNumber numberWithInt:(int)[[self.bedStateDict valueForKey:ROW_KEY]integerValue]];
+    
+    NSLog(@"rows %i, rows const: %i", rows.integerValue, rowsD.integerValue);
+    
     
     //if(rows.integerValue < 1)return false;
     
@@ -331,6 +334,9 @@ DBManager *dbManager;
     for(int i=0; i<cellCount; i++){
         key = [NSString stringWithFormat:@"cell%i", i];
         int strId = (int)[[bedJSON valueForKey:key] integerValue];
+        
+            NSLog(@"strID: %i", strId);
+        
         tempStr = [NSString stringWithFormat:@"%i", strId];
         if(i == 0)tempArrayStr = [NSString stringWithFormat:@"%@", tempStr];
         else tempArrayStr = [NSString stringWithFormat:@"%@,%@", tempArrayStr, tempStr];
@@ -338,7 +344,7 @@ DBManager *dbManager;
     
     NSLog(@"step 3");
     
-    tempArrayStr = [NSString stringWithFormat:@"{%@}",tempArrayStr];
+    tempArrayStr = [NSString stringWithFormat:@"[%@]",tempArrayStr];
     [json setObject:tempArrayStr forKey:@"bedstate"];
     [dbManager saveBedAutoSave:json];
     [appGlobals setCurrentBedState:json];
