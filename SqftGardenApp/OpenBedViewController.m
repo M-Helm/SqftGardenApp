@@ -10,6 +10,7 @@
 #import "DBManager.h"
 //#import "MenuDrawViewController.h"
 #import "ApplicationGlobals.h"
+#import "SqftGardenModel.h"
 
 
 @interface OpenBedViewController ()
@@ -41,8 +42,8 @@ NSMutableArray *saveBedJson;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    int i = saveBedJson.count;
-    NSLog(@"cell count %i",i);
+    int i = (int)saveBedJson.count;
+    //NSLog(@"cell count %i",i);
     if(i<2)i=2;
     return i;
 }
@@ -60,10 +61,6 @@ NSMutableArray *saveBedJson;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    //NSLog(@"count: %d", (int)[matchBucket count]);
-    //if([matchBucket count] < 1)return cell;
-    //[self tableView:self.tableView numberOfRowsInSection:(int)[matchBucket count]];
-    //json = [matchBucket objectAtIndex:[indexPath row]];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:10];
     //UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:9];
     //imageView.layer.cornerRadius = imageView.bounds.size.width / 2.0;
@@ -105,15 +102,23 @@ NSMutableArray *saveBedJson;
         return;
     }
     //int index = [indexPath row] - 1;
-    //NSLog(@"ShowMain segue Called, json size: %i, row # %i", saveBedJson.count, index);
     //set the current bed json pkg
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     if(saveBedJson.count > [indexPath row] - 1)json = saveBedJson[[indexPath row] - 1];
     //json = saveBedJson[index];
-    [appGlobals setCurrentBedState:json];
+    //NSLog(@"ShowMain segue Called, json size: %lu, row # %li", (unsigned long)saveBedJson.count, (long)[indexPath row]);
+    //[appGlobals setCurrentBedState:json];
+    [appGlobals clearCurrentGardenModel];
+    SqftGardenModel *model = [[SqftGardenModel alloc] initWithDict:json];
+    [appGlobals setCurrentGardenModel:model];
     
     [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
 
+}
+
+-(SqftGardenModel *)compileJSONToModel : (NSMutableDictionary *)dict{
+    SqftGardenModel *model = [[SqftGardenModel alloc] initWithDict: dict];
+    return model;
 }
 
 

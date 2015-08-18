@@ -11,6 +11,7 @@
 #import "ApplicationGlobals.h"
 #import "DBManager.h"
 
+
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
 @interface EditBedViewController ()
@@ -35,15 +36,32 @@ DBManager *dbManager;
     self.bedColumnCount = columns;
     return self;
 }
+- (id) initWithModel:(SqftGardenModel *)model {
+    self.bedRowCount = model.rows;
+    self.bedColumnCount = model.columns;
+    self.currentGardenModel = model;
+    return self;
+}
 
 - (void) viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
+    //NSLog(@"EDIT BED VIEW DID LOAD");
+    appGlobals = [ApplicationGlobals getSharedGlobals];
+    dbManager = [DBManager getSharedDBManager];
+    appGlobals.selectedCell = -1;
     
-    if (self.bedStateDict == nil){
-        self.bedStateDict = [[NSMutableDictionary alloc]init];
-        self.bedStateDict = [appGlobals getCurrentBedState];
+    if (self.currentGardenModel == nil){
+        //NSLog(@"GARDEN MODEL INITIALIZED");
+        self.currentGardenModel = [[SqftGardenModel alloc] init];
+        NSLog(@"Garden Model 1: %@", self.currentGardenModel);
+        [self.currentGardenModel showModelInfo];
     }
+    if ([appGlobals getCurrentGardenModel] != nil){
+        self.currentGardenModel = [appGlobals getCurrentGardenModel];
+        NSLog(@"Garden Model 2: %@", self.currentGardenModel);
+    }
+    
     //self.barIcon0 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:nil action:nil];
     //self.barIcon0 set
     //self.barIcon0 = initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:nil action:nil];
@@ -68,14 +86,16 @@ DBManager *dbManager;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
-    appGlobals = [ApplicationGlobals getSharedGlobals];
-    dbManager = [DBManager getSharedDBManager];
-    appGlobals.selectedCell = -1;
     
-    NSNumber *nRows = [NSNumber numberWithInt: self.bedRowCount];
-    NSNumber *nCols = [NSNumber numberWithInt: self.bedColumnCount];
-    [self.bedStateDict setObject:nRows forKey:ROW_KEY];
-    [self.bedStateDict setObject:nCols forKey:COLUMN_KEY];
+    //NSNumber *nRows = [NSNumber numberWithInt: self.bedRowCount];
+    //NSNumber *nCols = [NSNumber numberWithInt: self.bedColumnCount];
+    [self.currentGardenModel setRows:self.bedRowCount];
+    [self.currentGardenModel setColumns:self.bedColumnCount];
+    
+    //[self.currentGardenModel setCurrentBedState : [appGlobals getCurrentBedState]];
+    
+    //[self.bedStateDict setObject:nRows forKey:ROW_KEY];
+    //[self.bedStateDict setObject:nCols forKey:COLUMN_KEY];
     [self initViews];
 }
 
@@ -117,6 +137,7 @@ DBManager *dbManager;
 -(void)initViews{
 
     [self.bedFrameView removeFromSuperview];
+    //[self.currentGardenModel setCurrentBedState : [appGlobals getCurrentBedState]];
     /*
     //[self.view.subviews makeObjectsPerformSelector: @selector(removeFromSuperview)];
     for(UIView *subview in self.view.subviews){
@@ -144,8 +165,11 @@ DBManager *dbManager;
     int i = 0;
     //NSMutableArray *tempArray = [[NSMutableArray alloc]init];
     for (UIView *subview in self.bedFrameView.subviews){
-        NSString *key = [NSString stringWithFormat:@"cell%i",i];
-        int plantId = (int)[[self.bedStateDict valueForKey:key] integerValue];
+        //NSString *key = [NSString stringWithFormat:@"cell%i",i];
+        
+        //int plantId = (int)[[self.bedStateDict valueForKey:key] integerValue];
+        int plantId = [self.currentGardenModel getPlantIdForCell:i];
+        //NSLog(@"init views: cell %i id %i", i, plantId);
         
         PlantIconView *plantIcon = [[PlantIconView alloc]
                                     initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : plantId];
@@ -232,23 +256,34 @@ DBManager *dbManager;
     int rowNumber = 0;
     int columnNumber = 0;
     int cell = 0;
-    //NSNumber *plantId = [NSNumber numberWithInt:0];
     int cellCount = self.bedRowCount * self.bedColumnCount;
-    if(self.bedStateDict == nil){
-        self.bedStateDict = [[NSMutableDictionary alloc]init];
+
+    if(self.currentGardenModel == nil){
+        self.currentGardenModel = [[SqftGardenModel alloc] init];
+        NSLog(@"dict initialized in build method");
+        NSLog(@"GARDEN MODEL INITIALIZED");
     }
-    if([self.bedStateDict objectForKey:@"cell0"] < 0){
+    if([self.currentGardenModel getPlantIdForCell:0] < 0){
         //NSLog(@"dict initialized");
         for(int i=0; i<cellCount; i++){
-            NSString *key = [NSString stringWithFormat:@"cell%i",i];
-            [self.bedStateDict setValue:0 forKey: key];
+            [self.currentGardenModel setPlantIdForCell:i :0];
+            NSLog(@"dict initialized on less than zero");
         }
     }
+    /*
+    if([self.currentGardenModel getPlantIdForCell:0] == nil){
+        //NSLog(@"dict initialized");
+        for(int i=0; i<cellCount; i++){
+            [self.currentGardenModel setPlantIdForCell:i :0];
+            NSLog(@"dict initialized on nil");
+        }
+    }
+     */
     for(int i=0; i<self.bedRowCount; i++){
         while(columnNumber < self.bedColumnCount){
-            NSString *key = [NSString stringWithFormat:@"cell%i",cell];
-            int plantId = (int)[[self.bedStateDict valueForKey:key] integerValue];
-            //NSLog(@"Get Function: %i , %@", plantId, key);
+            int plantId = [self.currentGardenModel getPlantIdForCell:cell];
+            //plantId = 3;
+            //NSLog(@"Get Function: %i , %i", plantId, cell);
             BedView *bed = [[BedView alloc] initWithFrame:CGRectMake(1 + (bedDimension*columnNumber),
                                                                      (bedDimension*rowNumber)+1, bedDimension, bedDimension): plantId];
             bed.index = cell;
@@ -288,18 +323,23 @@ DBManager *dbManager;
 
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId{
     //save plant selection to dict
-    NSNumber *selectedId = [NSNumber numberWithInt:plantId];
-    NSString *key = [NSString stringWithFormat:@"cell%i",updatedCell];
+    //NSNumber *selectedId = [NSNumber numberWithInt:plantId];
+    //NSString *key = [NSString stringWithFormat:@"cell%i",updatedCell];
     //NSLog(@"Insert Function: %i , %@", plantId, key);
-    [self.bedStateDict setValue:selectedId forKey: key];
+    //[self.bedStateDict setValue:selectedId forKey: key];
+    
+    [self.currentGardenModel setPlantIdForCell:updatedCell :plantId];
     
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
-    [self saveCurrentBed:self.bedStateDict];
+    //[self saveCurrentBed:self.bedStateDict];
+    [self saveCurrentBed: self.currentGardenModel];
+    [appGlobals setCurrentGardenModel:self.currentGardenModel];
+    [self.currentGardenModel showModelInfo];
     [self initViews];
 }
 
-- (BOOL) saveCurrentBed : (NSMutableDictionary *)bedJSON{
+- (BOOL) saveCurrentBed : (SqftGardenModel *)gardenJSON{
 
     //temp magic #
     NSString *local_id = @"1";
@@ -307,10 +347,13 @@ DBManager *dbManager;
     //get standard save info from arg
     long ts = (long)(NSTimeInterval)([[NSDate date] timeIntervalSince1970]);
     NSString *timestamp = [NSString stringWithFormat:@"%ld", ts];
-    NSString *name = [bedJSON valueForKey:@"name"];
+    NSString *name = gardenJSON.name;
+    //NSString *name = [bedJSON valueForKey:@"name"];
     if(name == nil)name = @"autoSave";
-    NSNumber *rows = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:ROW_KEY]integerValue]];
-    NSNumber *columns = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:COLUMN_KEY] integerValue]];
+    //NSNumber *rows = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:ROW_KEY]integerValue]];
+    //NSNumber *columns = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:COLUMN_KEY] integerValue]];
+    NSNumber *rows = [NSNumber numberWithInt: gardenJSON.rows];
+    NSNumber *columns = [NSNumber numberWithInt: gardenJSON.columns];
     
     //fail if cell structure is fucked
     if(rows.integerValue < 1)return false;
@@ -325,30 +368,25 @@ DBManager *dbManager;
     [json setObject:name forKey:@"name"];
 
     //compile an array for the bedstate
-    int cellCount = (int)(rows.integerValue * columns.integerValue);
-    NSString *tempArrayStr = @"";
-    NSString *tempStr = @"";
-    NSString *key = @"";
-    for(int i=0; i<cellCount; i++){
-        key = [NSString stringWithFormat:@"cell%i", i];
-        int strId = (int)[[bedJSON valueForKey:key] integerValue];
-        tempStr = [NSString stringWithFormat:@"%i", strId];
-        if(i == 0)tempArrayStr = [NSString stringWithFormat:@"%@", tempStr];
-        else tempArrayStr = [NSString stringWithFormat:@"%@,%@", tempArrayStr, tempStr];
-    }
-
-    tempArrayStr = [NSString stringWithFormat:@"[%@]",tempArrayStr];
+    //NSString *tempArrayStr = [appGlobals getBedStateString];
+    NSString *tempArrayStr = [self.currentGardenModel getBedStateArrayString];
+    
+    //NSLog(@"STRING FOR SAVING:::::::: %@", tempArrayStr);
+    
     [json setObject:tempArrayStr forKey:@"bedstate"];
     [dbManager saveBedAutoSave:json];
-    [appGlobals setCurrentBedState:json];
+    //[appGlobals setCurrentBedState:json];
+    //[self.currentGardenModel setCurrentBedState:json];
+    //[appGlobals updateCurrentBedState:self.currentGardenModel];
     
-   // NSLog(@"json: %@, %@, %@, %@, %@", local_id, rows, columns, timestamp, name);
-   // NSLog(@"Temp Array String: %i, %i, %@", rows.integerValue, columns.integerValue, tempArrayStr);
+    //NSLog(@"json: %@, %@, %@, %@, %@", local_id, rows, columns, timestamp, name);
+    //NSLog(@"Temp Array String: %li, %li, %@", (long)[rows integerValue], (long)[columns integerValue], tempArrayStr);
+    [appGlobals setCurrentGardenModel:self.currentGardenModel];
     return false;
 }
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"EDIT BED TOUCHES BEGAN");
+   // NSLog(@"EDIT BED TOUCHES BEGAN");
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){

@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SqftGardenModel.h"
 
 
 @interface EditBedViewController : UIViewController
@@ -13,11 +14,12 @@
 @property(nonatomic) int bedColumnCount;
 @property(nonatomic) int bedCellCount;
 @property(nonatomic) NSMutableArray *bedViewArray;
-@property(nonatomic) NSMutableDictionary *bedStateDict;
+//@property(nonatomic) NSMutableDictionary *bedStateDict;
 @property(nonatomic) NSMutableArray *selectPlantArray;
 @property(nonatomic) UIView *bedFrameView;
 @property(nonatomic) UIView *selectMessageView;
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;
+@property(nonatomic) SqftGardenModel *currentGardenModel;
 
 @end
 

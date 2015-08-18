@@ -43,6 +43,7 @@
 		ADD47F2C1AF44AB100D7E26F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F2B1AF44AB100D7E26F /* AppDelegate.m */; };
 		ADD47F2F1AF44E8700D7E26F /* BedView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F2E1AF44E8700D7E26F /* BedView.m */; };
 		ADE704221B826DA0002ABC74 /* SqftGardenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE704211B826DA0002ABC74 /* SqftGardenModel.m */; };
+		ADE704261B83B899002ABC74 /* OpenGardenNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE704251B83B899002ABC74 /* OpenGardenNavigationController.m */; };
 		ADE78D9D1B6D8CDD00B5D320 /* OpenBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -113,6 +114,8 @@
 		ADD47F2E1AF44E8700D7E26F /* BedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BedView.m; sourceTree = "<group>"; };
 		ADE704211B826DA0002ABC74 /* SqftGardenModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqftGardenModel.m; sourceTree = "<group>"; };
 		ADE704231B826DB6002ABC74 /* SqftGardenModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SqftGardenModel.h; sourceTree = "<group>"; };
+		ADE704241B83B88B002ABC74 /* OpenGardenNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGardenNavigationController.h; sourceTree = "<group>"; };
+		ADE704251B83B899002ABC74 /* OpenGardenNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGardenNavigationController.m; sourceTree = "<group>"; };
 		ADE78D9B1B6D8C5B00B5D320 /* OpenBedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenBedViewController.h; sourceTree = "<group>"; };
 		ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenBedViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -172,6 +175,8 @@
 				ADCC87341B04ED4C003F1A08 /* ApplicationGlobals.m */,
 				ADCC87301B03C061003F1A08 /* MainNavigationController.h */,
 				ADCC87311B03C06D003F1A08 /* MainNavigationController.m */,
+				ADE704241B83B88B002ABC74 /* OpenGardenNavigationController.h */,
+				ADE704251B83B899002ABC74 /* OpenGardenNavigationController.m */,
 				ADCC872A1B03B1F1003F1A08 /* PlantIconView.h */,
 				ADCC872B1B03B202003F1A08 /* PlantIconView.m */,
 				AD2BB4FD1B025EB000E1541C /* SelectPlantView.h */,
@@ -367,6 +372,7 @@
 				ADE704221B826DA0002ABC74 /* SqftGardenModel.m in Sources */,
 				ADCC87351B04ED4C003F1A08 /* ApplicationGlobals.m in Sources */,
 				ADE78D9D1B6D8CDD00B5D320 /* OpenBedViewController.m in Sources */,
+				ADE704261B83B899002ABC74 /* OpenGardenNavigationController.m in Sources */,
 				AD0E2DF51B1412C800535139 /* AttributesPopoverVC.m in Sources */,
 				ADCC872C1B03B202003F1A08 /* PlantIconView.m in Sources */,
 				ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */,

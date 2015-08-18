@@ -40,7 +40,7 @@ PlantIconView *touchedIcon;
 }
 
 - (void)commonInit {
-    NSLog(@"selectPlantViewcreated");
+    //NSLog(@"selectPlantViewcreated");
     self.backgroundColor = [UIColor whiteColor];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     [self setDefaultParameters];

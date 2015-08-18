@@ -9,13 +9,17 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "PlantIconView.h"
+#import "SqftGardenModel.h"
 
 @interface ApplicationGlobals : NSObject
 + (ApplicationGlobals*)getSharedGlobals;
 @property (nonatomic) int selectedCell;
 @property (nonatomic) PlantIconView* selectedPlant;
 @property (nonatomic) int bedDimension;
-- (void) setCurrentBedState:(NSMutableDictionary *)json;
-- (NSMutableDictionary *) getCurrentBedState;
-- (void) clearCurrentBedState;
+@property (nonatomic) SqftGardenModel* globalGardenModel;
+- (SqftGardenModel *)getCurrentGardenModel;
+- (void) setCurrentGardenModel:(SqftGardenModel *)currentGardenModel;
+- (void) clearCurrentGardenModel;
+
+
 @end

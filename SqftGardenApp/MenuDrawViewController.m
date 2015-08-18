@@ -34,6 +34,10 @@
         menuViewController.menuDrawerViewController = self;
         self.menuDrawViewController = menuViewController;
     }
+    if([segue.identifier isEqualToString:@"showMain"])
+    {
+        NSLog(@"PREPARE CALLED....");
+    }
 }
 
 - (void)showEditView{

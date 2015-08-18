@@ -290,10 +290,10 @@
             </objects>
             <point key="canvasLocation" x="1572" y="1361"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Open Garden Navigation Controller-->
         <scene sceneID="xzD-Nb-Osi">
             <objects>
-                <navigationController id="anL-yc-Mgw" sceneMemberID="viewController">
+                <navigationController id="anL-yc-Mgw" customClass="OpenGardenNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="NED-fm-0gr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -313,7 +313,7 @@
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9xN-8o-myG"/>
-        <segue reference="vbB-Zd-bn8"/>
+        <segue reference="Pb5-za-BjP"/>
+        <segue reference="rcr-6R-xSl"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -10,14 +10,14 @@
 
 
 
+
 @interface ApplicationGlobals()
 
 @end
 
 @implementation ApplicationGlobals
 
-static ApplicationGlobals *applicationGlobals = nil;
-static NSMutableDictionary *currentBedState = nil;
+//static SqftGardenModel *currentBedModel = nil;
 
 + (id)getSharedGlobals {
     static ApplicationGlobals *appGlobals = nil;
@@ -30,34 +30,18 @@ static NSMutableDictionary *currentBedState = nil;
     return appGlobals;
 }
 
-- (void) setCurrentBedState:(NSMutableDictionary *)json{
-    NSLog(@"setCurrentBedState Called");
-    if(currentBedState == nil){
-        currentBedState = [[NSMutableDictionary alloc] init];
-    }
-    currentBedState = json;
+- (SqftGardenModel *)getCurrentGardenModel{
+    return self.globalGardenModel;
 }
 
-- (NSMutableDictionary *) getCurrentBedState{
-    if(currentBedState == nil){
-        currentBedState = [[NSMutableDictionary alloc] init];
-    }
-    NSString *str = [currentBedState valueForKey:@"bedstate"];
-    //temp trim the string of the leading and trailing [] chars soon to be array of dicts
-    str = [str substringWithRange:NSMakeRange(1, [str length]-1)];
-    NSMutableArray *tempArray = [[NSMutableArray alloc]
-                                 initWithArray:[str componentsSeparatedByString:@","]];
-    
-    for(int i=0;i<tempArray.count;i++){
-        int plantId = (int)[tempArray[i] integerValue];
-        NSNumber *plant = [NSNumber numberWithInt:plantId];
-        NSString *cell = [NSString stringWithFormat:@"cell%i",i];
-        [currentBedState setValue:plant forKey:cell];
-    }
-    
-    return currentBedState;
+- (void) setCurrentGardenModel:(SqftGardenModel *)currentGardenModel{
+    self.globalGardenModel = currentGardenModel;
+    NSLog(@"APP GLOBALS MODEL INFO: %@", self.globalGardenModel);
+    [self.globalGardenModel showModelInfo];
 }
-- (void) clearCurrentBedState{
-    if(currentBedState != nil)[currentBedState removeAllObjects];
+
+- (void) clearCurrentGardenModel{
+    self.globalGardenModel = nil;
 }
+
 @end

@@ -15,7 +15,19 @@
 @property(nonatomic) NSString *name;
 @property(nonatomic) int timestamp;
 @property(nonatomic) int local_id;
-@property(nonatomic) NSMutableArray *bedStateArray;
+@property(nonatomic) NSString *bedStateArrayString;
+@property(nonatomic) NSMutableDictionary *bedStateDictionary;
+
+- (id)initWithDict:(NSDictionary*)dict;
+- (void)clearCurrentBedState;
+- (NSString *)getBedStateArrayString;
+- (NSMutableDictionary *)getCurrentBedState;
+- (void) setCurrentBedState:(NSMutableDictionary *)json;
+- (void) setBedRows:(int) rows;
+- (void) setBedColumns:(int) columns;
+- (int) getPlantIdForCell:(int) cell;
+- (void) setPlantIdForCell:(int) cell :(int) plant;
+- (void) showModelInfo;
 
 @end
 
