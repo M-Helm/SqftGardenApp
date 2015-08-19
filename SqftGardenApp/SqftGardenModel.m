@@ -53,7 +53,7 @@
     NSNumber *plantId = [NSNumber numberWithInt:plant];
     [self.bedStateDictionary setObject:plantId forKey:key];
     [self compileBedStateArrayString:self.bedStateDictionary];
-    NSString *tempStr = [self.bedStateDictionary objectForKey:key];
+    //NSString *tempStr = [self.bedStateDictionary objectForKey:key];
     //NSLog(@"temp string for set Plant Id: %@", tempStr);
     //NSLog(@"set plant info: %@ # %i STRING: %@" , key, (int)plantId.integerValue, self.bedStateArrayString);
 

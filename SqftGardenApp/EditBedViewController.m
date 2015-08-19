@@ -54,8 +54,8 @@ DBManager *dbManager;
     if (self.currentGardenModel == nil){
         //NSLog(@"GARDEN MODEL INITIALIZED");
         self.currentGardenModel = [[SqftGardenModel alloc] init];
-        NSLog(@"Garden Model 1: %@", self.currentGardenModel);
-        [self.currentGardenModel showModelInfo];
+        //NSLog(@"Garden Model 1: %@", self.currentGardenModel);
+        //[self.currentGardenModel showModelInfo];
     }
     if ([appGlobals getCurrentGardenModel] != nil){
         self.currentGardenModel = [appGlobals getCurrentGardenModel];
@@ -260,25 +260,16 @@ DBManager *dbManager;
 
     if(self.currentGardenModel == nil){
         self.currentGardenModel = [[SqftGardenModel alloc] init];
-        NSLog(@"dict initialized in build method");
-        NSLog(@"GARDEN MODEL INITIALIZED");
+        //NSLog(@"dict initialized in build method");
+        //NSLog(@"GARDEN MODEL INITIALIZED");
     }
     if([self.currentGardenModel getPlantIdForCell:0] < 0){
         //NSLog(@"dict initialized");
         for(int i=0; i<cellCount; i++){
             [self.currentGardenModel setPlantIdForCell:i :0];
-            NSLog(@"dict initialized on less than zero");
+            //NSLog(@"dict initialized on less than zero");
         }
     }
-    /*
-    if([self.currentGardenModel getPlantIdForCell:0] == nil){
-        //NSLog(@"dict initialized");
-        for(int i=0; i<cellCount; i++){
-            [self.currentGardenModel setPlantIdForCell:i :0];
-            NSLog(@"dict initialized on nil");
-        }
-    }
-     */
     for(int i=0; i<self.bedRowCount; i++){
         while(columnNumber < self.bedColumnCount){
             int plantId = [self.currentGardenModel getPlantIdForCell:cell];
@@ -335,7 +326,7 @@ DBManager *dbManager;
     //[self saveCurrentBed:self.bedStateDict];
     [self saveCurrentBed: self.currentGardenModel];
     [appGlobals setCurrentGardenModel:self.currentGardenModel];
-    [self.currentGardenModel showModelInfo];
+    //[self.currentGardenModel showModelInfo];
     [self initViews];
 }
 

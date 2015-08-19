@@ -36,8 +36,8 @@
 
 - (void) setCurrentGardenModel:(SqftGardenModel *)currentGardenModel{
     self.globalGardenModel = currentGardenModel;
-    NSLog(@"APP GLOBALS MODEL INFO: %@", self.globalGardenModel);
-    [self.globalGardenModel showModelInfo];
+    //NSLog(@"APP GLOBALS MODEL INFO: %@", self.globalGardenModel);
+    //[self.globalGardenModel showModelInfo];
 }
 
 - (void) clearCurrentGardenModel{

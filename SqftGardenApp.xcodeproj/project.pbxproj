@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AD0E2DF21B14104E00535139 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0E2DF11B14104E00535139 /* libsqlite3.dylib */; };
-		AD0E2DF51B1412C800535139 /* AttributesPopoverVC.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0E2DF41B1412C800535139 /* AttributesPopoverVC.m */; };
 		AD15F26C1B67EE86003A010D /* ApplicationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = AD15F26B1B67EE86003A010D /* ApplicationSetup.m */; };
 		AD15F26E1B6817B3003A010D /* init_plants.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD15F26D1B6817B3003A010D /* init_plants.txt */; };
 		AD1A91BA1AF434DA00DC0983 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A91B91AF434DA00DC0983 /* main.m */; };
@@ -44,6 +43,7 @@
 		ADD47F2F1AF44E8700D7E26F /* BedView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F2E1AF44E8700D7E26F /* BedView.m */; };
 		ADE704221B826DA0002ABC74 /* SqftGardenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE704211B826DA0002ABC74 /* SqftGardenModel.m */; };
 		ADE704261B83B899002ABC74 /* OpenGardenNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE704251B83B899002ABC74 /* OpenGardenNavigationController.m */; };
+		ADE704291B83E8C5002ABC74 /* SaveGardenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE704281B83E8C5002ABC74 /* SaveGardenViewController.m */; };
 		ADE78D9D1B6D8CDD00B5D320 /* OpenBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -59,8 +59,6 @@
 
 /* Begin PBXFileReference section */
 		AD0E2DF11B14104E00535139 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		AD0E2DF31B1412B800535139 /* AttributesPopoverVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttributesPopoverVC.h; sourceTree = "<group>"; };
-		AD0E2DF41B1412C800535139 /* AttributesPopoverVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesPopoverVC.m; sourceTree = "<group>"; };
 		AD15F26A1B67EE77003A010D /* ApplicationSetup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplicationSetup.h; sourceTree = "<group>"; };
 		AD15F26B1B67EE86003A010D /* ApplicationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationSetup.m; sourceTree = "<group>"; };
 		AD15F26D1B6817B3003A010D /* init_plants.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = init_plants.txt; path = ../../../Documents/init_plants.txt; sourceTree = "<group>"; };
@@ -116,6 +114,8 @@
 		ADE704231B826DB6002ABC74 /* SqftGardenModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SqftGardenModel.h; sourceTree = "<group>"; };
 		ADE704241B83B88B002ABC74 /* OpenGardenNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGardenNavigationController.h; sourceTree = "<group>"; };
 		ADE704251B83B899002ABC74 /* OpenGardenNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGardenNavigationController.m; sourceTree = "<group>"; };
+		ADE704271B83E8B5002ABC74 /* SaveGardenViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SaveGardenViewController.h; sourceTree = "<group>"; };
+		ADE704281B83E8C5002ABC74 /* SaveGardenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveGardenViewController.m; sourceTree = "<group>"; };
 		ADE78D9B1B6D8C5B00B5D320 /* OpenBedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenBedViewController.h; sourceTree = "<group>"; };
 		ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenBedViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -165,10 +165,10 @@
 				ADE704211B826DA0002ABC74 /* SqftGardenModel.m */,
 				ADE78D9B1B6D8C5B00B5D320 /* OpenBedViewController.h */,
 				ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */,
+				ADE704271B83E8B5002ABC74 /* SaveGardenViewController.h */,
+				ADE704281B83E8C5002ABC74 /* SaveGardenViewController.m */,
 				AD15F26A1B67EE77003A010D /* ApplicationSetup.h */,
 				AD15F26B1B67EE86003A010D /* ApplicationSetup.m */,
-				AD0E2DF31B1412B800535139 /* AttributesPopoverVC.h */,
-				AD0E2DF41B1412C800535139 /* AttributesPopoverVC.m */,
 				AD4B98D01B0E352200EF6F96 /* DBManager.h */,
 				AD4B98D11B0E355100EF6F96 /* DBManager.m */,
 				ADCC87331B04ED3B003F1A08 /* ApplicationGlobals.h */,
@@ -363,6 +363,7 @@
 				ADD47F271AF44A5700D7E26F /* MenuViewController.m in Sources */,
 				AD15F26C1B67EE86003A010D /* ApplicationSetup.m in Sources */,
 				ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */,
+				ADE704291B83E8C5002ABC74 /* SaveGardenViewController.m in Sources */,
 				ADD47F2F1AF44E8700D7E26F /* BedView.m in Sources */,
 				AD1A91BA1AF434DA00DC0983 /* main.m in Sources */,
 				ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */,
@@ -373,7 +374,6 @@
 				ADCC87351B04ED4C003F1A08 /* ApplicationGlobals.m in Sources */,
 				ADE78D9D1B6D8CDD00B5D320 /* OpenBedViewController.m in Sources */,
 				ADE704261B83B899002ABC74 /* OpenGardenNavigationController.m in Sources */,
-				AD0E2DF51B1412C800535139 /* AttributesPopoverVC.m in Sources */,
 				ADCC872C1B03B202003F1A08 /* PlantIconView.m in Sources */,
 				ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */,
 				ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */,
