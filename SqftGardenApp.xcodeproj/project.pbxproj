@@ -44,6 +44,7 @@
 		ADE704221B826DA0002ABC74 /* SqftGardenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE704211B826DA0002ABC74 /* SqftGardenModel.m */; };
 		ADE704261B83B899002ABC74 /* OpenGardenNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE704251B83B899002ABC74 /* OpenGardenNavigationController.m */; };
 		ADE704291B83E8C5002ABC74 /* SaveGardenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE704281B83E8C5002ABC74 /* SaveGardenViewController.m */; };
+		ADE7042C1B85515D002ABC74 /* UITextView+FileProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE7042B1B85515D002ABC74 /* UITextView+FileProperties.m */; };
 		ADE78D9D1B6D8CDD00B5D320 /* OpenBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +117,8 @@
 		ADE704251B83B899002ABC74 /* OpenGardenNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGardenNavigationController.m; sourceTree = "<group>"; };
 		ADE704271B83E8B5002ABC74 /* SaveGardenViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SaveGardenViewController.h; sourceTree = "<group>"; };
 		ADE704281B83E8C5002ABC74 /* SaveGardenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveGardenViewController.m; sourceTree = "<group>"; };
+		ADE7042A1B85513E002ABC74 /* UITextView+FileProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITextView+FileProperties.h"; sourceTree = "<group>"; };
+		ADE7042B1B85515D002ABC74 /* UITextView+FileProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+FileProperties.m"; sourceTree = "<group>"; };
 		ADE78D9B1B6D8C5B00B5D320 /* OpenBedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenBedViewController.h; sourceTree = "<group>"; };
 		ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenBedViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -167,6 +170,8 @@
 				ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */,
 				ADE704271B83E8B5002ABC74 /* SaveGardenViewController.h */,
 				ADE704281B83E8C5002ABC74 /* SaveGardenViewController.m */,
+				ADE7042A1B85513E002ABC74 /* UITextView+FileProperties.h */,
+				ADE7042B1B85515D002ABC74 /* UITextView+FileProperties.m */,
 				AD15F26A1B67EE77003A010D /* ApplicationSetup.h */,
 				AD15F26B1B67EE86003A010D /* ApplicationSetup.m */,
 				AD4B98D01B0E352200EF6F96 /* DBManager.h */,
@@ -364,6 +369,7 @@
 				AD15F26C1B67EE86003A010D /* ApplicationSetup.m in Sources */,
 				ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */,
 				ADE704291B83E8C5002ABC74 /* SaveGardenViewController.m in Sources */,
+				ADE7042C1B85515D002ABC74 /* UITextView+FileProperties.m in Sources */,
 				ADD47F2F1AF44E8700D7E26F /* BedView.m in Sources */,
 				AD1A91BA1AF434DA00DC0983 /* main.m in Sources */,
 				ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */,

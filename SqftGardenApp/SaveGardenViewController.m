@@ -9,6 +9,7 @@
 #import "SaveGardenViewController.h"
 #import "DBManager.h"
 #import "ApplicationGlobals.h"
+#import "UITextView+FileProperties.h"
 
 @interface SaveGardenViewController()
 
@@ -19,26 +20,26 @@
 static NSString *CellIdentifier = @"CellIdentifier";
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
+NSMutableArray *saveBedJson;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
-    
-    
+
     
     self.tableView.separatorColor = [UIColor whiteColor];
     //self.messageTF.layoutMargins = UIEdgeInsetsMake(155.0, 85.0, 255.0, 85.0);
-    self.saveTextView.delegate = self;
-    [self.saveTextView setReturnKeyType:UIReturnKeyDone];
+    //self.saveTextView.delegate = self;
+    //[self.saveTextView setReturnKeyType:UIReturnKeyDone];
     //[self.messageTextView setBackgroundColor:[UIColor lightGrayColor]];
-    self.saveTextView.layer.borderColor = [UIColor blackColor].CGColor;
-    self.saveTextView.layer.borderWidth  = 1.0;
-    self.saveTextView.layer.cornerRadius = 5.0;
+    //self.saveTextView.layer.borderColor = [UIColor blackColor].CGColor;
+    //self.saveTextView.layer.borderWidth  = 1.0;
+    //self.saveTextView.layer.cornerRadius = 15.0;
     
-    self.saveTextView.text = @"File Name";
-    self.saveTextView.textColor = [UIColor blackColor];
+    //self.saveTextView.text = @"File Name";
+    //self.saveTextView.textColor = [UIColor blackColor];
     
     float width = self.view.frame.size.width;
     //float height = self.view.frame.size.height;
@@ -53,17 +54,32 @@ DBManager *dbManager;
     imageView.layer.cornerRadius = 15;
     imageView.layer.masksToBounds = YES;
     imageView.layer.borderWidth = 1.0;
-    
     self.tableView.tableHeaderView = headerView;
-    self.tableView.tableFooterView = self.saveTextView;
+    //self.tableView.tableFooterView = self.saveTextView;
+    saveBedJson = [dbManager getBedSaveList];
     
+    /*
+    float xCo = self.view.frame.size.width - 15;
+    //float yCo = self.view.frame.size.height - self.tableView.frame.size.height;
+    float yCo = self.view.frame.size.height - 35;
+    
+    UITextView *textView =[[UITextView alloc]initWithFrame:CGRectMake(15,yCo,xCo,20)];
+    [textView setDelegate: self];
+    [textView setReturnKeyType:UIReturnKeyDone];
+    [textView setTag:1];
+    textView.layer.cornerRadius =5;
+    textView.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:textView];
+    */
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    int i = 1;
+    int i = (int)saveBedJson.count;
+    //NSLog(@"cell count %i",i);
+    //if(i<2)i=2;
     return i;
 }
 
@@ -71,37 +87,34 @@ DBManager *dbManager;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    //UILabel *label = (UILabel *)[cell.contentView viewWithTag:10];
-    //label.numberOfLines = 0;
-    //UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:9];
-    //imageView.layer.cornerRadius = imageView.bounds.size.width / 2.0;
-    //imageView.layer.masksToBounds = YES;
-    //imageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    //imageView.layer.borderWidth = 1.0;
-    //label.font=[label.font fontWithSize:15];
     
-    //[self tableView:self.tableView numberOfRowsInSection:0];
-    //if([messageBucket count] < 1)return cell;
-    //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    //NSString *user_fb = [defaults objectForKey:@"fb_id"];
-    //json = [messageBucket objectAtIndex:[indexPath row]];
-    //NSString *sender_fb = [json objectForKey:@"sender_fb"];
-    //UIImage *image;
-    //if([sender_fb isEqualToString:user_fb])image = [appGlobals getUserImage];
-    //else image = targetImage;
-    //imageView.image = image;
-    //[label setText:[NSString stringWithFormat:@"%@", [json objectForKey:@"text"]]];
+    UITextView *label = (UITextView *)[cell.contentView viewWithTag:10];
+    [label setDelegate:self];
+    
+    //UILabel *label = (UILabel *)[cell.contentView viewWithTag:10];
+    NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
+    int i = [indexPath row];
+    if(saveBedJson.count > 0)json = saveBedJson[i];
+    else return cell;
+    NSString *name = [json objectForKey:@"name"];
+    NSString *timestamp = [json objectForKey:@"timestamp"];
+    NSString *local_id = [json objectForKey:@"local_id"];
+    NSNumber *index = [NSNumber numberWithInt:local_id.intValue];
+    
+    [label setLocalIndex: index];
+    int label_id = [label.localId integerValue];
+    NSLog(@"LABEL ID FROM GETTER: %i", label_id);
+    
+    NSNumber *startTime = [NSNumber numberWithInt:timestamp.integerValue];
+    NSDateFormatter *inFormat = [[NSDateFormatter alloc] init];
+    [inFormat setDateFormat:@"MMM dd, yyyy HH:mm"];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[startTime doubleValue]];
+    NSString *dateStr = [inFormat stringFromDate:date];
+    [label setText:[NSString stringWithFormat:@"%@ || %@ || saved: %@", local_id, name, dateStr]];
+    
     return cell;
 }
- 
 
-
-- (UIImage *)getTargetImage:(NSString *)pic_url{
-    NSURL *url = [NSURL URLWithString: pic_url];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    UIImage *targetImage = [[UIImage alloc] initWithData:data];
-    return targetImage;
-}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
@@ -113,10 +126,12 @@ DBManager *dbManager;
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
     NSLog(@"Begin editing");
+    int index = [[textView localId]intValue];
+    NSString *fieldText = [NSString stringWithFormat:@"File ID: %i", index];
+    
     textView.hidden = NO;
-    textView.text = @"";
-    //[textView becomeFirstResponder];
-    [self.saveTextView becomeFirstResponder];
+    textView.text = fieldText;
+    [textView becomeFirstResponder];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
@@ -131,6 +146,7 @@ DBManager *dbManager;
     return YES;
 }
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    NSLog(@"Should Begin editing");
     //CGPoint pointInTable = [textView.superview convertPoint:textView.frame.origin toView:self.tableView];
     //CGPoint contentOffset = self.tableView.contentOffset;
 

@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SaveGardenViewController : UITableViewController
-@property (nonatomic) IBOutlet UITextView *saveTextView;
+
 
 
 @end
