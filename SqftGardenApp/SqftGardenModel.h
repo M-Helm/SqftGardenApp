@@ -14,7 +14,7 @@
 @property(nonatomic) int rows;
 @property(nonatomic) NSString *name;
 @property(nonatomic) int timestamp;
-@property(nonatomic) int local_id;
+@property(nonatomic) int localId;
 @property(nonatomic) NSString *bedStateArrayString;
 @property(nonatomic) NSMutableDictionary *bedStateDictionary;
 

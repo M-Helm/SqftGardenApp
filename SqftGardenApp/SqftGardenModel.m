@@ -7,12 +7,15 @@
 //
 
 #import "SqftGardenModel.h"
+#import "DBManager.h"
 
 @interface SqftGardenModel ()
 
 @end
 
 @implementation SqftGardenModel
+
+DBManager *dbManager;
 
 - (id) initWithDict:(NSDictionary*)dict
 {
@@ -26,17 +29,9 @@
         NSString *localID = [dict valueForKey:@"local_id"];
         self.bedStateArrayString = [dict valueForKey:@"bedstate"];
         [self compileBedStateDictFromString:self.bedStateArrayString];
-        /*
-         [json setObject:saveName forKey:@"name"];
-         [json setObject:saveTS forKey:@"timestamp"];
-         [json setObject:saveId forKey:@"local_id"];
-         [json setObject:saveState forKey:@"bedstate"],
-         [json setObject:rows forKey:@"rows"],
-         [json setObject:columns forKey:@"columns"],
-        */
         self.name = [dict valueForKey:@"name"];
         self.timestamp = ts.intValue;
-        self.local_id = localID.intValue;
+        self.localId = localID.intValue;
         self.columns = (int)dRows;
         self.rows = (int)dColumns;
         if(self.columns < 1)self.columns = 3;
@@ -155,6 +150,46 @@
 - (void) showModelInfo{
     NSLog(@"Rows: %i, Columns: %i, Array String: %@", self.rows, self.columns, [self getBedStateArrayString]);
     
+}
+
+- (BOOL) saveGarden{
+    BOOL success = NO;
+    if(dbManager == nil){
+        dbManager = [DBManager getSharedDBManager];
+    }
+    
+    //temp magic #
+    NSString *localIdStr = [NSString stringWithFormat:@"%i", self.localId];
+    
+    //get standard save info from arg
+    long ts = (long)(NSTimeInterval)([[NSDate date] timeIntervalSince1970]);
+    NSString *timestamp = [NSString stringWithFormat:@"%ld", ts];
+    NSString *name = self.name;
+    if(name == nil){
+        name = @"autoSave";
+        localIdStr = @"1";
+    }
+    NSNumber *rows = [NSNumber numberWithInt: self.rows];
+    NSNumber *columns = [NSNumber numberWithInt: self.columns];
+    
+    //fail if cell structure is fucked
+    if(rows.integerValue < 1)return false;
+    if(columns.integerValue < 1 )return false;
+    
+    //create json pkg for db
+    NSMutableDictionary *json = [[NSMutableDictionary alloc] init];
+    [json setObject:localIdStr forKey:@"local_id"];
+    [json setObject:rows forKey:@"rows"];
+    [json setObject:columns forKey:@"columns"];
+    [json setObject:timestamp forKey:@"timestamp"];
+    [json setObject:name forKey:@"name"];
+    
+    //compile an array for the bedstate
+    NSString *tempArrayStr = [self getBedStateArrayString];
+    [json setObject:tempArrayStr forKey:@"bedstate"];
+    
+    [dbManager saveBedAutoSave:json];
+    return success;
 }
 
 @end
