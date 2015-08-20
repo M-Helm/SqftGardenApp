@@ -17,6 +17,14 @@
 
 DBManager *dbManager;
 
+
+- (id) init{
+    self = [super init];
+    NSLog(@"INIT OVERRIDE Method called");
+    [self commonInit];
+    return self;
+}
+
 - (id) initWithDict:(NSDictionary*)dict
 {
     self = [super init];
@@ -30,6 +38,8 @@ DBManager *dbManager;
         self.bedStateArrayString = [dict valueForKey:@"bedstate"];
         [self compileBedStateDictFromString:self.bedStateArrayString];
         self.name = [dict valueForKey:@"name"];
+        self.uniqueId = [dict valueForKey:@"unique_id"];
+        NSLog(@"UUID from DICT: %@", self.uniqueId);
         self.timestamp = ts.intValue;
         self.localId = localID.intValue;
         self.columns = (int)dRows;
@@ -37,7 +47,23 @@ DBManager *dbManager;
         if(self.columns < 1)self.columns = 3;
         if(self.rows < 1)self.rows = 3;
     }
+    [self commonInit];
     return self;
+}
+
+- (void) commonInit{
+    if(self.uniqueId.length < 8){
+        NSLog(@"SHort UUID: %@", self.uniqueId);
+        self.uniqueId = [self getUUID];
+    }
+    NSLog(@"UUID = %@", self.uniqueId);
+}
+
+- (NSString *)getUUID{
+    CFUUIDRef theUUID = CFUUIDCreate(NULL);
+    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
+    CFRelease(theUUID);
+    return (__bridge NSString *)string;
 }
 
 - (void) setPlantIdForCell:(int) cell :(int) plant{
@@ -157,6 +183,9 @@ DBManager *dbManager;
     if(dbManager == nil){
         dbManager = [DBManager getSharedDBManager];
     }
+    if(self.uniqueId == nil){
+        self.uniqueId = [self getUUID];
+    }
     
     //temp magic #
     NSString *localIdStr = [NSString stringWithFormat:@"%i", self.localId];
@@ -183,6 +212,7 @@ DBManager *dbManager;
     [json setObject:columns forKey:@"columns"];
     [json setObject:timestamp forKey:@"timestamp"];
     [json setObject:name forKey:@"name"];
+    [json setObject:self.uniqueId forKey:@"unique_id"];
     
     //compile an array for the bedstate
     NSString *tempArrayStr = [self getBedStateArrayString];

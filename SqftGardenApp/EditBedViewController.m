@@ -51,26 +51,18 @@ DBManager *dbManager;
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
     
+    if ([appGlobals getCurrentGardenModel] != nil){
+        self.currentGardenModel = [appGlobals getCurrentGardenModel];
+        //NSLog(@"Garden Model 1: %@", self.currentGardenModel);
+    }
+    
     if (self.currentGardenModel == nil){
         //NSLog(@"GARDEN MODEL INITIALIZED");
         self.currentGardenModel = [[SqftGardenModel alloc] init];
-        //NSLog(@"Garden Model 1: %@", self.currentGardenModel);
+        NSLog(@"Garden Model 2: %@", self.currentGardenModel);
         //[self.currentGardenModel showModelInfo];
     }
-    if ([appGlobals getCurrentGardenModel] != nil){
-        self.currentGardenModel = [appGlobals getCurrentGardenModel];
-        NSLog(@"Garden Model 2: %@", self.currentGardenModel);
-    }
-    
-    //self.barIcon0 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:nil action:nil];
-    //self.barIcon0 set
-    //self.barIcon0 = initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:nil action:nil];
-    //NSString *key = [NSString stringWithFormat:@"cell%i",0];
-    //int plantId = (int)[[self.bedStateDict valueForKey:key] integerValue];
-    //NSLog(@"plant Id from globals = %i", plantId);
-    
-    
-    
+
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     btn.frame = CGRectMake(0, 0, 30, 30);
     //[btn setImage:[UIImage imageNamed:@"someImage.png"] forState:UIControlStateNormal];
@@ -86,9 +78,6 @@ DBManager *dbManager;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
-    
-    //NSNumber *nRows = [NSNumber numberWithInt: self.bedRowCount];
-    //NSNumber *nCols = [NSNumber numberWithInt: self.bedColumnCount];
     [self.currentGardenModel setRows:self.bedRowCount];
     [self.currentGardenModel setColumns:self.bedColumnCount];
     
@@ -260,7 +249,7 @@ DBManager *dbManager;
 
     if(self.currentGardenModel == nil){
         self.currentGardenModel = [[SqftGardenModel alloc] init];
-        //NSLog(@"dict initialized in build method");
+        NSLog(@"dict initialized in build method");
         //NSLog(@"GARDEN MODEL INITIALIZED");
     }
     if([self.currentGardenModel getPlantIdForCell:0] < 0){
@@ -334,6 +323,7 @@ DBManager *dbManager;
 
     //temp magic #
     NSString *local_id = @"1";
+    NSString *uniqueId = gardenJSON.uniqueId;
     
     //get standard save info from arg
     long ts = (long)(NSTimeInterval)([[NSDate date] timeIntervalSince1970]);
@@ -357,6 +347,7 @@ DBManager *dbManager;
     [json setObject:columns forKey:@"columns"];
     [json setObject:timestamp forKey:@"timestamp"];
     [json setObject:name forKey:@"name"];
+    [json setObject:uniqueId forKey:@"unique_id"];
 
     //compile an array for the bedstate
     //NSString *tempArrayStr = [appGlobals getBedStateString];

@@ -62,11 +62,6 @@ NSMutableArray *saveBedJson;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:10];
-    //UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:9];
-    //imageView.layer.cornerRadius = imageView.bounds.size.width / 2.0;
-    //imageView.layer.masksToBounds = YES;
-    //imageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    //imageView.layer.borderWidth = 1.0;
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     if(saveBedJson.count > 0)json = saveBedJson[0];
     else return cell;
@@ -76,7 +71,6 @@ NSMutableArray *saveBedJson;
     if([indexPath row] == 0){
         [label setText:[NSString stringWithFormat:@"Cancel"]];
     }
-    //imageView.image = [self getTargetImage:[json objectForKey:@"pic_url"]];
     return cell;
 }
 
@@ -101,13 +95,9 @@ NSMutableArray *saveBedJson;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
     }
-    //int index = [indexPath row] - 1;
     //set the current bed json pkg
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     if(saveBedJson.count > [indexPath row] - 1)json = saveBedJson[[indexPath row] - 1];
-    //json = saveBedJson[index];
-    //NSLog(@"ShowMain segue Called, json size: %lu, row # %li", (unsigned long)saveBedJson.count, (long)[indexPath row]);
-    //[appGlobals setCurrentBedState:json];
     [appGlobals clearCurrentGardenModel];
     SqftGardenModel *model = [[SqftGardenModel alloc] initWithDict:json];
     [appGlobals setCurrentGardenModel:model];

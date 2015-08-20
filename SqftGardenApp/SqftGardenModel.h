@@ -14,9 +14,10 @@
 @property(nonatomic) int rows;
 @property(nonatomic) NSString *name;
 @property(nonatomic) int timestamp;
-@property(nonatomic) int localId;
 @property(nonatomic) NSString *bedStateArrayString;
 @property(nonatomic) NSMutableDictionary *bedStateDictionary;
+@property(nonatomic) int localId;
+@property(nonatomic) NSString *uniqueId;
 
 - (id)initWithDict:(NSDictionary*)dict;
 - (void)clearCurrentBedState;
@@ -28,6 +29,7 @@
 - (int) getPlantIdForCell:(int) cell;
 - (void) setPlantIdForCell:(int) cell :(int) plant;
 - (void) showModelInfo;
+//- (NSString *)getUUID;
 
 @end
 

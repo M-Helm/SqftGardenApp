@@ -20,7 +20,7 @@ DBManager *dbManager;
 -(BOOL)createDB{
     dbManager = [DBManager getSharedDBManager];
     //[dbManager dropTable:@"plants"];
-    //[dbManager dropTable:@"saves"];
+    [dbManager dropTable:@"saves"];
     
     [dbManager createTable:@"plants"];
     [dbManager addColumn:@"plants" : @"name" : @"char(50)"];
@@ -41,6 +41,7 @@ DBManager *dbManager;
         [dbManager addColumn:@"saves" : @"bedstate" : @"varchar" ];
         [dbManager addColumn:@"saves" : @"timestamp" : @"int"];
         [dbManager addColumn:@"saves" : @"name" : @"char(140)"];
+        [dbManager addColumn:@"saves" : @"unique_id" : @"char"];
     }
     
     return YES;

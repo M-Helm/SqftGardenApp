@@ -23,20 +23,20 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"Nav Controller Prepare Segue to main with opened Garden Model");
+    //NSLog(@"Nav Controller Prepare Segue to main with opened Garden Model");
     if([segue.identifier isEqualToString:@"showMain"])
     {
-        NSLog(@"PREPARE CALLED....");
+        //NSLog(@"PREPARE CALLED....");
         //BedDetailViewController *bedDetail = (BedDetailViewController*)segue.destinationViewController;
     }
     //NSLog(@"Menu Prepare Segue");
     if([segue.identifier isEqualToString:@"embedMenu"])
     {
-        EditBedViewController* editBedViewController = segue.destinationViewController;
-        self.openedGardenModel = [[SqftGardenModel alloc] init];
-        [self.openedGardenModel setRows:4];
-        [self.openedGardenModel setColumns:4];
-        editBedViewController.currentGardenModel = self.openedGardenModel;
+        //EditBedViewController* editBedViewController = segue.destinationViewController;
+        //self.openedGardenModel = [[SqftGardenModel alloc] init];
+        //[self.openedGardenModel setRows:4];
+        //[self.openedGardenModel setColumns:4];
+        //editBedViewController.currentGardenModel = self.openedGardenModel;
     }
     
 }
