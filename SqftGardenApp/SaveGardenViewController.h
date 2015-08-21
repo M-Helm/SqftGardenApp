@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface SaveGardenViewController : UITableViewController
+@interface SaveGardenViewController : UITableViewController <UIAlertViewDelegate>
 
 
 

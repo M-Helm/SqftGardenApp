@@ -29,7 +29,7 @@
 - (int) getPlantIdForCell:(int) cell;
 - (void) setPlantIdForCell:(int) cell :(int) plant;
 - (void) showModelInfo;
-//- (NSString *)getUUID;
+- (BOOL) saveModel;
 
 @end
 

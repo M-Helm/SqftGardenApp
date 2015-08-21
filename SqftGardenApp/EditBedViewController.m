@@ -313,69 +313,20 @@ DBManager *dbManager;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildPlantSelectArray];
     //[self saveCurrentBed:self.bedStateDict];
-    [self saveCurrentBed: self.currentGardenModel];
+    //[self saveCurrentBed: self.currentGardenModel];
+    [self.currentGardenModel saveModel];
     [appGlobals setCurrentGardenModel:self.currentGardenModel];
     //[self.currentGardenModel showModelInfo];
     [self initViews];
 }
 
-- (BOOL) saveCurrentBed : (SqftGardenModel *)gardenJSON{
 
-    //temp magic #
-    NSString *local_id = @"1";
-    NSString *uniqueId = gardenJSON.uniqueId;
-    
-    //get standard save info from arg
-    long ts = (long)(NSTimeInterval)([[NSDate date] timeIntervalSince1970]);
-    NSString *timestamp = [NSString stringWithFormat:@"%ld", ts];
-    NSString *name = gardenJSON.name;
-    //NSString *name = [bedJSON valueForKey:@"name"];
-    if(name == nil)name = @"autoSave";
-    //NSNumber *rows = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:ROW_KEY]integerValue]];
-    //NSNumber *columns = [NSNumber numberWithInt:(int)[[bedJSON valueForKey:COLUMN_KEY] integerValue]];
-    NSNumber *rows = [NSNumber numberWithInt: gardenJSON.rows];
-    NSNumber *columns = [NSNumber numberWithInt: gardenJSON.columns];
-    
-    //fail if cell structure is fucked
-    if(rows.integerValue < 1)return false;
-    if(columns.integerValue < 1 )return false;
-    
-    //create json pkg for db
-    NSMutableDictionary *json = [[NSMutableDictionary alloc] init];
-    [json setObject:local_id forKey:@"local_id"];
-    [json setObject:rows forKey:@"rows"];
-    [json setObject:columns forKey:@"columns"];
-    [json setObject:timestamp forKey:@"timestamp"];
-    [json setObject:name forKey:@"name"];
-    [json setObject:uniqueId forKey:@"unique_id"];
-
-    //compile an array for the bedstate
-    //NSString *tempArrayStr = [appGlobals getBedStateString];
-    NSString *tempArrayStr = [self.currentGardenModel getBedStateArrayString];
-    
-    //NSLog(@"STRING FOR SAVING:::::::: %@", tempArrayStr);
-    
-    [json setObject:tempArrayStr forKey:@"bedstate"];
-    [dbManager saveBedAutoSave:json];
-    //[appGlobals setCurrentBedState:json];
-    //[self.currentGardenModel setCurrentBedState:json];
-    //[appGlobals updateCurrentBedState:self.currentGardenModel];
-    
-    //NSLog(@"json: %@, %@, %@, %@, %@", local_id, rows, columns, timestamp, name);
-    //NSLog(@"Temp Array String: %li, %li, %@", (long)[rows integerValue], (long)[columns integerValue], tempArrayStr);
-    [appGlobals setCurrentGardenModel:self.currentGardenModel];
-    return false;
-}
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-   // NSLog(@"EDIT BED TOUCHES BEGAN");
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
         touchedView = [touch view];
-        //touchedView.layer.borderWidth = 0;
-        //touchedView.layer.cornerRadius = touchedView.frame.size.width / 2;
-        
     }
     if ([touchedView class] == [BedView class]){
         CGPoint location = [touch locationInView:[self view]];

@@ -25,7 +25,9 @@
 - (NSArray*) getInitPlants;
 - (NSDictionary *) getPlantDataByName:(NSString *) name;
 - (NSDictionary *) getPlantDataById:(int) plantID;
-- (BOOL) saveBedAutoSave:(NSDictionary *)msgJSON;
+- (BOOL) overwriteSavedGarden:(NSDictionary *)msgJSON;
 - (NSMutableArray *) getBedSaveList;
+- (NSMutableDictionary *) getGardenByLocalId : (int) index;
+- (BOOL) saveGarden:(NSDictionary *)msgJSON;
 
 @end

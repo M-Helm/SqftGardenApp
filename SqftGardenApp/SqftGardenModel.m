@@ -46,6 +46,8 @@ DBManager *dbManager;
         self.rows = (int)dColumns;
         if(self.columns < 1)self.columns = 3;
         if(self.rows < 1)self.rows = 3;
+        if(self.localId < 2)self.localId = 1;
+        NSLog(@"Local ID On INIT = %i", self.localId);
     }
     [self commonInit];
     return self;
@@ -178,7 +180,7 @@ DBManager *dbManager;
     
 }
 
-- (BOOL) saveGarden{
+- (BOOL) saveModel{
     BOOL success = NO;
     if(dbManager == nil){
         dbManager = [DBManager getSharedDBManager];
@@ -218,8 +220,25 @@ DBManager *dbManager;
     NSString *tempArrayStr = [self getBedStateArrayString];
     [json setObject:tempArrayStr forKey:@"bedstate"];
     
-    [dbManager saveBedAutoSave:json];
+    //check uuid against the other saved files
+    NSArray *array = [dbManager getBedSaveList];
+    for(int i = 0;i<array.count;i++){
+        NSDictionary *dict = array[i];
+        NSString *uuid = [dict objectForKey:@"unique_id"];
+        if([self.uniqueId isEqualToString:uuid]){
+            localIdStr = [dict objectForKey:@"local_id"];
+            [json setObject:localIdStr forKey:@"local_id"];
+            NSLog(@"LOCAL ID = %i", self.localId);
+            [dbManager overwriteSavedGarden:json];
+            return success;
+        }
+    }
+    if(self.localId == 1)[dbManager overwriteSavedGarden:json];
+    else [dbManager saveGarden:json];
+    NSLog(@"LOCAL ID = %i", self.localId);
+    
     return success;
 }
+
 
 @end

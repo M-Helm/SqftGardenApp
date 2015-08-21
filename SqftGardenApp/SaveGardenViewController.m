@@ -93,7 +93,7 @@ NSMutableArray *saveBedJson;
     
     //UILabel *label = (UILabel *)[cell.contentView viewWithTag:10];
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
-    int i = [indexPath row];
+    int i = (int)[indexPath row];
     if(saveBedJson.count > 0)json = saveBedJson[i];
     else return cell;
     NSString *name = [json objectForKey:@"name"];
@@ -102,10 +102,10 @@ NSMutableArray *saveBedJson;
     NSNumber *index = [NSNumber numberWithInt:local_id.intValue];
     
     [label setLocalIndex: index];
-    int label_id = [label.localId integerValue];
+    int label_id = (int)[label.localId integerValue];
     NSLog(@"LABEL ID FROM GETTER: %i", label_id);
     
-    NSNumber *startTime = [NSNumber numberWithInt:timestamp.integerValue];
+    NSNumber *startTime = [NSNumber numberWithInt:timestamp.intValue];
     NSDateFormatter *inFormat = [[NSDateFormatter alloc] init];
     [inFormat setDateFormat:@"MMM dd, yyyy HH:mm"];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[startTime doubleValue]];
@@ -127,11 +127,21 @@ NSMutableArray *saveBedJson;
 - (void)textViewDidBeginEditing:(UITextView *)textView{
     NSLog(@"Begin editing");
     int index = [[textView localId]intValue];
-    NSString *fieldText = [NSString stringWithFormat:@"File ID: %i", index];
-    
+    textView.tintColor = [UIColor clearColor];
     textView.hidden = NO;
-    textView.text = fieldText;
-    [textView becomeFirstResponder];
+    [textView resignFirstResponder];
+    NSString *fileName = @"";
+    for(int i = 0;i<saveBedJson.count;i++){
+        NSDictionary *dict = saveBedJson[i];
+        NSString *tempIndex = [dict objectForKey:@"local_id"];
+        if([[textView localId]intValue] == tempIndex.intValue){
+            fileName = [dict objectForKey:@"name"];
+            break;
+        }
+    }
+    
+    
+    [self showAlert : fileName : index];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
@@ -147,13 +157,6 @@ NSMutableArray *saveBedJson;
 }
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     NSLog(@"Should Begin editing");
-    //CGPoint pointInTable = [textView.superview convertPoint:textView.frame.origin toView:self.tableView];
-    //CGPoint contentOffset = self.tableView.contentOffset;
-
-    //NSLog(@"contentOffset is: %@", NSStringFromCGPoint(contentOffset));
-    
-    //[self.tableView setContentOffset:contentOffset animated:YES];
-    
     return YES;
 }
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView
@@ -177,6 +180,29 @@ NSMutableArray *saveBedJson;
     {
         CGPoint offset = CGPointMake(0, self.tableView.contentSize.height - self.tableView.frame.size.height);
         [self.tableView setContentOffset:offset animated:YES];
+    }
+}
+- (void) showAlert : (NSString *)fileName : (int) index{
+    NSString *alertStr = [NSString stringWithFormat:@"Overwrite %@", fileName];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SQFT GARDEN APP"
+                                                    message: alertStr
+                                                   delegate:self
+                                          cancelButtonTitle:@"NO"
+                                          otherButtonTitles:@"YES", nil];
+    [alert show];
+}
+- (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    // the user clicked OK
+    if (buttonIndex == 0) {
+        NSLog(@"Btn0");
+    }
+    if (buttonIndex == 1) {
+        NSLog(@"Btn1");
+        [dbManager getGardenByLocalId:1];
+    }
+    if (buttonIndex == 2) {
+        NSLog(@"Btn2");
     }
 }
 
