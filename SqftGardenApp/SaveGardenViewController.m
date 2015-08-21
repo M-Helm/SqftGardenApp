@@ -77,7 +77,7 @@ NSMutableArray *saveBedJson;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    int i = (int)saveBedJson.count;
+    int i = (int)saveBedJson.count + 1;
     //NSLog(@"cell count %i",i);
     //if(i<2)i=2;
     return i;
@@ -91,11 +91,18 @@ NSMutableArray *saveBedJson;
     UITextView *label = (UITextView *)[cell.contentView viewWithTag:10];
     [label setDelegate:self];
     
-    //UILabel *label = (UILabel *)[cell.contentView viewWithTag:10];
+    if([indexPath row] == 0){
+        [label setText:@"*New File"];
+        NSNumber *index = [NSNumber numberWithInt:0];
+        [label setLocalIndex:index];
+        return cell;
+    }
+    
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
-    int i = (int)[indexPath row];
+    int i = (int)[indexPath row] - 1;
     if(saveBedJson.count > 0)json = saveBedJson[i];
     else return cell;
+
     NSString *name = [json objectForKey:@"name"];
     NSString *timestamp = [json objectForKey:@"timestamp"];
     NSString *local_id = [json objectForKey:@"local_id"];
@@ -182,6 +189,7 @@ NSMutableArray *saveBedJson;
         [self.tableView setContentOffset:offset animated:YES];
     }
 }
+
 - (void) showAlert : (NSString *)fileName : (int) index{
     NSString *alertStr = [NSString stringWithFormat:@"Overwrite %@", fileName];
     
@@ -192,6 +200,7 @@ NSMutableArray *saveBedJson;
                                           otherButtonTitles:@"YES", nil];
     [alert show];
 }
+
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     // the user clicked OK
     if (buttonIndex == 0) {
