@@ -164,7 +164,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G7I-jw-rOk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="856" y="-117"/>
+            <point key="canvasLocation" x="840" y="612"/>
         </scene>
         <!--Edit Bed View Controller-->
         <scene sceneID="LH1-hz-fNs">
@@ -191,7 +191,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R2U-wW-LqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="6VO-41-R7D" customClass="ButtonHandler"/>
             </objects>
-            <point key="canvasLocation" x="1616" y="-117"/>
+            <point key="canvasLocation" x="1600" y="612"/>
         </scene>
         <!--Bed Detail View Controller-->
         <scene sceneID="urq-99-lm0">
@@ -210,7 +210,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NuD-pn-6aD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2334" y="-117"/>
+            <point key="canvasLocation" x="2430" y="591"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="73j-dV-Qco">
@@ -245,7 +245,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S0D-hd-K4c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1580" y="612"/>
+            <point key="canvasLocation" x="1608" y="-496"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8xN-n5-ay4">
@@ -257,6 +257,7 @@
                     </navigationBar>
                     <connections>
                         <segue destination="bab-t0-0Vu" kind="relationship" relationship="rootViewController" id="iQX-KQ-yoO"/>
+                        <segue destination="O9I-ib-dQX" kind="show" identifier="showMain" id="HtM-B4-joc"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MbM-9M-ApT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -304,7 +305,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oPg-GF-ih1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="Vbf-g4-HTQ" customClass="ButtonHandler"/>
             </objects>
-            <point key="canvasLocation" x="1515" y="1357"/>
+            <point key="canvasLocation" x="1600" y="1357"/>
         </scene>
         <!--Open Garden Navigation Controller-->
         <scene sceneID="xzD-Nb-Osi">
@@ -322,14 +323,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S5J-h1-LRe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="856" y="612"/>
+            <point key="canvasLocation" x="880" y="-172"/>
         </scene>
     </scenes>
     <resources>
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9xN-8o-myG"/>
+        <segue reference="HtM-B4-joc"/>
         <segue reference="vbB-Zd-bn8"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -28,6 +28,7 @@
 - (BOOL) overwriteSavedGarden:(NSDictionary *)msgJSON;
 - (NSMutableArray *) getBedSaveList;
 - (NSMutableDictionary *) getGardenByLocalId : (int) index;
-- (BOOL) saveGarden:(NSDictionary *)msgJSON;
+- (int) saveGarden:(NSDictionary *)msgJSON;
+- (NSMutableDictionary *) getGardenByUniqueId : (NSString *) uuid;
 
 @end

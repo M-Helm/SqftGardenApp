@@ -20,7 +20,7 @@ DBManager *dbManager;
 -(BOOL)createDB{
     dbManager = [DBManager getSharedDBManager];
     //[dbManager dropTable:@"plants"];
-    //[dbManager dropTable:@"saves"];
+    [dbManager dropTable:@"saves"];
     
     [dbManager createTable:@"plants"];
     [dbManager addColumn:@"plants" : @"name" : @"char(50)"];

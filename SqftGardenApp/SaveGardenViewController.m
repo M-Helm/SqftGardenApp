@@ -88,7 +88,7 @@ NSMutableArray *saveBedJson;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     UITextView *label = (UITextView *)[cell.contentView viewWithTag:10];
-    [label setDelegate:self];
+    [label setDelegate: (id <UITextViewDelegate>) self];
     
     if([indexPath row] == 0){
         [label setText:@"*New File"];
@@ -166,7 +166,10 @@ NSMutableArray *saveBedJson;
     if ([text isEqual:@"\n"]) {
         [textView resignFirstResponder];
         [appGlobals.globalGardenModel assignNewUUID];
+        appGlobals.globalGardenModel.name = textView.text;
+        appGlobals.globalGardenModel.localId = 7;
         [appGlobals.globalGardenModel saveModel];
+        [self showWriteSuccessAlert:textView.text : -1];
         return NO;
     }
     return YES;
@@ -205,14 +208,25 @@ NSMutableArray *saveBedJson;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SQFT GARDEN APP"
                                                     message: alertStr
                                                    delegate:self
-                                          cancelButtonTitle:@"NO"
-                                          otherButtonTitles:@"YES", nil];
+                                          cancelButtonTitle:@"YES"
+                                          otherButtonTitles:@"NO", nil];
+    [alert show];
+}
+
+- (void) showWriteSuccessAlert : (NSString *)fileName : (int) index{
+    NSString *alertStr = [NSString stringWithFormat:@"File Saved as %@", fileName];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SQFT GARDEN APP"
+                                                    message: alertStr
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles: nil];
     [alert show];
 }
 
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     // the user clicked OK
     if (buttonIndex == 0) {
+        [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
         NSLog(@"Btn0");
     }
     if (buttonIndex == 1) {

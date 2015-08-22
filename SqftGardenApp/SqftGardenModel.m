@@ -181,8 +181,7 @@ DBManager *dbManager;
 }
 
 - (void) showModelInfo{
-    NSLog(@"Rows: %i, Columns: %i, Array String: %@", self.rows, self.columns, [self getBedStateArrayString]);
-    
+    NSLog(@"Rows: %i, Columns: %i, Array String: %@",self.rows, self.columns, [self getBedStateArrayString]);
 }
 
 - (BOOL) saveModel{
@@ -193,21 +192,38 @@ DBManager *dbManager;
     if(self.uniqueId == nil){
         self.uniqueId = [self getUUID];
     }
-    
-    //temp magic #
-    NSString *localIdStr = [NSString stringWithFormat:@"%i", self.localId];
-    
     //get standard save info from arg
     long ts = (long)(NSTimeInterval)([[NSDate date] timeIntervalSince1970]);
     NSString *timestamp = [NSString stringWithFormat:@"%ld", ts];
     NSString *name = self.name;
-    if(name == nil){
-        name = @"autoSave";
-        localIdStr = @"1";
-    }
     NSNumber *rows = [NSNumber numberWithInt: self.rows];
     NSNumber *columns = [NSNumber numberWithInt: self.columns];
-    
+    NSString *localIdStr = [NSString stringWithFormat:@"%i", self.localId];
+    NSString *autoStr = @"autoSave";
+    if(self.localId < 1){
+        NSLog(@"condition trip 1");
+        self.name = autoStr;
+        localIdStr = @"1";
+        self.localId = 1;
+    }
+    if(name == nil){
+        NSLog(@"condition trip 2");
+        self.name = autoStr;
+        localIdStr = @"1";
+        self.localId = 1;
+    }
+    if([name isEqualToString:autoStr]){
+        NSLog(@"condition trip 3");
+        localIdStr = @"1";
+        self.localId = 1;
+    }
+    if(self.localId == 1){
+        if(![name isEqualToString:autoStr]){
+            NSLog(@"condition trip 4");
+        };
+    }
+    name = self.name;
+
     //fail if cell structure is fucked
     if(rows.integerValue < 1)return false;
     if(columns.integerValue < 1 )return false;
@@ -240,6 +256,7 @@ DBManager *dbManager;
     }
     if(self.localId == 1)[dbManager overwriteSavedGarden:json];
     else [dbManager saveGarden:json];
+
     NSLog(@"LOCAL ID = %i", self.localId);
     
     return success;

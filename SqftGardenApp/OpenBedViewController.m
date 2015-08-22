@@ -23,16 +23,12 @@
 static NSString *CellIdentifier = @"CellIdentifier";
 DBManager *dbManager;
 ApplicationGlobals *appGlobals;
-//MenuDrawerViewController *sharedMenuDrawer;
-//int table_rows = 2;
 NSMutableArray *saveBedJson;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     dbManager = [DBManager getSharedDBManager];
     appGlobals = [ApplicationGlobals getSharedGlobals];
-    //sharedMenuDrawer = [MenuDrawerViewController getSharedMenuDrawer];
-    saveBedJson = [[NSMutableArray alloc]init];
     saveBedJson = [dbManager getBedSaveList];
 
 }
@@ -42,9 +38,8 @@ NSMutableArray *saveBedJson;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    int i = (int)saveBedJson.count;
-    //NSLog(@"cell count %i",i);
-    if(i<2)i=2;
+    int i = (int)saveBedJson.count + 1;
+    if(i<2)i=1;
     return i;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -63,23 +58,22 @@ NSMutableArray *saveBedJson;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:10];
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
-    if(saveBedJson.count > 0)json = saveBedJson[0];
-    else return cell;
-    NSString *name = [json objectForKey:@"name"];
-    NSString *timestamp = [json objectForKey:@"timestamp"];
-    [label setText: [NSString stringWithFormat:@"%@ %@", name, timestamp]];
-    if([indexPath row] == 0){
+    int index = (int)[indexPath row];
+    if(index == 0){
         [label setText:[NSString stringWithFormat:@"Cancel"]];
+        return cell;
+    }
+    if(saveBedJson.count > 0){
+        index = index - 1;
+        if(index < 0)index = 0;
+        json = saveBedJson[index];
+        NSString *name = [json objectForKey:@"name"];
+        NSString *timestamp = [json objectForKey:@"timestamp"];
+        [label setText: [NSString stringWithFormat:@"%i %@ %@", index, name, timestamp]];
     }
     return cell;
 }
 
-- (UIImage *)getTargetImage:(NSString *)pic_url{
-    NSURL *url = [NSURL URLWithString: pic_url];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    UIImage *targetImage = [[UIImage alloc] initWithData:data];
-    return targetImage;
-}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
