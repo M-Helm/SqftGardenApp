@@ -68,6 +68,11 @@ DBManager *dbManager;
     return (__bridge NSString *)string;
 }
 
+- (void) assignNewUUID{
+    NSString *uuid = [self getUUID];
+    self.uniqueId = uuid;
+}
+
 - (void) setPlantIdForCell:(int) cell :(int) plant{
     if(self.bedStateDictionary == nil){
         self.bedStateDictionary = [[NSMutableDictionary alloc] init];

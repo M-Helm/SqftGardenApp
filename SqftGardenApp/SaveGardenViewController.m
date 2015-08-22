@@ -87,7 +87,6 @@ NSMutableArray *saveBedJson;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
     UITextView *label = (UITextView *)[cell.contentView viewWithTag:10];
     [label setDelegate:self];
     
@@ -133,31 +132,41 @@ NSMutableArray *saveBedJson;
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
     NSLog(@"Begin editing");
-    int index = [[textView localId]intValue];
-    textView.tintColor = [UIColor clearColor];
-    textView.hidden = NO;
-    [textView resignFirstResponder];
     NSString *fileName = @"";
-    for(int i = 0;i<saveBedJson.count;i++){
-        NSDictionary *dict = saveBedJson[i];
-        NSString *tempIndex = [dict objectForKey:@"local_id"];
-        if([[textView localId]intValue] == tempIndex.intValue){
-            fileName = [dict objectForKey:@"name"];
-            break;
+    int index = [[textView localId]intValue];
+    if(index < 1){
+        textView.text = @"";
+    }else{
+        textView.tintColor = [UIColor clearColor];
+        textView.hidden = NO;
+        [textView resignFirstResponder];
+        for(int i = 0;i<saveBedJson.count;i++){
+            NSDictionary *dict = saveBedJson[i];
+            NSString *tempIndex = [dict objectForKey:@"local_id"];
+            if([[textView localId]intValue] == tempIndex.intValue){
+                fileName = [dict objectForKey:@"name"];
+                break;
+            }
         }
+        [self showOverwriteAlert : fileName : index];
     }
-    
-    
-    [self showAlert : fileName : index];
 }
+
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
     NSLog(@"DidEndEditing");
+    NSLog(@"TEXTVIEW TEXT: %@", textView.text);
+    if(textView.text.length < 1){
+        return;
+    }
+    
 
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ([text isEqual:@"\n"]) {
         [textView resignFirstResponder];
+        [appGlobals.globalGardenModel assignNewUUID];
+        [appGlobals.globalGardenModel saveModel];
         return NO;
     }
     return YES;
@@ -190,7 +199,7 @@ NSMutableArray *saveBedJson;
     }
 }
 
-- (void) showAlert : (NSString *)fileName : (int) index{
+- (void) showOverwriteAlert : (NSString *)fileName : (int) index{
     NSString *alertStr = [NSString stringWithFormat:@"Overwrite %@", fileName];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SQFT GARDEN APP"

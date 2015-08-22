@@ -30,6 +30,7 @@
 - (void) setPlantIdForCell:(int) cell :(int) plant;
 - (void) showModelInfo;
 - (BOOL) saveModel;
+- (void) assignNewUUID;
 
 @end
 
