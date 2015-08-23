@@ -30,7 +30,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wu5-KR-7I6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-700" y="612"/>
+            <point key="canvasLocation" x="-1188" y="612"/>
         </scene>
         <!--Menu View Controller-->
         <scene sceneID="une-bc-XSk">
@@ -65,7 +65,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="4ri-tO-S0j" kind="custom" identifier="showMain" customClass="DisplayContentSegue" id="qx0-3Y-evy"/>
+                                            <segue destination="4ri-tO-S0j" kind="custom" identifier="showMain" customClass="DisplayContentSegue" id="zSh-u6-Qvr"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell1" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="vd9-yo-Yj1">
@@ -146,7 +146,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k6m-yx-GES" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="36" y="612"/>
+            <point key="canvasLocation" x="-574" y="-798"/>
         </scene>
         <!--Main Navigation Controller-->
         <scene sceneID="RdR-hp-G0k">
@@ -158,13 +158,14 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="O9I-ib-dQX" kind="relationship" relationship="rootViewController" id="Pb5-za-BjP"/>
                         <segue destination="4Ea-ZV-gdQ" kind="show" identifier="showBedDetail" id="rcr-6R-xSl"/>
+                        <segue destination="O9I-ib-dQX" kind="relationship" relationship="rootViewController" id="pdV-Ao-Gn0"/>
+                        <segue destination="ekc-8v-hIp" kind="show" identifier="showResize" id="9Nd-1O-DIL"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G7I-jw-rOk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="840" y="612"/>
+            <point key="canvasLocation" x="59" y="-1342"/>
         </scene>
         <!--Edit Bed View Controller-->
         <scene sceneID="LH1-hz-fNs">
@@ -191,7 +192,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R2U-wW-LqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="6VO-41-R7D" customClass="ButtonHandler"/>
             </objects>
-            <point key="canvasLocation" x="1600" y="612"/>
+            <point key="canvasLocation" x="2098" y="-1270"/>
         </scene>
         <!--Bed Detail View Controller-->
         <scene sceneID="urq-99-lm0">
@@ -210,7 +211,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NuD-pn-6aD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2430" y="591"/>
+            <point key="canvasLocation" x="1882" y="61"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="73j-dV-Qco">
@@ -245,7 +246,36 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S0D-hd-K4c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1608" y="-496"/>
+            <point key="canvasLocation" x="976" y="-1472"/>
+        </scene>
+        <!--Size Bed View Controller-->
+        <scene sceneID="ylk-DG-G98">
+            <objects>
+                <viewController id="ekc-8v-hIp" customClass="SizeBedViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CsP-6n-3yx"/>
+                        <viewControllerLayoutGuide type="bottom" id="BfC-1V-euf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vUn-kb-g0V">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="8aM-wh-vQz">
+                        <barButtonItem key="rightBarButtonItem" image="ic_burger_44.png" id="rDk-vi-k5T">
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="handleButton:" destination="lyI-YD-ui8" id="Do0-KF-eAg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yb0-6M-nex" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="lyI-YD-ui8" customClass="ButtonHandler"/>
+            </objects>
+            <point key="canvasLocation" x="513" y="1179"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8xN-n5-ay4">
@@ -258,11 +288,12 @@
                     <connections>
                         <segue destination="bab-t0-0Vu" kind="relationship" relationship="rootViewController" id="iQX-KQ-yoO"/>
                         <segue destination="O9I-ib-dQX" kind="show" identifier="showMain" id="HtM-B4-joc"/>
+                        <segue destination="ekc-8v-hIp" kind="show" identifier="showResize" id="69G-H9-adk"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MbM-9M-ApT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="856" y="1357"/>
+            <point key="canvasLocation" x="-442" y="29"/>
         </scene>
         <!--Save Garden View Controller-->
         <scene sceneID="E7r-NL-oiM">
@@ -282,7 +313,7 @@
                                             <rect key="frame" x="8" y="3" width="584" height="37"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                         </textView>
                                     </subviews>
                                 </tableViewCellContentView>
@@ -305,7 +336,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oPg-GF-ih1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="Vbf-g4-HTQ" customClass="ButtonHandler"/>
             </objects>
-            <point key="canvasLocation" x="1600" y="1357"/>
+            <point key="canvasLocation" x="-448" y="941"/>
         </scene>
         <!--Open Garden Navigation Controller-->
         <scene sceneID="xzD-Nb-Osi">
@@ -319,18 +350,20 @@
                         <segue destination="5kp-sf-cE8" kind="relationship" relationship="rootViewController" id="QB4-Vf-Rim"/>
                         <segue destination="O9I-ib-dQX" kind="show" identifier="showMain" id="9xN-8o-myG"/>
                         <segue destination="4Ea-ZV-gdQ" kind="show" identifier="showBedDetail" id="vbB-Zd-bn8"/>
+                        <segue destination="ekc-8v-hIp" kind="show" identifier="showResize" id="Cfc-ec-VXb"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S5J-h1-LRe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="880" y="-172"/>
+            <point key="canvasLocation" x="280" y="-772"/>
         </scene>
     </scenes>
     <resources>
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HtM-B4-joc"/>
-        <segue reference="vbB-Zd-bn8"/>
+        <segue reference="rcr-6R-xSl"/>
+        <segue reference="pdV-Ao-Gn0"/>
+        <segue reference="9Nd-1O-DIL"/>
     </inferredMetricsTieBreakers>
 </document>

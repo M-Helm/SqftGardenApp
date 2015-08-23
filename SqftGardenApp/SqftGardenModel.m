@@ -20,7 +20,7 @@ DBManager *dbManager;
 
 - (id) init{
     self = [super init];
-    NSLog(@"INIT OVERRIDE Method called");
+    //NSLog(@"INIT OVERRIDE Method called");
     [self commonInit];
     return self;
 }
@@ -39,7 +39,7 @@ DBManager *dbManager;
         [self compileBedStateDictFromString:self.bedStateArrayString];
         self.name = [dict valueForKey:@"name"];
         self.uniqueId = [dict valueForKey:@"unique_id"];
-        NSLog(@"UUID from DICT: %@", self.uniqueId);
+        //NSLog(@"UUID from DICT: %@", self.uniqueId);
         self.timestamp = ts.intValue;
         self.localId = localID.intValue;
         self.columns = (int)dRows;
@@ -55,10 +55,10 @@ DBManager *dbManager;
 
 - (void) commonInit{
     if(self.uniqueId.length < 8){
-        NSLog(@"SHort UUID: %@", self.uniqueId);
+        //NSLog(@"SHort UUID: %@", self.uniqueId);
         self.uniqueId = [self getUUID];
     }
-    NSLog(@"UUID = %@", self.uniqueId);
+    //NSLog(@"UUID = %@", self.uniqueId);
 }
 
 - (NSString *)getUUID{
@@ -161,7 +161,7 @@ DBManager *dbManager;
     arrayString = [arrayString substringWithRange:NSMakeRange(1, [arrayString length] - 2)];
     //arrayString = [arrayString substringToIndex:[arrayString length] - 1];
     NSArray *array = [arrayString componentsSeparatedByString:@","];
-    NSLog(@"TRIMMED STRING %@",arrayString);
+    //NSLog(@"TRIMMED STRING %@",arrayString);
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     NSString *key = @"";
     for(int i = 0; i < array.count;i++){
@@ -266,7 +266,7 @@ DBManager *dbManager;
     if(overwrite)[dbManager overwriteSavedGarden:json];
     if(!overwrite)[dbManager saveGarden:json];
 
-    NSLog(@"LOCAL ID = %i", self.localId);
+    //NSLog(@"LOCAL ID = %i", self.localId);
     
     return success;
 }

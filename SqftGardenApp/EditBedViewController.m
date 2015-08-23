@@ -31,6 +31,7 @@ SelectPlantView *selectPlantView;
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
 
+
 - (id) initWithDimensions:(int)rows columns:(int)columns {
     self.bedRowCount = rows;
     self.bedColumnCount = columns;
@@ -46,7 +47,6 @@ DBManager *dbManager;
 - (void) viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
-    //NSLog(@"EDIT BED VIEW DID LOAD");
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
@@ -57,9 +57,14 @@ DBManager *dbManager;
     }
     
     if (self.currentGardenModel == nil){
-        //NSLog(@"GARDEN MODEL INITIALIZED");
+        //temp stuff to work on resizer
+        NSLog(@"GARDEN MODEL NOT INITIALIZED");
+        [self.navigationController performSegueWithIdentifier:@"showResize" sender:self];
+        return;
+        
+        
         self.currentGardenModel = [[SqftGardenModel alloc] init];
-        NSLog(@"Garden Model 2: %@", self.currentGardenModel);
+        //NSLog(@"Garden Model 2: %@", self.currentGardenModel);
         //[self.currentGardenModel showModelInfo];
     }
 

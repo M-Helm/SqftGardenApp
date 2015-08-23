@@ -8,22 +8,23 @@
 
 #import "MainNavigationController.h"
 #import "BedDetailViewController.h"
+#import "ApplicationGlobals.h"
 
 @interface MainNavigationController()
 
 @end
 
 @implementation MainNavigationController
-
+ApplicationGlobals *appGlobals;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    appGlobals = [ApplicationGlobals getSharedGlobals];
     
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"Nav Controller Prepare Segue without changing anything");
     if([segue.identifier isEqualToString:@"showBedDetail"])
     {
         //BedDetailViewController *bedDetail = (BedDetailViewController*)segue.destinationViewController;

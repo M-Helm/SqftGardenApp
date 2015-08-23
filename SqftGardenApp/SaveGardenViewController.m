@@ -83,8 +83,6 @@ NSMutableArray *saveBedJson;
     return i;
 }
 
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     UITextView *label = (UITextView *)[cell.contentView viewWithTag:10];
