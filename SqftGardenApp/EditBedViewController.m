@@ -314,7 +314,7 @@ DBManager *dbManager;
     self.selectPlantArray = [self buildPlantSelectArray];
     //[self saveCurrentBed:self.bedStateDict];
     //[self saveCurrentBed: self.currentGardenModel];
-    [self.currentGardenModel saveModel];
+    [self.currentGardenModel autoSaveModel];
     [appGlobals setCurrentGardenModel:self.currentGardenModel];
     //[self.currentGardenModel showModelInfo];
     [self initViews];

@@ -168,7 +168,7 @@ NSMutableArray *saveBedJson;
         [appGlobals.globalGardenModel assignNewUUID];
         appGlobals.globalGardenModel.name = textView.text;
         appGlobals.globalGardenModel.localId = 7;
-        [appGlobals.globalGardenModel saveModel];
+        [appGlobals.globalGardenModel saveModel:false]; //false on overwrite arg
         [self showWriteSuccessAlert:textView.text : -1];
         return NO;
     }
@@ -208,8 +208,8 @@ NSMutableArray *saveBedJson;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SQFT GARDEN APP"
                                                     message: alertStr
                                                    delegate:self
-                                          cancelButtonTitle:@"YES"
-                                          otherButtonTitles:@"NO", nil];
+                                          cancelButtonTitle:@"NO"
+                                          otherButtonTitles:@"YES", nil];
     [alert show];
 }
 
@@ -231,7 +231,8 @@ NSMutableArray *saveBedJson;
     }
     if (buttonIndex == 1) {
         NSLog(@"Btn1");
-        [dbManager getGardenByLocalId:1];
+        [appGlobals.globalGardenModel saveModel:true]; //true on overwrite arg
+        [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
     }
     if (buttonIndex == 2) {
         NSLog(@"Btn2");

@@ -29,7 +29,8 @@
 - (int) getPlantIdForCell:(int) cell;
 - (void) setPlantIdForCell:(int) cell :(int) plant;
 - (void) showModelInfo;
-- (BOOL) saveModel;
+- (BOOL) saveModel : (BOOL) overwrite;
+-( BOOL) autoSaveModel;
 - (void) assignNewUUID;
 
 @end

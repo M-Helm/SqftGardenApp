@@ -184,11 +184,7 @@ DBManager *dbManager;
     NSLog(@"Rows: %i, Columns: %i, Array String: %@",self.rows, self.columns, [self getBedStateArrayString]);
 }
 
-- (BOOL) saveModel{
-    BOOL success = NO;
-    if(dbManager == nil){
-        dbManager = [DBManager getSharedDBManager];
-    }
+- (NSMutableDictionary *)compileSaveJson{
     if(self.uniqueId == nil){
         self.uniqueId = [self getUUID];
     }
@@ -224,9 +220,6 @@ DBManager *dbManager;
     }
     name = self.name;
 
-    //fail if cell structure is fucked
-    if(rows.integerValue < 1)return false;
-    if(columns.integerValue < 1 )return false;
     
     //create json pkg for db
     NSMutableDictionary *json = [[NSMutableDictionary alloc] init];
@@ -240,7 +233,15 @@ DBManager *dbManager;
     //compile an array for the bedstate
     NSString *tempArrayStr = [self getBedStateArrayString];
     [json setObject:tempArrayStr forKey:@"bedstate"];
-    
+    return json;
+}
+
+- (BOOL) saveModel : (BOOL) overwrite{
+    BOOL success = NO;
+    if(dbManager == nil){
+        dbManager = [DBManager getSharedDBManager];
+    }
+    /*
     //check uuid against the other saved files
     NSArray *array = [dbManager getBedSaveList];
     for(int i = 0;i<array.count;i++){
@@ -248,17 +249,41 @@ DBManager *dbManager;
         NSString *uuid = [dict objectForKey:@"unique_id"];
         if([self.uniqueId isEqualToString:uuid]){
             localIdStr = [dict objectForKey:@"local_id"];
-            [json setObject:localIdStr forKey:@"local_id"];
-            NSLog(@"LOCAL ID = %i", self.localId);
-            [dbManager overwriteSavedGarden:json];
-            return success;
+            NSString *checkStr = @"1";
+            if([localIdStr isEqualToString:checkStr])continue;
+            else{
+                [json setObject:localIdStr forKey:@"local_id"];
+                success = YES;
+                NSLog(@"LOCAL ID = %i", self.localId);
+                [dbManager overwriteSavedGarden:json];
+                return success;
+            }
         }
     }
+    */
+    NSMutableDictionary *json = [self compileSaveJson];
     if(self.localId == 1)[dbManager overwriteSavedGarden:json];
-    else [dbManager saveGarden:json];
+    if(overwrite)[dbManager overwriteSavedGarden:json];
+    if(!overwrite)[dbManager saveGarden:json];
 
     NSLog(@"LOCAL ID = %i", self.localId);
     
+    return success;
+}
+
+-(BOOL)autoSaveModel{
+    BOOL success = NO;
+    if(dbManager == nil){
+        dbManager = [DBManager getSharedDBManager];
+    }
+    //create json pkg for db
+    NSMutableDictionary *json = [self compileSaveJson];
+    NSString *localIdStr = [NSString stringWithFormat:@"%i", 1];
+    NSString *autoStr = @"autoSave";
+    [json setObject:localIdStr forKey:@"local_id"];
+    [json setObject:autoStr forKey:@"name"];
+    //save it to the auto save slot
+    [dbManager overwriteSavedGarden:json];
     return success;
 }
 
