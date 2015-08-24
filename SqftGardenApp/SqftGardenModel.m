@@ -42,12 +42,12 @@ DBManager *dbManager;
         //NSLog(@"UUID from DICT: %@", self.uniqueId);
         self.timestamp = ts.intValue;
         self.localId = localID.intValue;
-        self.columns = (int)dRows;
-        self.rows = (int)dColumns;
+        self.columns = dRows.intValue;
+        self.rows = dColumns.intValue;
         if(self.columns < 1)self.columns = 3;
         if(self.rows < 1)self.rows = 3;
         if(self.localId < 2)self.localId = 1;
-        NSLog(@"Local ID On INIT = %i", self.localId);
+        NSLog(@"Local ID On INIT = %i, ROWS on INIT = %i", self.localId, self.rows);
     }
     [self commonInit];
     return self;

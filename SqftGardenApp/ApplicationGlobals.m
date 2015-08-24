@@ -31,13 +31,16 @@
 }
 
 - (SqftGardenModel *)getCurrentGardenModel{
+    //NSLog(@"getmodel called in app globals");
     return self.globalGardenModel;
 }
 
 - (void) setCurrentGardenModel:(SqftGardenModel *)currentGardenModel{
+    //NSLog(@"APP GLOBALS MODEL INFO: %@", self.globalGardenModel);
     self.globalGardenModel = currentGardenModel;
     //NSLog(@"APP GLOBALS MODEL INFO: %@", self.globalGardenModel);
-    //[self.globalGardenModel showModelInfo];
+    [self.globalGardenModel showModelInfo];
+    return;
 }
 
 - (void) clearCurrentGardenModel{

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7Jo-dG-aHq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7Jo-dG-aHq">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
@@ -161,6 +161,7 @@
                         <segue destination="4Ea-ZV-gdQ" kind="show" identifier="showBedDetail" id="rcr-6R-xSl"/>
                         <segue destination="O9I-ib-dQX" kind="relationship" relationship="rootViewController" id="pdV-Ao-Gn0"/>
                         <segue destination="ekc-8v-hIp" kind="show" identifier="showResize" id="9Nd-1O-DIL"/>
+                        <segue destination="O9I-ib-dQX" kind="show" identifier="showMain" id="Mgh-Xv-c24"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G7I-jw-rOk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -192,7 +193,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R2U-wW-LqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="6VO-41-R7D" customClass="ButtonHandler"/>
             </objects>
-            <point key="canvasLocation" x="2098" y="-1270"/>
+            <point key="canvasLocation" x="1738" y="-914"/>
         </scene>
         <!--Bed Detail View Controller-->
         <scene sceneID="urq-99-lm0">
@@ -275,7 +276,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yb0-6M-nex" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="lyI-YD-ui8" customClass="ButtonHandler"/>
             </objects>
-            <point key="canvasLocation" x="513" y="1179"/>
+            <point key="canvasLocation" x="1069" y="275"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8xN-n5-ay4">
@@ -293,7 +294,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MbM-9M-ApT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-442" y="29"/>
+            <point key="canvasLocation" x="-634" y="45"/>
         </scene>
         <!--Save Garden View Controller-->
         <scene sceneID="E7r-NL-oiM">
@@ -355,15 +356,15 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S5J-h1-LRe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="280" y="-772"/>
+            <point key="canvasLocation" x="52" y="-600"/>
         </scene>
     </scenes>
     <resources>
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rcr-6R-xSl"/>
-        <segue reference="pdV-Ao-Gn0"/>
-        <segue reference="9Nd-1O-DIL"/>
+        <segue reference="Mgh-Xv-c24"/>
+        <segue reference="vbB-Zd-bn8"/>
+        <segue reference="Cfc-ec-VXb"/>
     </inferredMetricsTieBreakers>
 </document>

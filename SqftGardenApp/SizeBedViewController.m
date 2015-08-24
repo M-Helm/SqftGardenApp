@@ -49,8 +49,8 @@ DBManager *dbManager;
 }
 - (void) viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
-    self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.bedFrameView.layer.borderWidth = 3;
+
+    
 }
 -(void)initViews{
     
@@ -68,8 +68,9 @@ DBManager *dbManager;
     for(int i = 0; i < bedArray.count; i++){
         [self.bedFrameView addSubview:[bedArray objectAtIndex:i]];
     }
-    
-  
+    self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.bedFrameView.layer.borderWidth = 3;
+    self.bedFrameView.layer.cornerRadius = 15;
     [self.view addSubview:self.bedFrameView];
 }
 
@@ -94,8 +95,8 @@ DBManager *dbManager;
     for(int i=0; i<self.bedRowCount; i++){
         while(columnNumber < self.bedColumnCount){
 
-            BedView *bed = [[BedView alloc] initWithFrame:CGRectMake(1 + (bedDimension*columnNumber),
-                                                                     (bedDimension*rowNumber)+1, bedDimension, bedDimension): 0];
+            BedView *bed = [[BedView alloc] initWithFrame:CGRectMake(1 + (bedDimension*rowNumber),
+                                                                     (bedDimension*columnNumber)+1, bedDimension, bedDimension): 0];
             bed.index = cell;
             [bedArray addObject:bed];
             columnNumber++;
@@ -141,9 +142,10 @@ DBManager *dbManager;
         location.x = location.x - svStartX;
         location.y = location.y - svStartY;
         //apply a grid step to our bed frame
-        float step = [self bedDimension] / 2; // Grid step size.
-        location.x = step * floor((location.x / step) + .5);
-        location.y = step * floor((location.y / step) + .5);
+        
+        //float step = [self bedDimension] / 1; // Grid step size.
+        //location.x = step * floor((location.x / step) + .5);
+        //location.y = step * floor((location.y / step) + .5);
 
         //apply limits so we don't go outside our box
         if(location.x > xCoUpperLimit)location.x = xCoUpperLimit;
@@ -151,15 +153,52 @@ DBManager *dbManager;
         if(location.y < bedSizeAdjuster + (svBED_LAYOUT_HEIGHT_BUFFER /2))location.y = bedSizeAdjuster + (svBED_LAYOUT_HEIGHT_BUFFER /2);
         
         if(location.y > yCoLowerLimit - bedSizeAdjuster - (svBED_LAYOUT_HEIGHT_BUFFER /2))location.y = yCoLowerLimit - bedSizeAdjuster - (svBED_LAYOUT_HEIGHT_BUFFER /2);
-
-        
         touchedView.center = location;
+        
     }
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
+    if([touch view] != nil){
+        touchedView = [touch view];
+    }
+    if ([touchedView class] == [BedView class]){
+        CGPoint location = [touch locationInView:[self view]];
+        int rowCalc = round(location.x / [self bedDimension]);
+        int columnCalc = round((location.y - self.bedFrameView.frame.origin.y) / [self bedDimension]);
+        if(rowCalc < 1)rowCalc = 1;
+        if(columnCalc < 1) columnCalc = 1;
+        if(columnCalc > self.maxColumnCount)columnCalc = self.maxColumnCount;
+        if(rowCalc > self.maxRowCount)rowCalc = self.maxRowCount;
+        self.bedRowCount = rowCalc;
+        self.bedColumnCount = columnCalc;
+        
+        //build new view array with new row&col counts
+        NSArray *array = [self buildBedViewArray];
+        //remove old subviews
+        for(UIView *subview in self.bedFrameView.subviews){
+            [subview removeFromSuperview];
+        }
+        
+        //add my array of beds as subviews
+        for(int i = 0; i < array.count; i++){
+            [self.bedFrameView addSubview:[array objectAtIndex:i]];
+        }
+        [self.view addSubview:self.bedFrameView];
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        NSNumber *rows = [NSNumber numberWithInt:self.bedRowCount];
+        NSNumber *cols = [NSNumber numberWithInt:self.bedColumnCount];
+        [dict setObject: rows forKey:@"rows"];
+        [dict setObject: cols forKey:@"columns"];
+        SqftGardenModel *model = [[SqftGardenModel alloc] initWithDict:dict];
+        [appGlobals setGlobalGardenModel:model];
+    
+        
+        //NSLog(@"end of the touches section");
+        [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
+    }
 }
 
 

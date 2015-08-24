@@ -53,17 +53,20 @@ DBManager *dbManager;
     
     if ([appGlobals getCurrentGardenModel] != nil){
         self.currentGardenModel = [appGlobals getCurrentGardenModel];
-        //NSLog(@"Garden Model 1: %@", self.currentGardenModel);
+        NSLog(@"Garden Model 1: %@ ROWS: %i", self.currentGardenModel, self.currentGardenModel.rows);
+        self.bedColumnCount = self.currentGardenModel.columns;
+        self.bedRowCount = self.currentGardenModel.rows;
+        
     }
     
     if (self.currentGardenModel == nil){
         //temp stuff to work on resizer
-        NSLog(@"GARDEN MODEL NOT INITIALIZED");
+        //NSLog(@"GARDEN MODEL NOT INITIALIZED");
         [self.navigationController performSegueWithIdentifier:@"showResize" sender:self];
         return;
         
         
-        self.currentGardenModel = [[SqftGardenModel alloc] init];
+        //self.currentGardenModel = [[SqftGardenModel alloc] init];
         //NSLog(@"Garden Model 2: %@", self.currentGardenModel);
         //[self.currentGardenModel showModelInfo];
     }

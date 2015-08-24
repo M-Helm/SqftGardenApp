@@ -121,7 +121,7 @@ PlantIconView *touchedIcon;
         //float yCo = (self.frame.origin.y - self.frame.size.height + touchedView.center.y);
         yCo = fabs(self.mainView.frame.size.height + touchedView.center.y + selectMessageViewHeight);
         xCo = fabs(touchedView.center.x + xCo);
-        //NSLog(@"Adjusted END: x: %f y: %f",  xCo, yCo);
+        NSLog(@"Adjusted END: x: %f y: %f",  xCo, yCo);
         int i = 0;
         float leastSquare = 500000;
         int targetCell = -1;
@@ -139,7 +139,7 @@ PlantIconView *touchedIcon;
             i++;
         }
         //int plantId = plantView.plantId;
-        //NSLog(@"delta squared: %f, %i, %i", leastSquare, targetCell, plantId);
+        NSLog(@"delta squared: %f, %i, %i", leastSquare, targetCell, 0);
         //NSNumber *selectedId = [NSNumber numberWithInt:plantId];
         //NSString *key = [NSString stringWithFormat:@"cell%i",targetCell];
         //[self.editBedVC.bedStateDict setValue:selectedId forKey: key];
