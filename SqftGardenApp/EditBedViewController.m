@@ -190,7 +190,13 @@ DBManager *dbManager;
     if(selectPlantView != nil){
         [selectPlantView removeFromSuperview];
     }
-    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(10, yCo+BED_LAYOUT_HEIGHT_BUFFER + 125, xCo+BED_LAYOUT_WIDTH_BUFFER,bedDimension)];
+    
+    int selectDimension = [self bedDimension] - 5;
+    if((self.view.frame.size.width / selectDimension) > 6)selectDimension = self.view.frame.size.width / 6;
+    if((self.view.frame.size.width / selectDimension) < 3)selectDimension = self.view.frame.size.width / 3;
+    
+    
+    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(10, yCo+BED_LAYOUT_HEIGHT_BUFFER + 125, xCo+BED_LAYOUT_WIDTH_BUFFER,selectDimension)];
     for(int i = 0; i<self.selectPlantArray.count;i++){
         [selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
     }
@@ -209,6 +215,14 @@ DBManager *dbManager;
     if(bedDimension > columnDimension){
         bedDimension = columnDimension;
     }
+    if(((self.view.frame.size.width - 20) / bedDimension) < 3)
+            bedDimension = (int)(self.view.bounds.size.width - 20)/3;
+    
+    
+    while(bedDimension * self.bedRowCount > (self.view.frame.size.height * .70)){
+        bedDimension = bedDimension * .95;
+    }
+    
     [appGlobals setBedDimension:bedDimension];
     return bedDimension;
 }
@@ -288,6 +302,9 @@ DBManager *dbManager;
 - (NSMutableArray *)buildPlantSelectArray{
     NSMutableArray *selectArray = [[NSMutableArray alloc] init];
     int frameDimension = [self bedDimension] - 5;
+    if((self.view.frame.size.width / frameDimension) > 6)frameDimension = self.view.frame.size.width / 6;
+    if((self.view.frame.size.width / frameDimension) < 3)frameDimension = self.view.frame.size.width / 3;
+    
     int rowCount = [dbManager getTableRowCount:@"plants"];
     for(int i=0; i<rowCount; i++){
         //PlantModel *plant = [[PlantModel alloc] initWithId:i+1];

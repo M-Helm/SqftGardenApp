@@ -123,7 +123,12 @@ DBManager *dbManager;
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
+    
+    
     float bedSizeAdjuster = [self bedDimension]/2;
+    bedSizeAdjuster = 0;
+    
+    
     float xCoUpperLimit = self.bedFrameView.frame.size.width - bedSizeAdjuster;
     float xCoLowerLimit = self.bedFrameView.frame.origin.x + bedSizeAdjuster + (svBED_LAYOUT_WIDTH_BUFFER/2);
     //float yCoUpperLimit = self.bedFrameView.frame.origin.y;
@@ -136,6 +141,7 @@ DBManager *dbManager;
     }
     if ([touchedView class] == [BedView class]){
         touchedView.hidden=FALSE;
+        touchedView.backgroundColor = [UIColor clearColor];
         [self.view bringSubviewToFront:touchedView];
         [self.bedFrameView bringSubviewToFront:touchedView];
         CGPoint location = [touch locationInView:[self view]];
@@ -143,9 +149,9 @@ DBManager *dbManager;
         location.y = location.y - svStartY;
         //apply a grid step to our bed frame
         
-        //float step = [self bedDimension] / 1; // Grid step size.
-        //location.x = step * floor((location.x / step) + .5);
-        //location.y = step * floor((location.y / step) + .5);
+        float step = [self bedDimension] / 1; // Grid step size.
+        location.x = step * floor((location.x / step) + .5);
+        location.y = step * floor((location.y / step) + .5);
 
         //apply limits so we don't go outside our box
         if(location.x > xCoUpperLimit)location.x = xCoUpperLimit;
@@ -153,7 +159,10 @@ DBManager *dbManager;
         if(location.y < bedSizeAdjuster + (svBED_LAYOUT_HEIGHT_BUFFER /2))location.y = bedSizeAdjuster + (svBED_LAYOUT_HEIGHT_BUFFER /2);
         
         if(location.y > yCoLowerLimit - bedSizeAdjuster - (svBED_LAYOUT_HEIGHT_BUFFER /2))location.y = yCoLowerLimit - bedSizeAdjuster - (svBED_LAYOUT_HEIGHT_BUFFER /2);
-        touchedView.center = location;
+        //touchedView.center = location;
+        
+        CGRect frame = CGRectMake(0, 0, location.x, location.y);
+        [touchedView setFrame: frame];
         
     }
 }
@@ -195,7 +204,6 @@ DBManager *dbManager;
         SqftGardenModel *model = [[SqftGardenModel alloc] initWithDict:dict];
         [appGlobals setGlobalGardenModel:model];
     
-        
         //NSLog(@"end of the touches section");
         [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
     }
