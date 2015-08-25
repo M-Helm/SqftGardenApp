@@ -175,8 +175,8 @@ DBManager *dbManager;
     }
     if ([touchedView class] == [BedView class]){
         CGPoint location = [touch locationInView:[self view]];
-        int rowCalc = round(location.x / [self bedDimension]);
-        int columnCalc = round((location.y - self.bedFrameView.frame.origin.y) / [self bedDimension]);
+        int columnCalc = round(location.x / [self bedDimension]);
+        int rowCalc = round((location.y - self.bedFrameView.frame.origin.y) / [self bedDimension]);
         if(rowCalc < 1)rowCalc = 1;
         if(columnCalc < 1) columnCalc = 1;
         if(columnCalc > self.maxColumnCount)columnCalc = self.maxColumnCount;
