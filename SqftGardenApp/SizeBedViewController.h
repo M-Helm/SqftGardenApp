@@ -18,5 +18,6 @@
 @property(nonatomic) int maxColumnCount;
 @property(nonatomic)SqftGardenModel *currentGardenModel;
 @property(nonatomic) UIView *bedFrameView;
+@property(nonatomic) UILabel *sizeLabel;
 
 @end

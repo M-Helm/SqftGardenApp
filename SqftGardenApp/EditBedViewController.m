@@ -37,7 +37,7 @@ ApplicationGlobals *appGlobals;
 DBManager *dbManager;
 
 
-- (id) initWithDimensions:(int)rows columns:(int)columns {
+- (id) initWithDimensions:(int)rows :(int)columns {
     self.bedRowCount = rows;
     self.bedColumnCount = columns;
     return self;
@@ -123,56 +123,19 @@ DBManager *dbManager;
 -(void)initViews{
 
     [self.bedFrameView removeFromSuperview];
-    
-    int bedDimension = [self bedDimension];
-    int bedIconDimension = bedDimension - 5;
-    float width = self.view.bounds.size.width;
-    //int yCo = self.bedRowCount * bedDimension;
+
+    int width = self.view.bounds.size.width;
     int height = self.view.frame.size.height * BED_LAYOUT_HEIGHT_RATIO;
-    self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
-                    width+BED_LAYOUT_WIDTH_BUFFER, height+BED_LAYOUT_HEIGHT_BUFFER)];
+
     
     if(selectPlantView != nil){
         [selectPlantView removeFromSuperview];
     }
     
-    int selectDimension = bedDimension - 5;
-    if((self.view.frame.size.width / selectDimension) > 6)selectDimension = self.view.frame.size.width / 6;
-    if((self.view.frame.size.width / selectDimension) < 3)selectDimension = self.view.frame.size.width / 3;
-    
-    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(10, height+BED_LAYOUT_HEIGHT_BUFFER + 125, width+BED_LAYOUT_WIDTH_BUFFER, selectDimension)];
+    [self makeBedFrame : width : height];
+    [self makeSelectView: width : height];
 
     
-    //add my array of beds
-    for(int i = 0; i<self.bedViewArray.count;i++){
-        [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
-    }
-    
-    int i = 0;
-    for (UIView *subview in self.bedFrameView.subviews){
-        //NSString *key = [NSString stringWithFormat:@"cell%i",i];
-        
-        //int plantId = (int)[[self.bedStateDict valueForKey:key] integerValue];
-        int plantId = [self.currentGardenModel getPlantIdForCell:i];
-        
-        PlantIconView *plantIcon = [[PlantIconView alloc]
-                                    initWithFrame:CGRectMake(6 + (bedIconDimension*i), 2, bedIconDimension,bedIconDimension) : plantId];
-        UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
-
-        //add icons to bedviews
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-        imageView.frame = CGRectMake(subview.bounds.size.width/4,
-                                     subview.bounds.size.height/4,
-                                     subview.bounds.size.width/2,
-                                     subview.bounds.size.height/2);
-        [subview addSubview:imageView];
-        i++;
-    }
-
-
-    for(int i = 0; i<self.selectPlantArray.count;i++){
-        [selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
-    }
     self.selectMessageView = [[UIView alloc] initWithFrame:CGRectMake(10,
                                             height+BED_LAYOUT_HEIGHT_BUFFER + 102,
                                             width+BED_LAYOUT_WIDTH_BUFFER,
@@ -180,6 +143,51 @@ DBManager *dbManager;
     self.selectMessageView.layer.borderWidth = 3;
     self.selectMessageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     [self.view addSubview:self.selectMessageView];
+}
+
+-(void)makeSelectView : (int)width : (int)height{
+    int bedDimension = [self bedDimension];
+    int selectDimension = bedDimension - 5;
+    if((self.view.frame.size.width / selectDimension) > 6)selectDimension = self.view.frame.size.width / 6;
+    if((self.view.frame.size.width / selectDimension) < 3)selectDimension = self.view.frame.size.width / 3;
+    
+    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(10, height+BED_LAYOUT_HEIGHT_BUFFER + 125, width+BED_LAYOUT_WIDTH_BUFFER, selectDimension)];
+    
+    for(int i = 0; i<self.selectPlantArray.count;i++){
+        [selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
+    }
+    
+}
+
+-(void)makeBedFrame : (int) width : (int) height{
+    int bedDimension = [self bedDimension];
+    int bedIconDimension = bedDimension - 5;
+    //float width = self.view.bounds.size.width;
+    //int height = self.view.frame.size.height * BED_LAYOUT_HEIGHT_RATIO;
+    self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
+                                                                 width+BED_LAYOUT_WIDTH_BUFFER, height+BED_LAYOUT_HEIGHT_BUFFER)];
+    //add my array of beds
+    for(int i = 0; i<self.bedViewArray.count;i++){
+        [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
+    }
+    
+    
+    //add icons to bedviews
+    int cellCount = 0;
+    for (UIView *subview in self.bedFrameView.subviews){
+        int plantId = [self.currentGardenModel getPlantIdForCell:cellCount];
+        
+        PlantIconView *plantIcon = [[PlantIconView alloc]
+                                    initWithFrame:CGRectMake(6 + (bedIconDimension*cellCount), 2, bedIconDimension,bedIconDimension) : plantId];
+        UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
+        imageView.frame = CGRectMake(subview.bounds.size.width/4,
+                                     subview.bounds.size.height/4,
+                                     subview.bounds.size.width/2,
+                                     subview.bounds.size.height/2);
+        [subview addSubview:imageView];
+        cellCount++;
+    }
 }
 
 -(int)bedDimension{
@@ -192,7 +200,7 @@ DBManager *dbManager;
             bedDimension = (int)(self.view.bounds.size.width - 20)/3;
     
     
-    while(bedDimension * self.bedRowCount > (self.view.frame.size.height * .70)){
+    while(bedDimension * self.bedRowCount > (self.view.frame.size.height * BED_LAYOUT_HEIGHT_RATIO)){
         bedDimension = bedDimension * .95;
     }
     

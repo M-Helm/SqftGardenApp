@@ -61,6 +61,10 @@ DBManager *dbManager;
     int yCo = self.bedRowCount * bedDimension * self.maxRowCount;
     self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
                                                                  xCo+svBED_LAYOUT_WIDTH_BUFFER, yCo+svBED_LAYOUT_HEIGHT_BUFFER)];
+    self.sizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, yCo+(svBED_LAYOUT_HEIGHT_BUFFER*3),xCo+svBED_LAYOUT_WIDTH_BUFFER,200)];
+    self.sizeLabel.text = @"Drag the square to set garden size";
+    [self.view addSubview:self.sizeLabel];
+    
     //get bed array
     NSMutableArray *bedArray = [self buildBedViewArray];
     
@@ -71,6 +75,7 @@ DBManager *dbManager;
     self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.bedFrameView.layer.borderWidth = 3;
     self.bedFrameView.layer.cornerRadius = 15;
+
     [self.view addSubview:self.bedFrameView];
 }
 
@@ -140,18 +145,33 @@ DBManager *dbManager;
         touchedView = [touch view];
     }
     if ([touchedView class] == [BedView class]){
+        
+        CGPoint location = [touch locationInView:[self view]];
         touchedView.hidden=FALSE;
         touchedView.backgroundColor = [UIColor clearColor];
         [self.view bringSubviewToFront:touchedView];
         [self.bedFrameView bringSubviewToFront:touchedView];
-        CGPoint location = [touch locationInView:[self view]];
+        
+        //calc row and columns and update label text
+        int columnCalc = round(location.x / [self bedDimension]);
+        int rowCalc = round((location.y - self.bedFrameView.frame.origin.y) / [self bedDimension]);
+        if(rowCalc < 1)rowCalc = 1;
+        if(columnCalc < 1) columnCalc = 1;
+        if(columnCalc > self.maxColumnCount)columnCalc = self.maxColumnCount;
+        if(rowCalc > self.maxRowCount)rowCalc = self.maxRowCount;
+        NSString *msg = [NSString stringWithFormat:@"SIZE: %i ft by %i ft", columnCalc, rowCalc];
+        self.sizeLabel.text = msg;
+
+        
+        //apply a grid step to our bed frame
+        
         location.x = location.x - svStartX;
         location.y = location.y - svStartY;
-        //apply a grid step to our bed frame
         
         float step = [self bedDimension] / 1; // Grid step size.
         location.x = step * floor((location.x / step) + .5);
         location.y = step * floor((location.y / step) + .5);
+        
 
         //apply limits so we don't go outside our box
         if(location.x > xCoUpperLimit)location.x = xCoUpperLimit;
@@ -159,7 +179,6 @@ DBManager *dbManager;
         if(location.y < bedSizeAdjuster + (svBED_LAYOUT_HEIGHT_BUFFER /2))location.y = bedSizeAdjuster + (svBED_LAYOUT_HEIGHT_BUFFER /2);
         
         if(location.y > yCoLowerLimit - bedSizeAdjuster - (svBED_LAYOUT_HEIGHT_BUFFER /2))location.y = yCoLowerLimit - bedSizeAdjuster - (svBED_LAYOUT_HEIGHT_BUFFER /2);
-        //touchedView.center = location;
         
         CGRect frame = CGRectMake(0, 0, location.x, location.y);
         [touchedView setFrame: frame];
