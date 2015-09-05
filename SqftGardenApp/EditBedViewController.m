@@ -21,6 +21,11 @@
 @implementation EditBedViewController
 const int BED_LAYOUT_HEIGHT_BUFFER = 3;
 const int BED_LAYOUT_WIDTH_BUFFER = -17;
+const float BED_LAYOUT_WIDTH_RATIO = 1.0;
+const float BED_LAYOUT_HEIGHT_RATIO = .60;
+const float SELECT_LAYOUT_WIDTH_RATIO = 1.0;
+const float SELECT_LAYOUT_HEIGHT_RATIO = .20;
+
 NSString * const ROW_KEY = @"rows";
 NSString * const COLUMN_KEY = @"columns";
 float evStartX = 0;
@@ -71,13 +76,6 @@ DBManager *dbManager;
         //[self.currentGardenModel showModelInfo];
     }
 
-    //UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    //btn.frame = CGRectMake(0, 0, 30, 30);
-    //[btn setImage:[UIImage imageNamed:@"someImage.png"] forState:UIControlStateNormal];
-    //[btn addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-    //UIBarButtonItem *Item = [[UIBarButtonItem alloc] initWithCustomView:btn];
-    //self.toolbarItems   = [NSArray arrayWithObject:Item];
-    
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
     
@@ -128,11 +126,21 @@ DBManager *dbManager;
     
     int bedDimension = [self bedDimension];
     int bedIconDimension = bedDimension - 5;
-    float xCo = self.view.bounds.size.width;
+    float width = self.view.bounds.size.width;
     //int yCo = self.bedRowCount * bedDimension;
-    int yCo = self.view.frame.size.height * .60;
+    int height = self.view.frame.size.height * BED_LAYOUT_HEIGHT_RATIO;
     self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
-                    xCo+BED_LAYOUT_WIDTH_BUFFER, yCo+BED_LAYOUT_HEIGHT_BUFFER)];
+                    width+BED_LAYOUT_WIDTH_BUFFER, height+BED_LAYOUT_HEIGHT_BUFFER)];
+    
+    if(selectPlantView != nil){
+        [selectPlantView removeFromSuperview];
+    }
+    
+    int selectDimension = bedDimension - 5;
+    if((self.view.frame.size.width / selectDimension) > 6)selectDimension = self.view.frame.size.width / 6;
+    if((self.view.frame.size.width / selectDimension) < 3)selectDimension = self.view.frame.size.width / 3;
+    
+    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(10, height+BED_LAYOUT_HEIGHT_BUFFER + 125, width+BED_LAYOUT_WIDTH_BUFFER, selectDimension)];
 
     
     //add my array of beds
@@ -160,23 +168,14 @@ DBManager *dbManager;
         [subview addSubview:imageView];
         i++;
     }
-    
-    if(selectPlantView != nil){
-        [selectPlantView removeFromSuperview];
-    }
-    
-    int selectDimension = bedDimension - 5;
-    if((self.view.frame.size.width / selectDimension) > 6)selectDimension = self.view.frame.size.width / 6;
-    if((self.view.frame.size.width / selectDimension) < 3)selectDimension = self.view.frame.size.width / 3;
-    
-    
-    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(10, yCo+BED_LAYOUT_HEIGHT_BUFFER + 125, xCo+BED_LAYOUT_WIDTH_BUFFER, selectDimension)];
+
+
     for(int i = 0; i<self.selectPlantArray.count;i++){
         [selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
     }
     self.selectMessageView = [[UIView alloc] initWithFrame:CGRectMake(10,
-                                            yCo+BED_LAYOUT_HEIGHT_BUFFER + 102,
-                                            xCo+BED_LAYOUT_WIDTH_BUFFER,
+                                            height+BED_LAYOUT_HEIGHT_BUFFER + 102,
+                                            width+BED_LAYOUT_WIDTH_BUFFER,
                                             20)];
     self.selectMessageView.layer.borderWidth = 3;
     self.selectMessageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
