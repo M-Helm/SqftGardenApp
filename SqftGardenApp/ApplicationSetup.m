@@ -24,7 +24,15 @@ DBManager *dbManager;
     [dbManager dropTable:@"plant_classes"];
     
     [dbManager createTable:@"plant_classes"];
-    [dbManager addColumn:@"plant_classes" : @"class_name" :@"char(50)"];
+    [dbManager addColumn:@"plant_classes" : @"name" :@"char(50)"];
+    [dbManager addColumn:@"plant_classes" : @"timestamp" : @"int"];
+    [dbManager addColumn:@"plant_classes" : @"icon" : @"char(150)"];
+    [dbManager addColumn:@"plant_classes" : @"maturity" : @"int"];
+    [dbManager addColumn:@"plant_classes" : @"population" : @"int"];
+    
+    if([dbManager checkTableExists:@"plant_classes"]){
+        [dbManager getInitPlantClasses];
+    }
     
     
     [dbManager createTable:@"plants"];

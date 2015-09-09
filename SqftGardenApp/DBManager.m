@@ -25,6 +25,7 @@ static sqlite3 *database = nil;
 static sqlite3_stmt *statement = nil;
 static NSString *appName = @"sqftGardenApp";
 NSString* const initPlantListName = @"init_plants.txt";
+NSString* const initClassListName = @"init_plant_classes.txt";
 
 @implementation DBManager
 
@@ -50,23 +51,38 @@ NSString* const initPlantListName = @"init_plants.txt";
     
     NSError *e = nil;
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
-    //NSLog(@"count %i", (int)[jsonArray count]);
     //check if data exists in table and return the array w/o saving if so.
     if([self getTableRowCount:@"plants"] > 1)return jsonArray;
-    //NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
-    //int timestamp = (int)timeInterval;
     int i = 0;
     while (i < [jsonArray count]){
         NSMutableDictionary *json = [jsonArray objectAtIndex:i];
         json[@"timestamp"] = @0;
-        //NSLog(@"json: %@ %@ %@", [json objectForKey:@"name"],
-        //                         [json objectForKey:@"timestamp"],
-        //                         [json objectForKey:@"icon"]);
         [self savePlantData:json];
         i++;
     }
-    //temp call//
-    //[self getPlantDataByName:@"Onions"];
+    return jsonArray;
+}
+-(NSArray*)getInitPlantClasses{
+    NSLog(@"pop Table");
+    //[self createTable:@"plants"];
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSString *filePath = [path stringByAppendingPathComponent:initPlantListName];
+    NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    
+    NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
+    //NSLog(@"%i",(int)[jsonData length]);
+    
+    NSError *e = nil;
+    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
+    //check if data exists in table and return the array w/o saving if so.
+    if([self getTableRowCount:@"plants"] > 1)return jsonArray;
+    int i = 0;
+    while (i < [jsonArray count]){
+        NSMutableDictionary *json = [jsonArray objectAtIndex:i];
+        json[@"timestamp"] = @0;
+        [self saveClassData:json];
+        i++;
+    }
     return jsonArray;
 }
 
@@ -133,6 +149,34 @@ NSString* const initPlantListName = @"init_plants.txt";
         return  isSuccess;
     }
     return isSuccess;
+}
+- (BOOL) saveClassData:(NSDictionary *)msgJSON{
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into plant_classes (name, timestamp, icon, maturity, population) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+                               [msgJSON objectForKey:@"name"],
+                               [msgJSON objectForKey:@"timestamp"],
+                               [msgJSON objectForKey:@"icon"],
+                               [msgJSON objectForKey:@"maturity"],
+                               [msgJSON objectForKey:@"population"]];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE){
+            NSLog(@"class saved to db");
+            sqlite3_finalize(statement);
+            sqlite3_close(database);
+            return true;
+        }
+        else{
+            NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
+            sqlite3_close(database);
+            return false;
+        }
+    }
+    sqlite3_close(database);
+    NSLog(@"failed to save message");
+    return false;
 }
 
 - (BOOL) savePlantData:(NSDictionary *)msgJSON{

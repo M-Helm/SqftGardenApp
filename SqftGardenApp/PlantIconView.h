@@ -13,10 +13,11 @@
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
 @property (nonatomic) int index;
-@property (nonatomic)NSString *plantName;
-@property (nonatomic)NSString *iconResource;
-@property (nonatomic)int maturity;
-@property (nonatomic)int population;
-@property (nonatomic)int plantId;
+@property (nonatomic) NSString *plantName;
+@property (nonatomic) NSString *iconResource;
+@property (nonatomic) int maturity;
+@property (nonatomic) int population;
+@property (nonatomic) int plantId;
+@property (nonatomic) NSString *plantClass;
 
 @end

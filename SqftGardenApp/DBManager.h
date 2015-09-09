@@ -23,6 +23,7 @@
 - (BOOL) addColumn:(NSString *)tableName : (NSString *)columnName : (NSString *) columnType;
 - (int) getTableRowCount:(NSString *)tableName;
 - (NSArray*) getInitPlants;
+- (NSArray*) getInitPlantClasses;
 - (NSDictionary *) getPlantDataByName:(NSString *) name;
 - (NSDictionary *) getPlantDataById:(int) plantID;
 - (BOOL) overwriteSavedGarden:(NSDictionary *)msgJSON;

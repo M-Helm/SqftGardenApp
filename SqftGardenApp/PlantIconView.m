@@ -41,12 +41,15 @@ NSString * const DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     DBManager *dbManager = [DBManager getSharedDBManager];
     
     NSDictionary *json = [dbManager getPlantDataById:_plantId];
+    
+    self.plantName = [json objectForKey:@"name"];
     self.iconResource = [json objectForKey:@"icon"];
     if([self.iconResource isEqualToString:@"na"])self.iconResource = DEFAULT_ICON;
-    
-    _plantName = [json objectForKey:@"name"];
     NSString *str = [json objectForKey:@"maturity"];
-    _maturity = str.intValue;
+    self.maturity = str.intValue;
+    self.plantClass = [json objectForKey:@"class"];
+    if(self.plantClass == nil)self.plantClass = self.plantName;
+    
     float height = self.bounds.size.height;
     float width = self.bounds.size.width;
     
