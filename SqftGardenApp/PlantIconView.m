@@ -12,6 +12,7 @@
 @implementation PlantIconView
 const int ICON_DEFAULT_BORDER = 3;
 const int ICON_DEFAULT_CORNER = 30;
+NSString * const DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 //int plantId;
 
 - (id)initWithFrame:(CGRect)frame : (int)plantIndex{
@@ -40,10 +41,21 @@ const int ICON_DEFAULT_CORNER = 30;
     DBManager *dbManager = [DBManager getSharedDBManager];
     
     NSDictionary *json = [dbManager getPlantDataById:_plantId];
-    _iconResource = [json objectForKey:@"icon"];
+    self.iconResource = [json objectForKey:@"icon"];
+    if([self.iconResource isEqualToString:@"na"])self.iconResource = DEFAULT_ICON;
+    
     _plantName = [json objectForKey:@"name"];
     NSString *str = [json objectForKey:@"maturity"];
     _maturity = str.intValue;
+    float height = self.bounds.size.height;
+    float width = self.bounds.size.width;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,height-15,width,15)];
+    [label setFont:[UIFont systemFontOfSize:9]];
+    label.backgroundColor = [UIColor clearColor];
+    label.text = self.plantName;
+    label.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:label];
     [self setDefaultParameters];
 }
 

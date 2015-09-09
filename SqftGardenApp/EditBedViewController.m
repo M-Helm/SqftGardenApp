@@ -90,7 +90,7 @@ DBManager *dbManager;
 - (void) viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.bedFrameView.layer.borderWidth = 3;
+    self.bedFrameView.layer.borderWidth = 1;
     self.bedFrameView.layer.cornerRadius = 15;
     for(int i =0; i<self.bedViewArray.count; i++){
         BedView *bed = [self.bedViewArray objectAtIndex:i];
@@ -140,14 +140,14 @@ DBManager *dbManager;
                                             height+BED_LAYOUT_HEIGHT_BUFFER + 102,
                                             width+BED_LAYOUT_WIDTH_BUFFER,
                                             20)];
-    self.selectMessageView.layer.borderWidth = 3;
+    self.selectMessageView.layer.borderWidth = 1;
     self.selectMessageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     [self.view addSubview:self.selectMessageView];
 }
 
 -(void)makeSelectView : (int)width : (int)height{
     int bedDimension = [self bedDimension];
-    int selectDimension = bedDimension - 5;
+    int selectDimension = bedDimension;
     if((self.view.frame.size.width / selectDimension) > 6)selectDimension = self.view.frame.size.width / 6;
     if((self.view.frame.size.width / selectDimension) < 3)selectDimension = self.view.frame.size.width / 3;
     
@@ -288,11 +288,9 @@ DBManager *dbManager;
     
     int rowCount = [dbManager getTableRowCount:@"plants"];
     for(int i=0; i<rowCount; i++){
-        //PlantModel *plant = [[PlantModel alloc] initWithId:i+1];
         PlantIconView *plantIcon = [[PlantIconView alloc]
                                     initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : i+1];
         UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
-        //NSLog(@"res: %@", plantIcon.iconResource);
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         plantIcon.layer.borderWidth = 0;
         imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,

@@ -139,12 +139,13 @@ NSString* const initPlantListName = @"init_plants.txt";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population, class) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                                [msgJSON objectForKey:@"name"],
                                [msgJSON objectForKey:@"timestamp"],
                                [msgJSON objectForKey:@"icon"],
                                [msgJSON objectForKey:@"maturity"],
-                               [msgJSON objectForKey:@"population"]];
+                               [msgJSON objectForKey:@"population"],
+                               [msgJSON objectForKey:@"class"]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){

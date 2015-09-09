@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AD0E2DF21B14104E00535139 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0E2DF11B14104E00535139 /* libsqlite3.dylib */; };
 		AD15F26C1B67EE86003A010D /* ApplicationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = AD15F26B1B67EE86003A010D /* ApplicationSetup.m */; };
-		AD15F26E1B6817B3003A010D /* init_plants.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD15F26D1B6817B3003A010D /* init_plants.txt */; };
+		AD15F26E1B6817B3003A010D /* init_plants_old.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD15F26D1B6817B3003A010D /* init_plants_old.txt */; };
 		AD1A91BA1AF434DA00DC0983 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A91B91AF434DA00DC0983 /* main.m */; };
 		AD1A91C51AF434DA00DC0983 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91C41AF434DA00DC0983 /* Images.xcassets */; };
 		AD1A91C81AF434DA00DC0983 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91C61AF434DA00DC0983 /* LaunchScreen.xib */; };
@@ -18,6 +18,7 @@
 		AD2BB4FF1B025EC300E1541C /* SelectPlantView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2BB4FE1B025EC300E1541C /* SelectPlantView.m */; };
 		AD4B98D21B0E355100EF6F96 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4B98D11B0E355100EF6F96 /* DBManager.m */; };
 		AD56F3F81B8A2A170094BD99 /* SizeBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD56F3F71B8A2A170094BD99 /* SizeBedViewController.m */; };
+		AD967E9E1BA0A409009D7546 /* init_plants.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD967E9D1BA0A409009D7546 /* init_plants.txt */; };
 		ADA752081B06B6E300C56F5F /* ic_bean_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA751FC1B06B6E300C56F5F /* ic_bean_256.png */; };
 		ADA752091B06B6E300C56F5F /* ic_cereal_wheat_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA751FD1B06B6E300C56F5F /* ic_cereal_wheat_256.png */; };
 		ADA7520A1B06B6E300C56F5F /* ic_fruit_strawberry_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA751FE1B06B6E300C56F5F /* ic_fruit_strawberry_256.png */; };
@@ -34,6 +35,8 @@
 		ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872E1B03B455003F1A08 /* BedDetailViewController.m */; };
 		ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC87311B03C06D003F1A08 /* MainNavigationController.m */; };
 		ADCC87351B04ED4C003F1A08 /* ApplicationGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC87341B04ED4C003F1A08 /* ApplicationGlobals.m */; };
+		ADD364BE1B9F829C00F3B652 /* init_plant_classes.txt in Resources */ = {isa = PBXBuildFile; fileRef = ADD364BD1B9F829C00F3B652 /* init_plant_classes.txt */; };
+		ADD364C01B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADD364BF1B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png */; };
 		ADD47F231AF44A5700D7E26F /* ButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */; };
 		ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1C1AF44A5700D7E26F /* DisplayContentSegue.m */; };
 		ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1E1AF44A5700D7E26F /* EditBedViewController.m */; };
@@ -63,7 +66,7 @@
 		AD0E2DF11B14104E00535139 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		AD15F26A1B67EE77003A010D /* ApplicationSetup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplicationSetup.h; sourceTree = "<group>"; };
 		AD15F26B1B67EE86003A010D /* ApplicationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationSetup.m; sourceTree = "<group>"; };
-		AD15F26D1B6817B3003A010D /* init_plants.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = init_plants.txt; path = ../../../Documents/init_plants.txt; sourceTree = "<group>"; };
+		AD15F26D1B6817B3003A010D /* init_plants_old.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = init_plants_old.txt; path = ../../../Documents/init_plants_old.txt; sourceTree = "<group>"; };
 		AD1A91B41AF434DA00DC0983 /* SqftGardenApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqftGardenApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD1A91B81AF434DA00DC0983 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD1A91B91AF434DA00DC0983 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -79,6 +82,7 @@
 		AD4B98D11B0E355100EF6F96 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		AD56F3F61B8A29FF0094BD99 /* SizeBedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SizeBedViewController.h; sourceTree = "<group>"; };
 		AD56F3F71B8A2A170094BD99 /* SizeBedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SizeBedViewController.m; sourceTree = "<group>"; };
+		AD967E9D1BA0A409009D7546 /* init_plants.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init_plants.txt; sourceTree = "<group>"; };
 		ADA751FC1B06B6E300C56F5F /* ic_bean_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_bean_256.png; sourceTree = "<group>"; };
 		ADA751FD1B06B6E300C56F5F /* ic_cereal_wheat_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cereal_wheat_256.png; sourceTree = "<group>"; };
 		ADA751FE1B06B6E300C56F5F /* ic_fruit_strawberry_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_fruit_strawberry_256.png; sourceTree = "<group>"; };
@@ -99,6 +103,8 @@
 		ADCC87311B03C06D003F1A08 /* MainNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainNavigationController.m; sourceTree = "<group>"; };
 		ADCC87331B04ED3B003F1A08 /* ApplicationGlobals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplicationGlobals.h; sourceTree = "<group>"; };
 		ADCC87341B04ED4C003F1A08 /* ApplicationGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationGlobals.m; sourceTree = "<group>"; };
+		ADD364BD1B9F829C00F3B652 /* init_plant_classes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init_plant_classes.txt; sourceTree = "<group>"; };
+		ADD364BF1B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_vegetable_cucumber_256.png; path = ../../../Documents/sqftGardenAssets/ic_vegetable_cucumber_256.png; sourceTree = "<group>"; };
 		ADD47F191AF44A5700D7E26F /* ButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonHandler.h; sourceTree = "<group>"; };
 		ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonHandler.m; sourceTree = "<group>"; };
 		ADD47F1B1AF44A5700D7E26F /* DisplayContentSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayContentSegue.h; sourceTree = "<group>"; };
@@ -218,7 +224,10 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AD15F26D1B6817B3003A010D /* init_plants.txt */,
+				AD967E9D1BA0A409009D7546 /* init_plants.txt */,
+				AD15F26D1B6817B3003A010D /* init_plants_old.txt */,
+				ADD364BD1B9F829C00F3B652 /* init_plant_classes.txt */,
+				ADD364BF1B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png */,
 				ADA751FC1B06B6E300C56F5F /* ic_bean_256.png */,
 				ADA751FD1B06B6E300C56F5F /* ic_cereal_wheat_256.png */,
 				ADA751FE1B06B6E300C56F5F /* ic_fruit_strawberry_256.png */,
@@ -336,19 +345,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADA752111B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png in Resources */,
+				ADD364BE1B9F829C00F3B652 /* init_plant_classes.txt in Resources */,
 				ADA752081B06B6E300C56F5F /* ic_bean_256.png in Resources */,
 				ADA7520B1B06B6E300C56F5F /* ic_vegetable_cabbage_256.png in Resources */,
+				ADD364C01B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png in Resources */,
 				ADA7520A1B06B6E300C56F5F /* ic_fruit_strawberry_256.png in Resources */,
 				ADA752131B06B6E300C56F5F /* ic_vegetable_brinjal_256.png in Resources */,
 				ADA7520E1B06B6E300C56F5F /* ic_vegetable_chilly_256.png in Resources */,
 				ADA752091B06B6E300C56F5F /* ic_cereal_wheat_256.png in Resources */,
 				ADA752101B06B6E300C56F5F /* ic_vegetable_radish_256.png in Resources */,
+				AD967E9E1BA0A409009D7546 /* init_plants.txt in Resources */,
 				ADA7520F1B06B6E300C56F5F /* ic_vegetable_onion_256.png in Resources */,
 				ADA7520D1B06B6E300C56F5F /* ic_vegetable_carrot_256.png in Resources */,
 				ADA7520C1B06B6E300C56F5F /* ic_vegetable_capsicum_256.png in Resources */,
 				AD1A91F61AF43FA900DC0983 /* ic_burger_44.png in Resources */,
 				AD1A91C81AF434DA00DC0983 /* LaunchScreen.xib in Resources */,
-				AD15F26E1B6817B3003A010D /* init_plants.txt in Resources */,
+				AD15F26E1B6817B3003A010D /* init_plants_old.txt in Resources */,
 				AD1A91C51AF434DA00DC0983 /* Images.xcassets in Resources */,
 				ADA752121B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png in Resources */,
 				ADD47F291AF44A7A00D7E26F /* Main.storyboard in Resources */,

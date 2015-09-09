@@ -19,8 +19,13 @@ DBManager *dbManager;
 
 -(BOOL)createDB{
     dbManager = [DBManager getSharedDBManager];
-    //[dbManager dropTable:@"plants"];
+    [dbManager dropTable:@"plants"];
     [dbManager dropTable:@"saves"];
+    [dbManager dropTable:@"plant_classes"];
+    
+    [dbManager createTable:@"plant_classes"];
+    [dbManager addColumn:@"plant_classes" : @"class_name" :@"char(50)"];
+    
     
     [dbManager createTable:@"plants"];
     [dbManager addColumn:@"plants" : @"name" : @"char(50)"];
@@ -28,6 +33,8 @@ DBManager *dbManager;
     [dbManager addColumn:@"plants" : @"icon" : @"char(150)"];
     [dbManager addColumn:@"plants" : @"maturity" : @"int"];
     [dbManager addColumn:@"plants" : @"population" : @"int"];
+    [dbManager addColumn:@"plants" : @"class" : @"char(50)"];
+    
     
     if([dbManager checkTableExists:@"plants"]){
         [dbManager getInitPlants];
