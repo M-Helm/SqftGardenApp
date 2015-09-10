@@ -17,6 +17,7 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 
 - (id)initWithFrame:(CGRect)frame : (int)plantIndex{
     self.index = plantIndex;
+    self.plantId = plantIndex;
     self = [super initWithFrame:frame];
     if (self) {
         [self commonInit];
@@ -39,8 +40,9 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 - (void)commonInit {
     self.backgroundColor = [UIColor blackColor];
     DBManager *dbManager = [DBManager getSharedDBManager];
+    //NSLog(@"PLANT VIEW ID TO DB: %i", self.index);
     
-    NSDictionary *json = [dbManager getPlantDataById:_index];
+    NSDictionary *json = [dbManager getPlantDataById:self.index];
     
     self.plantName = [json objectForKey:@"name"];
     self.iconResource = [json objectForKey:@"icon"];
@@ -48,6 +50,8 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     NSString *str = [json objectForKey:@"maturity"];
     self.maturity = str.intValue;
     self.plantClass = [json objectForKey:@"class"];
+    //NSString *str2 = [json objectForKey:@"plant_id"];
+    //self.plantId = str2.intValue;
     if(self.plantClass == nil)self.plantClass = self.plantName;
     
     float height = self.bounds.size.height;

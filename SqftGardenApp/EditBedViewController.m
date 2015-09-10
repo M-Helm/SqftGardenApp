@@ -285,8 +285,8 @@ DBManager *dbManager;
 - (NSMutableArray *)buildClassSelectArray{
     NSMutableArray *selectArray = [[NSMutableArray alloc] init];
     int frameDimension = [self bedDimension] - 5;
-    if((self.view.frame.size.width / frameDimension) > 6)frameDimension = self.view.frame.size.width / 6;
-    if((self.view.frame.size.width / frameDimension) < 3)frameDimension = self.view.frame.size.width / 3;
+    //if((self.view.frame.size.width / frameDimension) > 6)frameDimension = self.view.frame.size.width / 6;
+    //if((self.view.frame.size.width / frameDimension) < 3)frameDimension = self.view.frame.size.width / 3;
     
     int rowCount = [dbManager getTableRowCount:@"plant_classes"];
     for(int i=0; i<rowCount; i++){

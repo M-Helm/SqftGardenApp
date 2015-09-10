@@ -81,6 +81,7 @@ PlantIconView *touchedIcon;
         NSString *index = list[i];
         PlantIconView *plantIcon = [[PlantIconView alloc]
                                     initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : index.intValue];
+        NSLog(@"LIST VALUE COMING OUT OF DB: %i", index.intValue);
         UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         plantIcon.layer.borderWidth = 0;
@@ -148,7 +149,7 @@ PlantIconView *touchedIcon;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [PlantIconView class] || [touchedView class] == [ClassIconView class]){
+    if ([touchedView class] == [PlantIconView class]){
         PlantIconView *plantView = (PlantIconView*)touchedView;
         float xCo = 0;
         float yCo = 0;
@@ -180,7 +181,8 @@ PlantIconView *touchedIcon;
             }
             i++;
         }
-        [self.editBedVC updatePlantBeds:targetCell:plantView.index];
+        NSLog(@"PLANT NAME ON SELECT END: %@ INDEX: %i PLANT_ID: %i", plantView.plantName, plantView.index, plantView.plantId);
+        [self.editBedVC updatePlantBeds:targetCell:plantView.plantId];
     }
 }
     
