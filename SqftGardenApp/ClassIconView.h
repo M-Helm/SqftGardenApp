@@ -1,23 +1,23 @@
 //
-//  PlantIcon.h
+//  ClassIconView.h
 //  SqftGardenApp
 //
-//  Created by Matthew Helm on 5/13/15.
+//  Created by Matthew Helm on 9/9/15.
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface PlantIconView : UIView
-- (id)initWithFrame:(CGRect)frame : (int)plantIndex;
+@interface ClassIconView : UIView
+- (id)initWithFrame:(CGRect)frame : (int)classIndex;
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
 @property (nonatomic) int index;
-@property (nonatomic) NSString *plantName;
+@property (nonatomic) NSString *className;
 @property (nonatomic) NSString *iconResource;
 @property (nonatomic) int maturity;
 @property (nonatomic) int population;
-//@property (nonatomic) int plantId;
-@property (nonatomic) NSString *plantClass;
+//@property (nonatomic) int classId;
+//@property (nonatomic) NSString *plantClass;
 
 @end

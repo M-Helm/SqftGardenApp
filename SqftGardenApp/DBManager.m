@@ -66,7 +66,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     NSLog(@"pop Table");
     //[self createTable:@"plants"];
     NSString *path = [[NSBundle mainBundle] bundlePath];
-    NSString *filePath = [path stringByAppendingPathComponent:initPlantListName];
+    NSString *filePath = [path stringByAppendingPathComponent:initClassListName];
     NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     
     NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -275,6 +275,59 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     NSLog(@"failed to save message");
     //return false;
     return lastRow;
+}
+
+- (NSDictionary *) getClassDataById:(int) classID{
+    NSMutableDictionary *classData = [[NSMutableDictionary alloc] init];
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK){
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM plant_classes WHERE local_id = %i LIMIT 1", classID];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK){
+            NSLog(@"msg sql for class data ok");
+            while (sqlite3_step(statement) == SQLITE_ROW){
+                NSString *plantName = [[NSString alloc] initWithUTF8String:
+                                       (const char *) sqlite3_column_text(statement, 1)];
+                NSString *plantIcon = [[NSString alloc] initWithUTF8String:
+                                       (const char *) sqlite3_column_text(statement, 3)];
+                NSString *plantMaturity = [[NSString alloc] initWithUTF8String:
+                                           (const char *) sqlite3_column_text(statement, 4)];
+                //NSLog(@"msg sql name: %@", plantName);
+                //NSLog(@"msg sql: %@", plantIcon);
+                //NSLog(@"msg sql: %@", plantMaturity);
+                [classData setObject:plantName forKey:@"name"];
+                [classData setObject:plantIcon forKey:@"icon"];
+                [classData setObject:plantMaturity forKey:@"maturity"];
+            }
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    }
+    return classData;
+}
+
+- (NSMutableArray *) getPlantIdsForClass:(NSString *)class{
+    NSMutableArray *list = [[NSMutableArray alloc] init];
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK){
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT local_id FROM plants WHERE class = '%@'", class];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK){
+            //NSLog(@"msg sql for plant data ok");
+            while (sqlite3_step(statement) == SQLITE_ROW){
+                NSString *plantId = [[NSString alloc] initWithUTF8String:
+                                       (const char *) sqlite3_column_text(statement, 0)];
+                //NSLog(@"msg sql name: %@", plantName);
+                //NSLog(@"msg sql: %@", plantIcon);
+                //NSLog(@"msg sql: %@", plantMaturity);
+                //int index = plantId.intValue;
+                [list addObject:plantId];
+            }
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    }
+    return list;
 }
 
 

@@ -24,6 +24,7 @@
 - (int) getTableRowCount:(NSString *)tableName;
 - (NSArray*) getInitPlants;
 - (NSArray*) getInitPlantClasses;
+- (NSDictionary *) getClassDataById:(int) classID;
 - (NSDictionary *) getPlantDataByName:(NSString *) name;
 - (NSDictionary *) getPlantDataById:(int) plantID;
 - (BOOL) overwriteSavedGarden:(NSDictionary *)msgJSON;
@@ -31,5 +32,6 @@
 - (NSMutableDictionary *) getGardenByLocalId : (int) index;
 - (int) saveGarden:(NSDictionary *)msgJSON;
 - (NSMutableDictionary *) getGardenByUniqueId : (NSString *) uuid;
+- (NSMutableArray *) getPlantIdsForClass:(NSString *)class;
 
 @end

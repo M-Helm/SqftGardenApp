@@ -8,12 +8,15 @@
 
 #import "SelectPlantView.h"
 #import "PlantIconView.h"
+#import "ClassIconView.h"
 #import "ApplicationGlobals.h"
 #import "BedView.h"
+#import "DBManager.h"
 
 
 @implementation SelectPlantView
 ApplicationGlobals *appGlobals;
+DBManager *dbManager;
 float startX = 0;
 float startY = 0;
 PlantIconView *touchedIcon;
@@ -43,6 +46,7 @@ PlantIconView *touchedIcon;
     //NSLog(@"selectPlantViewcreated");
     self.backgroundColor = [UIColor whiteColor];
     appGlobals = [ApplicationGlobals getSharedGlobals];
+    dbManager = [DBManager getSharedDBManager];
     [self setDefaultParameters];
     [self setScrollView];
 }
@@ -62,6 +66,36 @@ PlantIconView *touchedIcon;
     self.pagingEnabled=YES;
     self.backgroundColor = [UIColor clearColor];
 }
+
+
+- (NSMutableArray *)buildPlantSelectArray : (NSString *)class{
+    NSMutableArray *selectArray = [[NSMutableArray alloc] init];
+    
+    int frameDimension = appGlobals.bedDimension - 5;
+    //if((self.view.frame.size.width / frameDimension) > 6)frameDimension = self.view.frame.size.width / 6;
+    //if((self.view.frame.size.width / frameDimension) < 3)frameDimension = self.view.frame.size.width / 3;
+    
+    //int rowCount = [dbManager getTableRowCount:@"plants"];
+    NSArray *list = [dbManager getPlantIdsForClass:class];
+    for(int i=0; i<list.count; i++){
+        NSString *index = list[i];
+        PlantIconView *plantIcon = [[PlantIconView alloc]
+                                    initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : index.intValue];
+        UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
+        plantIcon.layer.borderWidth = 0;
+        imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,
+                                     plantIcon.bounds.size.height/4,
+                                     plantIcon.bounds.size.width/2,
+                                     plantIcon.bounds.size.height/2);
+        plantIcon.index = i+1;
+        [plantIcon addSubview:imageView];
+        [selectArray addObject:plantIcon];
+    }
+    return selectArray;
+}
+
+
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     //NSLog(@"TOUCHES BEGAN");
@@ -70,6 +104,19 @@ PlantIconView *touchedIcon;
     if([touch view] != nil){
         touchedView = [touch view];
     }
+    if ([touchedView class] == [ClassIconView class]){
+        ClassIconView *classView = (ClassIconView*)touchedView;
+        for(UIView *subview in self.subviews){
+            [subview removeFromSuperview];
+        }
+        NSString *class = classView.className;
+        NSArray *array = [self buildPlantSelectArray : class];
+        for(int i=0;i<array.count;i++){
+            [self addSubview:array[i]];
+        }
+        return;
+    }
+    
     if ([touchedView class] == [PlantIconView class]){
         CGPoint location = [touch locationInView:self.mainView];
         startX = location.x - touchedView.center.x;
@@ -82,7 +129,7 @@ PlantIconView *touchedIcon;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [PlantIconView class]){
+    if ([touchedView class] == [PlantIconView class] || [touchedView class] == [ClassIconView class]){
         self.scrollEnabled = NO;
         //touchedIcon = (PlantIconView*)touchedView;
         //[self.mainView addSubview: touchedIcon];
@@ -101,25 +148,17 @@ PlantIconView *touchedIcon;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [PlantIconView class]){
+    if ([touchedView class] == [PlantIconView class] || [touchedView class] == [ClassIconView class]){
         PlantIconView *plantView = (PlantIconView*)touchedView;
         float xCo = 0;
         float yCo = 0;
         float pageSize = round(self.mainView.frame.size.width / touchedView.frame.size.width);
-        
-        
-        //NSLog(@"TOUCHES ENDED");
-        //NSLog(@"LOCATION END: x: %f y: %f", touchedView.center.x, touchedView.center.y);
-        if(plantView.plantId > pageSize){
+        if(plantView.index > pageSize){
             xCo = (self.mainView.frame.size.width + 0) * -1;
         }
-        if(plantView.plantId > pageSize * 2){
+        if(plantView.index > pageSize * 2){
             xCo = ((self.mainView.frame.size.width)* 2 + 0) * -1;
         }
-        
-        //NSLog(@"MainView Y: %f, %f, %f", self.mainView.frame.size.height, self.frame.origin.y, self.frame.size.height);
-        //NSLog(@"xCO equation = %f + %f", touchedView.center.x, xCo);
-        
         float selectMessageViewHeight = 26.00;
         //float yCo = (self.frame.origin.y - self.frame.size.height + touchedView.center.y);
         yCo = fabs(self.mainView.frame.size.height + touchedView.center.y + selectMessageViewHeight);
@@ -141,12 +180,7 @@ PlantIconView *touchedIcon;
             }
             i++;
         }
-        //int plantId = plantView.plantId;
-        //NSLog(@"delta squared: %f, %i, %i", leastSquare, targetCell, 0);
-        //NSNumber *selectedId = [NSNumber numberWithInt:plantId];
-        //NSString *key = [NSString stringWithFormat:@"cell%i",targetCell];
-        //[self.editBedVC.bedStateDict setValue:selectedId forKey: key];
-        [self.editBedVC updatePlantBeds:targetCell:plantView.plantId];
+        [self.editBedVC updatePlantBeds:targetCell:plantView.index];
     }
 }
     
