@@ -343,13 +343,15 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             //NSLog(@"msg sql for plant data ok");
             while (sqlite3_step(statement) == SQLITE_ROW){
                 NSString *local_id = [[NSString alloc] initWithUTF8String:
-                                       (const char *) sqlite3_column_text(statement, 1)];
+                                       (const char *) sqlite3_column_text(statement, 0)];
                 NSString *plantName = [[NSString alloc] initWithUTF8String:
                                        (const char *) sqlite3_column_text(statement, 1)];
                 NSString *plantIcon = [[NSString alloc] initWithUTF8String:
                                        (const char *) sqlite3_column_text(statement, 3)];
                 NSString *plantMaturity = [[NSString alloc] initWithUTF8String:
                                            (const char *) sqlite3_column_text(statement, 4)];
+                NSString *plantPopulation = [[NSString alloc] initWithUTF8String:
+                                           (const char *) sqlite3_column_text(statement, 5)];
                 //NSLog(@"msg sql name: %@", plantName);
                 //NSLog(@"msg sql: %@", plantIcon);
                 //NSLog(@"msg sql: %@", plantMaturity);
@@ -357,6 +359,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [plantData setObject:plantIcon forKey:@"icon"];
                 [plantData setObject:plantMaturity forKey:@"maturity"];
                 [plantData setObject:local_id forKey:@"plant_id"];
+                [plantData setObject:plantPopulation forKey:@"population"];
             }
         }
         sqlite3_finalize(statement);

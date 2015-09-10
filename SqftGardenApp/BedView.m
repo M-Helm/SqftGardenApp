@@ -14,8 +14,8 @@
 
 @implementation BedView
 
-const int BED_DEFAULT_BORDER = 3;
-const int BED_DEFAULT_CORNER = 15;
+const int BEDVIEW_DEFAULT_BORDER = 1;
+const int BEDVIEW_DEFAULT_CORNER = 10;
 
 - (id)initWithFrame:(CGRect)frame : (int) plantId{
     self = [super initWithFrame:frame];
@@ -47,8 +47,8 @@ const int BED_DEFAULT_CORNER = 15;
     self.color = [UIColor lightGrayColor];
     self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.layer.borderWidth = BED_DEFAULT_BORDER;
-    self.layer.cornerRadius = BED_DEFAULT_CORNER;
+    self.layer.borderWidth = BEDVIEW_DEFAULT_BORDER;
+    self.layer.cornerRadius = BEDVIEW_DEFAULT_CORNER;
 }
 
 - (void) setSecondaryPlant {

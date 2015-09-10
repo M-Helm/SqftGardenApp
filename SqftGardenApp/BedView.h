@@ -16,4 +16,5 @@
 @property (nonatomic) int primaryPlant;
 @property (nonatomic) int secondaryPlant;
 @property (nonatomic) int tertiaryPlant;
+
 @end

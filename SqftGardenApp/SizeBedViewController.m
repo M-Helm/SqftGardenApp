@@ -73,7 +73,7 @@ DBManager *dbManager;
         [self.bedFrameView addSubview:[bedArray objectAtIndex:i]];
     }
     self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.bedFrameView.layer.borderWidth = 3;
+    self.bedFrameView.layer.borderWidth = 1;
     self.bedFrameView.layer.cornerRadius = 15;
 
     [self.view addSubview:self.bedFrameView];
@@ -103,6 +103,7 @@ DBManager *dbManager;
             BedView *bed = [[BedView alloc] initWithFrame:CGRectMake(1 + (bedDimension*rowNumber),
                                                                      (bedDimension*columnNumber)+1, bedDimension, bedDimension): 0];
             bed.index = cell;
+            bed.layer.borderWidth = 2;
             [bedArray addObject:bed];
             columnNumber++;
             cell++;

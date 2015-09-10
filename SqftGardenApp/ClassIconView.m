@@ -11,7 +11,7 @@
 
 @implementation ClassIconView
 const int ICON_DEFAULT_BORDER = 3;
-const int ICON_DEFAULT_CORNER = 30;
+const int ICON_DEFAULT_CORNER = 10;
 NSString * const DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 
 
@@ -63,12 +63,12 @@ NSString * const DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 }
 
 - (void) setDefaultParameters{
-    self.color = [UIColor blackColor];
-    self.fillColor = [self.color colorWithAlphaComponent:0.25];
+    //self.color = [UIColor blackColor];
+    //self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.layer.borderWidth = ICON_DEFAULT_BORDER;
-    //self.layer.cornerRadius = ICON_DEFAULT_CORNER;
-    self.layer.cornerRadius = self.frame.size.width / 2;
+    self.layer.cornerRadius = ICON_DEFAULT_CORNER;
+    //self.layer.cornerRadius = self.frame.size.width / 2;
     self.layer.backgroundColor = self.fillColor.CGColor;
 }
 
