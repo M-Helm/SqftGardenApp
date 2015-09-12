@@ -183,10 +183,22 @@ DBManager *dbManager;
                                     initWithFrame:CGRectMake(6 + (bedIconDimension*cellCount), 2, bedIconDimension,bedIconDimension) : plantId];
         UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-        imageView.frame = CGRectMake(subview.bounds.size.width/4,
-                                     subview.bounds.size.height/4,
-                                     subview.bounds.size.width/2,
-                                     subview.bounds.size.height/2);
+        //imageView.frame = CGRectMake(subview.bounds.size.width/4,
+        //                             subview.bounds.size.height/4,
+        //                             subview.bounds.size.width/2,
+        //                             subview.bounds.size.height/2);
+        imageView.frame = CGRectMake(7,
+                                     7,
+                                     subview.bounds.size.width -14,
+                                     subview.bounds.size.height -14);
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,imageView.bounds.size.height - 1,
+                                                                   imageView.bounds.size.width,7)];
+        label.text = plantIcon.plantName;
+        [label setFont:[UIFont systemFontOfSize:9]];
+        label.textAlignment = NSTextAlignmentCenter;
+        
+        
+        [imageView addSubview:label];
         [subview addSubview:imageView];
         cellCount++;
     }
@@ -295,10 +307,14 @@ DBManager *dbManager;
         UIImage *icon = [UIImage imageNamed: classIcon.iconResource];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         classIcon.layer.borderWidth = 0;
-        imageView.frame = CGRectMake(classIcon.bounds.size.width/4,
-                                     classIcon.bounds.size.height/4,
-                                     classIcon.bounds.size.width/2,
-                                     classIcon.bounds.size.height/2);
+        //imageView.frame = CGRectMake(classIcon.bounds.size.width/4,
+        //                             classIcon.bounds.size.height/4,
+        //                             classIcon.bounds.size.width/2,
+        //                             classIcon.bounds.size.height/2);
+        imageView.frame = CGRectMake(10,
+                                     10,
+                                     classIcon.bounds.size.width -20,
+                                     classIcon.bounds.size.height -20);
         classIcon.index = i+1;
         [classIcon addSubview:imageView];
         [selectArray addObject:classIcon];
@@ -320,10 +336,14 @@ DBManager *dbManager;
         UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         plantIcon.layer.borderWidth = 0;
-        imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,
-                                     plantIcon.bounds.size.height/4,
-                                     plantIcon.bounds.size.width/2,
-                                     plantIcon.bounds.size.height/2);
+        //imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,
+        //                             plantIcon.bounds.size.height/4,
+        //                             plantIcon.bounds.size.width/2,
+        //                             plantIcon.bounds.size.height/2);
+        imageView.frame = CGRectMake(10,
+                                     10,
+                                     plantIcon.bounds.size.width -20,
+                                     plantIcon.bounds.size.height -20);
         plantIcon.index = i+1;
         [plantIcon addSubview:imageView];
         [selectArray addObject:plantIcon];

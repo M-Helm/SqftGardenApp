@@ -38,7 +38,7 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 }
 
 - (void)commonInit {
-    self.backgroundColor = [UIColor blackColor];
+    self.backgroundColor = [UIColor clearColor];
     DBManager *dbManager = [DBManager getSharedDBManager];
     //NSLog(@"PLANT VIEW ID TO DB: %i", self.index);
     
@@ -69,13 +69,13 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 }
 
 - (void) setDefaultParameters{
-    self.color = [UIColor blackColor];
+    self.color = [UIColor clearColor];
     self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.layer.borderWidth = PLANT_ICON_DEFAULT_BORDER;
     //self.layer.cornerRadius = ICON_DEFAULT_CORNER;
     self.layer.cornerRadius = self.frame.size.width / 2;
-    self.layer.backgroundColor = self.fillColor.CGColor;
+    //self.layer.backgroundColor = self.fillColor.CGColor;
 }
 
 

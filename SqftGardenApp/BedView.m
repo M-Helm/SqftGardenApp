@@ -39,12 +39,12 @@ const int BEDVIEW_DEFAULT_CORNER = 10;
 }
 
 - (void)commonInit {
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor clearColor];
     [self setDefaultParameters];
 }
 
 - (void) setDefaultParameters{
-    self.color = [UIColor lightGrayColor];
+    self.color = [UIColor clearColor];
     self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.layer.borderWidth = BEDVIEW_DEFAULT_BORDER;

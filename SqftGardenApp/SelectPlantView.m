@@ -44,7 +44,7 @@ PlantIconView *touchedIcon;
 
 - (void)commonInit {
     //NSLog(@"selectPlantViewcreated");
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor clearColor];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
     [self setDefaultParameters];
@@ -52,7 +52,7 @@ PlantIconView *touchedIcon;
 }
 
 - (void) setDefaultParameters{
-    self.color = [UIColor lightGrayColor];
+    self.color = [UIColor clearColor];
     self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.layer.borderWidth = 3;
@@ -81,14 +81,18 @@ PlantIconView *touchedIcon;
         NSString *index = list[i];
         PlantIconView *plantIcon = [[PlantIconView alloc]
                                     initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : index.intValue];
-        NSLog(@"LIST VALUE COMING OUT OF DB: %i", index.intValue);
+        //NSLog(@"LIST VALUE COMING OUT OF DB: %i", index.intValue);
         UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         plantIcon.layer.borderWidth = 0;
-        imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,
-                                     plantIcon.bounds.size.height/4,
-                                     plantIcon.bounds.size.width/2,
-                                     plantIcon.bounds.size.height/2);
+        //imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,
+        //                             plantIcon.bounds.size.height/4,
+        //                             plantIcon.bounds.size.width/2,
+        //                             plantIcon.bounds.size.height/2);
+        imageView.frame = CGRectMake(10,
+                                     10,
+                                     plantIcon.bounds.size.width -20,
+                                     plantIcon.bounds.size.height -20);
         plantIcon.index = i+1;
         [plantIcon addSubview:imageView];
         [selectArray addObject:plantIcon];
@@ -181,7 +185,7 @@ PlantIconView *touchedIcon;
             }
             i++;
         }
-        NSLog(@"PLANT NAME ON SELECT END: %@ INDEX: %i PLANT_ID: %i", plantView.plantName, plantView.index, plantView.plantId);
+        //NSLog(@"PLANT NAME ON SELECT END: %@ INDEX: %i PLANT_ID: %i", plantView.plantName, plantView.index, plantView.plantId);
         [self.editBedVC updatePlantBeds:targetCell:plantView.plantId];
     }
 }
