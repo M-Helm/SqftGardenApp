@@ -22,6 +22,7 @@
 		AD34496B1BA482F100E1DB4B /* ic_pepper_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD3449651BA482F100E1DB4B /* ic_pepper_flat_256px.png */; };
 		AD34496C1BA482F100E1DB4B /* ic_eggplant_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD3449661BA482F100E1DB4B /* ic_eggplant_flat_256px.png */; };
 		AD34496D1BA482F100E1DB4B /* ic_onion_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD3449671BA482F100E1DB4B /* ic_onion_flat_256px.png */; };
+		AD3A38C11BA61D8600FC0528 /* ic_cancel_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD3A38C01BA61D8600FC0528 /* ic_cancel_256px.png */; };
 		AD4B98D21B0E355100EF6F96 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4B98D11B0E355100EF6F96 /* DBManager.m */; };
 		AD56F3F81B8A2A170094BD99 /* SizeBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD56F3F71B8A2A170094BD99 /* SizeBedViewController.m */; };
 		AD71D4B21BA4A2A4005848AB /* ic_carrot_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD71D4B01BA4A2A4005848AB /* ic_carrot_flat_256px.png */; };
@@ -93,6 +94,7 @@
 		AD3449651BA482F100E1DB4B /* ic_pepper_flat_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_pepper_flat_256px.png; path = ../../../Documents/sqftGardenAssets/ic_pepper_flat_256px.png; sourceTree = "<group>"; };
 		AD3449661BA482F100E1DB4B /* ic_eggplant_flat_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_eggplant_flat_256px.png; path = ../../../Documents/sqftGardenAssets/ic_eggplant_flat_256px.png; sourceTree = "<group>"; };
 		AD3449671BA482F100E1DB4B /* ic_onion_flat_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_onion_flat_256px.png; path = ../../../Documents/sqftGardenAssets/ic_onion_flat_256px.png; sourceTree = "<group>"; };
+		AD3A38C01BA61D8600FC0528 /* ic_cancel_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_cancel_256px.png; path = ../../../Documents/sqftGardenAssets/ic_cancel_256px.png; sourceTree = "<group>"; };
 		AD4B98D01B0E352200EF6F96 /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		AD4B98D11B0E355100EF6F96 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		AD56F3F61B8A29FF0094BD99 /* SizeBedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SizeBedViewController.h; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				AD71D4B01BA4A2A4005848AB /* ic_carrot_flat_256px.png */,
+				AD3A38C01BA61D8600FC0528 /* ic_cancel_256px.png */,
 				AD71D4B11BA4A2A4005848AB /* ic_cucumber_flat_256px.png */,
 				AD3449621BA482F100E1DB4B /* ic_herb_flat_256px.png */,
 				AD3449631BA482F100E1DB4B /* ic_leafy_flat_256px.png */,
@@ -384,6 +387,7 @@
 				AD71D4B31BA4A2A4005848AB /* ic_cucumber_flat_256px.png in Resources */,
 				ADA7520A1B06B6E300C56F5F /* ic_fruit_strawberry_256.png in Resources */,
 				ADA752131B06B6E300C56F5F /* ic_vegetable_brinjal_256.png in Resources */,
+				AD3A38C11BA61D8600FC0528 /* ic_cancel_256px.png in Resources */,
 				ADA7520E1B06B6E300C56F5F /* ic_vegetable_chilly_256.png in Resources */,
 				ADA752091B06B6E300C56F5F /* ic_cereal_wheat_256.png in Resources */,
 				ADA752101B06B6E300C56F5F /* ic_vegetable_radish_256.png in Resources */,
@@ -556,8 +560,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SqftGardenApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -566,8 +572,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SqftGardenApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

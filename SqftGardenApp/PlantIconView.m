@@ -37,9 +37,18 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 - (void)awakeFromNib {
     [self commonInit];
 }
+-(void)setAsCancelIcon{
+    self.plantName = @"Cancel";
+    self.iconResource = @"ic_cancel_256px.png";
+    [self setViewAsIcon:true];
+}
 
 - (void)commonInit {
     self.backgroundColor = [UIColor clearColor];
+    if(self.plantId == -1){
+        [self setAsCancelIcon];
+        return;
+    }
     DBManager *dbManager = [DBManager getSharedDBManager];
     //NSLog(@"PLANT VIEW ID TO DB: %i", self.index);
     
@@ -50,26 +59,15 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     if([self.iconResource isEqualToString:@"na"])self.iconResource = PLANT_DEFAULT_ICON;
     NSString *str = [json objectForKey:@"maturity"];
     NSString *population = [json objectForKey:@"population"];
+    self.population = population.intValue;
     self.maturity = str.intValue;
     self.plantClass = [json objectForKey:@"class"];
     //NSString *str2 = [json objectForKey:@"plant_id"];
     //self.plantId = str2.intValue;
     if(self.plantClass == nil)self.plantClass = self.plantName;
     
-    float height = self.bounds.size.height;
-    float width = self.bounds.size.width;
     [self setLayoutGrid:population.intValue];
-    
-    self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 9, width, 9)];
-    //UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,height-15,width,15)];
-    [self.label setFont:[UIFont boldSystemFontOfSize:9]];
-    self.label.textColor = [UIColor blackColor];
-    //if(population.intValue > 3)self.label.backgroundColor = [UIColor whiteColor];
-    //NSString *msg = [NSString stringWithFormat:@"%@, Pop: %@", self.plantName, population];
-    self.label.text = self.plantName;
-    self.label.textAlignment = NSTextAlignmentCenter;
-    //[self addSubview:imageView];
-    [self addSubview:self.label];
+    [self updateLabel];
     [self setDefaultParameters];
 }
 
@@ -143,7 +141,23 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     for(UIView* subview in self.subviews){
         if([subview class] == [UIImageView class])[subview removeFromSuperview];
     }
+    self.population = 1;
     [self setImageGrid:1 :1];
+    [self updateLabel];
+}
+-(void)updateLabel{
+    for(UIView* subview in self.subviews){
+        if([subview class] == [UILabel class])[subview removeFromSuperview];
+    }
+    float height = self.bounds.size.height;
+    float width = self.bounds.size.width;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 9, width, 9)];
+    [label setFont:[UIFont boldSystemFontOfSize:9]];
+    label.textColor = [UIColor blackColor];
+    if(self.population > 3)label.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+    label.text = self.plantName;
+    label.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:label];
 }
 
 

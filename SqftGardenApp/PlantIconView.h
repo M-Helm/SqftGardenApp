@@ -12,7 +12,7 @@
 - (id)initWithFrame:(CGRect)frame : (int)plantIndex;
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
-@property (nonatomic) UILabel* label;
+//@property (nonatomic) UILabel* label;
 @property (nonatomic) int position;
 @property (nonatomic) NSString *plantName;
 @property (nonatomic) NSString *iconResource;

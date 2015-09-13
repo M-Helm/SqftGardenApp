@@ -72,17 +72,22 @@ PlantIconView *touchedIcon;
 
 - (NSMutableArray *)buildPlantSelectArray : (NSString *)class{
     NSMutableArray *selectArray = [[NSMutableArray alloc] init];
-    
+
     int frameDimension = appGlobals.bedDimension - 5;
     //if((self.view.frame.size.width / frameDimension) > 6)frameDimension = self.view.frame.size.width / 6;
     //if((self.view.frame.size.width / frameDimension) < 3)frameDimension = self.view.frame.size.width / 3;
+    
+    //add cancel button
+    PlantIconView *cancelBtn = [[PlantIconView alloc]
+                                initWithFrame:CGRectMake(6 + (frameDimension*0), 2, frameDimension,frameDimension) : -1];
+    [selectArray addObject:cancelBtn];
     
     //int rowCount = [dbManager getTableRowCount:@"plants"];
     NSArray *list = [dbManager getPlantIdsForClass:class];
     for(int i=0; i<list.count; i++){
         NSString *index = list[i];
         PlantIconView *plantIcon = [[PlantIconView alloc]
-                                    initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : index.intValue];
+                                    initWithFrame:CGRectMake(6 + (frameDimension*(i+1)), 2, frameDimension,frameDimension) : index.intValue];
         [plantIcon setViewAsIcon:true];
         //NSLog(@"LIST VALUE COMING OUT OF DB: %i", index.intValue);
        // UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
@@ -93,6 +98,20 @@ PlantIconView *touchedIcon;
         //[plantIcon addSubview:imageView];
         [selectArray addObject:plantIcon];
         self.editBedVC.selectMessageLabel.text = @"Drag a plant to a square";
+    }
+    return selectArray;
+}
+
+- (NSMutableArray *)buildClassSelectArray{
+    NSMutableArray *selectArray = [[NSMutableArray alloc] init];
+    self.editBedVC.selectMessageLabel.text = @"Select A Class Of Plants";
+    int frameDimension = appGlobals.bedDimension - 5;
+    int rowCount = [dbManager getTableRowCount:@"plant_classes"];
+    for(int i=0; i<rowCount; i++){
+        ClassIconView *classIcon = [[ClassIconView alloc]
+                                    initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : i+1];
+        classIcon.index = i+1;
+        [selectArray addObject:classIcon];
     }
     return selectArray;
 }
@@ -120,11 +139,26 @@ PlantIconView *touchedIcon;
     }
     
     if ([touchedView class] == [PlantIconView class]){
+        PlantIconView *plantView = (PlantIconView*)touchedView;
+        if(plantView.plantId == -1){
+            [self cancelSelectPlant];
+            return;
+        }
         CGPoint location = [touch locationInView:self.mainView];
         startX = location.x - touchedView.center.x;
         startY = location.y - touchedView.center.y;
     }
 }
+-(void) cancelSelectPlant{
+    for(UIView *subview in self.subviews){
+        [subview removeFromSuperview];
+    }
+    NSArray *array = [self buildClassSelectArray];
+    for(int i=0;i<array.count;i++){
+        [self addSubview:array[i]];
+    }
+}
+
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
