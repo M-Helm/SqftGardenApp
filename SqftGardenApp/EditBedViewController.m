@@ -323,14 +323,14 @@ DBManager *dbManager;
         touchedView = [touch view];
     }
     if ([touchedView class] == [PlantIconView class]){
-        //clone the view here
-        
-        //remove the plant id from the clone
-        
+        PlantIconView *plantView = (PlantIconView*)[touch view];
+        if(plantView.plantId < 1)return;
         NSLog(@"Touches Began in EVC (INNER)");
         CGPoint location = [touch locationInView:[self view]];
         evStartX = location.x - touchedView.center.x;
         evStartY = location.y - touchedView.center.y;
+        
+        
     }
 }
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -340,6 +340,8 @@ DBManager *dbManager;
         touchedView = [touch view];
     }
     if ([touchedView class] == [PlantIconView class]){
+        PlantIconView *plantView = (PlantIconView*)[touch view];
+        if(plantView.plantId < 1)return;
         touchedView.hidden=FALSE;
         touchedView.layer.borderWidth = 0;
         [self.view bringSubviewToFront:touchedView];

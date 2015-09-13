@@ -12,6 +12,7 @@
 - (id)initWithFrame:(CGRect)frame : (int)plantIndex;
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
+@property (nonatomic) UILabel* label;
 @property (nonatomic) int position;
 @property (nonatomic) NSString *plantName;
 @property (nonatomic) NSString *iconResource;
@@ -19,5 +20,7 @@
 @property (nonatomic) int population;
 @property (nonatomic) int plantId;
 @property (nonatomic) NSString *plantClass;
+@property (nonatomic) bool isIcon;
+-(void)setViewAsIcon:(bool)isIcon;
 
 @end

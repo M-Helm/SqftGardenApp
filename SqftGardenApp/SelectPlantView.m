@@ -83,6 +83,7 @@ PlantIconView *touchedIcon;
         NSString *index = list[i];
         PlantIconView *plantIcon = [[PlantIconView alloc]
                                     initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : index.intValue];
+        [plantIcon setViewAsIcon:true];
         //NSLog(@"LIST VALUE COMING OUT OF DB: %i", index.intValue);
        // UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
        // UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
