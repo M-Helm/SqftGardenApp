@@ -10,7 +10,7 @@
 #import "DBManager.h"
 
 @implementation ClassIconView
-const int ICON_DEFAULT_BORDER = 3;
+const int ICON_DEFAULT_BORDER = 0;
 const int ICON_DEFAULT_CORNER = 10;
 NSString * const DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 
@@ -53,7 +53,17 @@ NSString * const DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     float height = self.bounds.size.height;
     float width = self.bounds.size.width;
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,height-15,width,15)];
+    UIImage *icon = [UIImage imageNamed: self.iconResource];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
+    self.layer.borderWidth = 0;
+    imageView.frame = CGRectMake(5,
+                                 5,
+                                 self.bounds.size.width -10,
+                                 self.bounds.size.height -10);
+    //self.index = i+1;
+    [self addSubview:imageView];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,height-3,width,9)];
     [label setFont:[UIFont systemFontOfSize:9]];
     label.backgroundColor = [UIColor clearColor];
     label.text = self.className;

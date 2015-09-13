@@ -1,5 +1,5 @@
-[{"name":"Cucumbers", "timestamp":0, "icon":"ic_vegetable_cucumber_256.png", "maturity":60, "population":2, "class": "Gourd"},
-{"name":"Eggplant", "timestamp":0, "icon":"ic_eggplant_flat_256px.png", "maturity":60, "population":1, "class":"Gourd"},
+[{"name":"Cucumber", "timestamp":0, "icon":"ic_cucumber_flat_256px.png", "maturity":60, "population":2, "class": "Gourd"},
+{"name":"Eggplant", "timestamp":0, "icon":"ic_eggplant_flat_256px.png", "maturity":60, "population":1, "class": "Gourd"},
 {"name":"Basil", "timestamp":0, "icon":"ic_herb_flat_256px.png", "maturity":69, "population":4, "class": "Herb"},
 {"name":"Cilantro", "timestamp":0, "icon":"ic_herb_flat_256px.png", "maturity":69, "population":9, "class": "Herb"},
 {"name":"Dill", "timestamp":0, "icon":"ic_herb_flat_256px.png", "maturity":69, "population":1, "class": "Herb"},
@@ -16,4 +16,7 @@
 {"name":"Swiss Chard", "timestamp":0, "icon":"ic_leafy_flat_256px.png", "maturity":69, "population":4, "class": "Leafy"},
 {"name":"Beans", "timestamp":0, "icon":"ic_bean_flat_256px.png", "maturity":69, "population":8, "class": "Pod"},
 {"name":"Onions", "timestamp":0, "icon":"ic_onion_flat_256px.png", "maturity":90, "population":6, "class": "Root"},
+{"name":"Carrots", "timestamp":0, "icon":"ic_carrot_flat_256px.png", "maturity":120, "population":16, "class": "Root"},
+{"name":"Green Onions", "timestamp":0, "icon":"ic_onion_flat_256px.png", "maturity":60, "population":16, "class": "Root"},
+{"name":"Leeks", "timestamp":0, "icon":"ic_onion_flat_256px.png", "maturity":120, "population":6, "class": "Root"},
 {"name":"Okra", "timestamp":0, "icon":"ic_bean_flat_256px.png", "maturity":69, "population":1, "class": "Pod"}]

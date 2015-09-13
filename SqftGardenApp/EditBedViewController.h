@@ -18,6 +18,7 @@
 @property(nonatomic) NSMutableArray *selectPlantArray;
 @property(nonatomic) UIView *bedFrameView;
 @property(nonatomic) UIView *selectMessageView;
+@property(nonatomic) UILabel *selectMessageLabel;
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;
 @property(nonatomic) SqftGardenModel *currentGardenModel;
 

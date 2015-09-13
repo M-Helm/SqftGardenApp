@@ -44,7 +44,7 @@ PlantIconView *touchedIcon;
 
 - (void)commonInit {
     //NSLog(@"selectPlantViewcreated");
-    self.backgroundColor = [UIColor clearColor];
+    //self.backgroundColor = [UIColor clearColor];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
     [self setDefaultParameters];
@@ -52,11 +52,13 @@ PlantIconView *touchedIcon;
 }
 
 - (void) setDefaultParameters{
-    self.color = [UIColor clearColor];
-    self.fillColor = [self.color colorWithAlphaComponent:0.25];
-    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.layer.borderWidth = 3;
-    self.layer.cornerRadius = 15;
+    self.color = [UIColor blueColor];
+    [self setBackgroundColor: [self.color colorWithAlphaComponent:0.05]];
+    //self.backgroundColor = [self.color colorWithAlphaComponent:0.95];
+    //self.layer.backgroundColor = [UIColor blueColor].CGColor;
+    //self.layer.borderColor = [self.color colorWithAlphaComponent:0.25].CGColor;
+    //self.layer.borderWidth = 100;
+    //self.layer.cornerRadius = 15;
     self.layer.masksToBounds = NO;
 }
 
@@ -64,7 +66,7 @@ PlantIconView *touchedIcon;
     // Adjust scroll view content size
     self.contentSize = CGSizeMake(self.frame.size.width * 3, appGlobals.bedDimension);
     self.pagingEnabled=YES;
-    self.backgroundColor = [UIColor clearColor];
+    //self.backgroundColor = [UIColor clearColor];
 }
 
 
@@ -82,20 +84,14 @@ PlantIconView *touchedIcon;
         PlantIconView *plantIcon = [[PlantIconView alloc]
                                     initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : index.intValue];
         //NSLog(@"LIST VALUE COMING OUT OF DB: %i", index.intValue);
-        UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
+       // UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
+       // UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         plantIcon.layer.borderWidth = 0;
-        //imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,
-        //                             plantIcon.bounds.size.height/4,
-        //                             plantIcon.bounds.size.width/2,
-        //                             plantIcon.bounds.size.height/2);
-        imageView.frame = CGRectMake(10,
-                                     10,
-                                     plantIcon.bounds.size.width -20,
-                                     plantIcon.bounds.size.height -20);
+
         plantIcon.index = i+1;
-        [plantIcon addSubview:imageView];
+        //[plantIcon addSubview:imageView];
         [selectArray addObject:plantIcon];
+        self.editBedVC.selectMessageLabel.text = @"Drag a plant to a square";
     }
     return selectArray;
 }

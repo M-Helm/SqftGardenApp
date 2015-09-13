@@ -10,7 +10,7 @@
 #import "DBManager.h"
 
 @implementation PlantIconView
-const int PLANT_ICON_DEFAULT_BORDER = 3;
+const int PLANT_ICON_DEFAULT_BORDER = 0;
 const int PLANT_ICON_DEFAULT_CORNER = 30;
 NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 //int plantId;
@@ -58,12 +58,21 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     float height = self.bounds.size.height;
     float width = self.bounds.size.width;
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,height-15,width,15)];
+    UIImage *icon = [UIImage imageNamed: self.iconResource];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
+    imageView.frame = CGRectMake(5,
+                                 5,
+                                 self.bounds.size.width-10,
+                                 self.bounds.size.height-10);
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 3, width, 9)];
+    //UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,height-15,width,15)];
     [label setFont:[UIFont systemFontOfSize:9]];
     label.backgroundColor = [UIColor clearColor];
     //NSString *msg = [NSString stringWithFormat:@"%@, Pop: %@", self.plantName, population];
     label.text = self.plantName;
     label.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:imageView];
     [self addSubview:label];
     [self setDefaultParameters];
 }

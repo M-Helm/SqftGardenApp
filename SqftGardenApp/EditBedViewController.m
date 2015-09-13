@@ -41,6 +41,7 @@ DBManager *dbManager;
 - (id) initWithDimensions:(int)rows :(int)columns {
     self.bedRowCount = rows;
     self.bedColumnCount = columns;
+    [self bedDimension];
     return self;
 }
 - (id) initWithModel:(SqftGardenModel *)model {
@@ -49,6 +50,7 @@ DBManager *dbManager;
     NSLog(@"MODEL Rows = %i Cols = %i", model.rows, model.columns);
     
     self.currentGardenModel = model;
+    [self bedDimension];
     return self;
 }
 
@@ -76,10 +78,8 @@ DBManager *dbManager;
         //NSLog(@"Garden Model 2: %@", self.currentGardenModel);
         //[self.currentGardenModel showModelInfo];
     }
-
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
-    
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildClassSelectArray];
@@ -138,32 +138,37 @@ DBManager *dbManager;
     [self makeSelectView: width : height];
 
     
-    self.selectMessageView = [[UIView alloc] initWithFrame:CGRectMake(10,
+    self.selectMessageView = [[UIView alloc] initWithFrame:CGRectMake(0,
                                             height+BED_LAYOUT_HEIGHT_BUFFER + 102,
-                                            width+BED_LAYOUT_WIDTH_BUFFER,
+                                            width,
                                             20)];
-    self.selectMessageView.layer.borderWidth = 1;
+    self.selectMessageView.layer.borderWidth = 0;
     self.selectMessageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    UIColor *color = [UIColor blackColor];
+    self.selectMessageView.backgroundColor = [color colorWithAlphaComponent:0.95];
+    self.selectMessageLabel = [[UILabel alloc]initWithFrame:CGRectMake(10,3,width,18)];
+    self.selectMessageLabel.textColor = [UIColor whiteColor];
+    [self.selectMessageLabel setFont:[UIFont systemFontOfSize:16]];
+    self.selectMessageLabel.text = @"This is the select Message";
+    [self.selectMessageView addSubview:self.selectMessageLabel];
     [self.view addSubview:self.selectMessageView];
+    self.selectMessageLabel.text = @"Select A Class Of Plants";
 }
 
 -(void)makeSelectView : (int)width : (int)height{
     int bedDimension = [self bedDimension];
-    int selectDimension = bedDimension;
+    int selectDimension = bedDimension + 5;
     if((self.view.frame.size.width / selectDimension) > 6)selectDimension = self.view.frame.size.width / 6;
     if((self.view.frame.size.width / selectDimension) < 3)selectDimension = self.view.frame.size.width / 3;
-    
-    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(10, height+BED_LAYOUT_HEIGHT_BUFFER + 125, width+BED_LAYOUT_WIDTH_BUFFER, selectDimension)];
-    
+    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(0, height+BED_LAYOUT_HEIGHT_BUFFER + 125, width, selectDimension)];
     for(int i = 0; i<self.selectPlantArray.count;i++){
         [selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
     }
-    
 }
 
 -(void)makeBedFrame : (int) width : (int) height{
-    int bedDimension = [self bedDimension];
-    int bedIconDimension = bedDimension - 5;
+    //int bedDimension = [self bedDimension];
+    //int bedIconDimension = bedDimension - 5;
     //float width = self.view.bounds.size.width;
     //int height = self.view.frame.size.height * BED_LAYOUT_HEIGHT_RATIO;
     self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
@@ -177,30 +182,18 @@ DBManager *dbManager;
     //add icons to bedviews
     int cellCount = 0;
     for (UIView *subview in self.bedFrameView.subviews){
-        int plantId = [self.currentGardenModel getPlantIdForCell:cellCount];
-        
-        PlantIconView *plantIcon = [[PlantIconView alloc]
-                                    initWithFrame:CGRectMake(6 + (bedIconDimension*cellCount), 2, bedIconDimension,bedIconDimension) : plantId];
-        UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-        //imageView.frame = CGRectMake(subview.bounds.size.width/4,
-        //                             subview.bounds.size.height/4,
-        //                             subview.bounds.size.width/2,
-        //                             subview.bounds.size.height/2);
-        imageView.frame = CGRectMake(7,
-                                     7,
-                                     subview.bounds.size.width -14,
-                                     subview.bounds.size.height -14);
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,imageView.bounds.size.height - 1,
-                                                                   imageView.bounds.size.width,7)];
-        label.text = plantIcon.plantName;
-        [label setFont:[UIFont systemFontOfSize:9]];
-        label.textAlignment = NSTextAlignmentCenter;
-        
-        
-        [imageView addSubview:label];
-        [subview addSubview:imageView];
-        cellCount++;
+        if( [subview class] == [BedView class]){
+            BedView *bed = (BedView*)subview;
+            int plantId = [self.currentGardenModel getPlantIdForCell:cellCount];
+            PlantIconView *plantIcon = [[PlantIconView alloc] initWithFrame: CGRectMake(7,
+                                                                                        7,
+                                                                                        subview.bounds.size.width -14,
+                                                                                        subview.bounds.size.height -14):plantId];
+            plantIcon.index = bed.index;
+            [subview addSubview: plantIcon];
+            cellCount++;
+            
+        }
     }
 }
 
@@ -294,64 +287,6 @@ DBManager *dbManager;
     return bedArray;
 }
 
-- (NSMutableArray *)buildClassSelectArray{
-    NSMutableArray *selectArray = [[NSMutableArray alloc] init];
-    int frameDimension = [self bedDimension] - 5;
-    //if((self.view.frame.size.width / frameDimension) > 6)frameDimension = self.view.frame.size.width / 6;
-    //if((self.view.frame.size.width / frameDimension) < 3)frameDimension = self.view.frame.size.width / 3;
-    
-    int rowCount = [dbManager getTableRowCount:@"plant_classes"];
-    for(int i=0; i<rowCount; i++){
-        ClassIconView *classIcon = [[ClassIconView alloc]
-                                    initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : i+1];
-        UIImage *icon = [UIImage imageNamed: classIcon.iconResource];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-        classIcon.layer.borderWidth = 0;
-        //imageView.frame = CGRectMake(classIcon.bounds.size.width/4,
-        //                             classIcon.bounds.size.height/4,
-        //                             classIcon.bounds.size.width/2,
-        //                             classIcon.bounds.size.height/2);
-        imageView.frame = CGRectMake(10,
-                                     10,
-                                     classIcon.bounds.size.width -20,
-                                     classIcon.bounds.size.height -20);
-        classIcon.index = i+1;
-        [classIcon addSubview:imageView];
-        [selectArray addObject:classIcon];
-    }
-    return selectArray;
-}
-
-
-- (NSMutableArray *)buildPlantSelectArray{
-    NSMutableArray *selectArray = [[NSMutableArray alloc] init];
-    int frameDimension = [self bedDimension] - 5;
-    if((self.view.frame.size.width / frameDimension) > 6)frameDimension = self.view.frame.size.width / 6;
-    if((self.view.frame.size.width / frameDimension) < 3)frameDimension = self.view.frame.size.width / 3;
-    
-    int rowCount = [dbManager getTableRowCount:@"plants"];
-    for(int i=0; i<rowCount; i++){
-        PlantIconView *plantIcon = [[PlantIconView alloc]
-                                    initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : i+1];
-        UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-        plantIcon.layer.borderWidth = 0;
-        //imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,
-        //                             plantIcon.bounds.size.height/4,
-        //                             plantIcon.bounds.size.width/2,
-        //                             plantIcon.bounds.size.height/2);
-        imageView.frame = CGRectMake(10,
-                                     10,
-                                     plantIcon.bounds.size.width -20,
-                                     plantIcon.bounds.size.height -20);
-        plantIcon.index = i+1;
-        [plantIcon addSubview:imageView];
-        [selectArray addObject:plantIcon];
-    }
-    return selectArray;
-}
-
-
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId{
     [self.currentGardenModel setPlantIdForCell:updatedCell :plantId];
     self.bedViewArray = [self buildBedViewArray];
@@ -362,15 +297,32 @@ DBManager *dbManager;
     [self initViews];
 }
 
+- (NSMutableArray *)buildClassSelectArray{
+    NSMutableArray *selectArray = [[NSMutableArray alloc] init];
+    self.selectMessageLabel.text = @"Select A Class Of Plants";
+    //[self.selectMessageLabel setNeedsDisplay];
+    int frameDimension = [self bedDimension] - 5;
+    int rowCount = [dbManager getTableRowCount:@"plant_classes"];
+    for(int i=0; i<rowCount; i++){
+        ClassIconView *classIcon = [[ClassIconView alloc]
+                                    initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : i+1];
+        classIcon.index = i+1;
+        [selectArray addObject:classIcon];
+    }
+    return selectArray;
+}
+
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    NSLog(@"Touches Began in EVC");
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [BedView class] ||  [touchedView class] == [BedView class]){
+    if ([touchedView class] == [BedView class] || [touchedView class] == [PlantIconView class]){
+        NSLog(@"Touches Began in EVC (INNER)");
         CGPoint location = [touch locationInView:[self view]];
         evStartX = location.x - touchedView.center.x;
         evStartY = location.y - touchedView.center.y;
@@ -382,7 +334,7 @@ DBManager *dbManager;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [BedView class]){
+    if ([touchedView class] == [BedView class] || [touchedView class] == [PlantIconView class]){
         touchedView.hidden=FALSE;
         [self.view bringSubviewToFront:touchedView];
         [self.bedFrameView bringSubviewToFront:touchedView];
@@ -399,13 +351,13 @@ DBManager *dbManager;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [BedView class]){
-        BedView *bedView = (BedView*)touchedView;
+    if ([touchedView class] == [BedView class] || [touchedView class] == [PlantIconView class]){
+        PlantIconView *plantIconView = (PlantIconView*)touchedView;
         //remove the bed from it's old spot
-        [self updatePlantBeds: bedView.index : 0];
+        [self updatePlantBeds: plantIconView.index : 0];
 
-        float xCo = bedView.center.x;
-        float yCo = bedView.center.y;
+        float xCo = plantIconView.center.x;
+        float yCo = plantIconView.center.y;
         
         float yLowerLimit = self.bedFrameView.center.y + self.bedFrameView.frame.size.height / 3;
         float yUpperLimit = 0;
@@ -429,12 +381,9 @@ DBManager *dbManager;
             }
             i++;
         }
-        [self updatePlantBeds:targetCell:bedView.primaryPlant];
+        [self updatePlantBeds:targetCell:plantIconView.plantId];
     }
 }
-
-
-
 
 
 @end

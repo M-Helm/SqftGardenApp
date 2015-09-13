@@ -23,16 +23,6 @@ DBManager *dbManager;
     [dbManager dropTable:@"saves"];
     [dbManager dropTable:@"plant_classes"];
     
-    [dbManager createTable:@"plant_classes"];
-    [dbManager addColumn:@"plant_classes" : @"name" :@"char(50)"];
-    [dbManager addColumn:@"plant_classes" : @"timestamp" : @"int"];
-    [dbManager addColumn:@"plant_classes" : @"icon" : @"char(150)"];
-    [dbManager addColumn:@"plant_classes" : @"maturity" : @"int"];
-    [dbManager addColumn:@"plant_classes" : @"population" : @"int"];
-    
-    if([dbManager checkTableExists:@"plant_classes"]){
-        [dbManager getInitPlantClasses];
-    }
     
     [dbManager createTable:@"plants"];
     [dbManager addColumn:@"plants" : @"name" : @"char(50)"];
@@ -45,6 +35,17 @@ DBManager *dbManager;
     
     if([dbManager checkTableExists:@"plants"]){
         [dbManager getInitPlants];
+    }
+    
+    [dbManager createTable:@"plant_classes"];
+    [dbManager addColumn:@"plant_classes" : @"name" :@"char(50)"];
+    [dbManager addColumn:@"plant_classes" : @"timestamp" : @"int"];
+    [dbManager addColumn:@"plant_classes" : @"icon" : @"char(150)"];
+    [dbManager addColumn:@"plant_classes" : @"maturity" : @"int"];
+    [dbManager addColumn:@"plant_classes" : @"population" : @"int"];
+    
+    if([dbManager checkTableExists:@"plant_classes"]){
+        [dbManager getInitPlantClasses];
     }
     
     if([dbManager checkTableExists:@"saves"] == false){

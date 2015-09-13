@@ -40,17 +40,18 @@ NSString* const initClassListName = @"init_plant_classes.txt";
 }
 
 -(NSArray*)getInitPlants{
-    //NSLog(@"pop Table");
+    NSLog(@"pop PLANT Table");
     //[self createTable:@"plants"];
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSString *filePath = [path stringByAppendingPathComponent:initPlantListName];
     NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     
     NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
-    //NSLog(@"%i",(int)[jsonData length]);
+    NSLog(@"%i",(int)[jsonData length]);
     
     NSError *e = nil;
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
+    NSLog(@"PLant Array Length = %lu", (unsigned long)jsonArray.count);
     //check if data exists in table and return the array w/o saving if so.
     if([self getTableRowCount:@"plants"] > 1)return jsonArray;
     int i = 0;
@@ -75,7 +76,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     NSError *e = nil;
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
     //check if data exists in table and return the array w/o saving if so.
-    if([self getTableRowCount:@"plants"] > 1)return jsonArray;
+    if([self getTableRowCount:@"plant_classes"] > 1)return jsonArray;
     int i = 0;
     while (i < [jsonArray count]){
         NSMutableDictionary *json = [jsonArray objectAtIndex:i];
@@ -146,6 +147,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         }
         //sqlite3_finalize(statement);
         sqlite3_close(database);
+        NSLog(@"CREATE TABLE %@ isSuccess: %i", tableName, isSuccess);
         return  isSuccess;
     }
     return isSuccess;
@@ -180,6 +182,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
 }
 
 - (BOOL) savePlantData:(NSDictionary *)msgJSON{
+    NSLog(@"PLANT SAVE CALLED");
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
