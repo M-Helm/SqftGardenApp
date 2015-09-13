@@ -88,7 +88,7 @@ PlantIconView *touchedIcon;
        // UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         plantIcon.layer.borderWidth = 0;
 
-        plantIcon.index = i+1;
+        plantIcon.position = i+1;
         //[plantIcon addSubview:imageView];
         [selectArray addObject:plantIcon];
         self.editBedVC.selectMessageLabel.text = @"Drag a plant to a square";
@@ -154,10 +154,10 @@ PlantIconView *touchedIcon;
         float xCo = 0;
         float yCo = 0;
         float pageSize = round(self.mainView.frame.size.width / touchedView.frame.size.width);
-        if(plantView.index > pageSize){
+        if(plantView.position > pageSize){
             xCo = (self.mainView.frame.size.width + 0) * -1;
         }
-        if(plantView.index > pageSize * 2){
+        if(plantView.position > pageSize * 2){
             xCo = ((self.mainView.frame.size.width)* 2 + 0) * -1;
         }
         float selectMessageViewHeight = 26.00;

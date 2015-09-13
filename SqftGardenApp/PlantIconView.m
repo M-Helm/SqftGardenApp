@@ -11,12 +11,12 @@
 
 @implementation PlantIconView
 const int PLANT_ICON_DEFAULT_BORDER = 0;
-const int PLANT_ICON_DEFAULT_CORNER = 30;
+const int PLANT_ICON_DEFAULT_CORNER = 10;
 NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 //int plantId;
 
 - (id)initWithFrame:(CGRect)frame : (int)plantIndex{
-    self.index = plantIndex;
+    //self.index = plantIndex;
     self.plantId = plantIndex;
     self = [super initWithFrame:frame];
     if (self) {
@@ -42,7 +42,7 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     DBManager *dbManager = [DBManager getSharedDBManager];
     //NSLog(@"PLANT VIEW ID TO DB: %i", self.index);
     
-    NSDictionary *json = [dbManager getPlantDataById:self.index];
+    NSDictionary *json = [dbManager getPlantDataById:self.plantId];
     
     self.plantName = [json objectForKey:@"name"];
     self.iconResource = [json objectForKey:@"icon"];
@@ -60,12 +60,12 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     
     UIImage *icon = [UIImage imageNamed: self.iconResource];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-    imageView.frame = CGRectMake(5,
-                                 5,
-                                 self.bounds.size.width-10,
-                                 self.bounds.size.height-10);
+    imageView.frame = CGRectMake(7,
+                                 7,
+                                 self.bounds.size.width-14,
+                                 self.bounds.size.height-14);
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 3, width, 9)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 9, width, 9)];
     //UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,height-15,width,15)];
     [label setFont:[UIFont systemFontOfSize:9]];
     label.backgroundColor = [UIColor clearColor];
@@ -82,8 +82,8 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.layer.borderWidth = PLANT_ICON_DEFAULT_BORDER;
-    //self.layer.cornerRadius = ICON_DEFAULT_CORNER;
-    self.layer.cornerRadius = self.frame.size.width / 2;
+    self.layer.cornerRadius = PLANT_ICON_DEFAULT_CORNER;
+    //self.layer.cornerRadius = self.frame.size.width / 2;
     //self.layer.backgroundColor = self.fillColor.CGColor;
 }
 

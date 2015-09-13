@@ -110,7 +110,7 @@ ApplicationGlobals *appGlobals;
                                      plantIcon.bounds.size.height/4,
                                      plantIcon.bounds.size.width/2,
                                      plantIcon.bounds.size.height/2);
-        plantIcon.index = i;
+        plantIcon.position = i;
         plantIcon.layer.borderWidth = 0;
         [plantIcon addSubview:imageView];
         [selectArray addObject:plantIcon];

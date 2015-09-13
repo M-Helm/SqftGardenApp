@@ -5,7 +5,7 @@
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 
 #import "EditBedViewController.h"
-#import "BedView.h"
+//#import "BedView.h"
 #import "PlantIconView.h"
 #import "ClassIconView.h"
 #import "SelectPlantView.h"
@@ -95,7 +95,7 @@ DBManager *dbManager;
     self.bedFrameView.layer.borderWidth = 1;
     self.bedFrameView.layer.cornerRadius = 15;
     for(int i =0; i<self.bedViewArray.count; i++){
-        BedView *bed = [self.bedViewArray objectAtIndex:i];
+        PlantIconView *bed = [self.bedViewArray objectAtIndex:i];
         UITapGestureRecognizer *singleFingerTap =
         [[UITapGestureRecognizer alloc] initWithTarget:self
                                                 action:@selector(handleBedSingleTap:)];
@@ -182,15 +182,15 @@ DBManager *dbManager;
     //add icons to bedviews
     int cellCount = 0;
     for (UIView *subview in self.bedFrameView.subviews){
-        if( [subview class] == [BedView class]){
-            BedView *bed = (BedView*)subview;
-            int plantId = [self.currentGardenModel getPlantIdForCell:cellCount];
-            PlantIconView *plantIcon = [[PlantIconView alloc] initWithFrame: CGRectMake(7,
-                                                                                        7,
-                                                                                        subview.bounds.size.width -14,
-                                                                                        subview.bounds.size.height -14):plantId];
-            plantIcon.index = bed.index;
-            [subview addSubview: plantIcon];
+        if( [subview class] == [PlantIconView class]){
+            //BedView *bed = (BedView*)subview;
+            //int plantId = [self.currentGardenModel getPlantIdForCell:cellCount];
+            //PlantIconView *plantIcon = [[PlantIconView alloc] initWithFrame: CGRectMake(7,
+            //                                                                            7,
+            //                                                                            subview.bounds.size.width -14,
+            //                                                                            subview.bounds.size.height -14):plantId];
+            //plantIcon.index = bed.index;
+            //[subview addSubview: plantIcon];
             cellCount++;
             
         }
@@ -225,8 +225,8 @@ DBManager *dbManager;
     //NSLog(@"Bed Single Tap View Id %@", recognizer.view.description);
     //recognizer.view.backgroundColor = [UIColor lightGrayColor];
     recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    BedView *bd = (BedView*)recognizer.view;
-    appGlobals.selectedCell = bd.index;
+    PlantIconView *bd = (PlantIconView*)recognizer.view;
+    appGlobals.selectedCell = bd.position;
     [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
 }
 /*
@@ -251,7 +251,7 @@ DBManager *dbManager;
 */
 - (NSMutableArray *)buildBedViewArray{
     NSMutableArray *bedArray = [[NSMutableArray alloc] init];
-    int bedDimension = [self bedDimension];
+    int bedDimension = [self bedDimension] - 5;
     int rowNumber = 0;
     int columnNumber = 0;
     int cell = 0;
@@ -274,9 +274,10 @@ DBManager *dbManager;
             int plantId = [self.currentGardenModel getPlantIdForCell:cell];
             //plantId = 3;
             //NSLog(@"Get Function: %i , %i", plantId, cell);
-            BedView *bed = [[BedView alloc] initWithFrame:CGRectMake(1 + (bedDimension*columnNumber),
+            PlantIconView *bed = [[PlantIconView alloc] initWithFrame:CGRectMake(1 + (bedDimension*columnNumber),
                                                                      (bedDimension*rowNumber)+1, bedDimension, bedDimension): plantId];
-            bed.index = cell;
+            bed.layer.borderWidth = 1;
+            bed.position = cell;
             [bedArray addObject:bed];
             columnNumber++;
             cell++;
@@ -321,7 +322,11 @@ DBManager *dbManager;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [BedView class] || [touchedView class] == [PlantIconView class]){
+    if ([touchedView class] == [PlantIconView class]){
+        //clone the view here
+        
+        //remove the plant id from the clone
+        
         NSLog(@"Touches Began in EVC (INNER)");
         CGPoint location = [touch locationInView:[self view]];
         evStartX = location.x - touchedView.center.x;
@@ -334,8 +339,9 @@ DBManager *dbManager;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [BedView class] || [touchedView class] == [PlantIconView class]){
+    if ([touchedView class] == [PlantIconView class]){
         touchedView.hidden=FALSE;
+        touchedView.layer.borderWidth = 0;
         [self.view bringSubviewToFront:touchedView];
         [self.bedFrameView bringSubviewToFront:touchedView];
         CGPoint location = [touch locationInView:[self view]];
@@ -351,13 +357,13 @@ DBManager *dbManager;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [BedView class] || [touchedView class] == [PlantIconView class]){
-        PlantIconView *plantIconView = (PlantIconView*)touchedView;
+    if ([touchedView class] == [PlantIconView class]){
+        PlantIconView *bedView = (PlantIconView*)touchedView;
         //remove the bed from it's old spot
-        [self updatePlantBeds: plantIconView.index : 0];
+        [self updatePlantBeds: bedView.position : 0];
 
-        float xCo = plantIconView.center.x;
-        float yCo = plantIconView.center.y;
+        float xCo = bedView.center.x;
+        float yCo = bedView.center.y;
         
         float yLowerLimit = self.bedFrameView.center.y + self.bedFrameView.frame.size.height / 3;
         float yUpperLimit = 0;
@@ -381,7 +387,8 @@ DBManager *dbManager;
             }
             i++;
         }
-        [self updatePlantBeds:targetCell:plantIconView.plantId];
+        NSLog(@"Target Cell: %i  PLANT ID: %i", targetCell, bedView.plantId);
+        [self updatePlantBeds:targetCell:bedView.plantId];
     }
 }
 
