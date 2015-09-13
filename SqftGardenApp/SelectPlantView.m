@@ -19,6 +19,8 @@ ApplicationGlobals *appGlobals;
 DBManager *dbManager;
 float startX = 0;
 float startY = 0;
+float viewStartX = 0;
+float viewStartY = 0;
 PlantIconView *touchedIcon;
 
 
@@ -147,6 +149,11 @@ PlantIconView *touchedIcon;
         CGPoint location = [touch locationInView:self.mainView];
         startX = location.x - touchedView.center.x;
         startY = location.y - touchedView.center.y;
+        viewStartX = touchedView.center.x;
+        viewStartY = touchedView.center.y;
+        plantView.alpha = .25;
+
+
     }
 }
 -(void) cancelSelectPlant{
@@ -174,6 +181,7 @@ PlantIconView *touchedIcon;
         location.x = location.x - startX;
         location.y = location.y - startY;
         touchedView.center = location;
+        touchedView.alpha = .5;
     }
     self.scrollEnabled = YES;
 }
@@ -186,6 +194,19 @@ PlantIconView *touchedIcon;
     }
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *plantView = (PlantIconView*)touchedView;
+        
+        float endingDeltaY = fabs(viewStartY - touchedView.center.y);
+        
+        NSLog(@"TOUCHED DELTA = %f", endingDeltaY);
+        if(fabs(endingDeltaY) < 55){
+            touchedView.alpha = 1;
+            CGPoint location;
+            location.x = viewStartX;
+            location.y =viewStartY;
+            touchedView.center = location;
+            return;
+        }
+        
         float xCo = 0;
         float yCo = 0;
         float pageSize = round(self.mainView.frame.size.width / touchedView.frame.size.width);
@@ -199,7 +220,6 @@ PlantIconView *touchedIcon;
         //float yCo = (self.frame.origin.y - self.frame.size.height + touchedView.center.y);
         yCo = fabs(self.mainView.frame.size.height + touchedView.center.y + selectMessageViewHeight);
         xCo = fabs(touchedView.center.x + xCo);
-        //NSLog(@"Adjusted END: x: %f y: %f",  xCo, yCo);
         int i = 0;
         float leastSquare = 500000;
         int targetCell = -1;
@@ -216,7 +236,6 @@ PlantIconView *touchedIcon;
             }
             i++;
         }
-        //NSLog(@"PLANT NAME ON SELECT END: %@ INDEX: %i PLANT_ID: %i", plantView.plantName, plantView.index, plantView.plantId);
         [self.editBedVC updatePlantBeds:targetCell:plantView.plantId];
     }
 }

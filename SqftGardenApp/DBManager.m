@@ -260,7 +260,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
             NSLog(@"Bed saved to db");
-            NSInteger lastRowId = sqlite3_last_insert_rowid(database);
+            NSInteger lastRowId = (int)sqlite3_last_insert_rowid(database);
             lastRow = (int)lastRowId;
             NSLog(@"Last Insert Row: %i", lastRow);
             

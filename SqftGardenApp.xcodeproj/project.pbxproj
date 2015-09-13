@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AD0E2DF21B14104E00535139 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0E2DF11B14104E00535139 /* libsqlite3.dylib */; };
 		AD15F26C1B67EE86003A010D /* ApplicationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = AD15F26B1B67EE86003A010D /* ApplicationSetup.m */; };
 		AD15F26E1B6817B3003A010D /* init_plants_old.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD15F26D1B6817B3003A010D /* init_plants_old.txt */; };
 		AD1A91BA1AF434DA00DC0983 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A91B91AF434DA00DC0983 /* main.m */; };
@@ -41,6 +40,7 @@
 		ADA752111B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA752051B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png */; };
 		ADA752121B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA752061B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png */; };
 		ADA752131B06B6E300C56F5F /* ic_vegetable_brinjal_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA752071B06B6E300C56F5F /* ic_vegetable_brinjal_256.png */; };
+		ADB59B531BA62EF600CDFF50 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB59B521BA62EF600CDFF50 /* libsqlite3.0.dylib */; };
 		ADCC872C1B03B202003F1A08 /* PlantIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872B1B03B202003F1A08 /* PlantIconView.m */; };
 		ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872E1B03B455003F1A08 /* BedDetailViewController.m */; };
 		ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC87311B03C06D003F1A08 /* MainNavigationController.m */; };
@@ -73,7 +73,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AD0E2DF11B14104E00535139 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		AD15F26A1B67EE77003A010D /* ApplicationSetup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplicationSetup.h; sourceTree = "<group>"; };
 		AD15F26B1B67EE86003A010D /* ApplicationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationSetup.m; sourceTree = "<group>"; };
 		AD15F26D1B6817B3003A010D /* init_plants_old.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = init_plants_old.txt; path = ../../../Documents/init_plants_old.txt; sourceTree = "<group>"; };
@@ -116,6 +115,7 @@
 		ADA752051B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_tomato_01_256.png; sourceTree = "<group>"; };
 		ADA752061B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_tomato_02_256.png; sourceTree = "<group>"; };
 		ADA752071B06B6E300C56F5F /* ic_vegetable_brinjal_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_vegetable_brinjal_256.png; sourceTree = "<group>"; };
+		ADB59B521BA62EF600CDFF50 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		ADCC872A1B03B1F1003F1A08 /* PlantIconView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlantIconView.h; sourceTree = "<group>"; };
 		ADCC872B1B03B202003F1A08 /* PlantIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlantIconView.m; sourceTree = "<group>"; };
 		ADCC872D1B03B443003F1A08 /* BedDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BedDetailViewController.h; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD0E2DF21B14104E00535139 /* libsqlite3.dylib in Frameworks */,
+				ADB59B531BA62EF600CDFF50 /* libsqlite3.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,7 +175,7 @@
 		AD1A91AB1AF434DA00DC0983 = {
 			isa = PBXGroup;
 			children = (
-				AD0E2DF11B14104E00535139 /* libsqlite3.dylib */,
+				ADB59B521BA62EF600CDFF50 /* libsqlite3.0.dylib */,
 				AD1A91B61AF434DA00DC0983 /* SqftGardenApp */,
 				AD1A91D01AF434DA00DC0983 /* SqftGardenAppTests */,
 				AD1A91B51AF434DA00DC0983 /* Products */,
@@ -340,7 +340,7 @@
 		AD1A91AC1AF434DA00DC0983 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Matthew Helm";
 				TargetAttributes = {
 					AD1A91B31AF434DA00DC0983 = {
@@ -497,6 +497,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -560,8 +561,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SqftGardenApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "sga.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -572,8 +574,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SqftGardenApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "sga.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -593,6 +596,7 @@
 				);
 				INFOPLIST_FILE = SqftGardenAppTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "sga.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SqftGardenApp.app/SqftGardenApp";
 			};
@@ -608,6 +612,7 @@
 				);
 				INFOPLIST_FILE = SqftGardenAppTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "sga.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SqftGardenApp.app/SqftGardenApp";
 			};
