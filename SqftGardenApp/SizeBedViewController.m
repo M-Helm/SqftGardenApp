@@ -183,6 +183,7 @@ DBManager *dbManager;
         
         CGRect frame = CGRectMake(0, 0, location.x, location.y);
         [touchedView setFrame: frame];
+        //AudioServicesPlaySystemSound(1104);
         
     }
 }

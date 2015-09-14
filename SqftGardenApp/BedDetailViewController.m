@@ -38,12 +38,6 @@ ApplicationGlobals *appGlobals;
     self.bedFrameView.layer.borderWidth = 3;
     self.bedFrameView.layer.cornerRadius = 15;
     
-    /*
-    UITapGestureRecognizer *singleFingerTap =
-                    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleBedSingleTap:)];
-    [self.bedFrameView addGestureRecognizer:singleFingerTap];
-    */
     
     for(int i =0; i<self.selectPlantArray.count; i++){
         UIView *box = [self.selectPlantArray objectAtIndex:i];

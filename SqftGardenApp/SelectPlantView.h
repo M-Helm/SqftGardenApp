@@ -8,6 +8,7 @@
 
 
 #import <UIKit/UIKit.h>
+#include <AudioToolbox/AudioToolbox.h>
 #import "EditBedViewController.h"
 
 @interface SelectPlantView : UIScrollView

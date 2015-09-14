@@ -89,14 +89,27 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     }
     
     if(cellCount % 4 == 0){
-        [self setImageGrid: 4 : 4];
-        //self.label.backgroundColor = [UIColor whiteColor];
+        if(self.population == 4){
+            [self setImageGrid: 2 : 2];
+            return;
+        }
+        if(self.population == 8){
+            [self setImageGrid: 4 : 2];
+            return;
+        }
+        if(self.population == 12)[self setImageGrid: 3 : 4];
+        else[self setImageGrid: 4 : 4];
         return;
     }
     if(cellCount % 3 == 0){
-        [self setImageGrid: 3 : 3];
-        //self.label.backgroundColor = [UIColor whiteColor];
-        //self.label.text= @"THIS";
+        if(self.population == 3){
+        [   self setImageGrid: 1 : 3];
+            return;
+        }
+        if(self.population == 6){
+            [self setImageGrid: 3 : 2];
+        }
+        else[self setImageGrid: 3 : 3];
         return;
     }
     if(cellCount % 2 == 0){
@@ -114,18 +127,32 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     int cell = 0;
     int cellCount = rowCount * columnCount;
 
-    float iconSize = self.bounds.size.width / (cellCount / rowCount);
+    float iconSize = self.bounds.size.width / (cellCount / columnCount);
     float padding = PLANT_ICON_PADDING / (rowCount);
-    float frameAdjuster = 0;
-    if(cellCount == 2)frameAdjuster = (self.frame.size.width / 2)-(iconSize / 2);
+    float xFrameAdjuster = 0;
+    float yFrameAdjuster = 0;
+    float centerAdjuster = 0;
+    if(cellCount == 2){
+        iconSize = self.bounds.size.width / 2;
+        yFrameAdjuster = (self.frame.size.width / 2)-(iconSize / 2);
+    }
+    if(cellCount == 6){
+        centerAdjuster = iconSize / 2;
+        xFrameAdjuster = (self.frame.size.height / 4)-(iconSize / 2);
+        
+    }
+    if(cellCount == 8){
+        xFrameAdjuster = (self.frame.size.height / 4) - (iconSize / 2);
+        centerAdjuster = iconSize;
+    }
     
     
     for(int i=0; i<rowCount; i++){
         while(columnNumber < columnCount){
             UIImage *icon = [UIImage imageNamed: self.iconResource];
             UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-            imageView.frame = CGRectMake(padding + (iconSize * columnNumber),
-                                         padding + (iconSize * rowNumber) + frameAdjuster,
+            imageView.frame = CGRectMake(padding + (iconSize * columnNumber) + xFrameAdjuster + (columnNumber * centerAdjuster),
+                                         padding + (iconSize * rowNumber) + yFrameAdjuster,
                                          iconSize-(padding * 2),
                                          iconSize-(padding * 2));
             [self addSubview:imageView];

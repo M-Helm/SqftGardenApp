@@ -137,6 +137,7 @@ PlantIconView *touchedIcon;
         for(int i=0;i<array.count;i++){
             [self addSubview:array[i]];
         }
+        AudioServicesPlaySystemSound(1104);
         return;
     }
     
@@ -152,8 +153,7 @@ PlantIconView *touchedIcon;
         viewStartX = touchedView.center.x;
         viewStartY = touchedView.center.y;
         plantView.alpha = .25;
-
-
+        AudioServicesPlaySystemSound(1104);
     }
 }
 -(void) cancelSelectPlant{
@@ -237,6 +237,8 @@ PlantIconView *touchedIcon;
             i++;
         }
         [self.editBedVC updatePlantBeds:targetCell:plantView.plantId];
+        AudioServicesPlaySystemSound(1104);
+
     }
 }
     
