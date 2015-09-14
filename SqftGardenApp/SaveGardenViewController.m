@@ -27,7 +27,7 @@ NSMutableArray *saveBedJson;
     [super viewDidLoad];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
-
+    self.navigationItem.title = appGlobals.appTitle;
     
     self.tableView.separatorColor = [UIColor whiteColor];
     //self.messageTF.layoutMargins = UIEdgeInsetsMake(155.0, 85.0, 255.0, 85.0);

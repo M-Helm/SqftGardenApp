@@ -48,7 +48,7 @@
 {
     [super viewDidLoad];
     //NSLog(@"menu draw view loaded");
-    
+    //self.navigationItem.hidesBackButton = YES;
     [self.menuDrawViewController performSegueWithIdentifier:@"showMain" sender:self.menuDrawViewController];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(slideDrawer:) name:@"notifyButtonPressed" object:nil];
 }

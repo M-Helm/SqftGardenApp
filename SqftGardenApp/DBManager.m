@@ -51,7 +51,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     
     NSError *e = nil;
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
-    NSLog(@"PLant Array Length = %lu", (unsigned long)jsonArray.count);
+    NSLog(@"Plant Array Length = %lu", (unsigned long)jsonArray.count);
     //check if data exists in table and return the array w/o saving if so.
     if([self getTableRowCount:@"plants"] > 1)return jsonArray;
     int i = 0;
@@ -64,7 +64,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     return jsonArray;
 }
 -(NSArray*)getInitPlantClasses{
-    NSLog(@"pop Table");
+    NSLog(@"pop Classes Table");
     //[self createTable:@"plants"];
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSString *filePath = [path stringByAppendingPathComponent:initClassListName];
@@ -186,13 +186,17 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population, class) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population, class, description, scientific_name, photo, yield) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                                [msgJSON objectForKey:@"name"],
                                [msgJSON objectForKey:@"timestamp"],
                                [msgJSON objectForKey:@"icon"],
                                [msgJSON objectForKey:@"maturity"],
                                [msgJSON objectForKey:@"population"],
-                               [msgJSON objectForKey:@"class"]];
+                               [msgJSON objectForKey:@"class"],
+                               [msgJSON objectForKey:@"description"],
+                               [msgJSON objectForKey:@"scientific_name"],
+                               [msgJSON objectForKey:@"photo"],
+                               [msgJSON objectForKey:@"yield"]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
@@ -355,14 +359,29 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                            (const char *) sqlite3_column_text(statement, 4)];
                 NSString *plantPopulation = [[NSString alloc] initWithUTF8String:
                                            (const char *) sqlite3_column_text(statement, 5)];
-                //NSLog(@"msg sql name: %@", plantName);
-                //NSLog(@"msg sql: %@", plantIcon);
-                //NSLog(@"msg sql: %@", plantMaturity);
+                NSString *plantClass = [[NSString alloc] initWithUTF8String:
+                                             (const char *) sqlite3_column_text(statement, 6)];
+                NSString *plantDescription = [[NSString alloc] initWithUTF8String:
+                                             (const char *) sqlite3_column_text(statement, 7)];
+                NSString *plantScienceName = [[NSString alloc] initWithUTF8String:
+                                              (const char *) sqlite3_column_text(statement, 8)];
+                NSString *plantPhoto = [[NSString alloc] initWithUTF8String:
+                                              (const char *) sqlite3_column_text(statement, 9)];
+                NSString *plantYield = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 10)];
+
+
                 [plantData setObject:plantName forKey:@"name"];
                 [plantData setObject:plantIcon forKey:@"icon"];
                 [plantData setObject:plantMaturity forKey:@"maturity"];
                 [plantData setObject:local_id forKey:@"plant_id"];
                 [plantData setObject:plantPopulation forKey:@"population"];
+                [plantData setObject:plantClass forKey:@"class"];
+                [plantData setObject:plantDescription forKey:@"description"];
+                [plantData setObject:plantScienceName forKey:@"scientific_name"];
+                [plantData setObject:plantPhoto forKey:@"photo"];
+                [plantData setObject:plantYield forKey:@"yield"];
+
             }
         }
         sqlite3_finalize(statement);

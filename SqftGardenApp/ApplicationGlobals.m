@@ -24,6 +24,7 @@
     @synchronized(self) {
         if (appGlobals == nil){
             appGlobals = [[self alloc] init];
+            appGlobals.appTitle = @"Grow\u00B2";
         }
         //NSLog(@"%s", __PRETTY_FUNCTION__);
     }

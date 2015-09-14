@@ -123,7 +123,8 @@ DBManager *dbManager;
 
 -(void)initViews{
     self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.title = @"Grow\u00B2";
+    //self.navigationItem.backBarButtonItem.title = @"Back";
+    //self.navigationItem.title = appGlobals.appTitle;
     //self.navigationController.navigationBar.topItem.title
     [self.bedFrameView removeFromSuperview];
     int width = self.view.bounds.size.width;
@@ -228,7 +229,7 @@ DBManager *dbManager;
     
     
     while(bedDimension * self.bedRowCount > (self.view.frame.size.height * BED_LAYOUT_HEIGHT_RATIO)){
-        bedDimension = bedDimension * .95;
+        bedDimension = bedDimension * .93;
     }
     
     [appGlobals setBedDimension:bedDimension];
@@ -236,7 +237,6 @@ DBManager *dbManager;
 }
 
 - (void)handleBedSingleTap:(UITapGestureRecognizer *)recognizer {
-    //CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     for(int i = 0; i<self.bedViewArray.count; i++){
         UIView *bed = [self.bedViewArray objectAtIndex:i];
         bed.backgroundColor = [UIColor whiteColor];
@@ -246,8 +246,9 @@ DBManager *dbManager;
     //recognizer.view.backgroundColor = [UIColor lightGrayColor];
     recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
     PlantIconView *bd = (PlantIconView*)recognizer.view;
+    appGlobals.selectedPlant = bd;
     appGlobals.selectedCell = bd.position;
-    //[self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
+    [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
 }
 /*
 - (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {
@@ -402,6 +403,7 @@ DBManager *dbManager;
         
         int i = 0;
         float leastSquare = 500000;
+        float deltaSquare = 0;
         int targetCell = -1;
         for(UIView *subview in self.bedFrameView.subviews){
             CGPoint location = subview.center;
@@ -409,7 +411,7 @@ DBManager *dbManager;
             float bedY = fabs(location.y);
             float deltaX = fabs(xCo - bedX);
             float deltaY = fabs(yCo - bedY);
-            float deltaSquare = (deltaX * deltaX) + (deltaY * deltaY);
+            deltaSquare = (deltaX * deltaX) + (deltaY * deltaY);
             if(leastSquare > deltaSquare){
                 leastSquare = deltaSquare;
                 targetCell = i;
@@ -417,6 +419,15 @@ DBManager *dbManager;
             i++;
         }
         NSLog(@"Target Cell: %i  PLANT ID: %i", targetCell, bedView.plantId);
+        
+        //if we're far from a bedview just return
+        NSLog(@"squares reports at D: %f , LOS: %f", deltaSquare, leastSquare);
+        if(leastSquare > (appGlobals.bedDimension * appGlobals.bedDimension)*2){
+            touchedView.alpha = 0;
+            [touchedView removeFromSuperview];
+            return;
+        }
+        
         [self updatePlantBeds:targetCell:bedView.plantId];
         AudioServicesPlaySystemSound(1104);
     }

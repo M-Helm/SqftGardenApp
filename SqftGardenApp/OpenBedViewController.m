@@ -30,6 +30,7 @@ NSMutableArray *saveBedJson;
     dbManager = [DBManager getSharedDBManager];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     saveBedJson = [dbManager getBedSaveList];
+    self.navigationItem.title = appGlobals.appTitle;
 
 }
 

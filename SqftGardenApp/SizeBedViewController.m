@@ -54,8 +54,8 @@ DBManager *dbManager;
 -(void)initViews{
     
     [self.bedFrameView removeFromSuperview];
-    self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.title = @"Grow\u00B2";
+    //self.navigationItem.hidesBackButton = YES;
+    //self.navigationItem.title = appGlobals.appTitle;
     int bedDimension = [self bedDimension];
     //int frameDimension = bedDimension - 5;
     float xCo = self.view.bounds.size.width;

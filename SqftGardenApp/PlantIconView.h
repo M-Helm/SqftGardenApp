@@ -16,10 +16,14 @@
 @property (nonatomic) int position;
 @property (nonatomic) NSString *plantName;
 @property (nonatomic) NSString *iconResource;
+@property (nonatomic) NSString *photoResource;
+@property (nonatomic) NSString *plantYield;
 @property (nonatomic) int maturity;
 @property (nonatomic) int population;
 @property (nonatomic) int plantId;
 @property (nonatomic) NSString *plantClass;
+@property (nonatomic) NSString *plantDescription;
+@property (nonatomic) NSString *plantScientificName;
 @property (nonatomic) bool isIcon;
 -(void)setViewAsIcon:(bool)isIcon;
 

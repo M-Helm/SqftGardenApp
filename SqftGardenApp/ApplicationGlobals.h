@@ -13,6 +13,7 @@
 
 @interface ApplicationGlobals : NSObject
 + (ApplicationGlobals*)getSharedGlobals;
+@property (nonatomic) NSString *appTitle;
 @property (nonatomic) int selectedCell;
 @property (nonatomic) PlantIconView* selectedPlant;
 @property (nonatomic) int bedDimension;

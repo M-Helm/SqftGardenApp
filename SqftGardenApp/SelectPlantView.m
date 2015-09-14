@@ -203,7 +203,7 @@ PlantIconView *touchedIcon;
             touchedView.alpha = 1;
             CGPoint location;
             location.x = viewStartX;
-            location.y =viewStartY;
+            location.y = viewStartY;
             touchedView.center = location;
             return;
         }
@@ -224,6 +224,7 @@ PlantIconView *touchedIcon;
         xCo = fabs(touchedView.center.x + xCo);
         int i = 0;
         float leastSquare = 500000;
+        float deltaSquare = 500000;
         int targetCell = -1;
         for(UIView *subview in self.mainView.subviews){
             CGPoint location = subview.center;
@@ -231,13 +232,24 @@ PlantIconView *touchedIcon;
             float bedY = fabs(location.y);
             float deltaX = fabs(xCo - bedX);
             float deltaY = fabs(yCo - bedY);
-            float deltaSquare = (deltaX * deltaX) + (deltaY * deltaY);
+            deltaSquare = (deltaX * deltaX) + (deltaY * deltaY);
             if(leastSquare > deltaSquare){
                 leastSquare = deltaSquare;
                 targetCell = i;
             }
             i++;
         }
+        //if we're far from a bedview just return
+        NSLog(@"squares reports at D: %f , LOS: %f", deltaSquare, leastSquare);
+        if(leastSquare > (appGlobals.bedDimension * appGlobals.bedDimension)*2){
+            touchedView.alpha = 1;
+            CGPoint location;
+            location.x = viewStartX;
+            location.y = viewStartY;
+            touchedView.center = location;
+            return;
+        }
+        
         [self.editBedVC updatePlantBeds:targetCell:plantView.plantId];
         AudioServicesPlaySystemSound(1105);
 

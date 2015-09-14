@@ -31,6 +31,10 @@ DBManager *dbManager;
     [dbManager addColumn:@"plants" : @"maturity" : @"int"];
     [dbManager addColumn:@"plants" : @"population" : @"int"];
     [dbManager addColumn:@"plants" : @"class" : @"char(50)"];
+    [dbManager addColumn:@"plants" : @"description" : @"char"];
+    [dbManager addColumn:@"plants" : @"scientific_name" : @"char"];
+    [dbManager addColumn:@"plants" : @"photo" : @"char(150)"];
+    [dbManager addColumn:@"plants" : @"yield" : @"char"];
     
     if([dbManager checkTableExists:@"plants"]){
         [dbManager getInitPlants];

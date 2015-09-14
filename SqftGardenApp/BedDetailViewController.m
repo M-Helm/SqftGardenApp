@@ -20,149 +20,100 @@ ApplicationGlobals *appGlobals;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //appGlobals = [[ApplicationGlobals alloc] init];
+    appGlobals = [ApplicationGlobals getSharedGlobals];
     
     //setup views
+    //self.navigationItem.title = appGlobals.appTitle;
+    self.navigationController.navigationItem.backBarButtonItem.title = @"Back";
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
-    self.bedViewArray = [self buildBedViewArray];
-    self.selectPlantArray = [self buildPlantSelectArray];
-    NSLog(@"Cell ID: %i", appGlobals.selectedCell);
-    [self initGrids];
+    //NSLog(@"Cell ID: %i", appGlobals.selectedCell);
+    [self initViewGrid];
 }
 
 - (void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.bedFrameView.layer.borderWidth = 3;
+    self.bedFrameView.layer.borderWidth = 0;
     self.bedFrameView.layer.cornerRadius = 15;
-    
-    
-    for(int i =0; i<self.selectPlantArray.count; i++){
-        UIView *box = [self.selectPlantArray objectAtIndex:i];
-        UITapGestureRecognizer *singleFingerTap =
-        [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                action:@selector(handlePlantSingleTap:)];
-        [box addGestureRecognizer:singleFingerTap];
-    }
     [self.view addSubview:self.bedFrameView];
-    [self.view addSubview:self.selectPlantView];
 }
 
-- (void)handleBedSingleTap:(UITapGestureRecognizer *)recognizer {
-    recognizer.view.backgroundColor = [UIColor lightGrayColor];
-    recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    [self.navigationController popToRootViewControllerAnimated:NO];
-}
 
-- (NSMutableArray *)buildBedViewArray{
-    NSMutableArray *bedArray = [[NSMutableArray alloc] init];
-    int bedDimension = [self bedDimension];
-    int rowNumber = 0;
-    int columnNumber = 0;
-    int cell = 1;
-    for(int i=0; i<self.bedRowCount; i++){
-        while(columnNumber < self.bedColumnCount){
-            BedView *bed = [[BedView alloc] initWithFrame:CGRectMake(1+(bedDimension*columnNumber),
-                                        (bedDimension*rowNumber)+1, bedDimension, bedDimension)];
-            bed.index = cell-1;
-            bed.layer.borderWidth = 0;
-            UIImageView *icon = [self setIcon];
-            icon.frame = CGRectMake(bed.bounds.size.width/4,
-                                    bed.bounds.size.height/4,
-                                    bed.bounds.size.width/2,
-                                    bed.bounds.size.height/2);
-            if(cell % 2){
-                [bed addSubview:icon];
-            }
-            else {
-                //bed.layer.backgroundColor  = [UIColor lightGrayColor].CGColor;
-            }
-            [bedArray addObject:bed];
-            columnNumber++;
-            cell++;
-        }
-        columnNumber = 0;
-        rowNumber++;
-    }
-    return bedArray;
-}
-- (NSMutableArray *)buildPlantSelectArray{
-    NSMutableArray *selectArray = [[NSMutableArray alloc] init];
-    int frameDimension = [self bedDimension] - 5;
-    for(int i=0; i<9; i++){
-        PlantIconView *plantIcon = [[PlantIconView alloc]
-                                    initWithFrame:CGRectMake(6 + (frameDimension*i),2, frameDimension, frameDimension) : i+1];
-        //PlantModel *plant = [[PlantModel alloc] initWithId:i+1];
-        UIImage *icon = [UIImage imageNamed:plantIcon.iconResource];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-        plantIcon.layer.cornerRadius = frameDimension/2;
-        plantIcon.layer.borderWidth = 2;
-        plantIcon.layer.borderColor = [UIColor greenColor].CGColor;
-        imageView.frame = CGRectMake(plantIcon.bounds.size.width/4,
-                                     plantIcon.bounds.size.height/4,
-                                     plantIcon.bounds.size.width/2,
-                                     plantIcon.bounds.size.height/2);
-        plantIcon.position = i;
-        plantIcon.layer.borderWidth = 0;
-        [plantIcon addSubview:imageView];
-        [selectArray addObject:plantIcon];
-    }
-    return selectArray;
-}
-
--(void)initGrids{
-    int bedDimension = [self bedDimension];
+-(void)initViewGrid{
     float xCo = self.view.bounds.size.width;
+    int bedDimension = (xCo/2)/self.bedColumnCount - 3;
     int yCo = self.bedRowCount * bedDimension;
     self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
-                                                                 xCo+BED_DETAIL_LAYOUT_WIDTH_BUFFER, yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER)];
-    for(int i = 0; i<self.bedViewArray.count;i++){
-        [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
-    }
-    self.selectPlantView = [[SelectPlantView alloc] initWithFrame:CGRectMake(10,
-                                                                        yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER + 110,
-                                                                        xCo+BED_DETAIL_LAYOUT_WIDTH_BUFFER,
-                                                                        bedDimension)];
-    for(int i = 0; i<self.selectPlantArray.count;i++){
-        [self.selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
-    }
+                                                                 (xCo/2)+BED_DETAIL_LAYOUT_WIDTH_BUFFER, yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER)];
+    UIImageView *icon = [self getIcon];
+    icon.frame = CGRectMake(5, 5, self.bedFrameView.frame.size.width-45, self.bedFrameView.frame.size.height-45);
+    self.bedFrameView.clipsToBounds = YES;
+    [self.bedFrameView addSubview:icon];
+    
+    
+    UILabel *plantNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bedFrameView.frame.size.width+15, 100, xCo/2, 25)];
+    plantNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    plantNameLabel.layer.borderWidth = 0;
+    plantNameLabel.layer.cornerRadius = 0;
+    plantNameLabel.text = appGlobals.selectedPlant.plantName;
+    [plantNameLabel setFont:[UIFont boldSystemFontOfSize:18]];
+    [self.view addSubview:plantNameLabel];
+    
+    UILabel *plantScienceNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bedFrameView.frame.size.width+25, 100 + plantNameLabel.layer.bounds.size.height, (xCo/2) - 25, 12)];
+    plantScienceNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    plantScienceNameLabel.layer.borderWidth = 0;
+    plantScienceNameLabel.layer.cornerRadius = 15;
+    plantScienceNameLabel.text = appGlobals.selectedPlant.plantScientificName;
+    [plantScienceNameLabel setFont:[UIFont italicSystemFontOfSize:9]];
+    plantScienceNameLabel.textColor = [UIColor blackColor];
+    [self.view addSubview:plantScienceNameLabel];
+    
+    UILabel *plantMaturityLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bedFrameView.frame.size.width+25, 100 + (plantNameLabel.layer.bounds.size.height + 12), (xCo/2) - 25, 12)];
+    plantMaturityLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    plantMaturityLabel.layer.borderWidth = 0;
+    plantMaturityLabel.layer.cornerRadius = 15;
+    NSString *maturityStr = [NSString stringWithFormat:@"Matures in about %i days", appGlobals.selectedPlant.maturity];
+    plantMaturityLabel.text = maturityStr;
+    [plantMaturityLabel setFont:[UIFont italicSystemFontOfSize:9]];
+    plantMaturityLabel.textColor = [UIColor blackColor];
+    [self.view addSubview:plantMaturityLabel];
+    
+    //UIImageView *plantPhotoView = [[UIImageView alloc] initWithFrame:CGRectMake(self.bedFrameView.frame.size.width+25,  100 + plantNameLabel.layer.bounds.size.height + 24, (xCo/2)-25, (xCo/2)-25)];
+    UIImage *photo = [UIImage imageNamed:appGlobals.selectedPlant.photoResource];
+    UIImageView *photoImageView = [[UIImageView alloc] initWithImage:photo];
+    [photoImageView setFrame: CGRectMake(self.bedFrameView.frame.size.width+15,  100 + plantNameLabel.layer.bounds.size.height + 24, (xCo/2)-25, (xCo/2)-55)];
+    photoImageView.layer.cornerRadius = 15;
+    photoImageView.clipsToBounds = YES;
+    
+    [self.view addSubview:photoImageView];
+    
+    
+    UITextView *plantYieldText = [[UITextView alloc] initWithFrame:CGRectMake(10, yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER + 102, xCo - 20, 40)];
+    plantYieldText.layer.borderWidth = 0;
+    plantYieldText.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    plantYieldText.layer.cornerRadius = 15;
+    [plantYieldText setFont:[UIFont boldSystemFontOfSize:12]];
+    NSString *yieldStr = [NSString stringWithFormat:@"%@ has an expected yield of about %@ under good conditions.", appGlobals.selectedPlant.plantName, appGlobals.selectedPlant.plantYield];
+    plantYieldText.text = yieldStr;
+    [self.view addSubview:plantYieldText];
+    
+    
+    UITextView *plantDescriptionText = [[UITextView alloc] initWithFrame:CGRectMake(10, yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER + 142, xCo - 20, self.view.bounds.size.height - (yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER + 160))];
+    plantDescriptionText.layer.borderWidth = 0;
+    plantDescriptionText.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    plantDescriptionText.layer.cornerRadius = 15;
+    plantDescriptionText.text = appGlobals.selectedPlant.plantDescription;
+    [self.view addSubview:plantDescriptionText];
 }
 
--(int)bedDimension{
-    int columnDimension = (int)(self.view.bounds.size.width - 20) / (int)self.bedColumnCount;
-    int bedDimension = (int)(self.view.bounds.size.height - 60) / (int)self.bedRowCount;
-    if(bedDimension > columnDimension){
-        bedDimension = columnDimension;
-    }
-    return bedDimension;
-}
 
--(UIImageView *) setIcon{
-    PlantIconView *plant = appGlobals.selectedPlant;
-    UIImage *icon = [UIImage imageNamed:plant.iconResource];
+-(UIImageView *) getIcon{
+    UIImage *icon = [UIImage imageNamed:appGlobals.selectedPlant.iconResource];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
     return imageView;
 }
 
-- (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {
-    PlantIconView *plant = (PlantIconView*)recognizer.view;
-    appGlobals.selectedPlant = plant;
-    //PlantModel *plant = [[PlantModel alloc] initWithId:bed.index];
-    UIImage *icon = [UIImage imageNamed:plant.iconResource];
-    for(int i=0;i<self.bedViewArray.count;i++){
-        if(i % 2){
-            BedView *cell = [self.bedViewArray objectAtIndex:i];
-            UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-            imageView.frame = CGRectMake(cell.bounds.size.width/4,
-                                         cell.bounds.size.height/4,
-                                         cell.bounds.size.width/2,
-                                         cell.bounds.size.height/2);
-            [[cell subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-            [cell addSubview:imageView];
-        }
-    }
-}
 
 @end
