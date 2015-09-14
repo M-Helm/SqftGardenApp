@@ -29,7 +29,6 @@ ApplicationGlobals *appGlobals;
 DBManager *dbManager;
 - (void) viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.hidesBackButton = YES;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
@@ -55,6 +54,8 @@ DBManager *dbManager;
 -(void)initViews{
     
     [self.bedFrameView removeFromSuperview];
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.title = @"Grow Squared";
     int bedDimension = [self bedDimension];
     //int frameDimension = bedDimension - 5;
     float xCo = self.view.bounds.size.width;

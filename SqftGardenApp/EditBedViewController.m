@@ -56,7 +56,6 @@ DBManager *dbManager;
 
 - (void) viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.hidesBackButton = YES;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
@@ -123,22 +122,49 @@ DBManager *dbManager;
 }
 
 -(void)initViews{
-
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.title = @"Grow Squared";
+    //self.navigationController.navigationBar.topItem.title
     [self.bedFrameView removeFromSuperview];
-
     int width = self.view.bounds.size.width;
     int height = self.view.frame.size.height * BED_LAYOUT_HEIGHT_RATIO;
-
-    
     if(selectPlantView != nil){
         [selectPlantView removeFromSuperview];
     }
-    
     [self makeBedFrame : width : height];
     [self makeSelectView: width : height];
     [self makeSelectMessageView: width : height];
+    float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
 
     
+    NSLog(@"navbar height = %f", navBarHeight);
+    
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0,navBarHeight, self.view.frame.size.width, navBarHeight / 1.5)];
+    self.titleView.backgroundColor = [UIColor lightGrayColor];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10,0, self.view.frame.size.width - 20, 18)];
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(10,18, self.view.frame.size.width - 20, (navBarHeight / 1.5)-18)];
+    //NSString *gardenName = appGlobals.globalGardenModel.name;
+    NSString *nameStr = appGlobals.globalGardenModel.name;
+    NSString *plantDate = @"planting date undefined";
+    if(nameStr.length < 1)nameStr = @"New Garden";
+    if([nameStr isEqualToString:@"autoSave"])nameStr = @"Unnamed Garden";
+    
+    NSString *gardenName = [NSString stringWithFormat:@"Garden Name: %@",  nameStr];
+    NSString *gardenDate = [NSString stringWithFormat:@"Planting Date: %@",  plantDate];
+    //NSString *alertStr = [NSString stringWithFormat:@"File Saved as %@", fileName];
+    label.text = gardenName;
+    label2.text = gardenDate;
+    [label setFont:[UIFont boldSystemFontOfSize:15]];
+    [label2 setFont:[UIFont boldSystemFontOfSize:9]];
+    //label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor blackColor];
+    label2.textColor = [UIColor blackColor];
+    label.backgroundColor = [UIColor clearColor];
+    label2.backgroundColor = [UIColor clearColor];
+    
+    [self.titleView addSubview:label];
+    [self.titleView addSubview:label2];
+    [self.view addSubview: self.titleView];
     
 }
 
@@ -173,7 +199,10 @@ DBManager *dbManager;
 }
 
 -(void)makeBedFrame : (int) width : (int) height{
-    self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
+    
+    //when you monkey with this layout you need adjust the endTouches method in SelectPlantView Class else the drag and drop stuff breaks
+    float navBarHeight = self.navigationController.navigationBar.bounds.size.height * 1.5;
+    self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, navBarHeight * 2,
                                                                  width+BED_LAYOUT_WIDTH_BUFFER, height+BED_LAYOUT_HEIGHT_BUFFER)];
     //add my array of beds
     for(int i = 0; i<self.bedViewArray.count;i++){

@@ -218,7 +218,8 @@ PlantIconView *touchedIcon;
         }
         float selectMessageViewHeight = 26.00;
         //float yCo = (self.frame.origin.y - self.frame.size.height + touchedView.center.y);
-        yCo = fabs(self.mainView.frame.size.height + touchedView.center.y + selectMessageViewHeight);
+        float navBarHeight = self.editBedVC.navigationController.navigationBar.frame.size.height * 1;
+        yCo = fabs(self.mainView.frame.size.height + touchedView.center.y + selectMessageViewHeight - (navBarHeight*1));
         xCo = fabs(touchedView.center.x + xCo);
         int i = 0;
         float leastSquare = 500000;
