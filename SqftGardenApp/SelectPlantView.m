@@ -134,10 +134,11 @@ PlantIconView *touchedIcon;
         }
         NSString *class = classView.className;
         NSArray *array = [self buildPlantSelectArray : class];
+        [self setContentOffset:(CGPointMake(0, 0))];
         for(int i=0;i<array.count;i++){
             [self addSubview:array[i]];
         }
-        AudioServicesPlaySystemSound(1104);
+        AudioServicesPlaySystemSound(1103);
         return;
     }
     
@@ -153,7 +154,7 @@ PlantIconView *touchedIcon;
         viewStartX = touchedView.center.x;
         viewStartY = touchedView.center.y;
         plantView.alpha = .25;
-        AudioServicesPlaySystemSound(1104);
+        AudioServicesPlaySystemSound(1103);
     }
 }
 -(void) cancelSelectPlant{
@@ -238,7 +239,7 @@ PlantIconView *touchedIcon;
             i++;
         }
         [self.editBedVC updatePlantBeds:targetCell:plantView.plantId];
-        AudioServicesPlaySystemSound(1104);
+        AudioServicesPlaySystemSound(1105);
 
     }
 }

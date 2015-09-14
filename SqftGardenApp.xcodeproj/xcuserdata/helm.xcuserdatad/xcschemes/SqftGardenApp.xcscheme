@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AD1A91B31AF434DA00DC0983"
-               BuildableName = "GrowSquared.app"
+               BuildableName = "SqftGardenApp.app"
                BlueprintName = "SqftGardenApp"
                ReferencedContainer = "container:SqftGardenApp.xcodeproj">
             </BuildableReference>
@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AD1A91CC1AF434DA00DC0983"
-               BuildableName = "GrowSquaredTests.xctest"
+               BuildableName = "SqftGardenAppTests.xctest"
                BlueprintName = "SqftGardenAppTests"
                ReferencedContainer = "container:SqftGardenApp.xcodeproj">
             </BuildableReference>
@@ -47,7 +47,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AD1A91CC1AF434DA00DC0983"
-               BuildableName = "GrowSquaredTests.xctest"
+               BuildableName = "SqftGardenAppTests.xctest"
                BlueprintName = "SqftGardenAppTests"
                ReferencedContainer = "container:SqftGardenApp.xcodeproj">
             </BuildableReference>
@@ -57,7 +57,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AD1A91B31AF434DA00DC0983"
-            BuildableName = "GrowSquared.app"
+            BuildableName = "SqftGardenApp.app"
             BlueprintName = "SqftGardenApp"
             ReferencedContainer = "container:SqftGardenApp.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AD1A91B31AF434DA00DC0983"
-            BuildableName = "GrowSquared.app"
+            BuildableName = "SqftGardenApp.app"
             BlueprintName = "SqftGardenApp"
             ReferencedContainer = "container:SqftGardenApp.xcodeproj">
          </BuildableReference>
@@ -99,7 +99,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AD1A91B31AF434DA00DC0983"
-            BuildableName = "GrowSquared.app"
+            BuildableName = "SqftGardenApp.app"
             BlueprintName = "SqftGardenApp"
             ReferencedContainer = "container:SqftGardenApp.xcodeproj">
          </BuildableReference>

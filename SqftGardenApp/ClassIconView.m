@@ -63,7 +63,7 @@ NSString * const DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     //self.index = i+1;
     [self addSubview:imageView];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,height-3,width,9)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,height-6,width,9)];
     [label setFont:[UIFont systemFontOfSize:9]];
     label.backgroundColor = [UIColor clearColor];
     label.text = self.className;

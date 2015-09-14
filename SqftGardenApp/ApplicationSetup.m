@@ -32,7 +32,6 @@ DBManager *dbManager;
     [dbManager addColumn:@"plants" : @"population" : @"int"];
     [dbManager addColumn:@"plants" : @"class" : @"char(50)"];
     
-    
     if([dbManager checkTableExists:@"plants"]){
         [dbManager getInitPlants];
     }
@@ -58,7 +57,6 @@ DBManager *dbManager;
         [dbManager addColumn:@"saves" : @"name" : @"char(140)"];
         [dbManager addColumn:@"saves" : @"unique_id" : @"char"];
     }
-    
     return YES;
 }
 

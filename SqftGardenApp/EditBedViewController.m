@@ -123,7 +123,7 @@ DBManager *dbManager;
 
 -(void)initViews{
     self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.title = @"Grow Squared";
+    self.navigationItem.title = @"Grow\u00B2";
     //self.navigationController.navigationBar.topItem.title
     [self.bedFrameView removeFromSuperview];
     int width = self.view.bounds.size.width;
@@ -355,6 +355,7 @@ DBManager *dbManager;
         CGPoint location = [touch locationInView:[self view]];
         evStartX = location.x - touchedView.center.x;
         evStartY = location.y - touchedView.center.y;
+        AudioServicesPlaySystemSound(1104);
         
         
     }
@@ -417,6 +418,7 @@ DBManager *dbManager;
         }
         NSLog(@"Target Cell: %i  PLANT ID: %i", targetCell, bedView.plantId);
         [self updatePlantBeds:targetCell:bedView.plantId];
+        AudioServicesPlaySystemSound(1104);
     }
 }
 
