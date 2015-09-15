@@ -8,12 +8,14 @@
 
 #import "PlantIconView.h"
 #import "DBManager.h"
+#import "ApplicationGlobals.h"
 
 @implementation PlantIconView
 const int PLANT_ICON_DEFAULT_BORDER = 0;
 const int PLANT_ICON_DEFAULT_CORNER = 10;
 const int PLANT_ICON_PADDING = 7;
 NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
+ApplicationGlobals *appGlobals;
 
 - (id)initWithFrame:(CGRect)frame : (int)plantIndex{
     //self.index = plantIndex;
@@ -49,6 +51,7 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
         return;
     }
     DBManager *dbManager = [DBManager getSharedDBManager];
+    appGlobals = [ApplicationGlobals getSharedGlobals];
     //NSLog(@"PLANT VIEW ID TO DB: %i", self.index);
     
     NSDictionary *json = [dbManager getPlantDataById:self.plantId];
@@ -82,6 +85,11 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 
 - (void) setLayoutGrid : (int) cellCount{
     if(cellCount < 1)return;
+    if(appGlobals.showPlantNumberTokens){
+        [self setImageGrid:1 :1];
+        [self setNumberTokenImage];
+        return;
+    }
     if(cellCount == 5)cellCount = 4;
     if(cellCount == 7)cellCount = 6;
     if(self.isIcon){
@@ -181,6 +189,23 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     label.textAlignment = NSTextAlignmentCenter;
     [self addSubview:label];
 }
+-(void)setNumberTokenImage{
+    if(self.population < 2)return;
+    UIImage *icon = [UIImage imageNamed: @"asset_circle_token_512px.png"];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
+    float iconDimension = self.frame.size.width / 3.5;
+    
+    imageView.frame = CGRectMake(self.frame.size.width - iconDimension - 3,(iconDimension/4)+3,iconDimension,iconDimension);
+    [self addSubview:imageView];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((iconDimension - 12)/2,(iconDimension - 12)/2,12,12)];
+    NSString *str = [NSString stringWithFormat:@"%i", self.population];
+    label.text = str;
+    label.textAlignment = NSTextAlignmentCenter;
+    [label setFont:[UIFont boldSystemFontOfSize:10]];
+    [imageView addSubview:label];
+    //label.center = imageView.center;
+}
+
 
 
 @end

@@ -46,6 +46,7 @@
 		ADC372111BA787BC00FF994A /* photo_cucumber_512px.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ADC372101BA787BC00FF994A /* photo_cucumber_512px.jpg */; };
 		ADC372141BA78C8F00FF994A /* photo_dill_512px.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ADC372121BA78C8F00FF994A /* photo_dill_512px.jpg */; };
 		ADC372151BA78C8F00FF994A /* photo_cilantro_512px.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ADC372131BA78C8F00FF994A /* photo_cilantro_512px.jpg */; };
+		ADC372171BA8605400FF994A /* asset_circle_token_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADC372161BA8605400FF994A /* asset_circle_token_512px.png */; };
 		ADCC872C1B03B202003F1A08 /* PlantIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872B1B03B202003F1A08 /* PlantIconView.m */; };
 		ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872E1B03B455003F1A08 /* BedDetailViewController.m */; };
 		ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC87311B03C06D003F1A08 /* MainNavigationController.m */; };
@@ -126,6 +127,7 @@
 		ADC372101BA787BC00FF994A /* photo_cucumber_512px.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = photo_cucumber_512px.jpg; path = ../../../Documents/sqftGardenAssets/photo_cucumber_512px.jpg; sourceTree = "<group>"; };
 		ADC372121BA78C8F00FF994A /* photo_dill_512px.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = photo_dill_512px.jpg; path = ../../../Documents/sqftGardenAssets/photo_dill_512px.jpg; sourceTree = "<group>"; };
 		ADC372131BA78C8F00FF994A /* photo_cilantro_512px.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = photo_cilantro_512px.jpg; path = ../../../Documents/sqftGardenAssets/photo_cilantro_512px.jpg; sourceTree = "<group>"; };
+		ADC372161BA8605400FF994A /* asset_circle_token_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = asset_circle_token_512px.png; path = ../../../Documents/sqftGardenAssets/asset_circle_token_512px.png; sourceTree = "<group>"; };
 		ADCC872A1B03B1F1003F1A08 /* PlantIconView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlantIconView.h; sourceTree = "<group>"; };
 		ADCC872B1B03B202003F1A08 /* PlantIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlantIconView.m; sourceTree = "<group>"; };
 		ADCC872D1B03B443003F1A08 /* BedDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BedDetailViewController.h; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ADC372161BA8605400FF994A /* asset_circle_token_512px.png */,
 				ADC3720C1BA7730100FF994A /* photo_basil_512px.jpg */,
 				ADC372131BA78C8F00FF994A /* photo_cilantro_512px.jpg */,
 				ADC372101BA787BC00FF994A /* photo_cucumber_512px.jpg */,
@@ -407,6 +410,7 @@
 				AD3A38C11BA61D8600FC0528 /* ic_cancel_256px.png in Resources */,
 				ADA7520E1B06B6E300C56F5F /* ic_vegetable_chilly_256.png in Resources */,
 				ADA752091B06B6E300C56F5F /* ic_cereal_wheat_256.png in Resources */,
+				ADC372171BA8605400FF994A /* asset_circle_token_512px.png in Resources */,
 				ADC3720F1BA7779600FF994A /* photo_eggplant_512px.jpg in Resources */,
 				ADA752101B06B6E300C56F5F /* ic_vegetable_radish_256.png in Resources */,
 				AD967E9E1BA0A409009D7546 /* init_plants.txt in Resources */,

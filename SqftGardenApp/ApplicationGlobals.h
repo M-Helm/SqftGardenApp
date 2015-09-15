@@ -18,6 +18,7 @@
 @property (nonatomic) PlantIconView* selectedPlant;
 @property (nonatomic) int bedDimension;
 @property (nonatomic) SqftGardenModel* globalGardenModel;
+@property (nonatomic) bool showPlantNumberTokens;
 - (SqftGardenModel *)getCurrentGardenModel;
 - (void) setCurrentGardenModel:(SqftGardenModel *)currentGardenModel;
 - (void) clearCurrentGardenModel;

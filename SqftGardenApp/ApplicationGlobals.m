@@ -25,6 +25,7 @@
         if (appGlobals == nil){
             appGlobals = [[self alloc] init];
             appGlobals.appTitle = @"Grow\u00B2";
+            appGlobals.showPlantNumberTokens = YES;
         }
         //NSLog(@"%s", __PRETTY_FUNCTION__);
     }
