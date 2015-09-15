@@ -21,5 +21,6 @@
 @property(nonatomic)SqftGardenModel *currentGardenModel;
 @property(nonatomic) UIView *bedFrameView;
 @property(nonatomic) UILabel *sizeLabel;
+@property(nonatomic) UIView *titleView;
 
 @end

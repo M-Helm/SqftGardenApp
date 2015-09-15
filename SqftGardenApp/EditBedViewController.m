@@ -135,11 +135,14 @@ DBManager *dbManager;
     [self makeBedFrame : width : height];
     [self makeSelectView: width : height];
     [self makeSelectMessageView: width : height];
-    float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
+    [self makeTitleBar];
+    
 
     
-    NSLog(@"navbar height = %f", navBarHeight);
-    
+}
+-(void)makeTitleBar{
+    float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
+    //NSLog(@"navbar height = %f", navBarHeight);
     self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0,navBarHeight, self.view.frame.size.width, navBarHeight / 1.5)];
     self.titleView.backgroundColor = [UIColor lightGrayColor];
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10,0, self.view.frame.size.width - 20, 18)];

@@ -20,6 +20,8 @@
 
 const int svBED_LAYOUT_HEIGHT_BUFFER = 3;
 const int svBED_LAYOUT_WIDTH_BUFFER = -17;
+const int svBEDFRAME_TOP_OFFSET = 120;
+const int svBEDFRAME_SIDE_OFFSET = 10;
 float svStartX = 0;
 float svStartY = 0;
 
@@ -60,9 +62,9 @@ DBManager *dbManager;
     //int frameDimension = bedDimension - 5;
     float xCo = self.view.bounds.size.width;
     int yCo = self.bedRowCount * bedDimension * self.maxRowCount;
-    self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
+    self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(svBEDFRAME_SIDE_OFFSET, svBEDFRAME_TOP_OFFSET,
                                                                  xCo+svBED_LAYOUT_WIDTH_BUFFER, yCo+svBED_LAYOUT_HEIGHT_BUFFER)];
-    self.sizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, yCo+(svBED_LAYOUT_HEIGHT_BUFFER*3),xCo+svBED_LAYOUT_WIDTH_BUFFER,200)];
+    self.sizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20+yCo+(svBED_LAYOUT_HEIGHT_BUFFER*3),xCo+svBED_LAYOUT_WIDTH_BUFFER,200)];
     self.sizeLabel.text = @"Drag the square to set garden size";
     [self.view addSubview:self.sizeLabel];
     
@@ -78,8 +80,41 @@ DBManager *dbManager;
     self.bedFrameView.layer.cornerRadius = 15;
 
     [self.view addSubview:self.bedFrameView];
+    [self makeTitleBar];
+    [self drawGrid];
 }
 
+-(void)makeTitleBar{
+    float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
+    //NSLog(@"navbar height = %f", navBarHeight);
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0,navBarHeight, self.view.frame.size.width, navBarHeight / 1.5)];
+    self.titleView.backgroundColor = [UIColor lightGrayColor];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10,0, self.view.frame.size.width - 20, 18)];
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(10,18, self.view.frame.size.width - 20, (navBarHeight / 1.5)-18)];
+    //NSString *gardenName = appGlobals.globalGardenModel.name;
+    NSString *nameStr = appGlobals.globalGardenModel.name;
+    NSString *plantDate = @"planting date undefined";
+    if(nameStr.length < 1)nameStr = @"New Garden";
+    if([nameStr isEqualToString:@"autoSave"])nameStr = @"Unnamed Garden";
+    
+    NSString *gardenName = [NSString stringWithFormat:@"Garden Name: %@",  nameStr];
+    NSString *gardenDate = [NSString stringWithFormat:@"Planting Date: %@",  plantDate];
+    //NSString *alertStr = [NSString stringWithFormat:@"File Saved as %@", fileName];
+    label.text = gardenName;
+    label2.text = gardenDate;
+    [label setFont:[UIFont boldSystemFontOfSize:15]];
+    [label2 setFont:[UIFont boldSystemFontOfSize:9]];
+    //label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor blackColor];
+    label2.textColor = [UIColor blackColor];
+    label.backgroundColor = [UIColor clearColor];
+    label2.backgroundColor = [UIColor clearColor];
+    
+    [self.titleView addSubview:label];
+    [self.titleView addSubview:label2];
+    [self.view addSubview: self.titleView];
+    
+}
 
 -(int)bedDimension{
     int columnDimension = (int)(self.view.bounds.size.width - 20) / (int)self.maxColumnCount;
@@ -185,6 +220,21 @@ DBManager *dbManager;
         CGRect frame = CGRectMake(0, 0, location.x, location.y);
         [touchedView setFrame: frame];
         //AudioServicesPlaySystemSound(1104);
+        //[self drawGrid];
+        
+        if(columnCalc != self.bedColumnCount){
+            self.bedColumnCount = columnCalc;
+            self.bedRowCount = rowCalc;
+            [self drawGrid];
+            return;
+        }
+        if(rowCalc != self.bedRowCount){
+            self.bedColumnCount = columnCalc;
+            self.bedRowCount = rowCalc;
+            [self drawGrid];
+            return;
+        }
+        
         
     }
 }
@@ -229,6 +279,41 @@ DBManager *dbManager;
         //NSLog(@"end of the touches section");
         [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
     }
+}
+-(void)drawGrid{
+    //remove previously drawn grid lines
+    for(int i=0; i<self.view.layer.sublayers.count;i++){
+        if([self.view.layer.sublayers[i] class] == [CAShapeLayer class]){
+            [self.view.layer.sublayers[i] removeFromSuperlayer];
+        }
+    }
+    //draw Column Lines
+    for(int i = 1; i<self.bedColumnCount - 0; i++){
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        [path moveToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*i, svBEDFRAME_TOP_OFFSET)];
+        [path addLineToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*i, appGlobals.bedDimension*self.bedRowCount + svBEDFRAME_TOP_OFFSET)];
+        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+        shapeLayer.path = [path CGPath];
+        shapeLayer.strokeColor = [[UIColor blackColor] CGColor];
+        shapeLayer.lineWidth = 1.0;
+        shapeLayer.fillColor = [[UIColor clearColor] CGColor];
+        [self.view.layer addSublayer:shapeLayer];
+    }
+    //Draw Row Lines
+    for(int i = 1; i<self.bedRowCount - 0; i++){
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        [path moveToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET, svBEDFRAME_TOP_OFFSET  + appGlobals.bedDimension*i)];
+        [path addLineToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*(self.bedColumnCount-0), appGlobals.bedDimension*i + svBEDFRAME_TOP_OFFSET)];
+        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+        shapeLayer.path = [path CGPath];
+        shapeLayer.strokeColor = [[UIColor blackColor] CGColor];
+        shapeLayer.lineWidth = 1.0;
+        shapeLayer.fillColor = [[UIColor clearColor] CGColor];
+        [self.view.layer addSublayer:shapeLayer];
+    }
+    
+    
+    
 }
 
 

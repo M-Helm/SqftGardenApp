@@ -103,7 +103,6 @@ ApplicationGlobals *appGlobals;
     plantYieldText.editable = NO;
     [self.view addSubview:plantYieldText];
     
-    
     UITextView *plantDescriptionText = [[UITextView alloc] initWithFrame:CGRectMake(10, yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER + 177, xCo - 20, self.view.bounds.size.height - (yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER + 190))];
     plantDescriptionText.layer.borderWidth = 0;
     plantDescriptionText.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -113,7 +112,6 @@ ApplicationGlobals *appGlobals;
     plantDescriptionText.editable = NO;
     [self.view addSubview:plantDescriptionText];
 }
-
 
 -(UIImageView *) getIcon{
     UIImage *icon = [UIImage imageNamed:appGlobals.selectedPlant.iconResource];
