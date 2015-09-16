@@ -101,29 +101,30 @@ DBManager *dbManager;
     self.titleView.layer.borderWidth = 3;
     self.titleView.layer.borderColor = [color colorWithAlphaComponent:1].CGColor;
 
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25,0, self.view.frame.size.width - 20, 18)];
-    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(25,18, self.view.frame.size.width - 20, (navBarHeight / 1.5)-18)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25,0, self.view.frame.size.width - 20, navBarHeight / 1.5)];
+    //UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(25,18, self.view.frame.size.width - 20, (navBarHeight / 1.5)-18)];
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
     NSString *plantDate = @"planting date undefined";
     if(nameStr.length < 1)nameStr = @"New Garden";
     if([nameStr isEqualToString:@"autoSave"])nameStr = @"Unnamed Garden";
     
-    NSString *gardenName = [NSString stringWithFormat:@"Garden Name: %@",  nameStr];
-    NSString *gardenDate = [NSString stringWithFormat:@"Planting Date: %@",  plantDate];
+    //NSString *gardenName = [NSString stringWithFormat:@"Garden Name: %@",  nameStr];
+    NSString *gardenName = @"Select a Size For Your New Bed Plan";
+    //NSString *gardenDate = [NSString stringWithFormat:@"Planting Date: %@",  plantDate];
     //NSString *alertStr = [NSString stringWithFormat:@"File Saved as %@", fileName];
     label.text = gardenName;
-    label2.text = gardenDate;
-    [label setFont:[UIFont boldSystemFontOfSize:15]];
-    [label2 setFont:[UIFont boldSystemFontOfSize:9]];
+    //label2.text = gardenDate;
+    [label setFont:[UIFont boldSystemFontOfSize:14]];
+    //[label2 setFont:[UIFont boldSystemFontOfSize:9]];
     //label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor blackColor];
-    label2.textColor = [UIColor blackColor];
+    //label2.textColor = [UIColor blackColor];
     label.backgroundColor = [UIColor clearColor];
-    label2.backgroundColor = [UIColor clearColor];
+    //label2.backgroundColor = [UIColor clearColor];
     
     [self.titleView addSubview:label];
-    [self.titleView addSubview:label2];
+    //[self.titleView addSubview:label2];
     [self.view addSubview: self.titleView];
     
     CGRect fm = self.titleView.frame;
