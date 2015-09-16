@@ -46,6 +46,15 @@ ApplicationGlobals *appGlobals;
         return;
     }
 }
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell* cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    tableView.separatorColor = [UIColor clearColor];
+    cell.layer.backgroundColor= [UIColor blackColor].CGColor;
+    cell.layer.cornerRadius = 15;
+    
+    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+}
+
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSLog(@"Touches Began in MENU VC");

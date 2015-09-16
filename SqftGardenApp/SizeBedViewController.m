@@ -61,6 +61,7 @@ DBManager *dbManager;
     [self.bedFrameView removeFromSuperview];
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.title = @"";
+    //self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
     //self.navigationItem.title = appGlobals.appTitle;
     int bedDimension = [self bedDimension];
     //int frameDimension = bedDimension - 5;
@@ -94,7 +95,7 @@ DBManager *dbManager;
     UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
     
     float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
-    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15,navBarHeight - 2, self.view.frame.size.width - 5, navBarHeight / 1.5)];
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15, 15, self.view.frame.size.width - 5, navBarHeight / 1.5)];
     self.titleView.backgroundColor = [color colorWithAlphaComponent:0.55];
     self.titleView.layer.cornerRadius = 15;
     self.titleView.layer.borderWidth = 3;
@@ -124,6 +125,13 @@ DBManager *dbManager;
     [self.titleView addSubview:label];
     [self.titleView addSubview:label2];
     [self.view addSubview: self.titleView];
+    
+    CGRect fm = self.titleView.frame;
+    fm.origin.y = navBarHeight - 2;
+    
+    [UIView animateWithDuration:0.6 animations:^{
+        self.titleView.frame = fm;
+    }];
     
 }
 
@@ -160,8 +168,11 @@ DBManager *dbManager;
     }
     return bedArray;
 }
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    if(appGlobals.isMenuDrawerOpen == YES){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
+        return;
+    }
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -202,7 +213,7 @@ DBManager *dbManager;
         
 
         //calc row and columns and update label text
-        int columnCalc = round(location.x / [self bedDimension]);
+        int columnCalc = round((location.x - self.bedFrameView.frame.origin.x) / [self bedDimension]);
         int rowCalc = round((location.y - self.bedFrameView.frame.origin.y) / [self bedDimension]);
         if(rowCalc < 1)rowCalc = 1;
         if(columnCalc < 1) columnCalc = 1;
@@ -243,6 +254,7 @@ DBManager *dbManager;
             [self drawSelectedGrid];
             return;
         }
+        [self drawSelectedGrid];
     }
 }
 
@@ -282,7 +294,6 @@ DBManager *dbManager;
         [dict setObject: cols forKey:@"columns"];
         SqftGardenModel *model = [[SqftGardenModel alloc] initWithDict:dict];
         [appGlobals setGlobalGardenModel:model];
-    
         //NSLog(@"end of the touches section");
         [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
     }
@@ -294,7 +305,6 @@ DBManager *dbManager;
             [self.view.layer.sublayers[i] removeFromSuperlayer];
         }
     }
-    [self drawBaseGrid];
     //draw Column Lines
     for(int i = 1; i<self.bedColumnCount - 0; i++){
         UIBezierPath *path = [UIBezierPath bezierPath];
@@ -303,7 +313,7 @@ DBManager *dbManager;
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = [path CGPath];
         shapeLayer.strokeColor = [[UIColor blackColor] CGColor];
-        shapeLayer.lineWidth = 1.0;
+        shapeLayer.lineWidth = 2.0;
         shapeLayer.fillColor = [[UIColor clearColor] CGColor];
         [self.view.layer addSublayer:shapeLayer];
     }
@@ -315,12 +325,15 @@ DBManager *dbManager;
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = [path CGPath];
         shapeLayer.strokeColor = [[UIColor blackColor] CGColor];
-        shapeLayer.lineWidth = 1.0;
+        shapeLayer.lineWidth = 2.0;
         shapeLayer.fillColor = [[UIColor clearColor] CGColor];
         [self.view.layer addSublayer:shapeLayer];
     }
+    [self drawBaseGrid];
 }
 -(void)drawBaseGrid{
+    UIColor* color = [UIColor blueColor];
+
 
     //draw Column Lines
     for(int i = 1; i< 6; i++){
@@ -329,8 +342,8 @@ DBManager *dbManager;
         [path addLineToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*i, appGlobals.bedDimension*6 + svBEDFRAME_TOP_OFFSET)];
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = [path CGPath];
-        shapeLayer.strokeColor = [[UIColor blueColor] CGColor];
-        shapeLayer.lineWidth = .15;
+        shapeLayer.strokeColor = [color colorWithAlphaComponent:0.15].CGColor;
+        shapeLayer.lineWidth = 1;
         shapeLayer.fillColor = [[UIColor clearColor] CGColor];
         [self.view.layer addSublayer:shapeLayer];
     }
@@ -341,8 +354,8 @@ DBManager *dbManager;
         [path addLineToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*6, appGlobals.bedDimension*i + svBEDFRAME_TOP_OFFSET)];
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = [path CGPath];
-        shapeLayer.strokeColor = [[UIColor blueColor] CGColor];
-        shapeLayer.lineWidth = .15;
+        shapeLayer.strokeColor = [color colorWithAlphaComponent:0.15].CGColor;
+        shapeLayer.lineWidth = 1;
         shapeLayer.fillColor = [[UIColor clearColor] CGColor];
         [self.view.layer addSublayer:shapeLayer];
     }

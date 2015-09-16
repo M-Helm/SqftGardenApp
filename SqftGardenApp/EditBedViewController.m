@@ -166,7 +166,6 @@ DBManager *dbManager;
     [self.titleView addSubview:label];
     [self.titleView addSubview:label2];
     [self.view addSubview: self.titleView];
-    
 }
 
 -(void)makeSelectMessageView : (int)width :(int)height{
