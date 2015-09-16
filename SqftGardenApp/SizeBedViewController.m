@@ -55,8 +55,12 @@ DBManager *dbManager;
 }
 -(void)initViews{
     
+    UIColor *color = [appGlobals colorFromHexString:@"#fefefe"];
+    self.view.backgroundColor = color;
+    
     [self.bedFrameView removeFromSuperview];
-    //self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.title = @"";
     //self.navigationItem.title = appGlobals.appTitle;
     int bedDimension = [self bedDimension];
     //int frameDimension = bedDimension - 5;
@@ -78,19 +82,26 @@ DBManager *dbManager;
     self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.bedFrameView.layer.borderWidth = 1;
     self.bedFrameView.layer.cornerRadius = 15;
+    
 
     [self.view addSubview:self.bedFrameView];
     [self makeTitleBar];
-    [self drawGrid];
+    [self drawBaseGrid];
 }
 
 -(void)makeTitleBar{
+    
+    UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
+    
     float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
-    //NSLog(@"navbar height = %f", navBarHeight);
-    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0,navBarHeight, self.view.frame.size.width, navBarHeight / 1.5)];
-    self.titleView.backgroundColor = [UIColor lightGrayColor];
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10,0, self.view.frame.size.width - 20, 18)];
-    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(10,18, self.view.frame.size.width - 20, (navBarHeight / 1.5)-18)];
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15,navBarHeight - 2, self.view.frame.size.width - 5, navBarHeight / 1.5)];
+    self.titleView.backgroundColor = [color colorWithAlphaComponent:0.55];
+    self.titleView.layer.cornerRadius = 15;
+    self.titleView.layer.borderWidth = 3;
+    self.titleView.layer.borderColor = [color colorWithAlphaComponent:1].CGColor;
+
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25,0, self.view.frame.size.width - 20, 18)];
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(25,18, self.view.frame.size.width - 20, (navBarHeight / 1.5)-18)];
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
     NSString *plantDate = @"planting date undefined";
@@ -189,6 +200,7 @@ DBManager *dbManager;
         [self.view bringSubviewToFront:touchedView];
         [self.bedFrameView bringSubviewToFront:touchedView];
         
+
         //calc row and columns and update label text
         int columnCalc = round(location.x / [self bedDimension]);
         int rowCalc = round((location.y - self.bedFrameView.frame.origin.y) / [self bedDimension]);
@@ -198,7 +210,6 @@ DBManager *dbManager;
         if(rowCalc > self.maxRowCount)rowCalc = self.maxRowCount;
         NSString *msg = [NSString stringWithFormat:@"SIZE: %i ft by %i ft", columnCalc, rowCalc];
         self.sizeLabel.text = msg;
-
         
         //apply a grid step to our bed frame
         
@@ -206,8 +217,8 @@ DBManager *dbManager;
         location.y = location.y - svStartY;
         
         float step = [self bedDimension] / 1; // Grid step size.
-        location.x = step * floor((location.x / step) + .5);
-        location.y = step * floor((location.y / step) + .5);
+        location.x = step * floor((location.x / step) + .75);
+        location.y = step * floor((location.y / step) + .75);
         
 
         //apply limits so we don't go outside our box
@@ -219,23 +230,19 @@ DBManager *dbManager;
         
         CGRect frame = CGRectMake(0, 0, location.x, location.y);
         [touchedView setFrame: frame];
-        //AudioServicesPlaySystemSound(1104);
-        //[self drawGrid];
         
         if(columnCalc != self.bedColumnCount){
             self.bedColumnCount = columnCalc;
             self.bedRowCount = rowCalc;
-            [self drawGrid];
+            [self drawSelectedGrid];
             return;
         }
         if(rowCalc != self.bedRowCount){
             self.bedColumnCount = columnCalc;
             self.bedRowCount = rowCalc;
-            [self drawGrid];
+            [self drawSelectedGrid];
             return;
         }
-        
-        
     }
 }
 
@@ -280,13 +287,14 @@ DBManager *dbManager;
         [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
     }
 }
--(void)drawGrid{
+-(void)drawSelectedGrid{
     //remove previously drawn grid lines
     for(int i=0; i<self.view.layer.sublayers.count;i++){
         if([self.view.layer.sublayers[i] class] == [CAShapeLayer class]){
             [self.view.layer.sublayers[i] removeFromSuperlayer];
         }
     }
+    [self drawBaseGrid];
     //draw Column Lines
     for(int i = 1; i<self.bedColumnCount - 0; i++){
         UIBezierPath *path = [UIBezierPath bezierPath];
@@ -311,10 +319,33 @@ DBManager *dbManager;
         shapeLayer.fillColor = [[UIColor clearColor] CGColor];
         [self.view.layer addSublayer:shapeLayer];
     }
-    
-    
-    
 }
+-(void)drawBaseGrid{
 
+    //draw Column Lines
+    for(int i = 1; i< 6; i++){
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        [path moveToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*i, svBEDFRAME_TOP_OFFSET)];
+        [path addLineToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*i, appGlobals.bedDimension*6 + svBEDFRAME_TOP_OFFSET)];
+        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+        shapeLayer.path = [path CGPath];
+        shapeLayer.strokeColor = [[UIColor blueColor] CGColor];
+        shapeLayer.lineWidth = .15;
+        shapeLayer.fillColor = [[UIColor clearColor] CGColor];
+        [self.view.layer addSublayer:shapeLayer];
+    }
+    //Draw Row Lines
+    for(int i = 1; i<6; i++){
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        [path moveToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET, svBEDFRAME_TOP_OFFSET  + appGlobals.bedDimension*i)];
+        [path addLineToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*6, appGlobals.bedDimension*i + svBEDFRAME_TOP_OFFSET)];
+        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+        shapeLayer.path = [path CGPath];
+        shapeLayer.strokeColor = [[UIColor blueColor] CGColor];
+        shapeLayer.lineWidth = .15;
+        shapeLayer.fillColor = [[UIColor clearColor] CGColor];
+        [self.view.layer addSublayer:shapeLayer];
+    }
+}
 
 @end

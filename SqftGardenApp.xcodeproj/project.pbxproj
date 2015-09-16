@@ -47,6 +47,7 @@
 		ADC372141BA78C8F00FF994A /* photo_dill_512px.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ADC372121BA78C8F00FF994A /* photo_dill_512px.jpg */; };
 		ADC372151BA78C8F00FF994A /* photo_cilantro_512px.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ADC372131BA78C8F00FF994A /* photo_cilantro_512px.jpg */; };
 		ADC372171BA8605400FF994A /* asset_circle_token_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADC372161BA8605400FF994A /* asset_circle_token_512px.png */; };
+		ADC3721A1BA893ED00FF994A /* LaunchScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC372191BA893ED00FF994A /* LaunchScreenViewController.m */; };
 		ADCC872C1B03B202003F1A08 /* PlantIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872B1B03B202003F1A08 /* PlantIconView.m */; };
 		ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC872E1B03B455003F1A08 /* BedDetailViewController.m */; };
 		ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC87311B03C06D003F1A08 /* MainNavigationController.m */; };
@@ -128,6 +129,8 @@
 		ADC372121BA78C8F00FF994A /* photo_dill_512px.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = photo_dill_512px.jpg; path = ../../../Documents/sqftGardenAssets/photo_dill_512px.jpg; sourceTree = "<group>"; };
 		ADC372131BA78C8F00FF994A /* photo_cilantro_512px.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = photo_cilantro_512px.jpg; path = ../../../Documents/sqftGardenAssets/photo_cilantro_512px.jpg; sourceTree = "<group>"; };
 		ADC372161BA8605400FF994A /* asset_circle_token_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = asset_circle_token_512px.png; path = ../../../Documents/sqftGardenAssets/asset_circle_token_512px.png; sourceTree = "<group>"; };
+		ADC372181BA893D700FF994A /* LaunchScreenViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LaunchScreenViewController.h; sourceTree = "<group>"; };
+		ADC372191BA893ED00FF994A /* LaunchScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchScreenViewController.m; sourceTree = "<group>"; };
 		ADCC872A1B03B1F1003F1A08 /* PlantIconView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlantIconView.h; sourceTree = "<group>"; };
 		ADCC872B1B03B202003F1A08 /* PlantIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlantIconView.m; sourceTree = "<group>"; };
 		ADCC872D1B03B443003F1A08 /* BedDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BedDetailViewController.h; sourceTree = "<group>"; };
@@ -206,6 +209,8 @@
 		AD1A91B61AF434DA00DC0983 /* SqftGardenApp */ = {
 			isa = PBXGroup;
 			children = (
+				ADC372181BA893D700FF994A /* LaunchScreenViewController.h */,
+				ADC372191BA893ED00FF994A /* LaunchScreenViewController.m */,
 				ADE704231B826DB6002ABC74 /* SqftGardenModel.h */,
 				ADE704211B826DA0002ABC74 /* SqftGardenModel.m */,
 				AD56F3F61B8A29FF0094BD99 /* SizeBedViewController.h */,
@@ -459,6 +464,7 @@
 				AD1A91BA1AF434DA00DC0983 /* main.m in Sources */,
 				ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */,
 				AD2BB4FF1B025EC300E1541C /* SelectPlantView.m in Sources */,
+				ADC3721A1BA893ED00FF994A /* LaunchScreenViewController.m in Sources */,
 				ADD47F261AF44A5700D7E26F /* MenuDrawViewController.m in Sources */,
 				AD4B98D21B0E355100EF6F96 /* DBManager.m in Sources */,
 				ADE704221B826DA0002ABC74 /* SqftGardenModel.m in Sources */,

@@ -59,8 +59,6 @@ ApplicationGlobals *appGlobals;
         NSLog(@"Touches Began in MENU VC (INNER)");
         
         //AudioServicesPlaySystemSound(1104);
-        
-        
     }
 }
 

@@ -40,7 +40,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
 }
 
 -(NSArray*)getInitPlants{
-    NSLog(@"pop PLANT Table");
+    //NSLog(@"pop PLANT Table");
     //[self createTable:@"plants"];
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSString *filePath = [path stringByAppendingPathComponent:initPlantListName];
@@ -51,7 +51,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     
     NSError *e = nil;
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
-    NSLog(@"Plant Array Length = %lu", (unsigned long)jsonArray.count);
+    //NSLog(@"Plant Array Length = %lu", (unsigned long)jsonArray.count);
     //check if data exists in table and return the array w/o saving if so.
     if([self getTableRowCount:@"plants"] > 1)return jsonArray;
     int i = 0;
@@ -64,7 +64,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     return jsonArray;
 }
 -(NSArray*)getInitPlantClasses{
-    NSLog(@"pop Classes Table");
+    //NSLog(@"pop Classes Table");
     //[self createTable:@"plants"];
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSString *filePath = [path stringByAppendingPathComponent:initClassListName];
@@ -182,7 +182,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
 }
 
 - (BOOL) savePlantData:(NSDictionary *)msgJSON{
-    NSLog(@"PLANT SAVE CALLED");
+    //NSLog(@"PLANT SAVE CALLED");
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
@@ -232,7 +232,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"bed saved to db");
+            //NSLog(@"bed saved to db");
             sqlite3_finalize(statement);
             sqlite3_close(database);
             return true;
@@ -263,10 +263,10 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"Bed saved to db");
+            //NSLog(@"Bed saved to db");
             NSInteger lastRowId = (int)sqlite3_last_insert_rowid(database);
             lastRow = (int)lastRowId;
-            NSLog(@"Last Insert Row: %i", lastRow);
+            //NSLog(@"Last Insert Row: %i", lastRow);
             
             sqlite3_finalize(statement);
             sqlite3_close(database);
@@ -325,11 +325,11 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             while (sqlite3_step(statement) == SQLITE_ROW){
                 NSString *plantId = [[NSString alloc] initWithUTF8String:
                                        (const char *) sqlite3_column_text(statement, 0)];
-                NSLog(@"msg sql class name: %@", class);
+                //NSLog(@"msg sql class name: %@", class);
                 //NSLog(@"msg sql: %@", plantMaturity);
                 //int index = plantId.intValue;
                 [list addObject:plantId];
-                NSLog(@"msg sql count: %lu",(unsigned long)list.count);
+                //NSLog(@"msg sql count: %lu",(unsigned long)list.count);
             }
         }
         sqlite3_finalize(statement);
@@ -353,6 +353,8 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                        (const char *) sqlite3_column_text(statement, 0)];
                 NSString *plantName = [[NSString alloc] initWithUTF8String:
                                        (const char *) sqlite3_column_text(statement, 1)];
+                NSString *timestamp = [[NSString alloc] initWithUTF8String:
+                                       (const char *) sqlite3_column_text(statement, 2)];
                 NSString *plantIcon = [[NSString alloc] initWithUTF8String:
                                        (const char *) sqlite3_column_text(statement, 3)];
                 NSString *plantMaturity = [[NSString alloc] initWithUTF8String:
@@ -370,11 +372,11 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 NSString *plantYield = [[NSString alloc] initWithUTF8String:
                                         (const char *) sqlite3_column_text(statement, 10)];
 
-
+                [plantData setObject:local_id forKey:@"plant_id"];
                 [plantData setObject:plantName forKey:@"name"];
+                [plantData setObject:timestamp forKey:@"timestamp"];
                 [plantData setObject:plantIcon forKey:@"icon"];
                 [plantData setObject:plantMaturity forKey:@"maturity"];
-                [plantData setObject:local_id forKey:@"plant_id"];
                 [plantData setObject:plantPopulation forKey:@"population"];
                 [plantData setObject:plantClass forKey:@"class"];
                 [plantData setObject:plantDescription forKey:@"description"];
@@ -397,7 +399,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM plants WHERE name = '%@' LIMIT 1", name];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK){
-            NSLog(@"msg sql for plant data ok");
+            //NSLog(@"msg sql for plant data ok");
             while (sqlite3_step(statement) == SQLITE_ROW){
                 NSString *plantName = [[NSString alloc] initWithUTF8String:
                         (const char *) sqlite3_column_text(statement, 1)];
@@ -428,7 +430,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            NSLog(@"msg sql ok");
+            //NSLog(@"msg sql ok");
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 int sqlRows = sqlite3_column_int(statement, 0);
@@ -473,7 +475,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            NSLog(@"msg sql ok");
+            //NSLog(@"msg sql ok");
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 int sqlRows = sqlite3_column_int(statement, 0);
@@ -520,7 +522,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            NSLog(@"msg sql ok");
+            //NSLog(@"msg sql ok");
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 //int sqlRows = sqlite3_column_int(statement, 0);

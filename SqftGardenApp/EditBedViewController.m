@@ -12,7 +12,6 @@
 #import "ApplicationGlobals.h"
 #import "DBManager.h"
 
-
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
 @interface EditBedViewController ()
@@ -59,23 +58,24 @@ DBManager *dbManager;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
+    self.navigationController.navigationBar.hidden = NO;
+    self.view.backgroundColor = [UIColor whiteColor];
+
     
     if ([appGlobals getCurrentGardenModel] != nil){
         self.currentGardenModel = [appGlobals getCurrentGardenModel];
         NSLog(@"Garden Model 1: %@ ROWS: %i", self.currentGardenModel, self.currentGardenModel.rows);
         self.bedColumnCount = self.currentGardenModel.columns;
         self.bedRowCount = self.currentGardenModel.rows;
-        
+
     }
     
     if (self.currentGardenModel == nil){
-        //temp stuff to work on resizer
-        //NSLog(@"GARDEN MODEL NOT INITIALIZED");
-        [self.navigationController performSegueWithIdentifier:@"showResize" sender:self];
+        if(appGlobals.hasShownLaunchScreen == NO)
+            [self.navigationController performSegueWithIdentifier:@"showLaunch" sender:self];
+        else
+            [self.navigationController performSegueWithIdentifier:@"showResize" sender:self];
         return;
-        //self.currentGardenModel = [[SqftGardenModel alloc] init];
-        //NSLog(@"Garden Model 2: %@", self.currentGardenModel);
-        //[self.currentGardenModel showModelInfo];
     }
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
@@ -100,18 +100,10 @@ DBManager *dbManager;
                                                 action:@selector(handleBedSingleTap:)];
         [bed addGestureRecognizer:singleFingerTap];
     }
-    /*
-    for(int i =0; i<self.selectPlantArray.count; i++){
-        UIView *box = [self.selectPlantArray objectAtIndex:i];
-        UITapGestureRecognizer *singleFingerTap =
-        [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                action:@selector(handlePlantSingleTap:)];
-        [box addGestureRecognizer:singleFingerTap];
-    }
-    */
     selectPlantView.mainView = self.bedFrameView;
     selectPlantView.editBedVC = self;
     [self.view addSubview:self.bedFrameView];
+    self.bedFrameView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:selectPlantView];
 }
 
@@ -122,10 +114,14 @@ DBManager *dbManager;
 }
 
 -(void)initViews{
+    //get rid of all old views.
+    for(UIView* subview in self.view.subviews){
+        [subview removeFromSuperview];
+    }
+    UIColor *color = [appGlobals colorFromHexString:@"#fefefe"];
+    self.view.backgroundColor = color;
+    
     self.navigationItem.hidesBackButton = YES;
-    //self.navigationItem.backBarButtonItem.title = @"Back";
-    //self.navigationItem.title = appGlobals.appTitle;
-    //self.navigationController.navigationBar.topItem.title
     [self.bedFrameView removeFromSuperview];
     int width = self.view.bounds.size.width;
     int height = self.view.frame.size.height * BED_LAYOUT_HEIGHT_RATIO;
@@ -136,22 +132,23 @@ DBManager *dbManager;
     [self makeSelectView: width : height];
     [self makeSelectMessageView: width : height];
     [self makeTitleBar];
-    
-
-    
 }
 -(void)makeTitleBar{
+    UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
+    
     float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
-    //NSLog(@"navbar height = %f", navBarHeight);
-    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0,navBarHeight, self.view.frame.size.width, navBarHeight / 1.5)];
-    self.titleView.backgroundColor = [UIColor lightGrayColor];
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10,0, self.view.frame.size.width - 20, 18)];
-    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(10,18, self.view.frame.size.width - 20, (navBarHeight / 1.5)-18)];
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15,navBarHeight - 2, self.view.frame.size.width - 5, navBarHeight / 1.5)];
+    self.titleView.backgroundColor = [color colorWithAlphaComponent:0.55];
+    self.titleView.layer.cornerRadius = 15;
+    self.titleView.layer.borderWidth = 3;
+    self.titleView.layer.borderColor = [color colorWithAlphaComponent:1].CGColor;
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25,0, self.view.frame.size.width - 20, 18)];
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(25,18, self.view.frame.size.width - 20, (navBarHeight / 1.5)-18)];
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
     NSString *plantDate = @"planting date undefined";
     if(nameStr.length < 1)nameStr = @"New Garden";
-    if([nameStr isEqualToString:@"autoSave"])nameStr = @"Unnamed Garden";
+    if([nameStr isEqualToString:@"autoSave"])nameStr = @"New Garden";
     
     NSString *gardenName = [NSString stringWithFormat:@"Garden Name: %@",  nameStr];
     NSString *gardenDate = [NSString stringWithFormat:@"Planting Date: %@",  plantDate];
@@ -245,34 +242,14 @@ DBManager *dbManager;
         bed.backgroundColor = [UIColor whiteColor];
         bed.layer.borderColor = [UIColor lightGrayColor].CGColor;
     }
-    //NSLog(@"Bed Single Tap View Id %@", recognizer.view.description);
-    //recognizer.view.backgroundColor = [UIColor lightGrayColor];
     recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
     PlantIconView *bd = (PlantIconView*)recognizer.view;
     appGlobals.selectedPlant = bd;
     appGlobals.selectedCell = bd.position;
+    [self calculatePlantDropPosition:bd];
     [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
 }
-/*
-- (void)handlePlantSingleTap:(UITapGestureRecognizer *)recognizer {
-    if(appGlobals.selectedCell > -1){
-        NSLog(@"Plant Single Tap View Id %@", recognizer.view.description);
-        BedView *bed = [self.bedViewArray objectAtIndex: appGlobals.selectedCell];
-        PlantIconView *selected = (PlantIconView*)recognizer.view;
-        //PlantModel *plant = [[PlantModel alloc]initWithId:selected.index];
-        appGlobals.selectedPlant = selected;
-        UIImage *icon = [UIImage imageNamed: selected.iconResource];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-        imageView.frame = CGRectMake(bed.bounds.size.width/4,
-                                     bed.bounds.size.height/4,
-                                     bed.bounds.size.width/2,
-                                     bed.bounds.size.height/2);
-        [[bed subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        [bed addSubview:imageView];
-        [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
-    }
-}
-*/
+
 - (NSMutableArray *)buildBedViewArray{
     NSMutableArray *bedArray = [[NSMutableArray alloc] init];
     int bedDimension = [self bedDimension] - 5;
@@ -390,11 +367,15 @@ DBManager *dbManager;
     if([touch view] != nil){
         touchedView = [touch view];
     }
+    else return;
+    [self calculatePlantDropPosition:touchedView];
+}
+-(void)calculatePlantDropPosition : (UIView*)touchedView{
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *bedView = (PlantIconView*)touchedView;
         //remove the bed from it's old spot
         [self updatePlantBeds: bedView.position : 0];
-
+        
         float xCo = bedView.center.x;
         float yCo = bedView.center.y;
         
@@ -432,7 +413,7 @@ DBManager *dbManager;
         }
         
         [self updatePlantBeds:targetCell:bedView.plantId];
-        AudioServicesPlaySystemSound(1104);
+        //AudioServicesPlaySystemSound(1104);
     }
 }
 

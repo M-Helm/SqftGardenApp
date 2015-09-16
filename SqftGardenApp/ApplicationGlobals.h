@@ -19,9 +19,11 @@
 @property (nonatomic) int bedDimension;
 @property (nonatomic) SqftGardenModel* globalGardenModel;
 @property (nonatomic) bool showPlantNumberTokens;
+@property (nonatomic) bool hasShownLaunchScreen;
 - (SqftGardenModel *)getCurrentGardenModel;
 - (void) setCurrentGardenModel:(SqftGardenModel *)currentGardenModel;
 - (void) clearCurrentGardenModel;
+- (UIColor *)colorFromHexString:(NSString *)hexString;
 
 
 @end

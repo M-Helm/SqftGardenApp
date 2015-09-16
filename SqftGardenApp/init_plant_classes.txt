@@ -1,5 +1,5 @@
 [{"name":"Leafy", "timestamp":0, "icon":"ic_leafy_flat_256px.png", "maturity":75, "population": 1},
+{"name":"Pod", "timestamp":0, "icon":"ic_bean_flat_256px.png", "maturity":75, "population": 1},
 {"name":"Herb", "timestamp":0, "icon":"ic_herb_flat_256px.png", "maturity":75, "population": 1},
 {"name":"Root", "timestamp":0, "icon":"ic_onion_flat_256px.png", "maturity":75, "population": 1},
-{"name":"Pod", "timestamp":0, "icon":"ic_bean_flat_256px.png", "maturity":75, "population": 1},
 {"name":"Gourd", "timestamp":0, "icon":"ic_eggplant_flat_256px.png", "maturity":75, "population": 1}]
