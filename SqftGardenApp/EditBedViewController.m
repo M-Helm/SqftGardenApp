@@ -237,13 +237,14 @@ DBManager *dbManager;
 }
 
 - (void)handleBedSingleTap:(UITapGestureRecognizer *)recognizer {
+    PlantIconView *bd = (PlantIconView*)recognizer.view;
+    if(bd.plantId < 1)return;
     for(int i = 0; i<self.bedViewArray.count; i++){
         UIView *bed = [self.bedViewArray objectAtIndex:i];
         bed.backgroundColor = [UIColor whiteColor];
         bed.layer.borderColor = [UIColor lightGrayColor].CGColor;
     }
     recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    PlantIconView *bd = (PlantIconView*)recognizer.view;
     appGlobals.selectedPlant = bd;
     appGlobals.selectedCell = bd.position;
     [self calculatePlantDropPosition:bd];
@@ -321,9 +322,12 @@ DBManager *dbManager;
 }
 
 
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     NSLog(@"Touches Began in EVC");
+    if(appGlobals.isMenuDrawerOpen == YES){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
+        return;
+    }
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){

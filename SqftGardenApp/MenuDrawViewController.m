@@ -7,6 +7,7 @@
 
 #import "MenuDrawViewController.h"
 #import "MenuViewController.h"
+#import "ApplicationGlobals.h"
 
 
 @interface MenuDrawerViewController ()
@@ -15,12 +16,15 @@
 
 @implementation MenuDrawerViewController
 
+ApplicationGlobals* appGlobals;
+
 + (id)getSharedMenuDrawer {
     static MenuDrawerViewController *sharedMenuDrawer = nil;
     @synchronized(self) {
         if (sharedMenuDrawer  == nil)
             sharedMenuDrawer  = [[self alloc] init];
-        //NSLog(@"%s", __PRETTY_FUNCTION__);
+            appGlobals = [ApplicationGlobals getSharedGlobals];
+            //NSLog(@"%s", __PRETTY_FUNCTION__);
     }
     return sharedMenuDrawer ;
 }
@@ -75,11 +79,12 @@
 {
     //float w = self.content.view.bounds.size.width;
     CGRect fm = self.content.view.frame;
-    fm.origin.x = 240.0;
+    fm.origin.x = 200.0;
     
     [UIView animateWithDuration:0.3 animations:^{
         self.content.view.frame = fm;
     }];
+    appGlobals.isMenuDrawerOpen = YES;
 }
 
 -(void)closeDrawer
@@ -91,6 +96,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.content.view.frame = fm;
     }];
+    appGlobals.isMenuDrawerOpen = NO;
 }
 -(void)setContent:(UIViewController *)content
 {

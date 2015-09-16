@@ -20,6 +20,7 @@
 @property (nonatomic) SqftGardenModel* globalGardenModel;
 @property (nonatomic) bool showPlantNumberTokens;
 @property (nonatomic) bool hasShownLaunchScreen;
+@property (atomic) bool isMenuDrawerOpen;
 - (SqftGardenModel *)getCurrentGardenModel;
 - (void) setCurrentGardenModel:(SqftGardenModel *)currentGardenModel;
 - (void) clearCurrentGardenModel;

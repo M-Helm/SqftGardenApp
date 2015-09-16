@@ -30,6 +30,7 @@ ApplicationGlobals *appGlobals;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     appGlobals = [ApplicationGlobals getSharedGlobals];
+    self.view.backgroundColor = [UIColor blackColor];
 }
 
 - (void)didReceiveMemoryWarning

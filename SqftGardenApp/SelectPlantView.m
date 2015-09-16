@@ -121,6 +121,10 @@ PlantIconView *touchedIcon;
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    if(appGlobals.isMenuDrawerOpen == YES){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
+        return;
+    }
     //NSLog(@"TOUCHES BEGAN");
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
