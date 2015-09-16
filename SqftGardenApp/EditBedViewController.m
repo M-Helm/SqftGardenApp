@@ -25,6 +25,7 @@ const float BED_LAYOUT_WIDTH_RATIO = 1.0;
 const float BED_LAYOUT_HEIGHT_RATIO = .60;
 const float SELECT_LAYOUT_WIDTH_RATIO = 1.0;
 const float SELECT_LAYOUT_HEIGHT_RATIO = .20;
+const int BED_LAYOUT_MINIMUM_DIMENSION = 44;
 
 NSString * const ROW_KEY = @"rows";
 NSString * const COLUMN_KEY = @"columns";
@@ -156,7 +157,7 @@ DBManager *dbManager;
     label.text = gardenName;
     label2.text = gardenDate;
     [label setFont:[UIFont boldSystemFontOfSize:15]];
-    [label2 setFont:[UIFont boldSystemFontOfSize:9]];
+    [label2 setFont:[UIFont boldSystemFontOfSize:11]];
     //label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor blackColor];
     label2.textColor = [UIColor blackColor];
@@ -184,7 +185,6 @@ DBManager *dbManager;
     [self.selectMessageView addSubview:self.selectMessageLabel];
     [self.view addSubview:self.selectMessageView];
     self.selectMessageLabel.text = @"Select A Class Of Plants";
-    
 }
 
 -(void)makeSelectView : (int)width : (int)height{
@@ -226,12 +226,12 @@ DBManager *dbManager;
     if(((self.view.frame.size.width - 20) / bedDimension) < 3)
             bedDimension = (int)(self.view.bounds.size.width - 20)/3;
     
-    
     while(bedDimension * self.bedRowCount > (self.view.frame.size.height * BED_LAYOUT_HEIGHT_RATIO)){
         bedDimension = bedDimension * .93;
     }
-    
+    if(bedDimension < BED_LAYOUT_MINIMUM_DIMENSION) bedDimension = BED_LAYOUT_MINIMUM_DIMENSION;
     [appGlobals setBedDimension:bedDimension];
+    NSLog(@"!!!!!!!!!!!!!!! Dimenision %i", bedDimension);
     return bedDimension;
 }
 

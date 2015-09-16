@@ -21,7 +21,6 @@ ApplicationGlobals *appGlobals;
 - (void)viewDidLoad {
     [super viewDidLoad];
     appGlobals = [ApplicationGlobals getSharedGlobals];
-    
     //setup views
     //self.navigationItem.title = appGlobals.appTitle;
     self.navigationController.navigationItem.backBarButtonItem.title = @"Back";
@@ -39,7 +38,6 @@ ApplicationGlobals *appGlobals;
     self.bedFrameView.layer.cornerRadius = 15;
     [self.view addSubview:self.bedFrameView];
 }
-
 
 -(void)initViewGrid{
     float xCo = self.view.bounds.size.width;

@@ -125,6 +125,11 @@ UIFont * launchButtonFont;
                                                       withColor:color];
     [aboutButton.layer addSublayer:aboutCircle];
     [aboutButton addSubview:aboutLabel];
+    aboutButton.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleFingerTapOpen =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleAboutSingleTap:)];
+    [aboutButton addGestureRecognizer:singleFingerTapOpen];
     [self.view addSubview:aboutButton];
     CGRect fm = aboutButton.frame;
     fm.origin.y =  width/3+10+(launchButtonSeperator*2);
@@ -164,6 +169,20 @@ UIFont * launchButtonFont;
 
 }
 
+- (void)handleAboutSingleTap:(UITapGestureRecognizer *)recognizer{
+    //CGPoint location = [recognizer locationInView:[recognizer.view superview]];
+    NSLog(@"right btn click");
+    UIView *btn = (UIView*)recognizer.view;
+    CGRect fm = btn.frame;
+    fm.origin.x += 355;
+    
+    [UIView animateWithDuration:.35 animations:^{
+        btn.frame = fm;
+    }completion:^(BOOL finished){
+        [self.navigationController performSegueWithIdentifier:@"showLegal" sender:self];
+    }];
+    
+}
 
 -(CAShapeLayer *)drawCircleLayerWithRadius:(float)radius atPoint:(CGPoint) center withColor:(UIColor *)color{
     UIBezierPath *circle = [UIBezierPath bezierPathWithArcCenter:center

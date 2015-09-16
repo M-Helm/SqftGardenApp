@@ -176,6 +176,33 @@
             </objects>
             <point key="canvasLocation" x="-184" y="-2012"/>
         </scene>
+        <!--Title-->
+        <scene sceneID="Giq-Ad-BNz">
+            <objects>
+                <viewController id="MvH-5s-HTu" customClass="TermsScreenViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9DG-zi-Fvl"/>
+                        <viewControllerLayoutGuide type="bottom" id="4mM-qQ-cAV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sf1-T6-qYs">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="Ok3-Jo-C1N">
+                        <barButtonItem key="rightBarButtonItem" image="ic_burger_44.png" id="U6A-4u-mV9">
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="handleButton:" destination="Yur-Rw-2Ya" id="Kg7-VT-LhO"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wba-nV-zAo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="Yur-Rw-2Ya" customClass="ButtonHandler"/>
+            </objects>
+            <point key="canvasLocation" x="-184" y="-2746"/>
+        </scene>
         <!--Main Navigation Controller-->
         <scene sceneID="RdR-hp-G0k">
             <objects>
@@ -192,6 +219,7 @@
                         <segue destination="O9I-ib-dQX" kind="show" identifier="showMain" id="Mgh-Xv-c24"/>
                         <segue destination="YoF-96-wAR" kind="show" identifier="showLaunch" id="TS2-Uz-agJ"/>
                         <segue destination="5kp-sf-cE8" kind="show" identifier="openBed" id="4wv-5b-sBp"/>
+                        <segue destination="MvH-5s-HTu" kind="show" identifier="showLegal" id="yjf-UC-sHO"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G7I-jw-rOk" userLabel="First Responder" sceneMemberID="firstResponder"/>

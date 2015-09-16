@@ -181,8 +181,8 @@ ApplicationGlobals *appGlobals;
     }
     float height = self.bounds.size.height;
     float width = self.bounds.size.width;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 9, width, 9)];
-    [label setFont:[UIFont boldSystemFontOfSize:9]];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 10, width, 9)];
+    [label setFont:[UIFont boldSystemFontOfSize:11]];
     label.textColor = [UIColor blackColor];
     if(self.population > 3)label.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
     if(appGlobals.showPlantNumberTokens)label.backgroundColor = [UIColor clearColor];
@@ -204,7 +204,6 @@ ApplicationGlobals *appGlobals;
     label.textAlignment = NSTextAlignmentCenter;
     [label setFont:[UIFont boldSystemFontOfSize:10]];
     [imageView addSubview:label];
-    //label.center = imageView.center;
 }
 
 
