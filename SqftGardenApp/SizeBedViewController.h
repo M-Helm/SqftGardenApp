@@ -23,4 +23,7 @@
 @property(nonatomic) UILabel *sizeLabel;
 @property(nonatomic) UIView *titleView;
 
+@property(nonatomic) int topOffset;
+@property(nonatomic) int sideOffset;
+
 @end
