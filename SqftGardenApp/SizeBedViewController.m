@@ -33,14 +33,21 @@ DBManager *dbManager;
     appGlobals.selectedCell = -1;
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.title = @"";
-    UIColor *color = [appGlobals colorFromHexString:@"#fefefe"];
-    self.view.backgroundColor = color;
+
+    
+    UIImage *background = [UIImage imageNamed:@"cloth_test.png"];
+    UIImageView *bk = [[UIImageView alloc]initWithImage:background];
+    bk.alpha = .04;
+    bk.frame = self.view.frame;
+    [self.view addSubview:bk];
+    
+    
     self.topOffset = self.navigationController.navigationBar.frame.size.height * 1.5;
     self.sideOffset = 10;
     self.heightMultiplier = self.view.frame.size.height/667;
     
     self.topOffset = self.topOffset*self.heightMultiplier;
-    
+    NSLog(@"SIZEBED TOP OFFSET= %i", self.topOffset);
     
     
     if(self.bedColumnCount < 1)self.bedColumnCount = 1;
@@ -75,6 +82,7 @@ DBManager *dbManager;
                                                 self.topOffset + self.titleView.frame.size.height,
                                                 xCo+(self.sideOffset*-2),
                                                 yCo)];
+    
     //get bed array
     NSMutableArray *bedArray = [self buildBedViewArray];
     
@@ -86,11 +94,15 @@ DBManager *dbManager;
     self.bedFrameView.layer.borderWidth = 1;
     self.bedFrameView.layer.cornerRadius = 15;
     
-
+    //[self drawBaseGrid];
+    
+    CALayer *gridLayer = [self drawBaseGrid];
+    UIImage *gridImg = [self imageFromLayer : gridLayer];
+    UIImageView *grid = [[UIImageView alloc] initWithImage:gridImg];
+    grid.frame = self.bedFrameView.frame;
+    [self.view addSubview:grid];
     [self.view addSubview:self.bedFrameView];
-
-    [self drawBaseGrid];
-
+    
 }
 -(void)makeSizeLabel{
     float xCo = self.view.bounds.size.width;
@@ -131,6 +143,7 @@ DBManager *dbManager;
     [UIView animateWithDuration:0.6 animations:^{
         self.titleView.frame = fm;
     }];
+    NSLog(@"SizeBED TITLE HEIGHT= %f", self.titleView.frame.size.height);
 }
 
 -(int)bedDimension{
@@ -329,33 +342,53 @@ DBManager *dbManager;
     }
     [self drawBaseGrid];
 }
--(void)drawBaseGrid{
+-(CALayer *)drawBaseGrid{
     UIColor* color = [UIColor blueColor];
-
+    CALayer* gridLayer = [[CALayer alloc]init];
+    gridLayer.frame = self.bedFrameView.frame;
+    gridLayer.backgroundColor = [UIColor whiteColor].CGColor;
     //draw Column Lines
     for(int i = 1; i< self.maxColumnCount; i++){
         UIBezierPath *path = [UIBezierPath bezierPath];
-        [path moveToPoint:CGPointMake(self.sideOffset+ appGlobals.bedDimension*i, self.bedFrameView.frame.origin.y)];
-        [path addLineToPoint:CGPointMake(self.sideOffset + (appGlobals.bedDimension*i), (appGlobals.bedDimension*self.maxRowCount) + self.bedFrameView.frame.origin.y + 2)];
+        [path moveToPoint:CGPointMake(appGlobals.bedDimension*i, 0)];
+        [path addLineToPoint:CGPointMake((appGlobals.bedDimension*i), (appGlobals.bedDimension*self.maxRowCount))];
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = [path CGPath];
         shapeLayer.strokeColor = [color colorWithAlphaComponent:.15].CGColor;
         shapeLayer.lineWidth = 1;
         shapeLayer.fillColor = [[UIColor clearColor] CGColor];
-        [self.view.layer addSublayer:shapeLayer];
+        [gridLayer addSublayer:shapeLayer];
+        //[self.view.layer addSublayer:shapeLayer];
     }
     //Draw Row Lines
     for(int i = 1; i<self.maxRowCount; i++){
         UIBezierPath *path = [UIBezierPath bezierPath];
-        [path moveToPoint:CGPointMake(self.sideOffset, self.bedFrameView.frame.origin.y  + appGlobals.bedDimension*i)];
-        [path addLineToPoint:CGPointMake(2+self.sideOffset + (appGlobals.bedDimension*self.maxColumnCount), appGlobals.bedDimension*i + self.bedFrameView.frame.origin.y)];
+        [path moveToPoint:CGPointMake(0, appGlobals.bedDimension*i)];
+        [path addLineToPoint:CGPointMake((appGlobals.bedDimension*self.maxColumnCount), appGlobals.bedDimension*i)];
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = [path CGPath];
         shapeLayer.strokeColor = [color colorWithAlphaComponent:.15].CGColor;
         shapeLayer.lineWidth = 1;
         shapeLayer.fillColor = [[UIColor clearColor] CGColor];
-        [self.view.layer addSublayer:shapeLayer];
+        [gridLayer addSublayer:shapeLayer];
+        //[self.view.layer addSublayer:shapeLayer];
     }
+    return gridLayer;
+}
+- (UIImage *)imageFromLayer:(CALayer *)layer
+{
+    
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
+        UIGraphicsBeginImageContextWithOptions([layer frame].size, NO, [UIScreen mainScreen].scale);
+    else
+        UIGraphicsBeginImageContext([layer frame].size);
+    
+    [layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return outputImage;
 }
 
 @end

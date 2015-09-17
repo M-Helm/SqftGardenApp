@@ -17,7 +17,7 @@ const int PLANT_ICON_PADDING = 7;
 NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 ApplicationGlobals *appGlobals;
 
-- (id)initWithFrame:(CGRect)frame : (int)plantIndex{
+- (id)initWithFrame:(CGRect)frame withPlantId: (int)plantIndex{
     //self.index = plantIndex;
     self.plantId = plantIndex;
     self = [super initWithFrame:frame];

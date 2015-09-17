@@ -17,6 +17,9 @@
 @property (nonatomic) UIView* mainView;
 @property (nonatomic) EditBedViewController* editBedVC;
 @property (nonatomic) NSString *selectedClass;
+@property(nonatomic) int topOffset;
+@property(nonatomic) int sideOffset;
+@property(nonatomic) float heightMultiplier;
 
 
 @end

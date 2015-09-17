@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface PlantIconView : UIView
-- (id)initWithFrame:(CGRect)frame : (int)plantIndex;
+- (id)initWithFrame:(CGRect)frame withPlantId: (int)plantIndex;
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
 //@property (nonatomic) UILabel* label;

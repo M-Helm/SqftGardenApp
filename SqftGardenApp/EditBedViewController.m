@@ -26,6 +26,7 @@ const float BED_LAYOUT_HEIGHT_RATIO = .60;
 const float SELECT_LAYOUT_WIDTH_RATIO = 1.0;
 const float SELECT_LAYOUT_HEIGHT_RATIO = .20;
 const int BED_LAYOUT_MINIMUM_DIMENSION = 55;
+const int BED_LAYOUT_MAXIMUM_DIMENSION = 110;
 
 NSString * const ROW_KEY = @"rows";
 NSString * const COLUMN_KEY = @"columns";
@@ -33,7 +34,6 @@ float evStartX = 0;
 float evStartY = 0;
 
 SelectPlantView *selectPlantView;
-
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
 
@@ -58,7 +58,20 @@ DBManager *dbManager;
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
     self.navigationController.navigationBar.hidden = NO;
-    self.view.backgroundColor = [UIColor whiteColor];
+    //self.view.backgroundColor = [UIColor whiteColor];
+    UIImage *background = [UIImage imageNamed:@"cloth_test.png"];
+    UIImageView *bk = [[UIImageView alloc]initWithImage:background];
+    bk.alpha = .05;
+    bk.frame = self.view.frame;
+    [self.view addSubview:bk];
+    
+    self.sideOffset = 10;
+    self.topOffset = self.navigationController.navigationBar.frame.size.height * 1.5;
+    
+    self.heightMultiplier = self.view.frame.size.height/667;
+    
+    self.topOffset = self.topOffset*self.heightMultiplier;
+    NSLog(@"EDITBED TOP OFFSET= %i", self.topOffset);
 
     
     if ([appGlobals getCurrentGardenModel] != nil){
@@ -83,6 +96,7 @@ DBManager *dbManager;
     //self.selectPlantArray = [self buildPlantSelectArray];
     [self.currentGardenModel setRows:self.bedRowCount];
     [self.currentGardenModel setColumns:self.bedColumnCount];
+
     [self initViews];
 }
 
@@ -126,16 +140,18 @@ DBManager *dbManager;
     if(selectPlantView != nil){
         [selectPlantView removeFromSuperview];
     }
-    [self makeBedFrame : width : height];
-    [self makeSelectView: width : height];
-    [self makeSelectMessageView: width : height];
     [self makeTitleBar];
+    [self makeBedFrame : width : height];
+    [self makeSelectMessageView: width : height];
+    [self makeSelectView: width : height];
+    
+    
 }
 -(void)makeTitleBar{
     UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
-    
     float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
-    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15,navBarHeight - 2, self.view.frame.size.width - 5, navBarHeight / 1.5)];
+    
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15,navBarHeight - 2, self.view.frame.size.width - 5, self.topOffset)];
     self.titleView.backgroundColor = [color colorWithAlphaComponent:0.55];
     self.titleView.layer.cornerRadius = 15;
     self.titleView.layer.borderWidth = 3;
@@ -164,13 +180,40 @@ DBManager *dbManager;
     [self.titleView addSubview:label];
     [self.titleView addSubview:label2];
     [self.view addSubview: self.titleView];
+    
+    NSLog(@"EDITBED TITLE HEIGHT= %f", self.titleView.frame.size.height);
+}
+
+-(void)makeBedFrame : (int) width : (int) height{
+    
+    //when you monkey with this layout you need adjust the endTouches method in SelectPlantView Class else the drag and drop stuff breaks
+    
+    float xCo = self.view.bounds.size.width;
+    int yCo = self.bedRowCount * [self bedDimension];
+    self.bedFrameView = [[UIView alloc]
+                         initWithFrame:CGRectMake(self.sideOffset,
+                                                  self.topOffset + self.titleView.frame.size.height+7,
+                                                  xCo+(self.sideOffset*-2),
+                                                  yCo)];
+    
+    
+    //add my array of beds
+    for(int i = 0; i<self.bedViewArray.count;i++){
+        [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
+    }
+    //add icons to bedviews
+    int cellCount = 0;
+    for (UIView *subview in self.bedFrameView.subviews){
+        if( [subview class] == [PlantIconView class]){
+            cellCount++;
+        }
+    }
+    NSLog(@"EDITBED FRAME Y ORIGIN= %f", self.bedFrameView.frame.origin.y);
 }
 
 -(void)makeSelectMessageView : (int)width :(int)height{
-    self.selectMessageView = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                                      height+BED_LAYOUT_HEIGHT_BUFFER + 102,
-                                                                      width,
-                                                                      20)];
+    float selectMessageTopOffset = self.topOffset + self.titleView.frame.size.height + self.bedFrameView.frame.size.height;
+    self.selectMessageView = [[UIView alloc] initWithFrame:CGRectMake(0,selectMessageTopOffset,width,20)];
     self.selectMessageView.layer.borderWidth = 0;
     self.selectMessageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     UIColor *color = [UIColor blackColor];
@@ -187,30 +230,30 @@ DBManager *dbManager;
 -(void)makeSelectView : (int)width : (int)height{
     int bedDimension = [self bedDimension];
     int selectDimension = bedDimension + 5;
+    float selectTopOffset = self.topOffset
+                        + self.titleView.frame.size.height
+                        + self.bedFrameView.frame.size.height
+                        + self.selectMessageView.frame.size.height;
+    
     if((self.view.frame.size.width / selectDimension) > 6)selectDimension = self.view.frame.size.width / 6;
     if((self.view.frame.size.width / selectDimension) < 3)selectDimension = self.view.frame.size.width / 3;
-    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(0, height+BED_LAYOUT_HEIGHT_BUFFER + 125, width, selectDimension)];
+    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(0, selectTopOffset, width, selectDimension)];
     for(int i = 0; i<self.selectPlantArray.count;i++){
         [selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
     }
-}
-
--(void)makeBedFrame : (int) width : (int) height{
     
-    //when you monkey with this layout you need adjust the endTouches method in SelectPlantView Class else the drag and drop stuff breaks
-    float navBarHeight = self.navigationController.navigationBar.bounds.size.height * 1.5;
-    self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, navBarHeight * 2,
-                                                                 width+BED_LAYOUT_WIDTH_BUFFER, height+BED_LAYOUT_HEIGHT_BUFFER)];
-    //add my array of beds
-    for(int i = 0; i<self.bedViewArray.count;i++){
-        [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
-    }
-    //add icons to bedviews
-    int cellCount = 0;
-    for (UIView *subview in self.bedFrameView.subviews){
-        if( [subview class] == [PlantIconView class]){
-            cellCount++;
-        }
+    if((self.view.frame.size.height - selectTopOffset - selectDimension) > selectDimension){
+        float messageFrameHeight = self.selectMessageView.frame.size.height;
+        CGRect newSelectFrame = CGRectMake(0,
+                                           self.view.frame.size.height - (selectDimension*2),
+                                           width,
+                                           selectDimension);
+        CGRect newSelectMessageFrame = CGRectMake(0,
+                                                  self.view.frame.size.height - (selectDimension*2)-messageFrameHeight,
+                                                  width,
+                                                  messageFrameHeight);
+        selectPlantView.frame = newSelectFrame;
+        self.selectMessageView.frame = newSelectMessageFrame;
     }
 }
 
@@ -227,6 +270,7 @@ DBManager *dbManager;
         bedDimension = bedDimension * .93;
     }
     if(bedDimension < BED_LAYOUT_MINIMUM_DIMENSION) bedDimension = BED_LAYOUT_MINIMUM_DIMENSION;
+    if(bedDimension > BED_LAYOUT_MAXIMUM_DIMENSION) bedDimension = BED_LAYOUT_MAXIMUM_DIMENSION;
     
     //magic numbers to support iphone 4 screen sizes
     if(self.view.frame.size.height < 481){
@@ -273,7 +317,12 @@ DBManager *dbManager;
             int plantId = [self.currentGardenModel getPlantIdForCell:cell];
 
             float padding = [self calculateBedViewHorizontalPadding];
-            PlantIconView *bed = [[PlantIconView alloc] initWithFrame:CGRectMake(padding + (bedDimension*columnNumber),(bedDimension*rowNumber)+1, bedDimension, bedDimension): plantId];
+            PlantIconView *bed = [[PlantIconView alloc]
+                                  initWithFrame:CGRectMake(padding + (bedDimension*columnNumber),
+                                                           (bedDimension*rowNumber)+1,
+                                                           bedDimension,
+                                                           bedDimension)
+                                                            withPlantId: plantId];
             bed.layer.borderWidth = 1;
             bed.position = cell;
             [bedArray addObject:bed];

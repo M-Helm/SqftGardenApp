@@ -82,7 +82,7 @@ PlantIconView *touchedIcon;
     
     //add cancel button
     PlantIconView *cancelBtn = [[PlantIconView alloc]
-                                initWithFrame:CGRectMake(6 + (frameDimension*0), 2, frameDimension,frameDimension) : -1];
+                                initWithFrame:CGRectMake(6 + (frameDimension*0), 2, frameDimension,frameDimension) withPlantId: -1];
     [selectArray addObject:cancelBtn];
     
     //int rowCount = [dbManager getTableRowCount:@"plants"];
@@ -90,7 +90,7 @@ PlantIconView *touchedIcon;
     for(int i=0; i<list.count; i++){
         NSString *index = list[i];
         PlantIconView *plantIcon = [[PlantIconView alloc]
-                                    initWithFrame:CGRectMake(6 + (frameDimension*(i+1)), 2, frameDimension,frameDimension) : index.intValue];
+                                    initWithFrame:CGRectMake(6 + (frameDimension*(i+1)), 2, frameDimension,frameDimension) withPlantId: index.intValue];
         [plantIcon setViewAsIcon:true];
         //NSLog(@"LIST VALUE COMING OUT OF DB: %i", index.intValue);
        // UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
@@ -245,9 +245,15 @@ PlantIconView *touchedIcon;
             xCo = ((self.mainView.frame.size.width + (plantView.position*2))* 2) * -1;
         }
         
-        float selectMessageViewHeight = 26.00;
-        float navBarHeight = self.editBedVC.navigationController.navigationBar.frame.size.height * 1;
-        yCo = fabs(self.mainView.frame.size.height + touchedView.center.y + selectMessageViewHeight - (navBarHeight*1));
+        float selectMessageViewHeight = 20.00;
+        //float navBarHeight = self.editBedVC.navigationController.navigationBar.frame.size.height * 1;
+        self.heightMultiplier = self.mainView.frame.size.height/667;
+        self.topOffset = self.topOffset*self.heightMultiplier;
+        
+        
+        //yCo = fabs(self.mainView.frame.size.height + touchedView.center.y + selectMessageViewHeight - (navBarHeight*1.5));
+        yCo = fabs(self.mainView.frame.size.height + touchedView.center.y + selectMessageViewHeight - (self.topOffset));
+        
         xCo = fabs(xCo + touchedView.center.x);
         NSLog(@"XCordinate: %f  screenWidth: %f", xCo, self.mainView.frame.size.width);
         int i = 0;

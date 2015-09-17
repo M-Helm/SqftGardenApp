@@ -22,6 +22,9 @@
 @property(nonatomic) UIView *titleView;
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;
 @property(nonatomic) SqftGardenModel *currentGardenModel;
+@property(nonatomic) int topOffset;
+@property(nonatomic) int sideOffset;
+@property(nonatomic) float heightMultiplier;
 
 @end
 
