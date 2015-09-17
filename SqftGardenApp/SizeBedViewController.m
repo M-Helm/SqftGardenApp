@@ -47,7 +47,7 @@ DBManager *dbManager;
     self.heightMultiplier = self.view.frame.size.height/667;
     
     self.topOffset = self.topOffset*self.heightMultiplier;
-    NSLog(@"SIZEBED TOP OFFSET= %i", self.topOffset);
+
     
     
     if(self.bedColumnCount < 1)self.bedColumnCount = 1;
@@ -143,8 +143,7 @@ DBManager *dbManager;
     [UIView animateWithDuration:0.6 animations:^{
         self.titleView.frame = fm;
     }];
-    NSLog(@"SizeBED TITLE HEIGHT= %f", self.titleView.frame.size.height);
-}
+   }
 
 -(int)bedDimension{
     int columnDimension = (int)(self.view.bounds.size.width - 20) / (int)self.maxColumnCount;
@@ -343,10 +342,11 @@ DBManager *dbManager;
     [self drawBaseGrid];
 }
 -(CALayer *)drawBaseGrid{
-    UIColor* color = [UIColor blueColor];
+    UIColor* lineColor = [UIColor blueColor];
+    UIColor* bkColor = [UIColor clearColor];
     CALayer* gridLayer = [[CALayer alloc]init];
     gridLayer.frame = self.bedFrameView.frame;
-    gridLayer.backgroundColor = [UIColor whiteColor].CGColor;
+    gridLayer.backgroundColor = bkColor.CGColor;
     //draw Column Lines
     for(int i = 1; i< self.maxColumnCount; i++){
         UIBezierPath *path = [UIBezierPath bezierPath];
@@ -354,7 +354,7 @@ DBManager *dbManager;
         [path addLineToPoint:CGPointMake((appGlobals.bedDimension*i), (appGlobals.bedDimension*self.maxRowCount))];
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = [path CGPath];
-        shapeLayer.strokeColor = [color colorWithAlphaComponent:.15].CGColor;
+        shapeLayer.strokeColor = [lineColor colorWithAlphaComponent:.15].CGColor;
         shapeLayer.lineWidth = 1;
         shapeLayer.fillColor = [[UIColor clearColor] CGColor];
         [gridLayer addSublayer:shapeLayer];
@@ -367,7 +367,7 @@ DBManager *dbManager;
         [path addLineToPoint:CGPointMake((appGlobals.bedDimension*self.maxColumnCount), appGlobals.bedDimension*i)];
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = [path CGPath];
-        shapeLayer.strokeColor = [color colorWithAlphaComponent:.15].CGColor;
+        shapeLayer.strokeColor = [lineColor colorWithAlphaComponent:.15].CGColor;
         shapeLayer.lineWidth = 1;
         shapeLayer.fillColor = [[UIColor clearColor] CGColor];
         [gridLayer addSublayer:shapeLayer];
