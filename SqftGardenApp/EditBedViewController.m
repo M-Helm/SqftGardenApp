@@ -227,6 +227,12 @@ DBManager *dbManager;
         bedDimension = bedDimension * .93;
     }
     if(bedDimension < BED_LAYOUT_MINIMUM_DIMENSION) bedDimension = BED_LAYOUT_MINIMUM_DIMENSION;
+    
+    //magic numbers to support iphone 4 screen sizes
+    if(self.view.frame.size.height < 481){
+        if(bedDimension > 65)bedDimension = 65;
+    }
+    
     [appGlobals setBedDimension:bedDimension];
     return bedDimension;
 }

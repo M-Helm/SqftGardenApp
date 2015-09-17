@@ -66,6 +66,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <segue destination="4ri-tO-S0j" kind="custom" identifier="showMain" customClass="DisplayContentSegue" id="zSh-u6-Qvr"/>
                                         </connections>
@@ -86,6 +87,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <segue destination="1wW-Rb-cmB" kind="custom" identifier="showSaveScreen" customClass="DisplayContentSegue" id="Ikh-Je-pdI"/>
                                         </connections>
@@ -106,6 +108,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <segue destination="anL-yc-Mgw" kind="custom" identifier="openBed" customClass="DisplayContentSegue" id="K5X-aZ-PPS"/>
                                         </connections>
@@ -126,6 +129,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell4" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="jkz-K6-aev">
                                         <rect key="frame" x="0.0" y="266" width="600" height="50"/>
@@ -143,6 +147,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>

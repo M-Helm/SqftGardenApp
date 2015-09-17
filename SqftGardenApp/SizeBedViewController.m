@@ -37,8 +37,8 @@ DBManager *dbManager;
     if(self.bedColumnCount < 1)self.bedColumnCount = 1;
     if(self.bedRowCount < 1)self.bedRowCount = 1;
     self.maxRowCount = 6;
+    if(self.view.frame.size.height < 481)self.maxRowCount = 5;
     self.maxColumnCount = 6;
-    
     self.currentGardenModel = [[SqftGardenModel alloc] init];
     
     //check if there's a model in globals, save it and reset it
@@ -88,6 +88,7 @@ DBManager *dbManager;
     [self.view addSubview:self.bedFrameView];
     [self makeTitleBar];
     [self drawBaseGrid];
+
 }
 
 -(void)makeTitleBar{
@@ -105,7 +106,7 @@ DBManager *dbManager;
     //UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(25,18, self.view.frame.size.width - 20, (navBarHeight / 1.5)-18)];
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
-    NSString *plantDate = @"planting date undefined";
+    //NSString *plantDate = @"planting date undefined";
     if(nameStr.length < 1)nameStr = @"New Garden";
     if([nameStr isEqualToString:@"autoSave"])nameStr = @"Unnamed Garden";
     
@@ -335,10 +336,10 @@ DBManager *dbManager;
     UIColor* color = [UIColor blueColor];
 
     //draw Column Lines
-    for(int i = 1; i< 6; i++){
+    for(int i = 1; i< self.maxColumnCount; i++){
         UIBezierPath *path = [UIBezierPath bezierPath];
         [path moveToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*i, svBEDFRAME_TOP_OFFSET)];
-        [path addLineToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*i, appGlobals.bedDimension*6 + svBEDFRAME_TOP_OFFSET)];
+        [path addLineToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*i, appGlobals.bedDimension*self.maxRowCount + svBEDFRAME_TOP_OFFSET)];
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = [path CGPath];
         shapeLayer.strokeColor = [color colorWithAlphaComponent:0.15].CGColor;
@@ -347,10 +348,10 @@ DBManager *dbManager;
         [self.view.layer addSublayer:shapeLayer];
     }
     //Draw Row Lines
-    for(int i = 1; i<6; i++){
+    for(int i = 1; i<self.maxRowCount; i++){
         UIBezierPath *path = [UIBezierPath bezierPath];
         [path moveToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET, svBEDFRAME_TOP_OFFSET  + appGlobals.bedDimension*i)];
-        [path addLineToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*6, appGlobals.bedDimension*i + svBEDFRAME_TOP_OFFSET)];
+        [path addLineToPoint:CGPointMake(svBEDFRAME_SIDE_OFFSET + appGlobals.bedDimension*self.maxColumnCount, appGlobals.bedDimension*i + svBEDFRAME_TOP_OFFSET)];
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = [path CGPath];
         shapeLayer.strokeColor = [color colorWithAlphaComponent:0.15].CGColor;

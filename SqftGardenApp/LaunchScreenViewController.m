@@ -189,7 +189,6 @@ UIFont * launchButtonFont;
                                                       startAngle:0
                                                         endAngle:2.0*M_PI
                                                        clockwise:YES];
-    
     CAShapeLayer *circleLayer = [CAShapeLayer layer];
     circleLayer.bounds = CGRectMake(0, 0, 2.0*radius, 2.0*radius);
     circleLayer.path   = circle.CGPath;
