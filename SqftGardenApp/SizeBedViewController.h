@@ -25,5 +25,6 @@
 
 @property(nonatomic) int topOffset;
 @property(nonatomic) int sideOffset;
+@property(nonatomic) float heightMultiplier;
 
 @end
