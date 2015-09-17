@@ -67,7 +67,8 @@ PlantIconView *touchedIcon;
 - (void) setScrollView{
     // Adjust scroll view content size
     self.contentSize = CGSizeMake(self.frame.size.width * 3, appGlobals.bedDimension);
-    self.pagingEnabled=YES;
+    self.pagingEnabled= YES;
+
     //self.backgroundColor = [UIColor clearColor];
 }
 
@@ -101,6 +102,8 @@ PlantIconView *touchedIcon;
         [selectArray addObject:plantIcon];
         self.editBedVC.selectMessageLabel.text = @"Drag a plant to a square";
     }
+    // Adjust scroll view content size
+    //self.contentSize = CGSizeMake(appGlobals.bedDimension *  selectArray.count + (self.frame.size.width/4), appGlobals.bedDimension);
     return selectArray;
 }
 
@@ -115,6 +118,8 @@ PlantIconView *touchedIcon;
         classIcon.index = i+1;
         [selectArray addObject:classIcon];
     }
+    // Adjust scroll view content size
+    //self.contentSize = CGSizeMake(appGlobals.bedDimension *  selectArray.count + (self.frame.size.width/4), appGlobals.bedDimension);
     return selectArray;
 }
 
@@ -125,7 +130,6 @@ PlantIconView *touchedIcon;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
     }
-    //NSLog(@"TOUCHES BEGAN");
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -136,8 +140,8 @@ PlantIconView *touchedIcon;
         for(UIView *subview in self.subviews){
             [subview removeFromSuperview];
         }
-        NSString *class = classView.className;
-        NSArray *array = [self buildPlantSelectArray : class];
+        self.selectedClass = classView.className;
+        NSArray *array = [self buildPlantSelectArray : self.selectedClass];
         [self setContentOffset:(CGPointMake(0, 0))];
         for(int i=0;i<array.count;i++){
             [self addSubview:array[i]];
@@ -153,14 +157,31 @@ PlantIconView *touchedIcon;
             return;
         }
         CGPoint location = [touch locationInView:self.mainView];
+        
+        //test the page bounds, if too close to edge, return
+        float clipValue = self.frame.size.width - ((appGlobals.bedDimension-5)*.40);
+        if(location.x > clipValue){
+            NSLog(@"CLIPPED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            //reset everything in plant select to avoid errant planticons floating about
+            for(UIView *subview in self.subviews){
+                [subview removeFromSuperview];
+            }
+            NSArray *array = [self buildPlantSelectArray : self.selectedClass];
+
+            for(int i=0;i<array.count;i++){
+                [self addSubview:array[i]];
+            }
+            return;
+        }
+        
         startX = location.x - touchedView.center.x;
         startY = location.y - touchedView.center.y;
         viewStartX = touchedView.center.x;
         viewStartY = touchedView.center.y;
-        plantView.alpha = .25;
         AudioServicesPlaySystemSound(1103);
     }
 }
+
 -(void) cancelSelectPlant{
     for(UIView *subview in self.subviews){
         [subview removeFromSuperview];
@@ -172,16 +193,15 @@ PlantIconView *touchedIcon;
 }
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
         touchedView = [touch view];
     }
     if ([touchedView class] == [PlantIconView class] || [touchedView class] == [ClassIconView class]){
+        
         self.scrollEnabled = NO;
-        //touchedIcon = (PlantIconView*)touchedView;
-        //[self.mainView addSubview: touchedIcon];
-        //[self addSubview: touchedIcon];
         CGPoint location = [touch locationInView:self.mainView];
         location.x = location.x - startX;
         location.y = location.y - startY;
@@ -211,21 +231,25 @@ PlantIconView *touchedIcon;
             touchedView.center = location;
             return;
         }
-        
         float xCo = 0;
         float yCo = 0;
-        float pageSize = round(self.mainView.frame.size.width / touchedView.frame.size.width);
-        if(plantView.position > pageSize){
-            xCo = (self.mainView.frame.size.width + 0) * -1;
+        
+        float pageSize = (self.mainView.frame.size.width / touchedView.frame.size.width);
+        if(plantView.position >= pageSize){
+            xCo = (self.mainView.frame.size.width + (plantView.position*2)) * -1;
         }
-        if(plantView.position > pageSize * 2){
-            xCo = ((self.mainView.frame.size.width)* 2 + 0) * -1;
+        if(plantView.position >= pageSize - .5){
+            xCo = (self.mainView.frame.size.width + (plantView.position*2)) * -1;
         }
+        if(plantView.position >= pageSize * 2){
+            xCo = ((self.mainView.frame.size.width + (plantView.position*2))* 2) * -1;
+        }
+        
         float selectMessageViewHeight = 26.00;
-        //float yCo = (self.frame.origin.y - self.frame.size.height + touchedView.center.y);
         float navBarHeight = self.editBedVC.navigationController.navigationBar.frame.size.height * 1;
         yCo = fabs(self.mainView.frame.size.height + touchedView.center.y + selectMessageViewHeight - (navBarHeight*1));
-        xCo = fabs(touchedView.center.x + xCo);
+        xCo = fabs(xCo + touchedView.center.x);
+        NSLog(@"XCordinate: %f  screenWidth: %f", xCo, self.mainView.frame.size.width);
         int i = 0;
         float leastSquare = 500000;
         float deltaSquare = 500000;
@@ -243,8 +267,9 @@ PlantIconView *touchedIcon;
             }
             i++;
         }
-        //if we're far from a bedview just return
         NSLog(@"squares reports at D: %f , LOS: %f", deltaSquare, leastSquare);
+        NSLog(@"return value is %i",(appGlobals.bedDimension * appGlobals.bedDimension)*2);
+        //if we're far from a bedview just return
         if(leastSquare > (appGlobals.bedDimension * appGlobals.bedDimension)*2){
             touchedView.alpha = 1;
             CGPoint location;

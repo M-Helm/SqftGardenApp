@@ -18,7 +18,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="growLogo_v001.png" translatesAutoresizingMaskIntoConstraints="NO" id="KR3-DE-hJu">
-                    <rect key="frame" x="0.0" y="176" width="480" height="160"/>
+                    <rect key="frame" x="0.0" y="110" width="480" height="160"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="480" id="ZoO-SY-BEI"/>
                         <constraint firstAttribute="height" constant="160" id="sIs-YK-3Gk"/>

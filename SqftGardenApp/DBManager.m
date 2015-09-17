@@ -34,24 +34,19 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     @synchronized(self) {
         if (sharedDBManager == nil)
             sharedDBManager = [[self alloc] init];
-        //NSLog(@"%s", __PRETTY_FUNCTION__);
     }
     return sharedDBManager;
 }
 
 -(NSArray*)getInitPlants{
-    //NSLog(@"pop PLANT Table");
     //[self createTable:@"plants"];
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSString *filePath = [path stringByAppendingPathComponent:initPlantListName];
     NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     
     NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"%i",(int)[jsonData length]);
-    
     NSError *e = nil;
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
-    //NSLog(@"Plant Array Length = %lu", (unsigned long)jsonArray.count);
     //check if data exists in table and return the array w/o saving if so.
     if([self getTableRowCount:@"plants"] > 1)return jsonArray;
     int i = 0;
@@ -64,14 +59,12 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     return jsonArray;
 }
 -(NSArray*)getInitPlantClasses{
-    //NSLog(@"pop Classes Table");
     //[self createTable:@"plants"];
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSString *filePath = [path stringByAppendingPathComponent:initClassListName];
     NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     
     NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
-    //NSLog(@"%i",(int)[jsonData length]);
     
     NSError *e = nil;
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
@@ -110,7 +103,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             != SQLITE_OK)
         {
             isSuccess = NO;
-            //NSLog(@"Failed to add column");
+
         }
         //sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -141,13 +134,10 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             != SQLITE_OK)
         {
             isSuccess = NO;
-            //NSString *msg = [NSString stringWithFormat:@"%s", errMsg];
-            //NSLog(msg);
             NSLog(@"Failed to open/create database");
         }
         //sqlite3_finalize(statement);
         sqlite3_close(database);
-        NSLog(@"CREATE TABLE %@ isSuccess: %i", tableName, isSuccess);
         return  isSuccess;
     }
     return isSuccess;
@@ -165,7 +155,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"class saved to db");
             sqlite3_finalize(statement);
             sqlite3_close(database);
             return true;
@@ -182,7 +171,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
 }
 
 - (BOOL) savePlantData:(NSDictionary *)msgJSON{
-    //NSLog(@"PLANT SAVE CALLED");
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
@@ -200,7 +188,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"plant saved to db");
+            //NSLog(@"plant saved to db");
             sqlite3_finalize(statement);
             sqlite3_close(database);
             return true;

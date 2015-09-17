@@ -55,7 +55,7 @@ NSString * const DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     
     UIImage *icon = [UIImage imageNamed: self.iconResource];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-    self.layer.borderWidth = 0;
+    //self.layer.borderWidth = 0;
     imageView.frame = CGRectMake(5,
                                  5,
                                  self.bounds.size.width -10,
@@ -74,12 +74,9 @@ NSString * const DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 }
 
 - (void) setDefaultParameters{
-    //self.color = [UIColor blackColor];
-    //self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.layer.borderWidth = ICON_DEFAULT_BORDER;
     self.layer.cornerRadius = ICON_DEFAULT_CORNER;
-    //self.layer.cornerRadius = self.frame.size.width / 2;
     self.layer.backgroundColor = self.fillColor.CGColor;
 }
 

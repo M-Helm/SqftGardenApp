@@ -181,7 +181,7 @@ ApplicationGlobals *appGlobals;
     }
     float height = self.bounds.size.height;
     float width = self.bounds.size.width;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 10, width, 9)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 11, width, 11)];
     [label setFont:[UIFont boldSystemFontOfSize:11]];
     label.textColor = [UIColor blackColor];
     if(self.population > 3)label.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];

@@ -145,8 +145,7 @@ UIFont * launchButtonFont;
     NSLog(@"left btn click");
     UIView *btn = (UIView*)recognizer.view;
     CGRect fm = btn.frame;
-    fm.origin.x += 355;
-    
+    fm.origin.x += self.view.frame.size.width + launchButtonDiskSize + 50;
     [UIView animateWithDuration:.35 animations:^{
         btn.frame = fm;
     }completion:^(BOOL finished){
@@ -159,7 +158,7 @@ UIFont * launchButtonFont;
     NSLog(@"right btn click");
     UIView *btn = (UIView*)recognizer.view;
     CGRect fm = btn.frame;
-    fm.origin.x += 355;
+    fm.origin.x += self.view.frame.size.width + launchButtonDiskSize + 50;
     
     [UIView animateWithDuration:.35 animations:^{
         btn.frame = fm;
@@ -174,7 +173,7 @@ UIFont * launchButtonFont;
     NSLog(@"right btn click");
     UIView *btn = (UIView*)recognizer.view;
     CGRect fm = btn.frame;
-    fm.origin.x += 355;
+    fm.origin.x += self.view.frame.size.width + launchButtonDiskSize + 50;
     
     [UIView animateWithDuration:.35 animations:^{
         btn.frame = fm;

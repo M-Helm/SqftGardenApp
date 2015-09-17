@@ -25,7 +25,7 @@ const float BED_LAYOUT_WIDTH_RATIO = 1.0;
 const float BED_LAYOUT_HEIGHT_RATIO = .60;
 const float SELECT_LAYOUT_WIDTH_RATIO = 1.0;
 const float SELECT_LAYOUT_HEIGHT_RATIO = .20;
-const int BED_LAYOUT_MINIMUM_DIMENSION = 44;
+const int BED_LAYOUT_MINIMUM_DIMENSION = 55;
 
 NSString * const ROW_KEY = @"rows";
 NSString * const COLUMN_KEY = @"columns";
@@ -47,8 +47,6 @@ DBManager *dbManager;
 - (id) initWithModel:(SqftGardenModel *)model {
     self.bedRowCount = model.rows;
     self.bedColumnCount = model.columns;
-    NSLog(@"MODEL Rows = %i Cols = %i", model.rows, model.columns);
-    
     self.currentGardenModel = model;
     [self bedDimension];
     return self;
@@ -65,7 +63,6 @@ DBManager *dbManager;
     
     if ([appGlobals getCurrentGardenModel] != nil){
         self.currentGardenModel = [appGlobals getCurrentGardenModel];
-        NSLog(@"Garden Model 1: %@ ROWS: %i", self.currentGardenModel, self.currentGardenModel.rows);
         self.bedColumnCount = self.currentGardenModel.columns;
         self.bedRowCount = self.currentGardenModel.rows;
 
@@ -231,7 +228,6 @@ DBManager *dbManager;
     }
     if(bedDimension < BED_LAYOUT_MINIMUM_DIMENSION) bedDimension = BED_LAYOUT_MINIMUM_DIMENSION;
     [appGlobals setBedDimension:bedDimension];
-    NSLog(@"!!!!!!!!!!!!!!! Dimenision %i", bedDimension);
     return bedDimension;
 }
 
@@ -260,21 +256,16 @@ DBManager *dbManager;
 
     if(self.currentGardenModel == nil){
         self.currentGardenModel = [[SqftGardenModel alloc] init];
-        NSLog(@"dict initialized in build method");
-        //NSLog(@"GARDEN MODEL INITIALIZED");
     }
     if([self.currentGardenModel getPlantIdForCell:0] < 0){
-        //NSLog(@"dict initialized");
         for(int i=0; i<cellCount; i++){
             [self.currentGardenModel setPlantIdForCell:i :0];
-            //NSLog(@"dict initialized on less than zero");
         }
     }
     for(int i=0; i<self.bedRowCount; i++){
         while(columnNumber < self.bedColumnCount){
             int plantId = [self.currentGardenModel getPlantIdForCell:cell];
-            //plantId = 3;
-            //NSLog(@"Get Function: %i , %i", plantId, cell);
+
             float padding = [self calculateBedViewHorizontalPadding];
             PlantIconView *bed = [[PlantIconView alloc] initWithFrame:CGRectMake(padding + (bedDimension*columnNumber),(bedDimension*rowNumber)+1, bedDimension, bedDimension): plantId];
             bed.layer.borderWidth = 1;
@@ -322,7 +313,6 @@ DBManager *dbManager;
 
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    NSLog(@"Touches Began in EVC");
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
@@ -335,7 +325,6 @@ DBManager *dbManager;
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *plantView = (PlantIconView*)[touch view];
         if(plantView.plantId < 1)return;
-        NSLog(@"Touches Began in EVC (INNER)");
         CGPoint location = [touch locationInView:[self view]];
         evStartX = location.x - touchedView.center.x;
         evStartY = location.y - touchedView.center.y;
@@ -405,10 +394,8 @@ DBManager *dbManager;
             }
             i++;
         }
-        NSLog(@"Target Cell: %i  PLANT ID: %i", targetCell, bedView.plantId);
-        
         //if we're far from a bedview just return
-        NSLog(@"squares reports at D: %f , LOS: %f", deltaSquare, leastSquare);
+        //NSLog(@"squares reports at D: %f , LOS: %f", deltaSquare, leastSquare);
         if(leastSquare > (appGlobals.bedDimension * appGlobals.bedDimension)*2){
             touchedView.alpha = 0;
             [touchedView removeFromSuperview];

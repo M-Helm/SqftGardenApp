@@ -232,7 +232,6 @@ DBManager *dbManager;
         location.x = step * floor((location.x / step) + .75);
         location.y = step * floor((location.y / step) + .75);
         
-
         //apply limits so we don't go outside our box
         if(location.x > xCoUpperLimit)location.x = xCoUpperLimit;
         if(location.x < xCoLowerLimit)location.x = xCoLowerLimit;
@@ -334,7 +333,6 @@ DBManager *dbManager;
 }
 -(void)drawBaseGrid{
     UIColor* color = [UIColor blueColor];
-
 
     //draw Column Lines
     for(int i = 1; i< 6; i++){

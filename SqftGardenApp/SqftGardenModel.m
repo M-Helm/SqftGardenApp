@@ -47,7 +47,7 @@ DBManager *dbManager;
         if(self.columns < 1)self.columns = 3;
         if(self.rows < 1)self.rows = 3;
         if(self.localId < 2)self.localId = 1;
-        NSLog(@"Local ID On INIT = %i, ROWS on INIT = %i", self.localId, self.rows);
+        //NSLog(@"Local ID On INIT = %i, ROWS on INIT = %i", self.localId, self.rows);
     }
     [self commonInit];
     return self;
@@ -197,25 +197,22 @@ DBManager *dbManager;
     NSString *localIdStr = [NSString stringWithFormat:@"%i", self.localId];
     NSString *autoStr = @"autoSave";
     if(self.localId < 1){
-        NSLog(@"condition trip 1");
         self.name = autoStr;
         localIdStr = @"1";
         self.localId = 1;
     }
     if(name == nil){
-        NSLog(@"condition trip 2");
         self.name = autoStr;
         localIdStr = @"1";
         self.localId = 1;
     }
     if([name isEqualToString:autoStr]){
-        NSLog(@"condition trip 3");
         localIdStr = @"1";
         self.localId = 1;
     }
     if(self.localId == 1){
         if(![name isEqualToString:autoStr]){
-            NSLog(@"condition trip 4");
+            //do stuff??
         };
     }
     name = self.name;

@@ -16,5 +16,7 @@
 @property (nonatomic, strong) UIColor* fillColor;
 @property (nonatomic) UIView* mainView;
 @property (nonatomic) EditBedViewController* editBedVC;
+@property (nonatomic) NSString *selectedClass;
+
 
 @end
