@@ -58,12 +58,9 @@ DBManager *dbManager;
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
     self.navigationController.navigationBar.hidden = NO;
-    //self.view.backgroundColor = [UIColor whiteColor];
-    UIImage *background = [UIImage imageNamed:@"cloth_test.png"];
-    UIImageView *bk = [[UIImageView alloc]initWithImage:background];
-    bk.alpha = .05;
-    bk.frame = self.view.frame;
-    [self.view addSubview:bk];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.navigationController.navigationBar.backgroundColor = [[UIColor orangeColor]colorWithAlphaComponent:.05];
     
     self.sideOffset = 10;
     self.topOffset = self.navigationController.navigationBar.frame.size.height * 1.5;
@@ -71,7 +68,7 @@ DBManager *dbManager;
     self.heightMultiplier = self.view.frame.size.height/667;
     
     self.topOffset = self.topOffset*self.heightMultiplier;
-    NSLog(@"EDITBED TOP OFFSET= %i", self.topOffset);
+
 
     
     if ([appGlobals getCurrentGardenModel] != nil){
@@ -115,7 +112,7 @@ DBManager *dbManager;
     selectPlantView.mainView = self.bedFrameView;
     selectPlantView.editBedVC = self;
     [self.view addSubview:self.bedFrameView];
-    self.bedFrameView.backgroundColor = [UIColor clearColor];
+    //self.bedFrameView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:selectPlantView];
 }
 
@@ -130,8 +127,8 @@ DBManager *dbManager;
     for(UIView* subview in self.view.subviews){
         [subview removeFromSuperview];
     }
-    UIColor *color = [appGlobals colorFromHexString:@"#fefefe"];
-    self.view.backgroundColor = color;
+    //UIColor *color = [appGlobals colorFromHexString:@"#fefefe"];
+    //self.view.backgroundColor = color;
     
     self.navigationItem.hidesBackButton = YES;
     [self.bedFrameView removeFromSuperview];
@@ -140,6 +137,17 @@ DBManager *dbManager;
     if(selectPlantView != nil){
         [selectPlantView removeFromSuperview];
     }
+    UIImage *background = [UIImage imageNamed:@"cloth_test.png"];
+    UIImageView *bk = [[UIImageView alloc]initWithImage:background];
+    bk.alpha = 0.075;
+    bk.frame = self.view.frame;
+    [self.view addSubview:bk];
+    /*
+    UIView *bkWash = [[UIView alloc] init];
+    bkWash.frame = self.view.frame;
+    bkWash.backgroundColor = [[UIColor orangeColor]colorWithAlphaComponent:.05];
+    [self.view addSubview:bkWash];
+    */
     [self makeTitleBar];
     [self makeBedFrame : width : height];
     [self makeSelectMessageView: width : height];
@@ -156,8 +164,8 @@ DBManager *dbManager;
     self.titleView.layer.cornerRadius = 15;
     self.titleView.layer.borderWidth = 3;
     self.titleView.layer.borderColor = [color colorWithAlphaComponent:1].CGColor;
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25,0, self.view.frame.size.width - 64, 18)];
-    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(25,18, self.view.frame.size.width - 64, (navBarHeight / 1.5)-18)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(55,0, self.view.frame.size.width - 75, 18)];
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(55,18, self.view.frame.size.width - 75, (navBarHeight / 1.5)-18)];
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
     NSString *plantDate = @"planting date undefined";
@@ -180,8 +188,8 @@ DBManager *dbManager;
     
     UIImage *dateIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
     self.dateIconView = [[UIImageView alloc] initWithImage:dateIcon];
-    //CGRect fm = CGRectMake(self.titleView.frame.size.width - 44,0,44,44);
-    CGRect fm = CGRectMake(self.view.frame.size.width - 64,navBarHeight - 2,44,44);
+    CGRect fm = CGRectMake(10,0,44,44);
+    //CGRect fm = CGRectMake(self.view.frame.size.width - 64,navBarHeight - 2,44,44);
     self.dateIconView.frame = fm;
     self.dateIconView.userInteractionEnabled = YES;
     UITapGestureRecognizer *singleFingerTap =
@@ -191,14 +199,10 @@ DBManager *dbManager;
     
     [self.titleView addSubview:label];
     [self.titleView addSubview:label2];
+    [self.titleView addSubview: self.dateIconView];
     
     [self.view addSubview: self.titleView];
-    [self.view addSubview: self.dateIconView];
 
-
-
-    
-    NSLog(@"EDITBED TITLE HEIGHT= %f", self.titleView.frame.size.height);
 }
 
 -(void)makeBedFrame : (int) width : (int) height{
@@ -225,7 +229,6 @@ DBManager *dbManager;
             cellCount++;
         }
     }
-    NSLog(@"EDITBED FRAME Y ORIGIN= %f", self.bedFrameView.frame.origin.y);
 }
 
 -(void)makeSelectMessageView : (int)width :(int)height{
@@ -303,7 +306,7 @@ DBManager *dbManager;
     if(bd.plantId < 1)return;
     for(int i = 0; i<self.bedViewArray.count; i++){
         UIView *bed = [self.bedViewArray objectAtIndex:i];
-        bed.backgroundColor = [UIColor whiteColor];
+        bed.backgroundColor = [UIColor clearColor];
         bed.layer.borderColor = [UIColor lightGrayColor].CGColor;
     }
     recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;

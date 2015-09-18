@@ -37,7 +37,7 @@ DBManager *dbManager;
     
     UIImage *background = [UIImage imageNamed:@"cloth_test.png"];
     UIImageView *bk = [[UIImageView alloc]initWithImage:background];
-    bk.alpha = .04;
+    bk.alpha = .075;
     bk.frame = self.view.frame;
     [self.view addSubview:bk];
     

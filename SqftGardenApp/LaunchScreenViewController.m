@@ -27,7 +27,6 @@ UIFont * launchButtonFont;
     self.navigationController.navigationBar.hidden = YES;
     //self.navigationController.navigationItem.hidesBackButton = YES;
 
-
     float height = self.view.bounds.size.height;
     float width = self.view.bounds.size.width;
     UIColor* color = [UIColor orangeColor];
@@ -35,7 +34,7 @@ UIFont * launchButtonFont;
     
     UIImage *background = [UIImage imageNamed:@"cloth_test.png"];
     UIImageView *bk = [[UIImageView alloc]initWithImage:background];
-    bk.alpha = .05;
+    bk.alpha = .1;
     bk.frame = self.view.frame;
     [self.view addSubview:bk];
     //UIColor *bkColor = [[UIColor whiteColor]colorWithAlphaComponent:.5];
