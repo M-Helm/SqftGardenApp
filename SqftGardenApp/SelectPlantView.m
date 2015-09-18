@@ -9,6 +9,7 @@
 #import "SelectPlantView.h"
 #import "PlantIconView.h"
 #import "ClassIconView.h"
+#import "EditBedViewController.h"
 #import "ApplicationGlobals.h"
 #import "BedView.h"
 #import "DBManager.h"

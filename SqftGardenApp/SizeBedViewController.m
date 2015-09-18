@@ -23,6 +23,7 @@ float svStartY = 0;
 
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
+BOOL shouldContinueBlinking = NO;
 
 //iPhone 6 screen height = 667
 
@@ -102,6 +103,10 @@ DBManager *dbManager;
     grid.frame = self.bedFrameView.frame;
     [self.view addSubview:grid];
     [self.view addSubview:self.bedFrameView];
+    
+    shouldContinueBlinking = YES;
+    [self blinkAnimation:@"blinkAnimation" finished:YES target:[bedArray objectAtIndex:0]];
+
     
 }
 -(void)makeSizeLabel{
@@ -189,6 +194,7 @@ DBManager *dbManager;
         touchedView = [touch view];
     }
     if ([touchedView class] == [BedView class]){
+        shouldContinueBlinking = NO;
         CGPoint location = [touch locationInView:[self view]];
         svStartX = location.x - touchedView.center.x;
         svStartY = location.y - touchedView.center.y;
@@ -389,6 +395,20 @@ DBManager *dbManager;
     UIGraphicsEndImageContext();
     
     return outputImage;
+}
+- (void)blinkAnimation:(NSString *)animationId finished:(BOOL)finished target:(UIView *)target
+{
+    if (shouldContinueBlinking) {
+        [UIView beginAnimations:animationId context:(__bridge void *)(target)];
+        [UIView setAnimationDuration:0.75f];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationDidStopSelector:@selector(blinkAnimation:finished:target:)];
+        if ([target alpha] == 1.0f)
+            [target setAlpha:0.0f];
+        else
+            [target setAlpha:1.0f];
+        [UIView commitAnimations];
+    }
 }
 
 @end

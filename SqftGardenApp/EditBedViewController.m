@@ -11,6 +11,7 @@
 #import "SelectPlantView.h"
 #import "ApplicationGlobals.h"
 #import "DBManager.h"
+#import "DateSelectViewController.h"
 
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
@@ -32,6 +33,7 @@ NSString * const ROW_KEY = @"rows";
 NSString * const COLUMN_KEY = @"columns";
 float evStartX = 0;
 float evStartY = 0;
+bool datePickerIsOpen = NO;
 
 SelectPlantView *selectPlantView;
 ApplicationGlobals *appGlobals;
@@ -318,7 +320,9 @@ DBManager *dbManager;
 - (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
     UIView *icon = (UIView*)recognizer.view;
     //recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    NSLog(@"Date Icon Pressed");
+    //[self datePickerViewDemo];
+    [self testDateSelectClass];
+    //NSLog(@"Date Icon Pressed");
 }
 
 - (NSMutableArray *)buildBedViewArray{
@@ -409,8 +413,6 @@ DBManager *dbManager;
         evStartX = location.x - touchedView.center.x;
         evStartY = location.y - touchedView.center.y;
         AudioServicesPlaySystemSound(1104);
-        
-        
     }
 }
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -485,6 +487,68 @@ DBManager *dbManager;
         [self updatePlantBeds:targetCell:bedView.plantId];
         //AudioServicesPlaySystemSound(1104);
     }
+}
+
+-(void) datePickerViewDemo{
+
+    if(datePickerIsOpen){
+        datePickerIsOpen = NO;
+        
+        
+        //do some animation out here, but first we'll need self.datePickerView to be a full on property of EBVC
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             
+                             self.datePickerView.alpha = 0.0f;
+                             self.bedFrameView.alpha = 1.00f;
+                         }
+                         completion:^(BOOL finished) {
+                         }];
+        
+        [self initViews];
+        return;
+    }
+    datePickerIsOpen = YES;
+    self.datePickerView = [[UIView alloc] init];
+    
+    self.datePickerView.backgroundColor = [UIColor whiteColor];
+    
+    
+    //self.datePickerView.frame = self.bedFrameView.frame;
+    CGRect fm = CGRectMake(self.bedFrameView.frame.origin.x, self.bedFrameView.frame.origin.y, self.bedFrameView.frame.size.width, self.view.frame.size.height - self.bedFrameView.frame.origin.y - 15);
+    self.datePickerView.frame = fm;
+    
+    self.datePickerView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.datePickerView.layer.borderWidth =3;
+    self.datePickerView.layer.cornerRadius = 15;
+    self.datePickerView.clipsToBounds = YES;
+    
+    self.datePickerView.alpha = 0.0f;
+    
+    [self.view addSubview:self.datePickerView];
+    
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.datePickerView.alpha = 1.0f;
+                         self.bedFrameView.alpha = 0.05f;
+                         self.selectMessageView.alpha = 0.05f;
+                     }
+                     completion:^(BOOL finished) {
+                     }];
+}
+-(void)testDateSelectClass{
+    NSLog(@"test ds class");
+    DateSelectViewController* ds = [[DateSelectViewController alloc] init];
+    ds.view.frame = self.bedFrameView.frame;
+    //[self.view addSubview:ds.view];
+    [ds createDatePicker:self];
+    CGRect fm = CGRectMake(0,0,50,50);
+    //UIPopoverController *popover = [[UIPopoverController alloc]initWithContentViewController:ds];
+    //[popover presentPopoverFromRect:fm inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];
+    
+    //- (void)presentPopoverFromRect:(CGRect)fm inView:(UIView *)self permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections animated:(BOOL)animated
+    //[self.navigationController performSegueWithIdentifier:@"showDate" sender:self.navigationController];
+    
 }
 
 

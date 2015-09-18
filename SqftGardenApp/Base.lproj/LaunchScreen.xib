@@ -19,7 +19,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="growLogo_v002.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dwx-0n-wnY">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="growLogo_v003.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dwx-0n-wnY">
                     <rect key="frame" x="0.0" y="43" width="480" height="160"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="480" id="D3Q-a0-vKz"/>
@@ -40,6 +40,6 @@
         </view>
     </objects>
     <resources>
-        <image name="growLogo_v002.png" width="1200" height="400"/>
+        <image name="growLogo_v003.png" width="1200" height="400"/>
     </resources>
 </document>

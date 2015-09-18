@@ -27,6 +27,8 @@
 @property(nonatomic) float heightMultiplier;
 @property(nonatomic) UIView *dateIconView;
 
+@property(nonatomic) UIView *datePickerView;
+
 @end
 
 

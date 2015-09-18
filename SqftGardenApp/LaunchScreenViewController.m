@@ -40,7 +40,7 @@ UIFont * launchButtonFont;
     //UIColor *bkColor = [[UIColor whiteColor]colorWithAlphaComponent:.5];
     //self.view.backgroundColor = bkColor;
     
-    UIImage *logo = [UIImage imageNamed:@"growLogo_v002.png"];
+    UIImage *logo = [UIImage imageNamed:@"growLogo_v003.png"];
     UIImageView *logoBox = [[UIImageView alloc]initWithImage: logo];
     logoBox.frame = CGRectMake(0,25,width,width/3);
     [self.view addSubview:logoBox];
