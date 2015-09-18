@@ -156,8 +156,8 @@ DBManager *dbManager;
     self.titleView.layer.cornerRadius = 15;
     self.titleView.layer.borderWidth = 3;
     self.titleView.layer.borderColor = [color colorWithAlphaComponent:1].CGColor;
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25,0, self.view.frame.size.width - 20, 18)];
-    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(25,18, self.view.frame.size.width - 20, (navBarHeight / 1.5)-18)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25,0, self.view.frame.size.width - 64, 18)];
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(25,18, self.view.frame.size.width - 64, (navBarHeight / 1.5)-18)];
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
     NSString *plantDate = @"planting date undefined";
@@ -177,9 +177,26 @@ DBManager *dbManager;
     label.backgroundColor = [UIColor clearColor];
     label2.backgroundColor = [UIColor clearColor];
     
+    
+    UIImage *dateIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
+    self.dateIconView = [[UIImageView alloc] initWithImage:dateIcon];
+    //CGRect fm = CGRectMake(self.titleView.frame.size.width - 44,0,44,44);
+    CGRect fm = CGRectMake(self.view.frame.size.width - 64,navBarHeight - 2,44,44);
+    self.dateIconView.frame = fm;
+    self.dateIconView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleDateIconSingleTap:)];
+    [self.dateIconView addGestureRecognizer:singleFingerTap];
+    
     [self.titleView addSubview:label];
     [self.titleView addSubview:label2];
+    
     [self.view addSubview: self.titleView];
+    [self.view addSubview: self.dateIconView];
+
+
+
     
     NSLog(@"EDITBED TITLE HEIGHT= %f", self.titleView.frame.size.height);
 }
@@ -294,6 +311,11 @@ DBManager *dbManager;
     appGlobals.selectedCell = bd.position;
     [self calculatePlantDropPosition:bd];
     [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
+}
+- (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
+    UIView *icon = (UIView*)recognizer.view;
+    //recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    NSLog(@"Date Icon Pressed");
 }
 
 - (NSMutableArray *)buildBedViewArray{

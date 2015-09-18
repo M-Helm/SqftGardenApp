@@ -25,6 +25,7 @@
 @property(nonatomic) int topOffset;
 @property(nonatomic) int sideOffset;
 @property(nonatomic) float heightMultiplier;
+@property(nonatomic) UIView *dateIconView;
 
 @end
 
