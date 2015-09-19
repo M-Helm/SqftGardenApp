@@ -208,14 +208,15 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT or REPLACE into saves (local_id, rows, columns, bedstate, timestamp, name, unique_id) values(\"%@\", \"%@\",\"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT or REPLACE into saves (local_id, rows, columns, bedstate, timestamp, name, unique_id, planting_date) values(\"%@\", \"%@\",\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                             [msgJSON objectForKey:@"local_id"],
                             [msgJSON objectForKey:@"rows"],
                             [msgJSON objectForKey:@"columns"],
                             [msgJSON objectForKey:@"bedstate"],
                             [msgJSON objectForKey:@"timestamp"],
                             [msgJSON objectForKey:@"name"],
-                            [msgJSON objectForKey:@"unique_id"]];
+                            [msgJSON objectForKey:@"unique_id"],
+                            [msgJSON objectForKey:@"planting_date"]];
                                
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
@@ -240,13 +241,14 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT or REPLACE into saves (rows, columns, bedstate, timestamp, name, unique_id) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT or REPLACE into saves (rows, columns, bedstate, timestamp, name, unique_id, planting_date) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                                [msgJSON objectForKey:@"rows"],
                                [msgJSON objectForKey:@"columns"],
                                [msgJSON objectForKey:@"bedstate"],
                                [msgJSON objectForKey:@"timestamp"],
                                [msgJSON objectForKey:@"name"],
-                               [msgJSON objectForKey:@"unique_id"]];
+                               [msgJSON objectForKey:@"unique_id"],
+                               [msgJSON objectForKey:@"planting_date"]];
         
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
@@ -414,7 +416,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     NSString *tableName = @"saves";
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT timestamp, name, bedstate, rows, columns, unique_id FROM %@ WHERE local_id = %i", tableName, index];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT timestamp, name, bedstate, rows, columns, unique_id, planting_date FROM %@ WHERE local_id = %i", tableName, index];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
@@ -435,6 +437,8 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                      (const char *) sqlite3_column_text(statement, 4)];
                 NSString *uniqueId = [[NSString alloc] initWithUTF8String:
                                       (const char *) sqlite3_column_text(statement, 5)];
+                NSString *plantingDate = [[NSString alloc] initWithUTF8String:
+                                      (const char *) sqlite3_column_text(statement, 6)];
                 NSString *indexStr = [NSString stringWithFormat:@"%i", index];
                 [dict setObject:saveName forKey:@"name"];
                 [dict setObject:saveTS forKey:@"timestamp"];
@@ -443,7 +447,8 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [dict setObject:columns forKey:@"columns"],
                 [dict setObject:uniqueId forKey:@"unique_id"];
                 [dict setObject:indexStr forKey:@"local_id"];
-                //NSLog(@"name %@, ts %@, uniqueID %@", saveName, saveTS, uniqueId);
+                [dict setObject:plantingDate forKey:@"planting_date"];
+                NSLog(@"MODEL BY ID name %@, ts %@, uniqueID %@, plantingDate %@", saveName, saveTS, uniqueId, plantingDate);
 
             }
         }
@@ -459,7 +464,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     NSString *tableName = @"saves";
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT timestamp, name, bedstate, rows, columns, local_id FROM %@ WHERE unique_id = %@", tableName, uuid];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT timestamp, name, bedstate, rows, columns, local_id, planting_date FROM %@ WHERE unique_id = %@", tableName, uuid];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
@@ -480,14 +485,18 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                      (const char *) sqlite3_column_text(statement, 4)];
                 NSString *localId = [[NSString alloc] initWithUTF8String:
                                       (const char *) sqlite3_column_text(statement, 5)];
+                NSString *plantingDate = [[NSString alloc] initWithUTF8String:
+                                          (const char *) sqlite3_column_text(statement, 6)];
                 [dict setObject:saveName forKey:@"name"];
                 [dict setObject:saveTS forKey:@"timestamp"];
                 [dict setObject:saveState forKey:@"bedstate"],
                 [dict setObject:rows forKey:@"rows"],
                 [dict setObject:columns forKey:@"columns"],
                 [dict setObject:localId forKey:@"local_id"],
+                [dict setObject:plantingDate forKey:@"planting_date"];
                 [dict setObject:uuid forKey:@"unique_id"];
                 //NSLog(@"name %@, ts %@, uniqueID %@", saveName, saveTS, uniqueId);
+                NSLog(@"MODEL BY UUID: name %@, ts %@, uniqueID %@, plantingDate %@", saveName, saveTS, uuid, plantingDate);
                 
             }
         }
@@ -506,7 +515,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     NSMutableArray *returnJson = [[NSMutableArray alloc]init];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT local_id, timestamp, name, bedstate, rows, columns, unique_id FROM %@", tableName];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT local_id, timestamp, name, bedstate, rows, columns, unique_id, planting_date FROM %@", tableName];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
@@ -529,6 +538,8 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                        (const char *) sqlite3_column_text(statement, 5)];
                 NSString *uniqueId = [[NSString alloc] initWithUTF8String:
                                      (const char *) sqlite3_column_text(statement, 6)];
+                NSString *planting_date = [[NSString alloc] initWithUTF8String:
+                                      (const char *) sqlite3_column_text(statement, 7)];
                 [json setObject:saveName forKey:@"name"];
                 [json setObject:saveTS forKey:@"timestamp"];
                 [json setObject:saveId forKey:@"local_id"];
@@ -536,6 +547,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [json setObject:rows forKey:@"rows"],
                 [json setObject:columns forKey:@"columns"],
                 [json setObject:uniqueId forKey:@"unique_id"],
+                [json setObject:planting_date forKey:@"planting_date"],
                 [returnJson addObject:json];
             }
         }

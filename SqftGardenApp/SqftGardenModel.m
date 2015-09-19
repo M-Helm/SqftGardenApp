@@ -39,6 +39,13 @@ DBManager *dbManager;
         [self compileBedStateDictFromString:self.bedStateArrayString];
         self.name = [dict valueForKey:@"name"];
         self.uniqueId = [dict valueForKey:@"unique_id"];
+        
+        
+        NSString *dateString = [dict valueForKey:@"planting_date"];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        self.plantingDate = [dateFormatter dateFromString:dateString];
+
         //NSLog(@"UUID from DICT: %@", self.uniqueId);
         self.timestamp = ts.intValue;
         self.localId = localID.intValue;
@@ -55,10 +62,13 @@ DBManager *dbManager;
 
 - (void) commonInit{
     if(self.uniqueId.length < 8){
-        //NSLog(@"SHort UUID: %@", self.uniqueId);
         self.uniqueId = [self getUUID];
     }
-    //NSLog(@"UUID = %@", self.uniqueId);
+    if(self.plantingDate == nil){
+        NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:0];
+        self.plantingDate = date;
+        NSLog(@"DATE ON MODEL = %@", date);
+    }
 }
 
 - (NSString *)getUUID{
@@ -103,6 +113,7 @@ DBManager *dbManager;
     if(columns < 1)columns = 3;
     self.columns = columns;
 }
+
 
 - (void) setCurrentBedState:(NSMutableDictionary *)json{
     //NSLog(@"setCurrentBedState Called");
@@ -216,7 +227,11 @@ DBManager *dbManager;
         };
     }
     name = self.name;
-
+    //create a string date for db
+    NSDate *date = self.plantingDate;
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    NSString *dateString = [dateFormat stringFromDate:date];
     
     //create json pkg for db
     NSMutableDictionary *json = [[NSMutableDictionary alloc] init];
@@ -226,6 +241,7 @@ DBManager *dbManager;
     [json setObject:timestamp forKey:@"timestamp"];
     [json setObject:name forKey:@"name"];
     [json setObject:self.uniqueId forKey:@"unique_id"];
+    [json setObject:dateString forKey:@"planting_date"];
     
     //compile an array for the bedstate
     NSString *tempArrayStr = [self getBedStateArrayString];

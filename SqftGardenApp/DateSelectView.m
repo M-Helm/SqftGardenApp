@@ -18,10 +18,19 @@
 @implementation DateSelectView
 EditBedViewController *editBedVC;
 ApplicationGlobals *appGlobals;
+NSDate* selectedDate;
 
 
 - (void)changeDate:(UIDatePicker *)sender {
-    NSLog(@"New Date: %@", sender.date);
+    //NSLog(@"New Date: %@", sender.date);
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *dateString = [dateFormat stringFromDate:sender.date];
+    NSDate *date = [dateFormat dateFromString:dateString];
+    
+    selectedDate = date;
+    
 }
 
 - (void)removeViews:(id)object {
@@ -29,10 +38,24 @@ ApplicationGlobals *appGlobals;
     [[self viewWithTag:10] removeFromSuperview];
     [[self viewWithTag:11] removeFromSuperview];
     [editBedVC setDatePickerIsOpen:NO];
+    [editBedVC updatePlantingDate:selectedDate];
     [editBedVC initViews];
 }
 
 - (void)dismissDatePicker:(id)sender {
+    NSLog(@"New Date: %@", selectedDate);
+    appGlobals.globalGardenModel.plantingDate = selectedDate;
+    CGRect toolbarTargetFrame = CGRectMake(0, self.bounds.size.height, 320, 44);
+    CGRect datePickerTargetFrame = CGRectMake(0, self.bounds.size.height+44, 320, 216);
+    [UIView beginAnimations:@"MoveOut" context:nil];
+    [self viewWithTag:9].alpha = 0;
+    [self viewWithTag:10].frame = datePickerTargetFrame;
+    [self viewWithTag:11].frame = toolbarTargetFrame;
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDidStopSelector:@selector(removeViews:)];
+    [UIView commitAnimations];
+}
+- (void)cancelDatePicker:(id)sender {
     CGRect toolbarTargetFrame = CGRectMake(0, self.bounds.size.height, 320, 44);
     CGRect datePickerTargetFrame = CGRectMake(0, self.bounds.size.height+44, 320, 216);
     [UIView beginAnimations:@"MoveOut" context:nil];
@@ -52,9 +75,15 @@ ApplicationGlobals *appGlobals;
         return;
     }
     //float topOffset = self.navigationController.navigationBar.frame.size.height * 1.5;
-    float topOffset = 0;
-    CGRect toolbarTargetFrame = CGRectMake(0,topOffset, 320, 44);
-    CGRect datePickerTargetFrame = CGRectMake(0,topOffset + 44, self.frame.size.width, 216);
+    //float topOffset = 0;
+    float width = self.frame.size.width;
+    //float height = self.frame.size.height;
+
+    CGRect toolbarTargetFrame = CGRectMake(0,self.bounds.size.height, 300, 44);
+    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, width, 44)];
+    
+    CGRect datePickerTargetFrame = CGRectMake(0, 44, self.frame.size.width, 216);
+    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.bounds.size.height+44, 320, 216)];
     
     UIView *lightView = [[UIView alloc] initWithFrame:self.bounds];
     lightView.userInteractionEnabled = YES;
@@ -64,8 +93,8 @@ ApplicationGlobals *appGlobals;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissDatePicker:)];
     [lightView addGestureRecognizer:tapGesture];
     [self addSubview:lightView];
+
     
-    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.bounds.size.height+44, 320, 216)];
     datePicker.tag = 10;
     datePicker.datePickerMode = UIDatePickerModeDate;
     datePicker.userInteractionEnabled = YES;
@@ -73,16 +102,18 @@ ApplicationGlobals *appGlobals;
     [datePicker addTarget:self action:@selector(changeDate:) forControlEvents:UIControlEventValueChanged];
     [self addSubview:datePicker];
     
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.bounds.size.height, 320, 44)];
+
     toolBar.tag = 11;
     toolBar.barStyle = UIBarStyleDefault;
     toolBar.userInteractionEnabled = YES;
-    //toolBar.layer.borderWidth = 2;
-    //toolBar.layer.borderColor = [UIColor greenColor].CGColor;
     
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelDatePicker:)];
     UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissDatePicker:)];
-    [toolBar setItems:[NSArray arrayWithObjects:spacer, doneButton, nil]];
+    
+    [spacer setWidth:width/3];
+    
+    [toolBar setItems:[NSArray arrayWithObjects:cancelButton, spacer, doneButton, nil]];
     [self addSubview:toolBar];
     
     [UIView beginAnimations:@"MoveIn" context:nil];

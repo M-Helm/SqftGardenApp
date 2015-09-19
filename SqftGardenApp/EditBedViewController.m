@@ -137,6 +137,7 @@ DBManager *dbManager;
     //UIColor *color = [appGlobals colorFromHexString:@"#fefefe"];
     //self.view.backgroundColor = color;
     
+    
     self.navigationItem.hidesBackButton = YES;
     [self.bedFrameView removeFromSuperview];
     int width = self.view.bounds.size.width;
@@ -174,7 +175,20 @@ DBManager *dbManager;
     UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(65,18, self.view.frame.size.width - 75, (navBarHeight / 1.5)-18)];
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
-    NSString *plantDate = @"planting date undefined";
+    NSString *plantDate = @"Planting not selected";
+    if(appGlobals.globalGardenModel.plantingDate != nil){
+        NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
+        if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
+            NSLog(@"date2 is later than date1");
+            //no change
+        }else{
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"MMM dd, yyyy"];
+            plantDate = [dateFormatter stringFromDate: appGlobals.globalGardenModel.plantingDate];
+        }
+    }
+
+    
     if(nameStr.length < 1)nameStr = @"New Garden";
     if([nameStr isEqualToString:@"autoSave"])nameStr = @"New Garden";
     
@@ -390,6 +404,23 @@ DBManager *dbManager;
     [self initViews];
 }
 
+- (void) updatePlantingDate : (NSDate *)date{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    
+    //NSString *dateString = [dateFormat stringFromDate:date];
+    //NSDate *formatedDate = [dateFormat dateFromString:dateString];
+    
+    //self.currentGardenModel.plantingDate = date;
+    //appGlobals.globalGardenModel.plantingDate = date;
+    [self.currentGardenModel setPlantingDate:date];
+    //[appGlobals.globalGardenModel setPlantingDate:date];
+    [self.currentGardenModel autoSaveModel];
+    [appGlobals setCurrentGardenModel:self.currentGardenModel];
+    NSLog(@"Dates from updater: self %@, global %@", self.currentGardenModel.plantingDate, appGlobals.globalGardenModel.plantingDate);
+
+}
+
 - (NSMutableArray *)buildClassSelectArray{
     NSMutableArray *selectArray = [[NSMutableArray alloc] init];
     self.selectMessageLabel.text = @"Select A Class Of Plants";
@@ -529,18 +560,16 @@ DBManager *dbManager;
     [self.datePickerView createDatePicker:self];
     
     
-    self.datePickerView.backgroundColor = [UIColor whiteColor];
-    
-    
-    self.datePickerView.frame = self.bedFrameView.frame;
+    //self.datePickerView.backgroundColor = [UIColor whiteColor];
+    //self.datePickerView.frame = self.bedFrameView.frame;
     CGRect fm = CGRectMake(self.bedFrameView.frame.origin.x, self.bedFrameView.frame.origin.y, self.bedFrameView.frame.size.width, 44+216);
     self.datePickerView.frame = fm;
     //[self.datePickerView createDatePicker:self];
     
-    self.datePickerView.layer.borderColor = [UIColor blackColor].CGColor;
-    self.datePickerView.layer.borderWidth =3;
-    self.datePickerView.layer.cornerRadius = 15;
-    self.datePickerView.clipsToBounds = YES;
+    //self.datePickerView.layer.borderColor = [UIColor blackColor].CGColor;
+    //self.datePickerView.layer.borderWidth =3;
+    //self.datePickerView.layer.cornerRadius = 15;
+    //self.datePickerView.clipsToBounds = YES;
     
     self.datePickerView.alpha = 0.0f;
     

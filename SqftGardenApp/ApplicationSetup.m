@@ -60,6 +60,7 @@ DBManager *dbManager;
         [dbManager addColumn:@"saves" : @"timestamp" : @"int"];
         [dbManager addColumn:@"saves" : @"name" : @"char(140)"];
         [dbManager addColumn:@"saves" : @"unique_id" : @"char"];
+        [dbManager addColumn:@"saves" : @"planting_date" : @"char"];
     }
     return YES;
 }

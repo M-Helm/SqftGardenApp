@@ -23,6 +23,7 @@
 @property(nonatomic) UILabel *selectMessageLabel;
 @property(nonatomic) UIView *titleView;
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;
+- (void) updatePlantingDate : (NSDate *)date;
 -(void) initViews;
 @property(nonatomic) SqftGardenModel *currentGardenModel;
 @property(nonatomic) int topOffset;
