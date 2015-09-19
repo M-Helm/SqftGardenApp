@@ -21,56 +21,34 @@ static NSString *CellIdentifier = @"CellIdentifier";
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
 NSMutableArray *saveBedJson;
+UIColor *tabColor;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
-    self.navigationItem.title = appGlobals.appTitle;
+    //self.navigationItem.title = appGlobals.appTitle;
+    tabColor = [appGlobals colorFromHexString: @"#74aa4a"];
     
-    self.tableView.separatorColor = [UIColor whiteColor];
-    //self.messageTF.layoutMargins = UIEdgeInsetsMake(155.0, 85.0, 255.0, 85.0);
-    //self.saveTextView.delegate = self;
-    //[self.saveTextView setReturnKeyType:UIReturnKeyDone];
-    //[self.messageTextView setBackgroundColor:[UIColor lightGrayColor]];
-    //self.saveTextView.layer.borderColor = [UIColor blackColor].CGColor;
-    //self.saveTextView.layer.borderWidth  = 1.0;
-    //self.saveTextView.layer.cornerRadius = 15.0;
-    
-    //self.saveTextView.text = @"File Name";
-    //self.saveTextView.textColor = [UIColor blackColor];
+    self.tableView.separatorColor = [UIColor clearColor];
+
     
     float width = self.view.frame.size.width;
     //float height = self.view.frame.size.height;
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 50)];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    [headerView addSubview:imageView];
-    UILabel *labelView = [[UILabel alloc] initWithFrame:CGRectMake(51, 0, width, 50)];
+    UILabel *labelView = [[UILabel alloc] initWithFrame:CGRectMake((headerView.frame.size.width/2)-75, 0, 150, 50)];
     [headerView addSubview:labelView];
     labelView.text = @"Save Garden";
+    labelView.textAlignment = NSTextAlignmentCenter;
+    [labelView setFont:[UIFont boldSystemFontOfSize:18]];
     headerView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-    imageView.layer.cornerRadius = 15;
-    imageView.layer.masksToBounds = YES;
-    imageView.layer.borderWidth = 1.0;
+
     self.tableView.tableHeaderView = headerView;
     //self.tableView.tableFooterView = self.saveTextView;
     saveBedJson = [dbManager getBedSaveList];
     
-    /*
-    float xCo = self.view.frame.size.width - 15;
-    //float yCo = self.view.frame.size.height - self.tableView.frame.size.height;
-    float yCo = self.view.frame.size.height - 35;
-    
-    UITextView *textView =[[UITextView alloc]initWithFrame:CGRectMake(15,yCo,xCo,20)];
-    [textView setDelegate: self];
-    [textView setReturnKeyType:UIReturnKeyDone];
-    [textView setTag:1];
-    textView.layer.cornerRadius =5;
-    textView.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:textView];
-    */
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -85,15 +63,36 @@ NSMutableArray *saveBedJson;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    UITextView *label = (UITextView *)[cell.contentView viewWithTag:10];
+    UITextView *label = [[UITextView alloc]initWithFrame:CGRectMake(20,0,160,cell.frame.size.height)];
     [label setDelegate: (id <UITextViewDelegate>) self];
+    [label setFont:[UIFont boldSystemFontOfSize:14]];
     
     if([indexPath row] == 0){
+        CGRect fm = CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height);
+        UILabel *border = [[UILabel alloc] initWithFrame:fm];
         [label setText:@"*New File"];
         NSNumber *index = [NSNumber numberWithInt:0];
         [label setLocalIndex:index];
+        border.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        border.layer.borderWidth = .5;
+        border.layer.cornerRadius = 15;
+        [cell addSubview:label];
+        [cell addSubview:border];
+        [label setReturnKeyType:UIReturnKeyDone];
         return cell;
     }
+    CGRect fm = CGRectMake(20,4,self.view.frame.size.width, cell.frame.size.height);
+    label.frame = fm;
+    UILabel *border = [[UILabel alloc] initWithFrame:fm];
+    border.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    border.layer.borderWidth = 1;
+    border.layer.cornerRadius = 15;
+    border.clipsToBounds = YES;
+    border.backgroundColor = [tabColor colorWithAlphaComponent:.05];
+    
+    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 150, 20)];
+    [dateLabel setFont:[UIFont systemFontOfSize:11]];
+    dateLabel.textAlignment = NSTextAlignmentCenter;
     
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     int i = (int)[indexPath row] - 1;
@@ -106,16 +105,19 @@ NSMutableArray *saveBedJson;
     NSNumber *index = [NSNumber numberWithInt:local_id.intValue];
     
     [label setLocalIndex: index];
-    int label_id = (int)[label.localId integerValue];
-    NSLog(@"LABEL ID FROM GETTER: %i", label_id);
     
     NSNumber *startTime = [NSNumber numberWithInt:timestamp.intValue];
     NSDateFormatter *inFormat = [[NSDateFormatter alloc] init];
     [inFormat setDateFormat:@"MMM dd, yyyy HH:mm"];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[startTime doubleValue]];
     NSString *dateStr = [inFormat stringFromDate:date];
-    [label setText:[NSString stringWithFormat:@"%@ || %@ || saved: %@", local_id, name, dateStr]];
+    [label setText:[NSString stringWithFormat:@"%@ || %@", local_id, name]];
+    [dateLabel setText:[NSString stringWithFormat:@"Saved: %@", dateStr]];
+    [cell addSubview:label];
+    [cell addSubview: dateLabel];
     
+    if((int)saveBedJson.count + 1 > 2)
+        [cell addSubview:border];
     return cell;
 }
 
@@ -129,7 +131,11 @@ NSMutableArray *saveBedJson;
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
-    NSLog(@"Begin editing");
+    //NSLog(@"Begin editing");
+    if(appGlobals.globalGardenModel == nil){
+        [self showNullModelAlert];
+    }
+    
     NSString *fileName = @"";
     int index = [[textView localId]intValue];
     if(index < 1){
@@ -146,7 +152,7 @@ NSMutableArray *saveBedJson;
                 break;
             }
         }
-        [self showOverwriteAlert : fileName : index];
+        [self showOverwriteAlertForFile: fileName atIndex: index];
     }
 }
 
@@ -167,7 +173,7 @@ NSMutableArray *saveBedJson;
         appGlobals.globalGardenModel.name = textView.text;
         appGlobals.globalGardenModel.localId = 7;
         [appGlobals.globalGardenModel saveModel:false]; //false on overwrite arg
-        [self showWriteSuccessAlert:textView.text : -1];
+        [self showWriteSuccessAlertForFile:textView.text atIndex: -1];
         return NO;
     }
     return YES;
@@ -200,10 +206,10 @@ NSMutableArray *saveBedJson;
     }
 }
 
-- (void) showOverwriteAlert : (NSString *)fileName : (int) index{
+- (void) showOverwriteAlertForFile : (NSString *)fileName atIndex: (int) index{
     NSString *alertStr = [NSString stringWithFormat:@"Overwrite %@", fileName];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SQFT GARDEN APP"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:appGlobals.appTitle
                                                     message: alertStr
                                                    delegate:self
                                           cancelButtonTitle:@"NO"
@@ -211,9 +217,18 @@ NSMutableArray *saveBedJson;
     [alert show];
 }
 
-- (void) showWriteSuccessAlert : (NSString *)fileName : (int) index{
+- (void) showWriteSuccessAlertForFile: (NSString *)fileName atIndex: (int) index{
     NSString *alertStr = [NSString stringWithFormat:@"File Saved as %@", fileName];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SQFT GARDEN APP"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:appGlobals.appTitle
+                                                    message: alertStr
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles: nil];
+    [alert show];
+}
+- (void) showNullModelAlert {
+    NSString *alertStr = @"There is no data in the garden model";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:appGlobals.appTitle
                                                     message: alertStr
                                                    delegate:self
                                           cancelButtonTitle:@"OK"

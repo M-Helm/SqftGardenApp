@@ -24,13 +24,31 @@ static NSString *CellIdentifier = @"CellIdentifier";
 DBManager *dbManager;
 ApplicationGlobals *appGlobals;
 NSMutableArray *saveBedJson;
+UIColor *tabColor;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     dbManager = [DBManager getSharedDBManager];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     saveBedJson = [dbManager getBedSaveList];
-    self.navigationItem.title = appGlobals.appTitle;
+    //self.navigationItem.title = appGlobals.appTitle;
+    tabColor = [appGlobals colorFromHexString: @"#74aa4a"];
+    
+    self.tableView.separatorColor = [UIColor clearColor];
+    
+    
+    float width = self.view.frame.size.width;
+    //float height = self.view.frame.size.height;
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 50)];
+    UILabel *labelView = [[UILabel alloc] initWithFrame:CGRectMake((headerView.frame.size.width/2)-75, 0, 150, 50)];
+    [headerView addSubview:labelView];
+    labelView.text = @"Open Garden";
+    labelView.textAlignment = NSTextAlignmentCenter;
+    [labelView setFont:[UIFont boldSystemFontOfSize:18]];
+    headerView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    
+    self.tableView.tableHeaderView = headerView;
 
 }
 
@@ -43,25 +61,28 @@ NSMutableArray *saveBedJson;
     if(i<2)i=1;
     return i;
 }
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
-    /* Create custom view to display section header... */
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
-    [label setFont:[UIFont boldSystemFontOfSize:12]];
-    NSString *string = @"";
-    /* Section header is in 0th index... */
-    [label setText:string];
-    [view addSubview:label];
-    return view;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    UILabel *label = (UILabel *)[cell.contentView viewWithTag:10];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25,0,self.view.frame.size.width-20,cell.frame.size.height)];
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
+    [label setFont:[UIFont boldSystemFontOfSize:14]];
     int index = (int)[indexPath row];
+    CGRect fm = CGRectMake(20,0,self.view.frame.size.width, cell.frame.size.height);
+    UILabel *border = [[UILabel alloc] initWithFrame:fm];
+    border.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    border.layer.borderWidth = .5;
+    border.layer.cornerRadius = 15;
+    border.clipsToBounds = YES;
+    border.backgroundColor = [tabColor colorWithAlphaComponent:.05];
+    
     if(index == 0){
+        CGRect leftFrame = CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height);
+        border.frame = leftFrame;
+        border.backgroundColor = [UIColor clearColor];
         [label setText:[NSString stringWithFormat:@"Cancel"]];
+        [cell addSubview:label];
+        [cell addSubview:border];
         return cell;
     }
     if(saveBedJson.count > 0){
@@ -70,7 +91,25 @@ NSMutableArray *saveBedJson;
         json = saveBedJson[index];
         NSString *name = [json objectForKey:@"name"];
         NSString *timestamp = [json objectForKey:@"timestamp"];
-        [label setText: [NSString stringWithFormat:@"%i %@ %@", index, name, timestamp]];
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.intValue];
+        
+        UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 150, 20)];
+        [dateLabel setFont:[UIFont systemFontOfSize:11]];
+        dateLabel.textAlignment = NSTextAlignmentCenter;
+        NSDateFormatter *inFormat = [[NSDateFormatter alloc] init];
+        [inFormat setDateFormat:@"MMM dd, yyyy HH:mm"];
+        
+        NSString *dateStr = [inFormat stringFromDate:date];
+        [dateLabel setText:[NSString stringWithFormat:@"Saved: %@", dateStr]];
+        
+        
+        [cell addSubview: dateLabel];
+        
+
+        
+        [label setText: [NSString stringWithFormat:@"%i %@ %@", index, name, date]];
+        [cell addSubview:label];
+        [cell addSubview:border];
     }
     return cell;
 }

@@ -179,7 +179,6 @@ DBManager *dbManager;
     if(appGlobals.globalGardenModel.plantingDate != nil){
         NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
         if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
-            NSLog(@"date2 is later than date1");
             //no change
         }else{
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -188,7 +187,6 @@ DBManager *dbManager;
         }
     }
 
-    
     if(nameStr.length < 1)nameStr = @"New Garden";
     if([nameStr isEqualToString:@"autoSave"])nameStr = @"New Garden";
     
@@ -204,7 +202,6 @@ DBManager *dbManager;
     label2.textColor = [UIColor blackColor];
     label.backgroundColor = [UIColor clearColor];
     label2.backgroundColor = [UIColor clearColor];
-    
     
     UIImage *dateIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
     self.dateIconView = [[UIImageView alloc] initWithImage:dateIcon];
@@ -236,8 +233,6 @@ DBManager *dbManager;
                                                   self.topOffset + self.titleView.frame.size.height+7,
                                                   xCo+(self.sideOffset*-2),
                                                   yCo)];
-    
-    
     //add my array of beds
     for(int i = 0; i<self.bedViewArray.count;i++){
         [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
@@ -342,9 +337,9 @@ DBManager *dbManager;
 }
 
 - (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
-    UIView *icon = (UIView*)recognizer.view;
+    //UIView *icon = (UIView*)recognizer.view;
     //recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    [self datePickerViewDemo];
+    [self showDatePickerView];
     //[self testDateSelectClass];
     //NSLog(@"Date Icon Pressed");
 }
@@ -534,14 +529,14 @@ DBManager *dbManager;
     }
 }
 
--(void) datePickerViewDemo{
+-(void) showDatePickerView{
 
     if(self.datePickerIsOpen){
         [self setDatePickerIsOpen:NO];
         [self.selectPlantView setDatePickerIsOpen:NO];
         
         //do some animation out here, but first we'll need self.datePickerView to be a full on property of EBVC
-        [UIView animateWithDuration:0.75 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              
                              self.datePickerView.alpha = 0.0f;
@@ -575,7 +570,7 @@ DBManager *dbManager;
     
     [self.view addSubview:self.datePickerView];
     
-    [UIView animateWithDuration:0.75 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.datePickerView.alpha = 1.0f;
                          self.bedFrameView.alpha = 0.00f;
@@ -584,6 +579,7 @@ DBManager *dbManager;
                      }
                      completion:^(BOOL finished) {
                      }];
+    
 }
 
 

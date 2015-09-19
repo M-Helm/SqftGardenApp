@@ -34,6 +34,7 @@ NSDate* selectedDate;
 }
 
 - (void)removeViews:(id)object {
+    if(selectedDate == nil)selectedDate = [[NSDate alloc]initWithTimeIntervalSince1970:0];
     [[self viewWithTag:9] removeFromSuperview];
     [[self viewWithTag:10] removeFromSuperview];
     [[self viewWithTag:11] removeFromSuperview];
@@ -45,23 +46,25 @@ NSDate* selectedDate;
 - (void)dismissDatePicker:(id)sender {
     NSLog(@"New Date: %@", selectedDate);
     appGlobals.globalGardenModel.plantingDate = selectedDate;
-    CGRect toolbarTargetFrame = CGRectMake(0, self.bounds.size.height, 320, 44);
-    CGRect datePickerTargetFrame = CGRectMake(0, self.bounds.size.height+44, 320, 216);
+    //CGRect toolbarTargetFrame = CGRectMake(0, self.bounds.size.height, 320, 44);
+    //CGRect datePickerTargetFrame = CGRectMake(0, self.bounds.size.height+44, 320, 216);
     [UIView beginAnimations:@"MoveOut" context:nil];
     [self viewWithTag:9].alpha = 0;
-    [self viewWithTag:10].frame = datePickerTargetFrame;
-    [self viewWithTag:11].frame = toolbarTargetFrame;
+    //[self viewWithTag:10].frame = datePickerTargetFrame;
+    //[self viewWithTag:11].frame = toolbarTargetFrame;
+    [self viewWithTag:10].alpha = 0;
+    [self viewWithTag:11].alpha = 0;
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(removeViews:)];
     [UIView commitAnimations];
 }
 - (void)cancelDatePicker:(id)sender {
-    CGRect toolbarTargetFrame = CGRectMake(0, self.bounds.size.height, 320, 44);
-    CGRect datePickerTargetFrame = CGRectMake(0, self.bounds.size.height+44, 320, 216);
+    //CGRect toolbarTargetFrame = CGRectMake(0, self.bounds.size.height, 320, 44);
+    //CGRect datePickerTargetFrame = CGRectMake(0, self.bounds.size.height+44, 320, 216);
     [UIView beginAnimations:@"MoveOut" context:nil];
     [self viewWithTag:9].alpha = 0;
-    [self viewWithTag:10].frame = datePickerTargetFrame;
-    [self viewWithTag:11].frame = toolbarTargetFrame;
+    [self viewWithTag:10].alpha = 0;
+    [self viewWithTag:11].alpha = 0;
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(removeViews:)];
     [UIView commitAnimations];

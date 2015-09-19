@@ -23,7 +23,7 @@ UIFont * launchButtonFont;
 - (void) viewDidLoad {
     [super viewDidLoad];
     appGlobals = [ApplicationGlobals getSharedGlobals];
-    appGlobals.hasShownLaunchScreen = NO;
+    appGlobals.hasShownLaunchScreen = YES;
     self.navigationController.navigationBar.hidden = YES;
     //self.navigationController.navigationItem.hidesBackButton = YES;
 
