@@ -105,7 +105,8 @@ BOOL shouldContinueBlinking = NO;
     [self.view addSubview:self.bedFrameView];
     
     shouldContinueBlinking = YES;
-    [self blinkAnimation:@"blinkAnimation" finished:YES target:[bedArray objectAtIndex:0]];
+    //[self blinkAnimation:@"blinkAnimation" finished:YES target:[bedArray objectAtIndex:0]];
+    [self blinkAnimation:[bedArray objectAtIndex:0]];
 
     
 }
@@ -396,19 +397,17 @@ BOOL shouldContinueBlinking = NO;
     
     return outputImage;
 }
-- (void)blinkAnimation:(NSString *)animationId finished:(BOOL)finished target:(UIView *)target
-{
-    if (shouldContinueBlinking) {
-        [UIView beginAnimations:animationId context:(__bridge void *)(target)];
-        [UIView setAnimationDuration:0.75f];
-        [UIView setAnimationDelegate:self];
-        [UIView setAnimationDidStopSelector:@selector(blinkAnimation:finished:target:)];
-        if ([target alpha] == 1.0f)
-            [target setAlpha:0.0f];
-        else
-            [target setAlpha:1.0f];
-        [UIView commitAnimations];
-    }
+
+-(void)blinkAnimation:(UIView *)target{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [animation setFromValue:[NSNumber numberWithFloat:1.0]];
+    [animation setToValue:[NSNumber numberWithFloat:0.25]];
+    [animation setDuration:0.75f];
+    [animation setTimingFunction:[CAMediaTimingFunction
+                                  functionWithName:kCAMediaTimingFunctionLinear]];
+    [animation setAutoreverses:YES];
+    [animation setRepeatCount:20000];
+    [[target layer] addAnimation:animation forKey:@"opacity"];
 }
 
 @end

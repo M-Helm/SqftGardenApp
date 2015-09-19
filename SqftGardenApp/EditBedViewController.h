@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 #import "SqftGardenModel.h"
+#import "SelectPlantView.h"
+#import "DateSelectView.h"
 
 
 @interface EditBedViewController : UIViewController
@@ -21,13 +23,16 @@
 @property(nonatomic) UILabel *selectMessageLabel;
 @property(nonatomic) UIView *titleView;
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;
+-(void) initViews;
 @property(nonatomic) SqftGardenModel *currentGardenModel;
 @property(nonatomic) int topOffset;
 @property(nonatomic) int sideOffset;
 @property(nonatomic) float heightMultiplier;
 @property(nonatomic) UIView *dateIconView;
 
-@property(nonatomic) UIView *datePickerView;
+@property(nonatomic) DateSelectView *datePickerView;
+@property(nonatomic) SelectPlantView *selectPlantView;
+@property(nonatomic) bool datePickerIsOpen;
 
 @end
 

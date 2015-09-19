@@ -8,7 +8,8 @@
 
 #import<UIKit/UIKit.h>
 
-@interface DateSelectViewController : UIViewController
+@interface DateSelectView : UIView
+
 - (void)createDatePicker:(id)sender ;
 
 @end

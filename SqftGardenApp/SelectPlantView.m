@@ -26,6 +26,7 @@ float startY = 0;
 float viewStartX = 0;
 float viewStartY = 0;
 PlantIconView *touchedIcon;
+EditBedViewController *editBedVC;
 
 
 - (id)initWithFrame:(CGRect)frame {
@@ -35,6 +36,17 @@ PlantIconView *touchedIcon;
     }
     return self;
 }
+
+- (id)initWithFrame:(CGRect)frame andEditBedVC:(UIViewController*)editBed{
+    self = [super initWithFrame:frame];
+    editBedVC = (EditBedViewController*)editBed;
+    [self setDatePickerIsOpen:NO];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -104,7 +116,7 @@ PlantIconView *touchedIcon;
         plantIcon.position = i+1;
         //[plantIcon addSubview:imageView];
         [selectArray addObject:plantIcon];
-        self.editBedVC.selectMessageLabel.text = @"Drag a plant to a square";
+        editBedVC.selectMessageLabel.text = @"Drag a plant to a square";
     }
     // Adjust scroll view content size
     self.contentSize = CGSizeMake(appGlobals.bedDimension *  selectArray.count + (self.frame.size.width/4), appGlobals.bedDimension);
@@ -113,7 +125,7 @@ PlantIconView *touchedIcon;
 
 - (NSMutableArray *)buildClassSelectArray{
     NSMutableArray *selectArray = [[NSMutableArray alloc] init];
-    self.editBedVC.selectMessageLabel.text = @"Select A Class Of Plants";
+    editBedVC.selectMessageLabel.text = @"Select A Class Of Plants";
     int frameDimension = appGlobals.bedDimension - 5;
     int rowCount = [dbManager getTableRowCount:@"plant_classes"];
     for(int i=0; i<rowCount; i++){
@@ -130,6 +142,7 @@ PlantIconView *touchedIcon;
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    if(self.datePickerIsOpen)return;
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
@@ -160,7 +173,7 @@ PlantIconView *touchedIcon;
             [self cancelSelectPlant];
             return;
         }
-        CGPoint location = [touch locationInView:self.mainView];
+        CGPoint location = [touch locationInView:editBedVC.bedFrameView];
         
         //test the page bounds, if too close to edge, return
         float clipValue = self.frame.size.width - ((appGlobals.bedDimension-5)*.40);
@@ -197,7 +210,7 @@ PlantIconView *touchedIcon;
 }
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    
+    if(self.datePickerIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -206,7 +219,7 @@ PlantIconView *touchedIcon;
     if ([touchedView class] == [PlantIconView class] || [touchedView class] == [ClassIconView class]){
         
         self.scrollEnabled = NO;
-        CGPoint location = [touch locationInView:self.mainView];
+        CGPoint location = [touch locationInView:editBedVC.bedFrameView];
         location.x = location.x - startX;
         location.y = location.y - startY;
         touchedView.center = location;
@@ -216,12 +229,14 @@ PlantIconView *touchedIcon;
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    if(self.datePickerIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     CGPoint locationInBed;
     if([touch view] != nil){
         touchedView = [touch view];
-        locationInBed = [touch locationInView:self.editBedVC.bedFrameView];
+        locationInBed = [touch locationInView:editBedVC.bedFrameView];
+        NSLog(@"Location in Bed: %f", locationInBed.x);
     }
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *plantView = (PlantIconView*)touchedView;
@@ -255,14 +270,15 @@ PlantIconView *touchedIcon;
         yCo = locationInBed.y;
         //xCo = fabs(xCo + touchedView.center.x);
         xCo = locationInBed.x;
-        NSLog(@"XCordinate: %f  screenWidth: %f", xCo, self.mainView.frame.size.width);
-        NSLog(@"YCordinate: %f  TouchCoord: %f screenHeight: %f", yCo, touchedView.center.y, self.mainView.frame.size.height);
+        //NSLog(@"XCordinate: %f  screenWidth: %f", xCo, self.mainView.frame.size.width);
+        //NSLog(@"YCordinate: %f  TouchCoord: %f screenHeight: %f", yCo, touchedView.center.y, self.mainView.frame.size.height);
         int i = 0;
         float leastSquare = 500000;
         float deltaSquare = 500000;
         int targetCell = -1;
-        for(UIView *subview in self.mainView.subviews){
+        for(UIView *subview in editBedVC.bedFrameView.subviews){
             CGPoint location = subview.center;
+            //NSLog(@"subview center x : %f",subview.center.x);
             float bedX = fabs(location.x);
             float bedY = fabs(location.y);
             float deltaX = fabs(xCo - bedX);
@@ -274,8 +290,8 @@ PlantIconView *touchedIcon;
             }
             i++;
         }
-        NSLog(@"squares reports at D: %f , LOS: %f", deltaSquare, leastSquare);
-        NSLog(@"return value is %i",(appGlobals.bedDimension * appGlobals.bedDimension)*2);
+        //NSLog(@"squares reports at D: %f , LOS: %f", deltaSquare, leastSquare);
+        //NSLog(@"return value is %i",(appGlobals.bedDimension * appGlobals.bedDimension)*2);
         //if we're far from a bedview just return
         if(leastSquare > (appGlobals.bedDimension * appGlobals.bedDimension)*2){
             touchedView.alpha = 1;
@@ -286,9 +302,8 @@ PlantIconView *touchedIcon;
             return;
         }
         
-        [self.editBedVC updatePlantBeds:targetCell:plantView.plantId];
+        [editBedVC updatePlantBeds:targetCell:plantView.plantId];
         AudioServicesPlaySystemSound(1105);
-
     }
 }
     

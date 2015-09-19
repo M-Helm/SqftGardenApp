@@ -8,10 +8,10 @@
 //#import "BedView.h"
 #import "PlantIconView.h"
 #import "ClassIconView.h"
-#import "SelectPlantView.h"
+//#import "SelectPlantView.h"
 #import "ApplicationGlobals.h"
 #import "DBManager.h"
-#import "DateSelectViewController.h"
+
 
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
@@ -33,9 +33,9 @@ NSString * const ROW_KEY = @"rows";
 NSString * const COLUMN_KEY = @"columns";
 float evStartX = 0;
 float evStartY = 0;
-bool datePickerIsOpen = NO;
+//bool datePickerIsOpen = NO;
 
-SelectPlantView *selectPlantView;
+//SelectPlantView *selectPlantView;
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
 
@@ -60,6 +60,7 @@ DBManager *dbManager;
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
     self.navigationController.navigationBar.hidden = NO;
+    [self setDatePickerIsOpen:NO];
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationController.navigationBar.backgroundColor = [[UIColor orangeColor]colorWithAlphaComponent:.05];
@@ -111,11 +112,15 @@ DBManager *dbManager;
                                                 action:@selector(handleBedSingleTap:)];
         [bed addGestureRecognizer:singleFingerTap];
     }
-    selectPlantView.mainView = self.bedFrameView;
-    selectPlantView.editBedVC = self;
+    
+    //self.selectPlantView.mainView = self.bedFrameView;
+    //self.selectPlantView.editBedVC = self;
     [self.view addSubview:self.bedFrameView];
     //self.bedFrameView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:selectPlantView];
+    
+    [self.view addSubview:self.selectPlantView];
+
+
 }
 
 
@@ -136,8 +141,8 @@ DBManager *dbManager;
     [self.bedFrameView removeFromSuperview];
     int width = self.view.bounds.size.width;
     int height = self.view.frame.size.height * BED_LAYOUT_HEIGHT_RATIO;
-    if(selectPlantView != nil){
-        [selectPlantView removeFromSuperview];
+    if(self.selectPlantView != nil){
+        [self.selectPlantView removeFromSuperview];
     }
     UIImage *background = [UIImage imageNamed:@"cloth_test.png"];
     UIImageView *bk = [[UIImageView alloc]initWithImage:background];
@@ -154,8 +159,7 @@ DBManager *dbManager;
     [self makeBedFrame : width : height];
     [self makeSelectMessageView: width : height];
     [self makeSelectView: width : height];
-    
-    
+
 }
 -(void)makeTitleBar{
     UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
@@ -166,8 +170,8 @@ DBManager *dbManager;
     self.titleView.layer.cornerRadius = 15;
     self.titleView.layer.borderWidth = 3;
     self.titleView.layer.borderColor = [color colorWithAlphaComponent:1].CGColor;
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(55,0, self.view.frame.size.width - 75, 18)];
-    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(55,18, self.view.frame.size.width - 75, (navBarHeight / 1.5)-18)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(65,0, self.view.frame.size.width - 75, 18)];
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(65,18, self.view.frame.size.width - 75, (navBarHeight / 1.5)-18)];
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
     NSString *plantDate = @"planting date undefined";
@@ -190,7 +194,7 @@ DBManager *dbManager;
     
     UIImage *dateIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
     self.dateIconView = [[UIImageView alloc] initWithImage:dateIcon];
-    CGRect fm = CGRectMake(10,0,44,44);
+    CGRect fm = CGRectMake(20,0,44,44);
     //CGRect fm = CGRectMake(self.view.frame.size.width - 64,navBarHeight - 2,44,44);
     self.dateIconView.frame = fm;
     self.dateIconView.userInteractionEnabled = YES;
@@ -259,9 +263,13 @@ DBManager *dbManager;
     
     if((self.view.frame.size.width / selectDimension) > 6)selectDimension = self.view.frame.size.width / 6;
     if((self.view.frame.size.width / selectDimension) < 3)selectDimension = self.view.frame.size.width / 3;
-    selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(0, selectTopOffset, width, selectDimension)];
+    CGRect selectFrame = CGRectMake(0, selectTopOffset, width, selectDimension);
+    //self.selectPlantView = [[SelectPlantView alloc]initWithEditBedVC:self];
+    self.selectPlantView = [[SelectPlantView alloc]initWithFrame:selectFrame andEditBedVC:self];
+    //self.selectPlantView.frame = selectFrame;
+    //self.selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(0, selectTopOffset, width, selectDimension)];
     for(int i = 0; i<self.selectPlantArray.count;i++){
-        [selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
+        [self.selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
     }
     
     if((self.view.frame.size.height - selectTopOffset - selectDimension) > selectDimension){
@@ -274,7 +282,7 @@ DBManager *dbManager;
                                                   self.view.frame.size.height - (selectDimension*2)-messageFrameHeight,
                                                   width,
                                                   messageFrameHeight);
-        selectPlantView.frame = newSelectFrame;
+        self.selectPlantView.frame = newSelectFrame;
         self.selectMessageView.frame = newSelectMessageFrame;
     }
 }
@@ -304,6 +312,7 @@ DBManager *dbManager;
 }
 
 - (void)handleBedSingleTap:(UITapGestureRecognizer *)recognizer {
+    if(self.datePickerIsOpen)return;
     PlantIconView *bd = (PlantIconView*)recognizer.view;
     if(bd.plantId < 1)return;
     for(int i = 0; i<self.bedViewArray.count; i++){
@@ -317,11 +326,12 @@ DBManager *dbManager;
     [self calculatePlantDropPosition:bd];
     [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
 }
+
 - (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
     UIView *icon = (UIView*)recognizer.view;
     //recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    //[self datePickerViewDemo];
-    [self testDateSelectClass];
+    [self datePickerViewDemo];
+    //[self testDateSelectClass];
     //NSLog(@"Date Icon Pressed");
 }
 
@@ -397,6 +407,8 @@ DBManager *dbManager;
 
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    //if(self.datePickerIsOpen)return;
+    
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
@@ -416,6 +428,7 @@ DBManager *dbManager;
     }
 }
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    //if(self.datePickerIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -436,6 +449,7 @@ DBManager *dbManager;
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    //if(self.datePickerIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -491,32 +505,37 @@ DBManager *dbManager;
 
 -(void) datePickerViewDemo{
 
-    if(datePickerIsOpen){
-        datePickerIsOpen = NO;
-        
+    if(self.datePickerIsOpen){
+        [self setDatePickerIsOpen:NO];
+        [self.selectPlantView setDatePickerIsOpen:NO];
         
         //do some animation out here, but first we'll need self.datePickerView to be a full on property of EBVC
-        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+        [UIView animateWithDuration:0.75 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              
                              self.datePickerView.alpha = 0.0f;
                              self.bedFrameView.alpha = 1.00f;
+                             self.selectPlantView.alpha = 1.00f;
                          }
                          completion:^(BOOL finished) {
+                             [self initViews];
                          }];
-        
-        [self initViews];
         return;
     }
-    datePickerIsOpen = YES;
-    self.datePickerView = [[UIView alloc] init];
+    [self setDatePickerIsOpen:YES];
+    [self.selectPlantView setDatePickerIsOpen:YES];
+    self.datePickerView = [[DateSelectView alloc] init];
+    self.datePickerView.userInteractionEnabled = YES;
+    [self.datePickerView createDatePicker:self];
+    
     
     self.datePickerView.backgroundColor = [UIColor whiteColor];
     
     
-    //self.datePickerView.frame = self.bedFrameView.frame;
-    CGRect fm = CGRectMake(self.bedFrameView.frame.origin.x, self.bedFrameView.frame.origin.y, self.bedFrameView.frame.size.width, self.view.frame.size.height - self.bedFrameView.frame.origin.y - 15);
+    self.datePickerView.frame = self.bedFrameView.frame;
+    CGRect fm = CGRectMake(self.bedFrameView.frame.origin.x, self.bedFrameView.frame.origin.y, self.bedFrameView.frame.size.width, 44+216);
     self.datePickerView.frame = fm;
+    //[self.datePickerView createDatePicker:self];
     
     self.datePickerView.layer.borderColor = [UIColor blackColor].CGColor;
     self.datePickerView.layer.borderWidth =3;
@@ -527,28 +546,15 @@ DBManager *dbManager;
     
     [self.view addSubview:self.datePickerView];
     
-    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+    [UIView animateWithDuration:0.75 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.datePickerView.alpha = 1.0f;
-                         self.bedFrameView.alpha = 0.05f;
-                         self.selectMessageView.alpha = 0.05f;
+                         self.bedFrameView.alpha = 0.00f;
+                         self.selectMessageView.alpha = 0.00f;
+                         self.selectPlantView.alpha = 0.00f;
                      }
                      completion:^(BOOL finished) {
                      }];
-}
--(void)testDateSelectClass{
-    NSLog(@"test ds class");
-    DateSelectViewController* ds = [[DateSelectViewController alloc] init];
-    ds.view.frame = self.bedFrameView.frame;
-    //[self.view addSubview:ds.view];
-    [ds createDatePicker:self];
-    CGRect fm = CGRectMake(0,0,50,50);
-    //UIPopoverController *popover = [[UIPopoverController alloc]initWithContentViewController:ds];
-    //[popover presentPopoverFromRect:fm inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];
-    
-    //- (void)presentPopoverFromRect:(CGRect)fm inView:(UIView *)self permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections animated:(BOOL)animated
-    //[self.navigationController performSegueWithIdentifier:@"showDate" sender:self.navigationController];
-    
 }
 
 
