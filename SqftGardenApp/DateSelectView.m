@@ -119,11 +119,17 @@ NSDate* selectedDate;
     [toolBar setItems:[NSArray arrayWithObjects:cancelButton, spacer, doneButton, nil]];
     [self addSubview:toolBar];
     
-    [UIView beginAnimations:@"MoveIn" context:nil];
+    
     toolBar.frame = toolbarTargetFrame;
-    datePicker.frame = datePickerTargetFrame;
+    
+    
+    
+    [UIView beginAnimations:@"MoveIn" context:nil];
+    //toolBar.frame = toolbarTargetFrame;
+    //datePicker.frame = datePickerTargetFrame;
     lightView.alpha = 0.5;
     [UIView commitAnimations];
+    
 }
 
 

@@ -12,27 +12,32 @@
 
 
 @interface EditBedViewController : UIViewController
+@property(nonatomic) SqftGardenModel *currentGardenModel;
+@property(nonatomic) DateSelectView *datePickerView;
+@property(nonatomic) SelectPlantView *selectPlantView;
+
+@property(nonatomic) int topOffset;
+@property(nonatomic) int sideOffset;
+@property(nonatomic) float heightMultiplier;
 @property(nonatomic) int bedRowCount;
 @property(nonatomic) int bedColumnCount;
 @property(nonatomic) int bedCellCount;
 @property(nonatomic) NSMutableArray *bedViewArray;
-//@property(nonatomic) NSMutableDictionary *bedStateDict;
 @property(nonatomic) NSMutableArray *selectPlantArray;
+
 @property(nonatomic) UIView *bedFrameView;
 @property(nonatomic) UIView *selectMessageView;
 @property(nonatomic) UILabel *selectMessageLabel;
 @property(nonatomic) UIView *titleView;
+@property(nonatomic) UIView *dateIconView;
+@property(nonatomic) UIView *saveIconView;
+
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;
 - (void) updatePlantingDate : (NSDate *)date;
 - (void) initViews;
-@property(nonatomic) SqftGardenModel *currentGardenModel;
-@property(nonatomic) int topOffset;
-@property(nonatomic) int sideOffset;
-@property(nonatomic) float heightMultiplier;
-@property(nonatomic) UIView *dateIconView;
 
-@property(nonatomic) DateSelectView *datePickerView;
-@property(nonatomic) SelectPlantView *selectPlantView;
+
+
 @property(nonatomic) bool datePickerIsOpen;
 
 @end

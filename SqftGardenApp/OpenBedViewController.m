@@ -64,7 +64,7 @@ UIColor *tabColor;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25,0,self.view.frame.size.width-20,cell.frame.size.height)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25,2,self.view.frame.size.width-20,cell.frame.size.height)];
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     [label setFont:[UIFont boldSystemFontOfSize:14]];
     int index = (int)[indexPath row];
@@ -107,7 +107,7 @@ UIColor *tabColor;
         
 
         
-        [label setText: [NSString stringWithFormat:@"%i %@ %@", index, name, date]];
+        [label setText: [NSString stringWithFormat:@"%i || %@", index, name]];
         [cell addSubview:label];
         [cell addSubview:border];
     }

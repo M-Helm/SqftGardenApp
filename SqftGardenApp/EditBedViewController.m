@@ -60,6 +60,7 @@ DBManager *dbManager;
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
     self.navigationController.navigationBar.hidden = NO;
+
     [self setDatePickerIsOpen:NO];
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -112,12 +113,7 @@ DBManager *dbManager;
                                                 action:@selector(handleBedSingleTap:)];
         [bed addGestureRecognizer:singleFingerTap];
     }
-    
-    //self.selectPlantView.mainView = self.bedFrameView;
-    //self.selectPlantView.editBedVC = self;
     [self.view addSubview:self.bedFrameView];
-    //self.bedFrameView.backgroundColor = [UIColor clearColor];
-    
     [self.view addSubview:self.selectPlantView];
 
 
@@ -137,7 +133,6 @@ DBManager *dbManager;
     //UIColor *color = [appGlobals colorFromHexString:@"#fefefe"];
     //self.view.backgroundColor = color;
     
-    
     self.navigationItem.hidesBackButton = YES;
     [self.bedFrameView removeFromSuperview];
     int width = self.view.bounds.size.width;
@@ -150,19 +145,42 @@ DBManager *dbManager;
     bk.alpha = 0.075;
     bk.frame = self.view.frame;
     [self.view addSubview:bk];
-    /*
-    UIView *bkWash = [[UIView alloc] init];
-    bkWash.frame = self.view.frame;
-    bkWash.backgroundColor = [[UIColor orangeColor]colorWithAlphaComponent:.05];
-    [self.view addSubview:bkWash];
-    */
+
+    [self makeSaveIcon];
     [self makeTitleBar];
     [self makeBedFrame : width : height];
     [self makeSelectMessageView: width : height];
     [self makeSelectView: width : height];
 
 }
+-(void)makeSaveIcon{
+    //remove self if exists
+    [self.saveIconView removeFromSuperview];
+    //make and add view
+    UIImage *saveIcon = [UIImage imageNamed:@"ic_save_512px.png"];
+    self.saveIconView = [[UIImageView alloc]initWithImage:saveIcon];
+    CGRect saveFrame = CGRectMake((self.view.frame.size.width)-88-44,0,44,44);
+    self.saveIconView.frame = saveFrame;
+    
+    //check if a date exists
+    if(appGlobals.globalGardenModel.plantingDate != nil){
+        NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
+        if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
+            //no date selected
+        }else{
+            //a date is selected
+        }
+    }
+    
+    
+    self.saveIconView.alpha = .05;
+    [self.navigationController.navigationBar addSubview:self.saveIconView];
+}
+
 -(void)makeTitleBar{
+    //remove self if exists
+    [self.titleView removeFromSuperview];
+    //make and add view
     UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
     float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
     
@@ -188,7 +206,7 @@ DBManager *dbManager;
     }
 
     if(nameStr.length < 1)nameStr = @"New Garden";
-    if([nameStr isEqualToString:@"autoSave"])nameStr = @"New Garden";
+    //if([nameStr isEqualToString:@"autoSave"])nameStr = @"New Garden";
     
     NSString *gardenName = [NSString stringWithFormat:@"Garden Name: %@",  nameStr];
     NSString *gardenDate = [NSString stringWithFormat:@"Planting Date: %@",  plantDate];
@@ -206,7 +224,6 @@ DBManager *dbManager;
     UIImage *dateIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
     self.dateIconView = [[UIImageView alloc] initWithImage:dateIcon];
     CGRect fm = CGRectMake(20,0,44,44);
-    //CGRect fm = CGRectMake(self.view.frame.size.width - 64,navBarHeight - 2,44,44);
     self.dateIconView.frame = fm;
     self.dateIconView.userInteractionEnabled = YES;
     UITapGestureRecognizer *singleFingerTap =
@@ -217,14 +234,11 @@ DBManager *dbManager;
     [self.titleView addSubview:label];
     [self.titleView addSubview:label2];
     [self.titleView addSubview: self.dateIconView];
-    
     [self.view addSubview: self.titleView];
 
 }
 
 -(void)makeBedFrame : (int) width : (int) height{
-    
-    //when you monkey with this layout you need adjust the endTouches method in SelectPlantView Class else the drag and drop stuff breaks
     
     float xCo = self.view.bounds.size.width;
     int yCo = self.bedRowCount * [self bedDimension];
@@ -337,11 +351,7 @@ DBManager *dbManager;
 }
 
 - (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
-    //UIView *icon = (UIView*)recognizer.view;
-    //recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
     [self showDatePickerView];
-    //[self testDateSelectClass];
-    //NSLog(@"Date Icon Pressed");
 }
 
 - (NSMutableArray *)buildBedViewArray{
@@ -534,8 +544,6 @@ DBManager *dbManager;
     if(self.datePickerIsOpen){
         [self setDatePickerIsOpen:NO];
         [self.selectPlantView setDatePickerIsOpen:NO];
-        
-        //do some animation out here, but first we'll need self.datePickerView to be a full on property of EBVC
         [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              
@@ -553,23 +561,19 @@ DBManager *dbManager;
     self.datePickerView = [[DateSelectView alloc] init];
     self.datePickerView.userInteractionEnabled = YES;
     [self.datePickerView createDatePicker:self];
-    
-    
-    //self.datePickerView.backgroundColor = [UIColor whiteColor];
-    //self.datePickerView.frame = self.bedFrameView.frame;
+
     CGRect fm = CGRectMake(self.bedFrameView.frame.origin.x, self.bedFrameView.frame.origin.y, self.bedFrameView.frame.size.width, 44+216);
     self.datePickerView.frame = fm;
-    //[self.datePickerView createDatePicker:self];
     
-    //self.datePickerView.layer.borderColor = [UIColor blackColor].CGColor;
-    //self.datePickerView.layer.borderWidth =3;
-    //self.datePickerView.layer.cornerRadius = 15;
-    //self.datePickerView.clipsToBounds = YES;
-    
-    self.datePickerView.alpha = 0.0f;
+    self.datePickerView.alpha = 1.0f;
+    self.bedFrameView.alpha = 0.00f;
+    self.selectMessageView.alpha = 0.00f;
+    self.selectPlantView.alpha = 0.00f;
     
     [self.view addSubview:self.datePickerView];
     
+    /*
+
     [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.datePickerView.alpha = 1.0f;
@@ -579,6 +583,7 @@ DBManager *dbManager;
                      }
                      completion:^(BOOL finished) {
                      }];
+     */
     
 }
 
