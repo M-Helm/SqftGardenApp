@@ -27,6 +27,7 @@ DBManager *dbManager;
 ApplicationGlobals *appGlobals;
 NSMutableArray *saveBedJson;
 UIColor *tabColor;
+int localIdOfSelected;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,6 +35,9 @@ UIColor *tabColor;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     saveBedJson = [dbManager getBedSaveList];
     //self.navigationItem.title = appGlobals.appTitle;
+    [self.tableView setDelegate:self];
+    [self.tableView setDataSource:self];
+    
     tabColor = [appGlobals colorFromHexString: @"#74aa4a"];
     
     self.tableView.separatorColor = [UIColor clearColor];
@@ -107,16 +111,18 @@ UIColor *tabColor;
         
         NSString *dateStr = [inFormat stringFromDate:date];
         [dateLabel setText:[NSString stringWithFormat:@"Saved: %@", dateStr]];
-        dateLabel.backgroundColor = [UIColor blueColor];
+        dateLabel.backgroundColor = [UIColor clearColor];
         
         [cell addSubview: dateLabel];
         
         NSString *str = [json objectForKey:@"local_id"];
-        NSNumber *cellIndex = [[NSNumber alloc]initWithInt:str.intValue];
+        //NSString *str = [json objectForKey:@"name"];
+        NSLog(@"STRING OF LOCAL ID FROM JSON =  %i", str.intValue);
+        //NSNumber *cellIndex = [[NSNumber alloc]initWithInt:str.intValue];
         //deleteButton.localId = cellIndex;
         
         //UIview has been subclassed to hold an index value
-        DeleteButtonView *deleteButton = [[DeleteButtonView alloc] initWithFrame:CGRectMake(self.view.frame.size.width -44, 11, 44, 44) withPositionIndex:(int)cellIndex];
+        DeleteButtonView *deleteButton = [[DeleteButtonView alloc] initWithFrame:CGRectMake(self.view.frame.size.width -44, 11, 44, 44) withPositionIndex:str.intValue];
         
         //UITextView *deleteButton = [self deleteButton];
         //deleteButton.userInteractionEnabled = YES;
@@ -179,10 +185,49 @@ UIColor *tabColor;
                                           otherButtonTitles:@"YES", nil];
     [alert show];
 }
--(void) handleDeleteSelect:(UITapGestureRecognizer *)recognizer{
-    NSLog(@"Delete button selected");
-    //DeleteButtonView *btn = (DeleteButtonView*)recognizer.view;
-    //[self showDeleteAlertForFile:@"none" atIndex:btn.localId];
+- (void) showFailureAlertForFile : (NSString *)failMessage atIndex: (int) index{
+    NSString *alertStr = [NSString stringWithFormat:@"%@", failMessage];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:appGlobals.appTitle
+                                                    message: alertStr
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil, nil];
+    [alert show];
+}
+
+-(
+  void) handleDeleteSelect:(UITapGestureRecognizer *)recognizer{
+    DeleteButtonView *btn = (DeleteButtonView*)recognizer.view;
+    NSLog(@"Delete button selected, Index %i", btn.localId);
+    if(btn.localId < 2)
+        [self showFailureAlertForFile:@"Can't Delete AutoSave File" atIndex:0];
+    else{
+        [self showDeleteAlertForFile:@"none" atIndex:btn.localId];
+        localIdOfSelected = btn.localId;
+        //[dbManager deleteGardenWithId:btn.localId];
+    }
+    
+}
+- (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    // the user clicked OK
+    if (buttonIndex == 0) {
+        NSLog(@"Btn0");
+    }
+    if (buttonIndex == 1) {
+        NSLog(@"Btn1");
+        [dbManager deleteGardenWithId:localIdOfSelected];
+        NSLog(@"selected Id = %i", localIdOfSelected);
+        //make sure we reload on the main thread
+        //dispatch_async(dispatch_get_main_queue(), ^{
+        //    [self.tableView reloadData];
+        //});
+        
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    }
+    if (buttonIndex == 2) {
+        NSLog(@"Btn2");
+    }
 }
 
 

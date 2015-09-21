@@ -31,6 +31,7 @@
 - (NSMutableArray *) getBedSaveList;
 - (NSMutableDictionary *) getGardenByLocalId : (int) index;
 - (int) saveGarden:(NSDictionary *)msgJSON;
+- (BOOL) deleteGardenWithId:(int)localId;
 - (NSMutableDictionary *) getGardenByUniqueId : (NSString *) uuid;
 - (NSMutableArray *) getPlantIdsForClass:(NSString *)class;
 

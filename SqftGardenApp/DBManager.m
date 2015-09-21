@@ -236,6 +236,35 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     NSLog(@"failed to save message");
     return false;
 }
+- (BOOL) deleteGardenWithId:(int)localId{
+    BOOL success = NO;
+    const char *dbpath = [databasePath UTF8String];
+    
+    NSLog(@"DELETING RECORD # %i", localId);
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *deleteSQL = [NSString stringWithFormat:@"delete from saves where local_id='%i'", localId];
+
+        
+        const char *delete_stmt = [deleteSQL UTF8String];
+        char *errMsg;
+        //if(sqlite3_prepare_v2(database, delete_stmt,-1, &statement, NULL) == SQLITE_OK){
+        sqlite3_exec(database, delete_stmt, NULL, NULL, &errMsg);
+            /*
+            sqlite3_finalize(statement);
+            sqlite3_close(database);
+            NSLog(@"record deleted");
+            success = YES;
+        }else{
+            NSLog(@"Error while deleting data. '%s'", sqlite3_errmsg(database));
+            sqlite3_close(database);
+        }
+             */
+    }
+    sqlite3_close(database);
+    return success;
+}
+
 - (int) saveGarden:(NSDictionary *)msgJSON{
     int lastRow = 0;
     const char *dbpath = [databasePath UTF8String];
@@ -550,6 +579,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [json setObject:uniqueId forKey:@"unique_id"],
                 [json setObject:planting_date forKey:@"planting_date"],
                 [returnJson addObject:json];
+                NSLog(@"json data: %@ %@ %@", saveId, saveName, saveTS);
             }
         }
         sqlite3_finalize(statement);
