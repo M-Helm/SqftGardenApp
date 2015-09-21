@@ -10,9 +10,9 @@
 #import "DBManager.h"
 //#import "MenuDrawViewController.h"
 #import "ApplicationGlobals.h"
-#import "SqftGardenModel.h"
 #import "UITextView+FileProperties.h"
 #import "DeleteButtonView.h"
+#import "SqftGardenModel.h"
 
 
 @interface OpenBedViewController ()
@@ -25,18 +25,18 @@
 static NSString *CellIdentifier = @"CellIdentifier";
 DBManager *dbManager;
 ApplicationGlobals *appGlobals;
-NSMutableArray *saveBedJson;
 UIColor *tabColor;
 int localIdOfSelected;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     dbManager = [DBManager getSharedDBManager];
     appGlobals = [ApplicationGlobals getSharedGlobals];
-    saveBedJson = [dbManager getBedSaveList];
+
     //self.navigationItem.title = appGlobals.appTitle;
     [self.tableView setDelegate:self];
-    [self.tableView setDataSource:self];
+    //[self.tableView setDataSource:self];
     
     tabColor = [appGlobals colorFromHexString: @"#74aa4a"];
     
@@ -63,7 +63,8 @@ int localIdOfSelected;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    int i = (int)saveBedJson.count + 1;
+    self.savedBedJson = [dbManager getBedSaveList];
+    int i = (int)self.savedBedJson.count + 1;
     if(i<2)i=1;
     return i;
 }
@@ -81,8 +82,6 @@ int localIdOfSelected;
     border.layer.cornerRadius = 15;
     border.clipsToBounds = YES;
     border.backgroundColor = [tabColor colorWithAlphaComponent:.05];
-    //cellTextView.editable = NO;
-    //cellTextView.userInteractionEnabled = YES;
 
     
     if(index == 0){
@@ -94,10 +93,10 @@ int localIdOfSelected;
         [cell addSubview:border];
         return cell;
     }
-    if(saveBedJson.count > 0){
+    if(self.savedBedJson.count > 0){
         index = index - 1;
         if(index < 0)index = 0;
-        json = saveBedJson[index];
+        json = self.savedBedJson[index];
         NSString *name = [json objectForKey:@"name"];
         NSString *timestamp = [json objectForKey:@"timestamp"];
         //NSString *local_id = [json objectForKey:@"local_id"];
@@ -117,12 +116,13 @@ int localIdOfSelected;
         
         NSString *str = [json objectForKey:@"local_id"];
         //NSString *str = [json objectForKey:@"name"];
-        NSLog(@"STRING OF LOCAL ID FROM JSON =  %i", str.intValue);
+        //NSLog(@"STRING OF LOCAL ID FROM JSON =  %i", str.intValue);
         //NSNumber *cellIndex = [[NSNumber alloc]initWithInt:str.intValue];
         //deleteButton.localId = cellIndex;
         
         //UIview has been subclassed to hold an index value
         DeleteButtonView *deleteButton = [[DeleteButtonView alloc] initWithFrame:CGRectMake(self.view.frame.size.width -44, 11, 44, 44) withPositionIndex:str.intValue];
+        [deleteButton setFileName:name];
         
         //UITextView *deleteButton = [self deleteButton];
         //deleteButton.userInteractionEnabled = YES;
@@ -136,7 +136,7 @@ int localIdOfSelected;
          
          
         
-        [cellTextView setText: [NSString stringWithFormat:@"%i || %@ ", index, name]];
+        [cellTextView setText: [NSString stringWithFormat:@"%i || %@ ", (int)[indexPath row], name]];
         [cell addSubview:cellTextView];
         [cell addSubview:border];
         [cell addSubview:deleteButton];
@@ -156,16 +156,17 @@ int localIdOfSelected;
 {
     if([indexPath row] == 0){
         //returns us to the main main as "0" is the cancel button position
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
+        //[[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
+        [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
         return;
     }
     //set the current bed json pkg
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
-    if(saveBedJson.count > [indexPath row] - 1)json = saveBedJson[[indexPath row] - 1];
+    if(self.savedBedJson.count > [indexPath row] - 1)json = self.savedBedJson[[indexPath row] - 1];
     [appGlobals clearCurrentGardenModel];
     SqftGardenModel *model = [[SqftGardenModel alloc] initWithDict:json];
+
     [appGlobals setCurrentGardenModel:model];
-    
     [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
 }
 
@@ -199,36 +200,32 @@ int localIdOfSelected;
 -(
   void) handleDeleteSelect:(UITapGestureRecognizer *)recognizer{
     DeleteButtonView *btn = (DeleteButtonView*)recognizer.view;
-    NSLog(@"Delete button selected, Index %i", btn.localId);
+    //NSLog(@"Delete button selected, Index %i", btn.localId);
     if(btn.localId < 2)
         [self showFailureAlertForFile:@"Can't Delete AutoSave File" atIndex:0];
     else{
-        [self showDeleteAlertForFile:@"none" atIndex:btn.localId];
+        [self showDeleteAlertForFile:btn.fileName atIndex:btn.localId];
         localIdOfSelected = btn.localId;
-        //[dbManager deleteGardenWithId:btn.localId];
+        self.savedBedJson = [dbManager getBedSaveList];
+        [dbManager deleteGardenWithId:btn.localId];
     }
     
 }
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     // the user clicked OK
     if (buttonIndex == 0) {
-        NSLog(@"Btn0");
+        //NSLog(@"Btn0");
     }
     if (buttonIndex == 1) {
-        NSLog(@"Btn1");
+        //NSLog(@"Btn1");
         [dbManager deleteGardenWithId:localIdOfSelected];
-        NSLog(@"selected Id = %i", localIdOfSelected);
-        //make sure we reload on the main thread
-        //dispatch_async(dispatch_get_main_queue(), ^{
-        //    [self.tableView reloadData];
-        //});
-        
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+        //NSLog(@"selected Id = %i", localIdOfSelected);
     }
     if (buttonIndex == 2) {
-        NSLog(@"Btn2");
+        //NSLog(@"Btn2");
     }
 }
+
 
 
 @end

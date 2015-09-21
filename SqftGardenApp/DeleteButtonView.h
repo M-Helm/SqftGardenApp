@@ -11,6 +11,7 @@
 @interface DeleteButtonView : UIView
 
 @property(nonatomic) int localId;
+@property(nonatomic) NSString* fileName;
 
 - (id)initWithFrame:(CGRect)frame withPositionIndex: (int)localId;
 

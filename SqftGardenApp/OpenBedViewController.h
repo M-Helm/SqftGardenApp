@@ -6,10 +6,12 @@
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 
-@interface OpenBedViewController : UITableViewController
+
+@interface OpenBedViewController : UITableViewController <UITableViewDelegate>
+@property (nonatomic)NSMutableArray *savedBedJson;
+
 
 @end

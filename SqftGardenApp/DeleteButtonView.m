@@ -28,7 +28,7 @@ ApplicationGlobals *appGlobals;
 }
 
 - (void) commonInit{
-    appGlobals = [[ApplicationGlobals alloc] init];
+    appGlobals = [ApplicationGlobals getSharedGlobals];
     
     //create and add our delete icon
     UIImage *baseIcon = [UIImage imageNamed:@"ic_cancel_256px.png"];

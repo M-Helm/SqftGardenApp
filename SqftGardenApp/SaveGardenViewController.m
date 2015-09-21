@@ -111,7 +111,7 @@ UIColor *tabColor;
     [inFormat setDateFormat:@"MMM dd, yyyy HH:mm"];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[startTime doubleValue]];
     NSString *dateStr = [inFormat stringFromDate:date];
-    [label setText:[NSString stringWithFormat:@"%@ || %@", local_id, name]];
+    [label setText:[NSString stringWithFormat:@"%i || %@", (int)[indexPath row], name]];
     [dateLabel setText:[NSString stringWithFormat:@"Saved: %@", dateStr]];
     [cell addSubview:label];
     [cell addSubview: dateLabel];

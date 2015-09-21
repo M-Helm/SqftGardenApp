@@ -579,7 +579,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [json setObject:uniqueId forKey:@"unique_id"],
                 [json setObject:planting_date forKey:@"planting_date"],
                 [returnJson addObject:json];
-                NSLog(@"json data: %@ %@ %@", saveId, saveName, saveTS);
+                //NSLog(@"json data: %@ %@ %@", saveId, saveName, saveTS);
             }
         }
         sqlite3_finalize(statement);

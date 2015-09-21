@@ -72,11 +72,13 @@ DBManager *dbManager;
     self.heightMultiplier = self.view.frame.size.height/667;
     
     self.topOffset = self.topOffset*self.heightMultiplier;
-
+    NSLog(@"EditBed VC Calls show appG model info on %@", appGlobals.globalGardenModel.name);
+    [appGlobals.globalGardenModel showModelInfo];
 
     
     if ([appGlobals getCurrentGardenModel] != nil){
-        self.currentGardenModel = [appGlobals getCurrentGardenModel];
+        //self.currentGardenModel = [appGlobals getCurrentGardenModel];
+        [self setCurrentGardenModel: [appGlobals getCurrentGardenModel]];
         self.bedColumnCount = self.currentGardenModel.columns;
         self.bedRowCount = self.currentGardenModel.rows;
 
@@ -85,8 +87,10 @@ DBManager *dbManager;
     if (self.currentGardenModel == nil){
         if(appGlobals.hasShownLaunchScreen == NO)
             [self.navigationController performSegueWithIdentifier:@"showLaunch" sender:self];
-        else
+        else{
+            NSLog(@"EDITBED VC REPORTS NIL FOR ITS MODEL");
             [self.navigationController performSegueWithIdentifier:@"showResize" sender:self];
+        }
         return;
     }
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;

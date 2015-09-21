@@ -85,7 +85,7 @@ NSDate* selectedDate;
     CGRect toolbarTargetFrame = CGRectMake(0,self.bounds.size.height, 300, 44);
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, width, 44)];
     
-    CGRect datePickerTargetFrame = CGRectMake(0, 44, self.frame.size.width, 216);
+    //CGRect datePickerTargetFrame = CGRectMake(0, 44, self.frame.size.width, 216);
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.bounds.size.height+44, 320, 216)];
     
     UIView *lightView = [[UIView alloc] initWithFrame:self.bounds];
