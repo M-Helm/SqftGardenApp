@@ -76,6 +76,7 @@
 		ADFB3ECF1BAEFDFE00D68424 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ADFB3ECE1BAEFDFE00D68424 /* libsqlite3.0.tbd */; };
 		ADFB3ED11BAF0DD500D68424 /* ic_save_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADFB3ED01BAF0DD500D68424 /* ic_save_256px.png */; settings = {ASSET_TAGS = (); }; };
 		ADFB3ED31BAF101300D68424 /* ic_save_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADFB3ED21BAF101300D68424 /* ic_save_512px.png */; settings = {ASSET_TAGS = (); }; };
+		ADFB3ED61BB05C4000D68424 /* DeleteButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3ED51BB05C4000D68424 /* DeleteButtonView.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +187,8 @@
 		ADFB3ECE1BAEFDFE00D68424 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		ADFB3ED01BAF0DD500D68424 /* ic_save_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_save_256px.png; path = ../../../Documents/sqftGardenAssets/ic_save_256px.png; sourceTree = "<group>"; };
 		ADFB3ED21BAF101300D68424 /* ic_save_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_save_512px.png; path = ../../../Documents/sqftGardenAssets/ic_save_512px.png; sourceTree = "<group>"; };
+		ADFB3ED41BB05C3200D68424 /* DeleteButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeleteButtonView.h; sourceTree = "<group>"; };
+		ADFB3ED51BB05C4000D68424 /* DeleteButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteButtonView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +232,8 @@
 		AD1A91B61AF434DA00DC0983 /* SqftGardenApp */ = {
 			isa = PBXGroup;
 			children = (
+				ADFB3ED41BB05C3200D68424 /* DeleteButtonView.h */,
+				ADFB3ED51BB05C4000D68424 /* DeleteButtonView.m */,
 				AD8566AF1BACBE6C009328F3 /* DateSelectView.h */,
 				AD8566B01BACBE7B009328F3 /* DateSelectView.m */,
 				ADC372181BA893D700FF994A /* LaunchScreenViewController.h */,
@@ -499,6 +504,7 @@
 				ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */,
 				ADE704291B83E8C5002ABC74 /* SaveGardenViewController.m in Sources */,
 				ADE7042C1B85515D002ABC74 /* UITextView+FileProperties.m in Sources */,
+				ADFB3ED61BB05C4000D68424 /* DeleteButtonView.m in Sources */,
 				ADD47F2F1AF44E8700D7E26F /* BedView.m in Sources */,
 				AD1A91BA1AF434DA00DC0983 /* main.m in Sources */,
 				ADD47F241AF44A5700D7E26F /* DisplayContentSegue.m in Sources */,

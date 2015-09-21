@@ -171,9 +171,15 @@ DBManager *dbManager;
             //a date is selected
         }
     }
+    self.saveIconView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleSaveIconSingleTap:)];
+    [self.saveIconView addGestureRecognizer:singleFingerTap];
     
+    //if name.length < 1 we assume an empty garden model and alpha out save icon
+    if(appGlobals.globalGardenModel.name.length < 1) self.saveIconView.alpha = .05;
     
-    self.saveIconView.alpha = .05;
     [self.navigationController.navigationBar addSubview:self.saveIconView];
 }
 
@@ -352,6 +358,14 @@ DBManager *dbManager;
 
 - (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
     [self showDatePickerView];
+}
+- (void)handleSaveIconSingleTap:(UITapGestureRecognizer *)recognizer {
+    bool success = [self.currentGardenModel saveModelWithOverWriteOption:YES];
+    NSLog(@"save icon tapped %i", success);
+    if(success){
+        [self showWriteSuccessAlertForFile:self.currentGardenModel.name atIndex:self.currentGardenModel.localId];
+        [appGlobals setGlobalGardenModel:self.currentGardenModel];
+    }
 }
 
 - (NSMutableArray *)buildBedViewArray{
@@ -585,6 +599,16 @@ DBManager *dbManager;
                      }];
      */
     
+}
+
+- (void) showWriteSuccessAlertForFile: (NSString *)fileName atIndex: (int) index{
+    NSString *alertStr = [NSString stringWithFormat:@"File Saved as %@", fileName];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:appGlobals.appTitle
+                                                    message: alertStr
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles: nil];
+    [alert show];
 }
 
 

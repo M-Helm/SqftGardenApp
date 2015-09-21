@@ -11,6 +11,8 @@
 //#import "MenuDrawViewController.h"
 #import "ApplicationGlobals.h"
 #import "SqftGardenModel.h"
+#import "UITextView+FileProperties.h"
+#import "DeleteButtonView.h"
 
 
 @interface OpenBedViewController ()
@@ -64,9 +66,9 @@ UIColor *tabColor;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25,2,self.view.frame.size.width-20,cell.frame.size.height)];
+    UILabel *cellTextView = [[UILabel alloc]initWithFrame:CGRectMake(25,2,self.view.frame.size.width-20, 22)];
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
-    [label setFont:[UIFont boldSystemFontOfSize:14]];
+    [cellTextView setFont:[UIFont boldSystemFontOfSize:14]];
     int index = (int)[indexPath row];
     CGRect fm = CGRectMake(20,0,self.view.frame.size.width, cell.frame.size.height);
     UILabel *border = [[UILabel alloc] initWithFrame:fm];
@@ -75,13 +77,16 @@ UIColor *tabColor;
     border.layer.cornerRadius = 15;
     border.clipsToBounds = YES;
     border.backgroundColor = [tabColor colorWithAlphaComponent:.05];
+    //cellTextView.editable = NO;
+    //cellTextView.userInteractionEnabled = YES;
+
     
     if(index == 0){
         CGRect leftFrame = CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height);
         border.frame = leftFrame;
         border.backgroundColor = [UIColor clearColor];
-        [label setText:[NSString stringWithFormat:@"Cancel"]];
-        [cell addSubview:label];
+        [cellTextView setText:[NSString stringWithFormat:@"Cancel"]];
+        [cell addSubview:cellTextView];
         [cell addSubview:border];
         return cell;
     }
@@ -91,6 +96,7 @@ UIColor *tabColor;
         json = saveBedJson[index];
         NSString *name = [json objectForKey:@"name"];
         NSString *timestamp = [json objectForKey:@"timestamp"];
+        //NSString *local_id = [json objectForKey:@"local_id"];
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.intValue];
         
         UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 150, 20)];
@@ -101,15 +107,33 @@ UIColor *tabColor;
         
         NSString *dateStr = [inFormat stringFromDate:date];
         [dateLabel setText:[NSString stringWithFormat:@"Saved: %@", dateStr]];
-        
+        dateLabel.backgroundColor = [UIColor blueColor];
         
         [cell addSubview: dateLabel];
         
-
+        NSString *str = [json objectForKey:@"local_id"];
+        NSNumber *cellIndex = [[NSNumber alloc]initWithInt:str.intValue];
+        //deleteButton.localId = cellIndex;
         
-        [label setText: [NSString stringWithFormat:@"%i || %@", index, name]];
-        [cell addSubview:label];
+        //UIview has been subclassed to hold an index value
+        DeleteButtonView *deleteButton = [[DeleteButtonView alloc] initWithFrame:CGRectMake(self.view.frame.size.width -44, 11, 44, 44) withPositionIndex:(int)cellIndex];
+        
+        //UITextView *deleteButton = [self deleteButton];
+        //deleteButton.userInteractionEnabled = YES;
+        
+        
+        UITapGestureRecognizer *singleFingerTap =
+        [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                action:@selector(handleDeleteSelect:)];
+        
+        [deleteButton addGestureRecognizer:singleFingerTap];
+         
+         
+        
+        [cellTextView setText: [NSString stringWithFormat:@"%i || %@ ", index, name]];
+        [cell addSubview:cellTextView];
         [cell addSubview:border];
+        [cell addSubview:deleteButton];
     }
     return cell;
 }
@@ -137,7 +161,6 @@ UIColor *tabColor;
     [appGlobals setCurrentGardenModel:model];
     
     [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
-
 }
 
 -(SqftGardenModel *)compileJSONToModel : (NSMutableDictionary *)dict{
@@ -145,6 +168,22 @@ UIColor *tabColor;
     return model;
 }
 
+
+- (void) showDeleteAlertForFile : (NSString *)fileName atIndex: (int) index{
+    NSString *alertStr = [NSString stringWithFormat:@"Delete %@?", fileName];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:appGlobals.appTitle
+                                                    message: alertStr
+                                                   delegate:self
+                                          cancelButtonTitle:@"NO"
+                                          otherButtonTitles:@"YES", nil];
+    [alert show];
+}
+-(void) handleDeleteSelect:(UITapGestureRecognizer *)recognizer{
+    NSLog(@"Delete button selected");
+    //DeleteButtonView *btn = (DeleteButtonView*)recognizer.view;
+    //[self showDeleteAlertForFile:@"none" atIndex:btn.localId];
+}
 
 
 @end

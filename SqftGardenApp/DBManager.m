@@ -265,6 +265,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         else{
             NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
             sqlite3_close(database);
+            lastRow = -1;
             return lastRow;
         }
     }

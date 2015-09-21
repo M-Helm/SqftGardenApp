@@ -20,17 +20,17 @@
 @property(nonatomic) NSString *uniqueId;
 @property(nonatomic) NSDate *plantingDate;
 
-- (id)initWithDict:(NSDictionary*)dict;
-- (void)clearCurrentBedState;
-- (NSString *)getBedStateArrayString;
-- (NSMutableDictionary *)getCurrentBedState;
+- (id) initWithDict:(NSDictionary*)dict;
+- (void) clearCurrentBedState;
+- (NSString *) getBedStateArrayString;
+- (NSMutableDictionary *) getCurrentBedState;
 - (void) setCurrentBedState:(NSMutableDictionary *)json;
 - (void) setBedRows:(int) rows;
 - (void) setBedColumns:(int) columns;
 - (int) getPlantIdForCell:(int) cell;
 - (void) setPlantIdForCell:(int) cell :(int) plant;
 - (void) showModelInfo;
-- (BOOL) saveModel : (BOOL) overwrite;
+- (BOOL) saveModelWithOverWriteOption : (BOOL) overwrite;
 - (BOOL) autoSaveModel;
 - (void) assignNewUUID;
 

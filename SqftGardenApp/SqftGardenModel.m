@@ -249,11 +249,12 @@ DBManager *dbManager;
     return json;
 }
 
-- (BOOL) saveModel : (BOOL) overwrite{
+- (BOOL) saveModelWithOverWriteOption : (BOOL) overwrite{
     BOOL success = NO;
     if(dbManager == nil){
         dbManager = [DBManager getSharedDBManager];
     }
+    NSLog(@"LOCAL ID = %i", self.localId);
     /*
     //check uuid against the other saved files
     NSArray *array = [dbManager getBedSaveList];
@@ -276,11 +277,14 @@ DBManager *dbManager;
     */
     NSMutableDictionary *json = [self compileSaveJson];
     if(self.localId == 1)[dbManager overwriteSavedGarden:json];
-    if(overwrite)[dbManager overwriteSavedGarden:json];
-    if(!overwrite)[dbManager saveGarden:json];
-
-    //NSLog(@"LOCAL ID = %i", self.localId);
-    
+    if(overwrite){
+        if([dbManager overwriteSavedGarden:json] == YES){
+            success = YES;
+        }
+    }else{
+        int i = [dbManager saveGarden:json];
+        if(i>0)success = YES;
+    }
     return success;
 }
 

@@ -24,7 +24,10 @@
 - (SqftGardenModel *)getCurrentGardenModel;
 - (void) setCurrentGardenModel:(SqftGardenModel *)currentGardenModel;
 - (void) clearCurrentGardenModel;
+
+//Util Methods for another class maybe?
 - (UIColor *)colorFromHexString:(NSString *)hexString;
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 
 
 @end

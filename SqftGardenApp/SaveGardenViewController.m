@@ -158,6 +158,7 @@ UIColor *tabColor;
 
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
+    [textView resignFirstResponder];
     NSLog(@"DidEndEditing");
     NSLog(@"TEXTVIEW TEXT: %@", textView.text);
     if(textView.text.length < 1){
@@ -171,8 +172,9 @@ UIColor *tabColor;
         [textView resignFirstResponder];
         [appGlobals.globalGardenModel assignNewUUID];
         appGlobals.globalGardenModel.name = textView.text;
-        appGlobals.globalGardenModel.localId = 7;
-        [appGlobals.globalGardenModel saveModel:false]; //false on overwrite arg
+        int newId = [dbManager getTableRowCount:@"saves"]+1;
+        appGlobals.globalGardenModel.localId = newId;
+        [appGlobals.globalGardenModel saveModelWithOverWriteOption:NO];
         [self showWriteSuccessAlertForFile:textView.text atIndex: -1];
         return NO;
     }
@@ -239,12 +241,13 @@ UIColor *tabColor;
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     // the user clicked OK
     if (buttonIndex == 0) {
+        self.view.alpha = 0.0;
         [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
         NSLog(@"Btn0");
     }
     if (buttonIndex == 1) {
         NSLog(@"Btn1");
-        [appGlobals.globalGardenModel saveModel:true]; //true on overwrite arg
+        [appGlobals.globalGardenModel saveModelWithOverWriteOption:YES]; //true on overwrite arg
         [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
     }
     if (buttonIndex == 2) {

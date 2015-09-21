@@ -60,7 +60,7 @@ BOOL shouldContinueBlinking = NO;
     
     //check if there's a model in globals, save it and reset it
     if ([appGlobals getCurrentGardenModel] != nil){
-        [appGlobals.globalGardenModel saveModel:true];
+        [appGlobals.globalGardenModel saveModelWithOverWriteOption:YES];
         [appGlobals setCurrentGardenModel:self.currentGardenModel];
     }
     [self initViews];
