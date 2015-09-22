@@ -362,6 +362,22 @@ DBManager *dbManager;
 }
 
 - (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
+    //check if a date exists
+    if(appGlobals.globalGardenModel.plantingDate != nil){
+        
+        NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
+        if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
+            
+            //date selecetdgo somewhere else...
+            
+        }else{
+            //no date selected
+            
+            NSLog(@"NO DATE SELECTED. GO TO DATE PICKER");
+            
+        }
+    }
+
     [self showDatePickerView];
 }
 - (void)handleSaveIconSingleTap:(UITapGestureRecognizer *)recognizer {
@@ -568,6 +584,7 @@ DBManager *dbManager;
                              
                              self.datePickerView.alpha = 0.0f;
                              self.bedFrameView.alpha = 1.00f;
+                             self.selectMessageView.alpha = 1.00f;
                              self.selectPlantView.alpha = 1.00f;
                          }
                          completion:^(BOOL finished) {
@@ -585,13 +602,7 @@ DBManager *dbManager;
     self.datePickerView.frame = fm;
     
     self.datePickerView.alpha = 1.0f;
-    self.bedFrameView.alpha = 0.00f;
-    self.selectMessageView.alpha = 0.00f;
-    self.selectPlantView.alpha = 0.00f;
-    
     [self.view addSubview:self.datePickerView];
-    
-    /*
 
     [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
@@ -602,8 +613,6 @@ DBManager *dbManager;
                      }
                      completion:^(BOOL finished) {
                      }];
-     */
-    
 }
 
 - (void) showWriteSuccessAlertForFile: (NSString *)fileName atIndex: (int) index{

@@ -49,8 +49,6 @@ BOOL shouldContinueBlinking = NO;
     
     self.topOffset = self.topOffset*self.heightMultiplier;
 
-    
-    
     if(self.bedColumnCount < 1)self.bedColumnCount = 1;
     if(self.bedRowCount < 1)self.bedRowCount = 1;
     self.maxRowCount = 6;

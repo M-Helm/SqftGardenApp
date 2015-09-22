@@ -71,6 +71,9 @@ UIColor *tabColor;
     UITableViewCell *cell;
     UITextView *label;
     UILabel *border;
+    UILabel *textLabel;
+    UILabel *dateLabel;
+    NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     
     if(cell == nil){
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -80,15 +83,27 @@ UIColor *tabColor;
         border = [[UILabel alloc]
                   initWithFrame:CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height)];
         border.tag = 4;
+        
+        textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20,4,self.view.frame.size.width, cell.frame.size.height)];
+        textLabel.tag = 5;
+        
+        dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 150, 20)];
+        dateLabel.tag = 6;
+        
         [cell.contentView addSubview:label];
         [cell.contentView addSubview:border];
+        [cell.contentView addSubview:textLabel];
+        [cell.contentView addSubview:dateLabel];
         
     }else{
         label = (UITextView*)[cell.contentView viewWithTag:3];
         border = (UILabel*)[cell.contentView viewWithTag:4];
+        textLabel = (UILabel*)[cell.contentView viewWithTag:5];
+        dateLabel = (UILabel*)[cell.contentView viewWithTag:6];
     }
     
     if([indexPath row] == 0){
+        [[cell.contentView viewWithTag:5]removeFromSuperview];
         NSNumber *index = [NSNumber numberWithInt:0];
         [label setLocalIndex:index];
         [label setFont:[UIFont boldSystemFontOfSize:14]];
@@ -104,12 +119,9 @@ UIColor *tabColor;
         [label setAutocorrectionType:UITextAutocorrectionTypeNo];
         return cell;
     }
-    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20,4,self.view.frame.size.width, cell.frame.size.height)];
-    textLabel.text = @"this is a bunch of text";
+
     [textLabel setFont:[UIFont boldSystemFontOfSize:14]];
     textLabel.userInteractionEnabled = YES;
-    
-    [cell addSubview:textLabel];
 
     CGRect fm = CGRectMake(20,4,self.view.frame.size.width, cell.frame.size.height);
     border.frame = fm;
@@ -118,32 +130,17 @@ UIColor *tabColor;
     border.layer.cornerRadius = 15;
     border.clipsToBounds = YES;
     border.backgroundColor = [tabColor colorWithAlphaComponent:.05];
-    
-    UILabel *selectedBorder = [[UILabel alloc] initWithFrame:fm];
-    selectedBorder.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    selectedBorder.layer.borderWidth = 1;
-    selectedBorder.layer.cornerRadius = 15;
-    selectedBorder.clipsToBounds = YES;
-    selectedBorder.backgroundColor = [tabColor colorWithAlphaComponent:.05];
-    
-    cell.selectedBackgroundView = selectedBorder;
-    
-    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 150, 20)];
+
     [dateLabel setFont:[UIFont systemFontOfSize:11]];
     dateLabel.textAlignment = NSTextAlignmentCenter;
     
-    NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
+
     int i = (int)[indexPath row] - 1;
     if(saveBedJson.count > 0)json = saveBedJson[i];
     else return cell;
 
     NSString *name = [json objectForKey:@"name"];
     NSString *timestamp = [json objectForKey:@"timestamp"];
-    //NSString *local_id = [json objectForKey:@"local_id"];
-    //NSNumber *index = [NSNumber numberWithInt:local_id.intValue];
-    
-    //[textLabel setLocalIndex: index];
-    
     NSNumber *startTime = [NSNumber numberWithInt:timestamp.intValue];
     NSDateFormatter *inFormat = [[NSDateFormatter alloc] init];
     [inFormat setDateFormat:@"MMM dd, yyyy HH:mm"];
@@ -151,10 +148,7 @@ UIColor *tabColor;
     NSString *dateStr = [inFormat stringFromDate:date];
     [textLabel setText:[NSString stringWithFormat:@"%i || %@", (int)[indexPath row], name]];
     [dateLabel setText:[NSString stringWithFormat:@"Saved: %@", dateStr]];
-    [cell addSubview: textLabel];
-    [cell addSubview: dateLabel];
-    if((int)saveBedJson.count + 1 > 2)
-        [cell addSubview:border];
+
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -70,39 +70,42 @@ int localIdOfSelected;
     UILabel *cellTextView;
     UILabel *border;
     UILabel *dateLabel;
+    DeleteButtonView *deleteButton;
+    NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
+    int index = (int)[indexPath row];
     
     if (cell == nil) {
-        // create the cell and empty views ready to take the content.
-        //cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        
-        cellTextView = [[UILabel alloc]initWithFrame:CGRectMake(25,2,self.view.frame.size.width-20, 22)];
+
+        cellTextView = [[UILabel alloc]
+                        initWithFrame:CGRectMake(25,2,self.view.frame.size.width-20, 22)];
         cellTextView.tag = 3;
+        border = [[UILabel alloc]
+                        initWithFrame:CGRectMake(20,0,self.view.frame.size.width, cell.frame.size.height)];
+        border.tag = 4;
+        
+        dateLabel = [[UILabel alloc]
+                        initWithFrame:CGRectMake(self.view.frame.size.width/2,0,150,20)];
+        dateLabel.tag = 5;
+        
+        deleteButton = [[DeleteButtonView alloc] initWithFrame:CGRectMake(self.view.frame.size.width -44, 11, 44, 44) withPositionIndex:0];
+        deleteButton.tag = 6;
         
         [cell.contentView addSubview:cellTextView];
-        
-        border = [[UILabel alloc] initWithFrame:CGRectMake(20,0,self.view.frame.size.width, cell.frame.size.height)];
-        border.tag = 4;
         [cell.contentView addSubview:border];
-        
-        UILabel *dateLabel = [self makeCellDateLabelWithWidth:self.view.frame.size.width andTimestamp:@"0"];
-        dateLabel.tag = 5;
         [cell.contentView addSubview:dateLabel];
+        [cell.contentView addSubview:deleteButton];
         
     } else {
         // get the views that have already been created
         cellTextView = (UILabel*)[cell.contentView viewWithTag:3];
         border = (UILabel*)[cell.contentView viewWithTag:4];
         dateLabel = (UILabel*)[cell.contentView viewWithTag:5];
+        deleteButton = (DeleteButtonView*)[cell.contentView viewWithTag:6];
     }
-    
-    
-    NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
+
+    //common formatting for all cells
     [cellTextView setFont:[UIFont boldSystemFontOfSize:14]];
-    int index = (int)[indexPath row];
-
-    //create the border view
-
     border.layer.borderColor = [UIColor lightGrayColor].CGColor;
     border.layer.borderWidth = .5;
     border.layer.cornerRadius = 15;
@@ -116,7 +119,9 @@ int localIdOfSelected;
         border.frame = leftFrame;
         border.backgroundColor = [UIColor clearColor];
         [cellTextView setText:[NSString stringWithFormat:@"Cancel"]];
+        //don't need a delete button or a date label here
         [[cell.contentView viewWithTag:5]removeFromSuperview];
+        [[cell.contentView viewWithTag:6]removeFromSuperview];
         return cell;
     }
     if(self.savedBedJson.count > 0){
@@ -125,45 +130,33 @@ int localIdOfSelected;
         index = index - 1;
         if(index < 0)index = 0;
         json = self.savedBedJson[index];
-        
         NSString *str = [json objectForKey:@"local_id"];
         NSString *name = [json objectForKey:@"name"];
         NSString *timestamp = [json objectForKey:@"timestamp"];
+
+        [cellTextView setText: [NSString stringWithFormat:@"%i || %@ ", (int)[indexPath row], name]];
         
+        //get and format correct date for label
         NSDateFormatter *inFormat = [[NSDateFormatter alloc] init];
         [inFormat setDateFormat:@"MMM dd, yyyy HH:mm"];
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.intValue];
         NSString *dateStr = [inFormat stringFromDate:date];
-        [dateLabel setText:[NSString stringWithFormat:@"Saved: %@", dateStr]];
-
-        DeleteButtonView *deleteButton = [[DeleteButtonView alloc] initWithFrame:CGRectMake(self.view.frame.size.width -44, 11, 44, 44) withPositionIndex:str.intValue];
+        
+        //format the date label
+        dateLabel.textAlignment = NSTextAlignmentCenter;
+        dateLabel.backgroundColor = [UIColor clearColor];
+        [dateLabel setFont:[UIFont systemFontOfSize:11]];
+        [dateLabel setText: [NSString stringWithFormat:@"Saved: %@", dateStr]];
+        
+        ///add file info and a gesture recognizer to the delete btn
+        [deleteButton setLocalId:str.intValue];
         [deleteButton setFileName:name];
         UITapGestureRecognizer *singleFingerTap =
         [[UITapGestureRecognizer alloc] initWithTarget:self
                                                 action:@selector(handleDeleteSelect:)];
         [deleteButton addGestureRecognizer:singleFingerTap];
-
-        [cellTextView setText: [NSString stringWithFormat:@"%i || %@ ", (int)[indexPath row], name]];
-
-        [cell addSubview:deleteButton];
     }
     return cell;
-}
-
--(UILabel*)makeCellDateLabelWithWidth:(float)width andTimestamp:(NSString *)timestamp{
-    //make the date string
-    NSDateFormatter *inFormat = [[NSDateFormatter alloc] init];
-    [inFormat setDateFormat:@"MMM dd, yyyy HH:mm"];
-    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.intValue];
-    NSString *dateStr = [inFormat stringFromDate:date];
-    
-    //make the label
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(width/2,0,150,20)];
-    label.textAlignment = NSTextAlignmentCenter;
-    [label setFont:[UIFont systemFontOfSize:11]];
-    [label setText:[NSString stringWithFormat:@"Saved: %@", dateStr]];
-    label.backgroundColor = [UIColor clearColor];
-    return label;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
