@@ -31,6 +31,7 @@
 @property(nonatomic) UIView *titleView;
 @property(nonatomic) UIView *dateIconView;
 @property(nonatomic) UIView *saveIconView;
+@property(nonatomic) UIView *dataPresentIconView;
 
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;
 - (void) updatePlantingDate : (NSDate *)date;

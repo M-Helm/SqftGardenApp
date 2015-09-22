@@ -59,6 +59,7 @@
 		ADCC87321B03C06D003F1A08 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC87311B03C06D003F1A08 /* MainNavigationController.m */; };
 		ADCC87351B04ED4C003F1A08 /* ApplicationGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCC87341B04ED4C003F1A08 /* ApplicationGlobals.m */; };
 		ADD205341BB1E28C004CF4C9 /* DataPresentationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD205331BB1E28C004CF4C9 /* DataPresentationTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		ADD205371BB1F0AD004CF4C9 /* PresentTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD205361BB1F0AD004CF4C9 /* PresentTableCell.m */; settings = {ASSET_TAGS = (); }; };
 		ADD364BE1B9F829C00F3B652 /* init_plant_classes.txt in Resources */ = {isa = PBXBuildFile; fileRef = ADD364BD1B9F829C00F3B652 /* init_plant_classes.txt */; };
 		ADD364C01B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADD364BF1B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png */; };
 		ADD47F231AF44A5700D7E26F /* ButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */; };
@@ -160,6 +161,8 @@
 		ADCC87341B04ED4C003F1A08 /* ApplicationGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationGlobals.m; sourceTree = "<group>"; };
 		ADD205321BB1E27D004CF4C9 /* DataPresentationTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataPresentationTableViewController.h; sourceTree = "<group>"; };
 		ADD205331BB1E28C004CF4C9 /* DataPresentationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataPresentationTableViewController.m; sourceTree = "<group>"; };
+		ADD205351BB1F07F004CF4C9 /* PresentTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PresentTableCell.h; sourceTree = "<group>"; };
+		ADD205361BB1F0AD004CF4C9 /* PresentTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentTableCell.m; sourceTree = "<group>"; };
 		ADD364BD1B9F829C00F3B652 /* init_plant_classes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init_plant_classes.txt; sourceTree = "<group>"; };
 		ADD364BF1B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_vegetable_cucumber_256.png; path = ../../../Documents/sqftGardenAssets/ic_vegetable_cucumber_256.png; sourceTree = "<group>"; };
 		ADD47F191AF44A5700D7E26F /* ButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonHandler.h; sourceTree = "<group>"; };
@@ -235,6 +238,8 @@
 		AD1A91B61AF434DA00DC0983 /* SqftGardenApp */ = {
 			isa = PBXGroup;
 			children = (
+				ADD205351BB1F07F004CF4C9 /* PresentTableCell.h */,
+				ADD205361BB1F0AD004CF4C9 /* PresentTableCell.m */,
 				ADD205321BB1E27D004CF4C9 /* DataPresentationTableViewController.h */,
 				ADD205331BB1E28C004CF4C9 /* DataPresentationTableViewController.m */,
 				ADFB3ED41BB05C3200D68424 /* DeleteButtonView.h */,
@@ -522,6 +527,7 @@
 				ADCC87351B04ED4C003F1A08 /* ApplicationGlobals.m in Sources */,
 				ADE78D9D1B6D8CDD00B5D320 /* OpenBedViewController.m in Sources */,
 				ADE704261B83B899002ABC74 /* OpenGardenNavigationController.m in Sources */,
+				ADD205371BB1F0AD004CF4C9 /* PresentTableCell.m in Sources */,
 				ADCC872C1B03B202003F1A08 /* PlantIconView.m in Sources */,
 				AD8566B11BACBE7B009328F3 /* DateSelectView.m in Sources */,
 				ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */,

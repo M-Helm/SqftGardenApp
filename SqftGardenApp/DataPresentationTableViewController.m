@@ -9,6 +9,7 @@
 #import "DataPresentationTableViewController.h"
 #import "DBManager.h"
 #import "ApplicationGlobals.h"
+#import "PresentTableCell.h"
 
 @interface DataPresentationTableViewController()
 
@@ -18,6 +19,7 @@
 
 DBManager *dbManager;
 ApplicationGlobals *appGlobals;
+static NSString *CellIdentifier = @"CellIdentifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,8 +36,13 @@ ApplicationGlobals *appGlobals;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *CellIdentifier;
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    PresentTableCell *cell;
+    
+    if(cell == nil){
+        cell = [[PresentTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }else{
+        
+    }
     return cell;
 }
 
@@ -46,8 +53,7 @@ ApplicationGlobals *appGlobals;
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
 }
 

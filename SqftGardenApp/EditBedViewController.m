@@ -147,6 +147,7 @@ DBManager *dbManager;
     [self.view addSubview:bk];
 
     [self makeSaveIcon];
+    [self makeDataPresentIcon];
     [self makeTitleBar];
     [self makeBedFrame : width : height];
     [self makeSelectMessageView: width : height];
@@ -181,6 +182,18 @@ DBManager *dbManager;
     if(appGlobals.globalGardenModel.name.length < 1) self.saveIconView.alpha = .05;
     
     [self.navigationController.navigationBar addSubview:self.saveIconView];
+}
+
+-(void)makeDataPresentIcon{
+    //remove self if exists
+    [self.dataPresentIconView removeFromSuperview];
+    UIImage *dataIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
+    self.dataPresentIconView = [[UIImageView alloc]initWithImage:dataIcon];
+    CGRect dataFrame = CGRectMake((self.view.frame.size.width)-132-44,0,44,44);
+    self.dataPresentIconView.frame = dataFrame;
+    self.dataPresentIconView.alpha = .05;
+    [self.navigationController.navigationBar addSubview:self.dataPresentIconView];
+    
 }
 
 -(UIImageView *)makeDateIcon{
