@@ -6,10 +6,12 @@
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+
 #import <UIKit/UIKit.h>
+#import "SqftGardenModel.h"
 
 @interface SaveGardenViewController : UITableViewController <UIAlertViewDelegate>
+@property (nonatomic) SqftGardenModel *tempModel;
 
 
 

@@ -33,15 +33,12 @@ int localIdOfSelected;
     [super viewDidLoad];
     dbManager = [DBManager getSharedDBManager];
     appGlobals = [ApplicationGlobals getSharedGlobals];
-
-    //self.navigationItem.title = appGlobals.appTitle;
     [self.tableView setDelegate:self];
-    //[self.tableView setDataSource:self];
+    [self.tableView setDataSource:self];
     
     tabColor = [appGlobals colorFromHexString: @"#74aa4a"];
     
     self.tableView.separatorColor = [UIColor clearColor];
-    
     
     float width = self.view.frame.size.width;
     //float height = self.view.frame.size.height;
@@ -53,7 +50,6 @@ int localIdOfSelected;
     labelView.textAlignment = NSTextAlignmentCenter;
     [labelView setFont:[UIFont boldSystemFontOfSize:18]];
     headerView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-    
     self.tableView.tableHeaderView = headerView;
 
 }
@@ -75,8 +71,9 @@ int localIdOfSelected;
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     [cellTextView setFont:[UIFont boldSystemFontOfSize:14]];
     int index = (int)[indexPath row];
-    CGRect fm = CGRectMake(20,0,self.view.frame.size.width, cell.frame.size.height);
-    UILabel *border = [[UILabel alloc] initWithFrame:fm];
+
+    //create the border view
+    UILabel *border = [[UILabel alloc] initWithFrame:CGRectMake(20,0,self.view.frame.size.width, cell.frame.size.height)];
     border.layer.borderColor = [UIColor lightGrayColor].CGColor;
     border.layer.borderWidth = .5;
     border.layer.cornerRadius = 15;
@@ -85,6 +82,7 @@ int localIdOfSelected;
 
     
     if(index == 0){
+        //setup the cancel button in the first cell
         CGRect leftFrame = CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height);
         border.frame = leftFrame;
         border.backgroundColor = [UIColor clearColor];
@@ -94,54 +92,49 @@ int localIdOfSelected;
         return cell;
     }
     if(self.savedBedJson.count > 0){
+        
+        //get the proper dict from the array making sure to adjust index - cancel being 0
         index = index - 1;
         if(index < 0)index = 0;
         json = self.savedBedJson[index];
+        
         NSString *name = [json objectForKey:@"name"];
         NSString *timestamp = [json objectForKey:@"timestamp"];
-        //NSString *local_id = [json objectForKey:@"local_id"];
-        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.intValue];
-        
-        UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 150, 20)];
-        [dateLabel setFont:[UIFont systemFontOfSize:11]];
-        dateLabel.textAlignment = NSTextAlignmentCenter;
-        NSDateFormatter *inFormat = [[NSDateFormatter alloc] init];
-        [inFormat setDateFormat:@"MMM dd, yyyy HH:mm"];
-        
-        NSString *dateStr = [inFormat stringFromDate:date];
-        [dateLabel setText:[NSString stringWithFormat:@"Saved: %@", dateStr]];
-        dateLabel.backgroundColor = [UIColor clearColor];
-        
+        UILabel *dateLabel = [self makeCellDateLabelWithWidth:self.view.frame.size.width andTimestamp:timestamp];
         [cell addSubview: dateLabel];
         
         NSString *str = [json objectForKey:@"local_id"];
-        //NSString *str = [json objectForKey:@"name"];
-        //NSLog(@"STRING OF LOCAL ID FROM JSON =  %i", str.intValue);
-        //NSNumber *cellIndex = [[NSNumber alloc]initWithInt:str.intValue];
-        //deleteButton.localId = cellIndex;
         
-        //UIview has been subclassed to hold an index value
+
         DeleteButtonView *deleteButton = [[DeleteButtonView alloc] initWithFrame:CGRectMake(self.view.frame.size.width -44, 11, 44, 44) withPositionIndex:str.intValue];
         [deleteButton setFileName:name];
-        
-        //UITextView *deleteButton = [self deleteButton];
-        //deleteButton.userInteractionEnabled = YES;
-        
-        
         UITapGestureRecognizer *singleFingerTap =
         [[UITapGestureRecognizer alloc] initWithTarget:self
                                                 action:@selector(handleDeleteSelect:)];
-        
         [deleteButton addGestureRecognizer:singleFingerTap];
-         
-         
-        
+
         [cellTextView setText: [NSString stringWithFormat:@"%i || %@ ", (int)[indexPath row], name]];
         [cell addSubview:cellTextView];
         [cell addSubview:border];
         [cell addSubview:deleteButton];
     }
     return cell;
+}
+
+-(UILabel*)makeCellDateLabelWithWidth:(float)width andTimestamp:(NSString *)timestamp{
+    //make the date string
+    NSDateFormatter *inFormat = [[NSDateFormatter alloc] init];
+    [inFormat setDateFormat:@"MMM dd, yyyy HH:mm"];
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.intValue];
+    NSString *dateStr = [inFormat stringFromDate:date];
+    
+    //make the label
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(width/2,0,150,20)];
+    label.textAlignment = NSTextAlignmentCenter;
+    [label setFont:[UIFont systemFontOfSize:11]];
+    [label setText:[NSString stringWithFormat:@"Saved: %@", dateStr]];
+    label.backgroundColor = [UIColor clearColor];
+    return label;
 }
 
 
@@ -200,14 +193,11 @@ int localIdOfSelected;
 -(
   void) handleDeleteSelect:(UITapGestureRecognizer *)recognizer{
     DeleteButtonView *btn = (DeleteButtonView*)recognizer.view;
-    //NSLog(@"Delete button selected, Index %i", btn.localId);
+    localIdOfSelected = btn.localId;
     if(btn.localId < 2)
         [self showFailureAlertForFile:@"Can't Delete AutoSave File" atIndex:0];
     else{
         [self showDeleteAlertForFile:btn.fileName atIndex:btn.localId];
-        localIdOfSelected = btn.localId;
-        self.savedBedJson = [dbManager getBedSaveList];
-        [dbManager deleteGardenWithId:btn.localId];
     }
     
 }
@@ -219,7 +209,8 @@ int localIdOfSelected;
     if (buttonIndex == 1) {
         //NSLog(@"Btn1");
         [dbManager deleteGardenWithId:localIdOfSelected];
-        //NSLog(@"selected Id = %i", localIdOfSelected);
+        self.savedBedJson = [dbManager getBedSaveList];
+        [self.tableView reloadData];
     }
     if (buttonIndex == 2) {
         //NSLog(@"Btn2");

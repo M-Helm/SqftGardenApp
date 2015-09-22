@@ -33,6 +33,7 @@
 - (BOOL) saveModelWithOverWriteOption : (BOOL) overwrite;
 - (BOOL) autoSaveModel;
 - (void) assignNewUUID;
+- (NSMutableDictionary *)compileSaveJson;
 
 @end
 

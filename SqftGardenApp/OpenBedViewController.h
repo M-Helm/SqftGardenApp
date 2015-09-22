@@ -10,7 +10,7 @@
 
 
 
-@interface OpenBedViewController : UITableViewController <UITableViewDelegate>
+@interface OpenBedViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic)NSMutableArray *savedBedJson;
 
 

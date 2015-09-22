@@ -73,7 +73,7 @@ DBManager *dbManager;
     
     self.topOffset = self.topOffset*self.heightMultiplier;
     NSLog(@"EditBed VC Calls show appG model info on %@", appGlobals.globalGardenModel.name);
-    [appGlobals.globalGardenModel showModelInfo];
+    //[appGlobals.globalGardenModel showModelInfo];
 
     
     if ([appGlobals getCurrentGardenModel] != nil){
