@@ -66,14 +66,43 @@ int localIdOfSelected;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    UILabel *cellTextView = [[UILabel alloc]initWithFrame:CGRectMake(25,2,self.view.frame.size.width-20, 22)];
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
+    UILabel *cellTextView;
+    UILabel *border;
+    
+    if (cell == nil) {
+        // create the cell and empty views ready to take the content.
+        //cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        
+        cellTextView = [[UILabel alloc]initWithFrame:CGRectMake(25,2,self.view.frame.size.width-20, 22)];
+        cellTextView.tag = 3;
+        
+        [cell.contentView addSubview:cellTextView];
+        
+        border = [[UILabel alloc] initWithFrame:CGRectMake(20,0,self.view.frame.size.width, cell.frame.size.height)];
+        border.tag = 4;
+        [cell.contentView addSubview:border];
+
+    } else {
+        // get the views that have already been created
+        cellTextView = [cell.contentView viewWithTag:3];
+        border = [cell.contentView viewWithTag:4];
+    }
+    
+    
+    
+    
+
+    
+    
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     [cellTextView setFont:[UIFont boldSystemFontOfSize:14]];
     int index = (int)[indexPath row];
 
     //create the border view
-    UILabel *border = [[UILabel alloc] initWithFrame:CGRectMake(20,0,self.view.frame.size.width, cell.frame.size.height)];
+
     border.layer.borderColor = [UIColor lightGrayColor].CGColor;
     border.layer.borderWidth = .5;
     border.layer.cornerRadius = 15;
@@ -100,11 +129,13 @@ int localIdOfSelected;
         
         NSString *name = [json objectForKey:@"name"];
         NSString *timestamp = [json objectForKey:@"timestamp"];
+        
+        /*
         UILabel *dateLabel = [self makeCellDateLabelWithWidth:self.view.frame.size.width andTimestamp:timestamp];
         [cell addSubview: dateLabel];
-        
+        */
+         
         NSString *str = [json objectForKey:@"local_id"];
-        
 
         DeleteButtonView *deleteButton = [[DeleteButtonView alloc] initWithFrame:CGRectMake(self.view.frame.size.width -44, 11, 44, 44) withPositionIndex:str.intValue];
         [deleteButton setFileName:name];
@@ -116,6 +147,8 @@ int localIdOfSelected;
         [cellTextView setText: [NSString stringWithFormat:@"%i || %@ ", (int)[indexPath row], name]];
         [cell addSubview:cellTextView];
         [cell addSubview:border];
+        
+        
         [cell addSubview:deleteButton];
     }
     return cell;
@@ -208,6 +241,9 @@ int localIdOfSelected;
     }
     if (buttonIndex == 1) {
         //NSLog(@"Btn1");
+        for(UIView *subview in self.tableView.visibleCells){
+            [subview removeFromSuperview];
+        }
         [dbManager deleteGardenWithId:localIdOfSelected];
         self.savedBedJson = [dbManager getBedSaveList];
         [self.tableView reloadData];

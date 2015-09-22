@@ -67,13 +67,36 @@ UIColor *tabColor;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
+    UITextView *label;
+    UILabel *border;
+    
+    if(cell == nil){
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        label = [[UITextView alloc]initWithFrame:CGRectMake(20,0,160,cell.frame.size.height)];
+        label.tag = 3;
+        [cell.contentView addSubview:label];
+        
+        border = [[UILabel alloc] initWithFrame:CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height)];
+        border.tag = 4;
+        [cell.contentView addSubview:border];
+        
+    }else{
+        label = [cell.contentView viewWithTag:3];
+        border = [cell.contentView viewWithTag:4];
+    }
+    
+    
+    
+    
     if([indexPath row] == 0){
-        UITextView *label = [[UITextView alloc]initWithFrame:CGRectMake(20,0,160,cell.frame.size.height)];
+        
         [label setFont:[UIFont boldSystemFontOfSize:14]];
         [label setDelegate: (id <UITextViewDelegate>) self];
-        CGRect fm = CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height);
-        UILabel *border = [[UILabel alloc] initWithFrame:fm];
+        //CGRect fm = CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height);
+        
         [label setText:@"*New File"];
         NSNumber *index = [NSNumber numberWithInt:0];
         [label setLocalIndex:index];
@@ -92,7 +115,7 @@ UIColor *tabColor;
     CGRect fm = CGRectMake(20,4,self.view.frame.size.width, cell.frame.size.height);
     textLabel.frame = fm;
     textLabel.userInteractionEnabled = YES;
-    UILabel *border = [[UILabel alloc] initWithFrame:fm];
+    border.frame = fm;
     border.layer.borderColor = [UIColor lightGrayColor].CGColor;
     border.layer.borderWidth = 1;
     border.layer.cornerRadius = 15;
@@ -287,7 +310,7 @@ UIColor *tabColor;
         NSLog(@"Btn0");
     }
     if (buttonIndex == 1) {
-        NSLog(@")))))))))))))))))))))((((((((((((((((((((((((((Btn1");
+        NSLog(@"Btn1");
         //grab index, uuid for global model before saving
         appGlobals.globalGardenModel = self.tempModel;
         

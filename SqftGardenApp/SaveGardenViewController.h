@@ -10,9 +10,8 @@
 #import <UIKit/UIKit.h>
 #import "SqftGardenModel.h"
 
-@interface SaveGardenViewController : UITableViewController <UIAlertViewDelegate>
+@interface SaveGardenViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 @property (nonatomic) SqftGardenModel *tempModel;
-
 
 
 @end
