@@ -72,7 +72,7 @@ DBManager *dbManager;
     self.heightMultiplier = self.view.frame.size.height/667;
     
     self.topOffset = self.topOffset*self.heightMultiplier;
-    NSLog(@"EditBed VC Calls show appG model info on %@", appGlobals.globalGardenModel.name);
+    //NSLog(@"EditBed VC Calls show appG model info on %@", appGlobals.globalGardenModel.name);
     //[appGlobals.globalGardenModel showModelInfo];
 
     if ([appGlobals getCurrentGardenModel] != nil){
@@ -86,7 +86,7 @@ DBManager *dbManager;
         if(appGlobals.hasShownLaunchScreen == NO)
             [self.navigationController performSegueWithIdentifier:@"showLaunch" sender:self];
         else{
-            NSLog(@"EDITBED VC REPORTS NIL FOR ITS MODEL");
+            //NSLog(@"EDITBED VC REPORTS NIL FOR ITS MODEL");
             [self.navigationController performSegueWithIdentifier:@"showResize" sender:self];
         }
         return;
@@ -183,6 +183,19 @@ DBManager *dbManager;
     [self.navigationController.navigationBar addSubview:self.saveIconView];
 }
 
+-(UIImageView *)makeDateIcon{
+    UIImage *dateIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:dateIcon];
+    CGRect fm = CGRectMake(20,0,44,44);
+    imgView.frame = fm;
+    imgView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleFingerTap =
+                [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleDateIconSingleTap:)];
+    [imgView addGestureRecognizer:singleFingerTap];
+    return imgView;
+}
+
 -(void)makeTitleBar{
     //remove self if exists
     [self.titleView removeFromSuperview];
@@ -226,16 +239,8 @@ DBManager *dbManager;
     label2.textColor = [UIColor blackColor];
     label.backgroundColor = [UIColor clearColor];
     label2.backgroundColor = [UIColor clearColor];
-    
-    UIImage *dateIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
-    self.dateIconView = [[UIImageView alloc] initWithImage:dateIcon];
-    CGRect fm = CGRectMake(20,0,44,44);
-    self.dateIconView.frame = fm;
-    self.dateIconView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *singleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleDateIconSingleTap:)];
-    [self.dateIconView addGestureRecognizer:singleFingerTap];
+    self.dateIconView = [self makeDateIcon];
+
     
     [self.titleView addSubview:label];
     [self.titleView addSubview:label2];

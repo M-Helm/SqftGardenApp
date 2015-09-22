@@ -44,6 +44,10 @@ NSDate* selectedDate;
 }
 
 - (void)dismissDatePicker:(id)sender {
+    if(selectedDate == nil){
+        NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:0];
+        selectedDate = date;
+    }
     NSLog(@"New Date: %@", selectedDate);
     appGlobals.globalGardenModel.plantingDate = selectedDate;
     //CGRect toolbarTargetFrame = CGRectMake(0, self.bounds.size.height, 320, 44);
