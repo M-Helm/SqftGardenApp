@@ -8,7 +8,6 @@
 
 #import "OpenBedViewController.h"
 #import "DBManager.h"
-//#import "MenuDrawViewController.h"
 #import "ApplicationGlobals.h"
 #import "UITextView+FileProperties.h"
 #import "DeleteButtonView.h"
@@ -67,9 +66,10 @@ int localIdOfSelected;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
+    UITableViewCell *cell;
     UILabel *cellTextView;
     UILabel *border;
+    UILabel *dateLabel;
     
     if (cell == nil) {
         // create the cell and empty views ready to take the content.
@@ -84,17 +84,17 @@ int localIdOfSelected;
         border = [[UILabel alloc] initWithFrame:CGRectMake(20,0,self.view.frame.size.width, cell.frame.size.height)];
         border.tag = 4;
         [cell.contentView addSubview:border];
-
+        
+        UILabel *dateLabel = [self makeCellDateLabelWithWidth:self.view.frame.size.width andTimestamp:@"0"];
+        dateLabel.tag = 5;
+        [cell.contentView addSubview:dateLabel];
+        
     } else {
         // get the views that have already been created
-        cellTextView = [cell.contentView viewWithTag:3];
-        border = [cell.contentView viewWithTag:4];
+        cellTextView = (UILabel*)[cell.contentView viewWithTag:3];
+        border = (UILabel*)[cell.contentView viewWithTag:4];
+        dateLabel = (UILabel*)[cell.contentView viewWithTag:5];
     }
-    
-    
-    
-    
-
     
     
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
@@ -116,8 +116,7 @@ int localIdOfSelected;
         border.frame = leftFrame;
         border.backgroundColor = [UIColor clearColor];
         [cellTextView setText:[NSString stringWithFormat:@"Cancel"]];
-        [cell addSubview:cellTextView];
-        [cell addSubview:border];
+        [[cell.contentView viewWithTag:5]removeFromSuperview];
         return cell;
     }
     if(self.savedBedJson.count > 0){
@@ -127,15 +126,15 @@ int localIdOfSelected;
         if(index < 0)index = 0;
         json = self.savedBedJson[index];
         
+        NSString *str = [json objectForKey:@"local_id"];
         NSString *name = [json objectForKey:@"name"];
         NSString *timestamp = [json objectForKey:@"timestamp"];
         
-        /*
-        UILabel *dateLabel = [self makeCellDateLabelWithWidth:self.view.frame.size.width andTimestamp:timestamp];
-        [cell addSubview: dateLabel];
-        */
-         
-        NSString *str = [json objectForKey:@"local_id"];
+        NSDateFormatter *inFormat = [[NSDateFormatter alloc] init];
+        [inFormat setDateFormat:@"MMM dd, yyyy HH:mm"];
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.intValue];
+        NSString *dateStr = [inFormat stringFromDate:date];
+        [dateLabel setText:[NSString stringWithFormat:@"Saved: %@", dateStr]];
 
         DeleteButtonView *deleteButton = [[DeleteButtonView alloc] initWithFrame:CGRectMake(self.view.frame.size.width -44, 11, 44, 44) withPositionIndex:str.intValue];
         [deleteButton setFileName:name];
@@ -145,10 +144,7 @@ int localIdOfSelected;
         [deleteButton addGestureRecognizer:singleFingerTap];
 
         [cellTextView setText: [NSString stringWithFormat:@"%i || %@ ", (int)[indexPath row], name]];
-        [cell addSubview:cellTextView];
-        [cell addSubview:border];
-        
-        
+
         [cell addSubview:deleteButton];
     }
     return cell;
@@ -170,7 +166,6 @@ int localIdOfSelected;
     return label;
 }
 
-
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
@@ -182,7 +177,6 @@ int localIdOfSelected;
 {
     if([indexPath row] == 0){
         //returns us to the main main as "0" is the cancel button position
-        //[[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
         return;
     }

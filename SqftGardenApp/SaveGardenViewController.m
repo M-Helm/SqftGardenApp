@@ -68,53 +68,50 @@ UIColor *tabColor;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
+    UITableViewCell *cell;
     UITextView *label;
     UILabel *border;
     
     if(cell == nil){
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        label = [[UITextView alloc]initWithFrame:CGRectMake(20,0,160,cell.frame.size.height)];
+        label = [[UITextView alloc]
+                 initWithFrame:CGRectMake(20,0,160,cell.frame.size.height)];
         label.tag = 3;
-        [cell.contentView addSubview:label];
-        
-        border = [[UILabel alloc] initWithFrame:CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height)];
+        border = [[UILabel alloc]
+                  initWithFrame:CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height)];
         border.tag = 4;
+        [cell.contentView addSubview:label];
         [cell.contentView addSubview:border];
         
     }else{
-        label = [cell.contentView viewWithTag:3];
-        border = [cell.contentView viewWithTag:4];
+        label = (UITextView*)[cell.contentView viewWithTag:3];
+        border = (UILabel*)[cell.contentView viewWithTag:4];
     }
     
-    
-    
-    
     if([indexPath row] == 0){
-        
-        [label setFont:[UIFont boldSystemFontOfSize:14]];
-        [label setDelegate: (id <UITextViewDelegate>) self];
-        //CGRect fm = CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height);
-        
-        [label setText:@"*New File"];
         NSNumber *index = [NSNumber numberWithInt:0];
         [label setLocalIndex:index];
+        [label setFont:[UIFont boldSystemFontOfSize:14]];
+        [label setDelegate: (id <UITextViewDelegate>) self];
+        [label setText:@"*New File"];
         border.layer.borderColor = [UIColor lightGrayColor].CGColor;
         border.layer.borderWidth = .5;
         border.layer.cornerRadius = 15;
         [cell addSubview:label];
         [cell addSubview:border];
         [label setReturnKeyType:UIReturnKeyDone];
+        [label setSpellCheckingType:UITextSpellCheckingTypeNo];
+        [label setAutocorrectionType:UITextAutocorrectionTypeNo];
         return cell;
     }
     UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20,4,self.view.frame.size.width, cell.frame.size.height)];
     textLabel.text = @"this is a bunch of text";
-    [cell addSubview:textLabel];
     [textLabel setFont:[UIFont boldSystemFontOfSize:14]];
-    CGRect fm = CGRectMake(20,4,self.view.frame.size.width, cell.frame.size.height);
-    textLabel.frame = fm;
     textLabel.userInteractionEnabled = YES;
+    
+    [cell addSubview:textLabel];
+
+    CGRect fm = CGRectMake(20,4,self.view.frame.size.width, cell.frame.size.height);
     border.frame = fm;
     border.layer.borderColor = [UIColor lightGrayColor].CGColor;
     border.layer.borderWidth = 1;
@@ -123,13 +120,11 @@ UIColor *tabColor;
     border.backgroundColor = [tabColor colorWithAlphaComponent:.05];
     
     UILabel *selectedBorder = [[UILabel alloc] initWithFrame:fm];
-    border.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    border.layer.borderWidth = 1;
-    border.layer.cornerRadius = 15;
-    border.clipsToBounds = YES;
-    border.backgroundColor = [tabColor colorWithAlphaComponent:.05];
-    
-    
+    selectedBorder.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    selectedBorder.layer.borderWidth = 1;
+    selectedBorder.layer.cornerRadius = 15;
+    selectedBorder.clipsToBounds = YES;
+    selectedBorder.backgroundColor = [tabColor colorWithAlphaComponent:.05];
     
     cell.selectedBackgroundView = selectedBorder;
     

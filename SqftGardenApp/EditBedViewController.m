@@ -75,13 +75,11 @@ DBManager *dbManager;
     NSLog(@"EditBed VC Calls show appG model info on %@", appGlobals.globalGardenModel.name);
     //[appGlobals.globalGardenModel showModelInfo];
 
-    
     if ([appGlobals getCurrentGardenModel] != nil){
         //self.currentGardenModel = [appGlobals getCurrentGardenModel];
         [self setCurrentGardenModel: [appGlobals getCurrentGardenModel]];
         self.bedColumnCount = self.currentGardenModel.columns;
         self.bedRowCount = self.currentGardenModel.rows;
-
     }
     
     if (self.currentGardenModel == nil){
@@ -119,8 +117,6 @@ DBManager *dbManager;
     }
     [self.view addSubview:self.bedFrameView];
     [self.view addSubview:self.selectPlantView];
-
-
 }
 
 
