@@ -470,6 +470,7 @@
                         <segue destination="O9I-ib-dQX" kind="show" identifier="showMain" id="9xN-8o-myG"/>
                         <segue destination="4Ea-ZV-gdQ" kind="show" identifier="showBedDetail" id="vbB-Zd-bn8"/>
                         <segue destination="ekc-8v-hIp" kind="show" identifier="showResize" id="Cfc-ec-VXb"/>
+                        <segue destination="Hos-Uk-Wnj" kind="show" identifier="showPresent" id="PPq-sL-RDI"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S5J-h1-LRe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -481,10 +482,11 @@
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yjf-UC-sHO"/>
+        <segue reference="PPq-sL-RDI"/>
         <segue reference="vbB-Zd-bn8"/>
-        <segue reference="9xN-8o-myG"/>
         <segue reference="Cfc-ec-VXb"/>
+        <segue reference="9xN-8o-myG"/>
         <segue reference="QB4-Vf-Rim"/>
+        <segue reference="yjf-UC-sHO"/>
     </inferredMetricsTieBreakers>
 </document>
