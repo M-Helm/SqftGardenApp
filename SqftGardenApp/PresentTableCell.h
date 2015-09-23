@@ -10,4 +10,6 @@
 
 @interface PresentTableCell : UITableViewCell
 
+@property(nonatomic) UILabel* mainLabel;
+
 @end

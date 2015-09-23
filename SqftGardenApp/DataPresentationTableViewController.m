@@ -37,9 +37,12 @@ static NSString *CellIdentifier = @"CellIdentifier";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PresentTableCell *cell;
+    //UILabel *mainLabel;
     
     if(cell == nil){
         cell = [[PresentTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell.mainLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,0,200,20)];
+        cell.mainLabel.text = @"This is the main label";
     }else{
         
     }

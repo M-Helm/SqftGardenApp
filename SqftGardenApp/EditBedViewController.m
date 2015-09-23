@@ -145,9 +145,10 @@ DBManager *dbManager;
     bk.alpha = 0.075;
     bk.frame = self.view.frame;
     [self.view addSubview:bk];
-
-    [self makeSaveIcon];
+    
     [self makeDataPresentIcon];
+    [self makeSaveIcon];
+
     [self makeTitleBar];
     [self makeBedFrame : width : height];
     [self makeSelectMessageView: width : height];
@@ -192,8 +193,13 @@ DBManager *dbManager;
     CGRect dataFrame = CGRectMake((self.view.frame.size.width)-132-44,0,44,44);
     self.dataPresentIconView.frame = dataFrame;
     self.dataPresentIconView.alpha = .05;
+    self.dataPresentIconView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleDataPresentIconSingleTap:)];
+    [self.saveIconView addGestureRecognizer:singleFingerTap];
     [self.navigationController.navigationBar addSubview:self.dataPresentIconView];
-    
+
 }
 
 -(UIImageView *)makeDateIcon{
@@ -400,6 +406,11 @@ DBManager *dbManager;
         [self showWriteSuccessAlertForFile:self.currentGardenModel.name atIndex:self.currentGardenModel.localId];
         [appGlobals setGlobalGardenModel:self.currentGardenModel];
     }
+}
+
+- (void)handleDataPresentIconSingleTap:(UITapGestureRecognizer *)recognizer {
+    NSLog(@"data present icon tapped ");
+    [self.navigationController performSegueWithIdentifier:@"showPresent" sender:self];
 }
 
 - (NSMutableArray *)buildBedViewArray{
