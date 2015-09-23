@@ -314,7 +314,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n8M-ta-FdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1704" y="-809"/>
+            <point key="canvasLocation" x="1984" y="-913"/>
         </scene>
         <!--Bed Detail View Controller-->
         <scene sceneID="urq-99-lm0">
@@ -370,7 +370,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S0D-hd-K4c" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="tbw-8o-F50" customClass="ButtonHandler"/>
             </objects>
-            <point key="canvasLocation" x="584" y="788"/>
+            <point key="canvasLocation" x="638" y="796"/>
         </scene>
         <!--Size Bed View Controller-->
         <scene sceneID="ylk-DG-G98">
@@ -414,6 +414,7 @@
                         <segue destination="O9I-ib-dQX" kind="show" identifier="showMain" id="HtM-B4-joc"/>
                         <segue destination="4Ea-ZV-gdQ" kind="show" identifier="showBedDetail" id="FoM-PL-rQF"/>
                         <segue destination="ekc-8v-hIp" kind="show" identifier="showResize" id="UQe-le-rtr"/>
+                        <segue destination="Hos-Uk-Wnj" kind="show" identifier="showPresent" id="EvJ-aS-uKc"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MbM-9M-ApT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -482,11 +483,11 @@
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PPq-sL-RDI"/>
+        <segue reference="EvJ-aS-uKc"/>
         <segue reference="vbB-Zd-bn8"/>
-        <segue reference="Cfc-ec-VXb"/>
-        <segue reference="9xN-8o-myG"/>
         <segue reference="QB4-Vf-Rim"/>
-        <segue reference="yjf-UC-sHO"/>
+        <segue reference="9xN-8o-myG"/>
+        <segue reference="Cfc-ec-VXb"/>
+        <segue reference="NdY-OM-yHK"/>
     </inferredMetricsTieBreakers>
 </document>

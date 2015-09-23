@@ -35,6 +35,8 @@
 		AD8566B11BACBE7B009328F3 /* DateSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8566B01BACBE7B009328F3 /* DateSelectView.m */; };
 		AD967E9E1BA0A409009D7546 /* init_plants.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD967E9D1BA0A409009D7546 /* init_plants.txt */; };
 		AD967EA11BA0E481009D7546 /* ClassIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD967EA01BA0E481009D7546 /* ClassIconView.m */; };
+		AD9B67A71BB320F800241837 /* ic_herb2_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD9B67A61BB320F800241837 /* ic_herb2_flat_256px.png */; settings = {ASSET_TAGS = (); }; };
+		AD9B67A91BB321C500241837 /* ic_eggplant2_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD9B67A81BB321C500241837 /* ic_eggplant2_flat_256px.png */; settings = {ASSET_TAGS = (); }; };
 		ADA752081B06B6E300C56F5F /* ic_bean_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA751FC1B06B6E300C56F5F /* ic_bean_256.png */; };
 		ADA752091B06B6E300C56F5F /* ic_cereal_wheat_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA751FD1B06B6E300C56F5F /* ic_cereal_wheat_256.png */; };
 		ADA7520A1B06B6E300C56F5F /* ic_fruit_strawberry_256.png in Resources */ = {isa = PBXBuildFile; fileRef = ADA751FE1B06B6E300C56F5F /* ic_fruit_strawberry_256.png */; };
@@ -131,6 +133,8 @@
 		AD967E9D1BA0A409009D7546 /* init_plants.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init_plants.txt; sourceTree = "<group>"; };
 		AD967E9F1BA0E462009D7546 /* ClassIconView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassIconView.h; sourceTree = "<group>"; };
 		AD967EA01BA0E481009D7546 /* ClassIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassIconView.m; sourceTree = "<group>"; };
+		AD9B67A61BB320F800241837 /* ic_herb2_flat_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_herb2_flat_256px.png; path = ../../../Documents/sqftGardenAssets/ic_herb2_flat_256px.png; sourceTree = "<group>"; };
+		AD9B67A81BB321C500241837 /* ic_eggplant2_flat_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_eggplant2_flat_256px.png; path = ../../../Documents/sqftGardenAssets/ic_eggplant2_flat_256px.png; sourceTree = "<group>"; };
 		ADA751FC1B06B6E300C56F5F /* ic_bean_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_bean_256.png; sourceTree = "<group>"; };
 		ADA751FD1B06B6E300C56F5F /* ic_cereal_wheat_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cereal_wheat_256.png; sourceTree = "<group>"; };
 		ADA751FE1B06B6E300C56F5F /* ic_fruit_strawberry_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_fruit_strawberry_256.png; sourceTree = "<group>"; };
@@ -303,6 +307,8 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD9B67A81BB321C500241837 /* ic_eggplant2_flat_256px.png */,
+				AD9B67A61BB320F800241837 /* ic_herb2_flat_256px.png */,
 				ADFB3ED21BAF101300D68424 /* ic_save_512px.png */,
 				ADFB3ED01BAF0DD500D68424 /* ic_save_256px.png */,
 				AD8566AD1BACA784009328F3 /* growLogo_v003.png */,
@@ -449,6 +455,7 @@
 				ADA752111B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png in Resources */,
 				ADD364BE1B9F829C00F3B652 /* init_plant_classes.txt in Resources */,
 				AD34496D1BA482F100E1DB4B /* ic_onion_flat_256px.png in Resources */,
+				AD9B67A91BB321C500241837 /* ic_eggplant2_flat_256px.png in Resources */,
 				ADA752081B06B6E300C56F5F /* ic_bean_256.png in Resources */,
 				AD34496C1BA482F100E1DB4B /* ic_eggplant_flat_256px.png in Resources */,
 				ADC372111BA787BC00FF994A /* photo_cucumber_512px.jpg in Resources */,
@@ -457,6 +464,7 @@
 				AD3449691BA482F100E1DB4B /* ic_leafy_flat_256px.png in Resources */,
 				ADD364C01B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png in Resources */,
 				AD71D4B31BA4A2A4005848AB /* ic_cucumber_flat_256px.png in Resources */,
+				AD9B67A71BB320F800241837 /* ic_herb2_flat_256px.png in Resources */,
 				ADA7520A1B06B6E300C56F5F /* ic_fruit_strawberry_256.png in Resources */,
 				ADA752131B06B6E300C56F5F /* ic_vegetable_brinjal_256.png in Resources */,
 				AD3A38C11BA61D8600FC0528 /* ic_cancel_256px.png in Resources */,
