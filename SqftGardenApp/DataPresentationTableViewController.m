@@ -46,6 +46,7 @@ static NSString *CellIdentifier = @"CellIdentifier";
     }else{
         
     }
+    [cell.contentView addSubview:cell.mainLabel];
     return cell;
 }
 

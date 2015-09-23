@@ -146,33 +146,51 @@ DBManager *dbManager;
     bk.frame = self.view.frame;
     [self.view addSubview:bk];
     
-    [self makeDataPresentIcon];
     [self makeSaveIcon];
-
+    //[self makeDataPresentIcon];
     [self makeTitleBar];
+    [self setToolIconPositions];
     [self makeBedFrame : width : height];
     [self makeSelectMessageView: width : height];
     [self makeSelectView: width : height];
 
 }
+-(void)setToolIconPositions{
+    //check if a date exists
+    if(appGlobals.globalGardenModel.plantingDate != nil){
+        NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
+        if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
+            //no date selected
+            CGRect saveFrame = CGRectMake((self.view.frame.size.width)-88-44,0,44,44);
+            self.saveIconView.frame = saveFrame;
+            [self.navigationController.navigationBar addSubview:self.saveIconView];
+            
+            //CGRect titleViewIconFrame = CGRectMake(20,0,44,44);
+            self.dateIconView = [self makeDateIcon];
+            [self.titleView addSubview:self.dateIconView];
+            
+        }else{
+            //a date is selected
+            CGRect titleViewIconFrame = CGRectMake(20,0,44,44);
+            self.saveIconView.frame = titleViewIconFrame;
+            [self.titleView addSubview:self.saveIconView];
+            
+        }
+    }
+    
+    
+    
+}
+
 -(void)makeSaveIcon{
     //remove self if exists
     [self.saveIconView removeFromSuperview];
     //make and add view
     UIImage *saveIcon = [UIImage imageNamed:@"ic_save_512px.png"];
     self.saveIconView = [[UIImageView alloc]initWithImage:saveIcon];
-    CGRect saveFrame = CGRectMake((self.view.frame.size.width)-88-44,0,44,44);
+    //CGRect saveFrame = CGRectMake((self.view.frame.size.width)-88-44,0,44,44);
+    CGRect saveFrame = CGRectMake(0,0,44,44);
     self.saveIconView.frame = saveFrame;
-    
-    //check if a date exists
-    if(appGlobals.globalGardenModel.plantingDate != nil){
-        NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
-        if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
-            //no date selected
-        }else{
-            //a date is selected
-        }
-    }
     self.saveIconView.userInteractionEnabled = YES;
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -182,7 +200,7 @@ DBManager *dbManager;
     //if name.length < 1 we assume an empty garden model and alpha out save icon
     if(appGlobals.globalGardenModel.name.length < 1) self.saveIconView.alpha = .05;
     
-    [self.navigationController.navigationBar addSubview:self.saveIconView];
+    //[self.navigationController.navigationBar addSubview:self.saveIconView];
 }
 
 -(void)makeDataPresentIcon{
@@ -190,15 +208,16 @@ DBManager *dbManager;
     [self.dataPresentIconView removeFromSuperview];
     UIImage *dataIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
     self.dataPresentIconView = [[UIImageView alloc]initWithImage:dataIcon];
-    CGRect dataFrame = CGRectMake((self.view.frame.size.width)-132-44,0,44,44);
+    //CGRect dataFrame = CGRectMake((self.view.frame.size.width)-132-44,0,44,44);
+    CGRect dataFrame = CGRectMake(0,0,44,44);
     self.dataPresentIconView.frame = dataFrame;
-    self.dataPresentIconView.alpha = .05;
+    self.dataPresentIconView.alpha = 1;
     self.dataPresentIconView.userInteractionEnabled = YES;
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(handleDataPresentIconSingleTap:)];
     [self.saveIconView addGestureRecognizer:singleFingerTap];
-    [self.navigationController.navigationBar addSubview:self.dataPresentIconView];
+    //[self.navigationController.navigationBar addSubview:self.dataPresentIconView];
 
 }
 
@@ -263,7 +282,7 @@ DBManager *dbManager;
     
     [self.titleView addSubview:label];
     [self.titleView addSubview:label2];
-    [self.titleView addSubview: self.dateIconView];
+    //[self.titleView addSubview: self.dateIconView];
     [self.view addSubview: self.titleView];
 
 }
