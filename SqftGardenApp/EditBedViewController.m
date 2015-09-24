@@ -197,7 +197,7 @@ DBManager *dbManager;
     [self.saveIconView addGestureRecognizer:saveSingleFingerTap];
     
     //if name.length < 1 we assume an empty garden model and alpha out save icon
-    if(appGlobals.globalGardenModel.name.length < 1) self.saveIconView.alpha = .05;
+    //if(appGlobals.globalGardenModel.name.length < 1) self.saveIconView.alpha = .05;
     
     //[self.navigationController.navigationBar addSubview:self.saveIconView];
 }
@@ -205,7 +205,7 @@ DBManager *dbManager;
 -(void)makeDataPresentIcon{
     //remove self if exists
     [self.dataPresentIconView removeFromSuperview];
-    UIImage *dataIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
+    UIImage *dataIcon = [UIImage imageNamed:@"ic_date_detail_512px.png"];
     self.dataPresentIconView = [[UIImageView alloc]initWithImage:dataIcon];
     CGRect dataFrame = CGRectMake((self.view.frame.size.width)-132-44,0,44,44);
     //CGRect dataFrame = CGRectMake(0,0,44,44);
@@ -404,7 +404,8 @@ DBManager *dbManager;
         NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
         if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
             
-            //date selecetdgo somewhere else...
+            //date selected go somewhere else...
+            
             
         }else{
             //no date selected
@@ -413,6 +414,10 @@ DBManager *dbManager;
             
         }
     }
+    //for(UIView* subview in self.navigationController.navigationBar.subviews){
+    //    [subview removeFromSuperview];
+    //}
+    
 
     [self showDatePickerView];
 }
@@ -427,6 +432,9 @@ DBManager *dbManager;
 
 - (void)handleDataPresentIconSingleTap:(UITapGestureRecognizer *)recognizer {
     NSLog(@"data present icon tapped ");
+    [appGlobals setGlobalGardenModel:self.currentGardenModel];    
+    self.dataPresentIconView.tag = 6;
+    self.dataPresentIconView.alpha = 0;
     [self.navigationController performSegueWithIdentifier:@"showPresent" sender:self];
 }
 

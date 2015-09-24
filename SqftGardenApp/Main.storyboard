@@ -208,7 +208,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zAa-sm-OtE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-933" y="-2060"/>
+            <point key="canvasLocation" x="-917" y="-2100"/>
         </scene>
         <!--Title-->
         <scene sceneID="Giq-Ad-BNz">
@@ -286,7 +286,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R2U-wW-LqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="6VO-41-R7D" customClass="ButtonHandler"/>
             </objects>
-            <point key="canvasLocation" x="900" y="-814"/>
+            <point key="canvasLocation" x="660" y="-876"/>
         </scene>
         <!--Data Presentation Table View Controller-->
         <scene sceneID="iCs-91-qhK">
@@ -483,11 +483,11 @@
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="EvJ-aS-uKc"/>
-        <segue reference="vbB-Zd-bn8"/>
-        <segue reference="QB4-Vf-Rim"/>
-        <segue reference="9xN-8o-myG"/>
-        <segue reference="Cfc-ec-VXb"/>
+        <segue reference="rcr-6R-xSl"/>
         <segue reference="NdY-OM-yHK"/>
+        <segue reference="Mgh-Xv-c24"/>
+        <segue reference="9Nd-1O-DIL"/>
+        <segue reference="Khg-Bx-xGs"/>
+        <segue reference="4wv-5b-sBp"/>
     </inferredMetricsTieBreakers>
 </document>
