@@ -23,6 +23,7 @@ DBManager *dbManager;
 ApplicationGlobals *appGlobals;
 static NSString *CellIdentifier = @"CellIdentifier";
 NSArray *plantArray;
+NSDateFormatter *dateFormatter;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,6 +31,8 @@ NSArray *plantArray;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     plantArray = [[NSArray alloc]
                   initWithArray: [self buildPlantArrayFromModel:appGlobals.globalGardenModel]];
+    dateFormatter= [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MMM dd, yyyy"];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -43,24 +46,31 @@ NSArray *plantArray;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PresentTableCell *cell;
     NSString *mainLabelString = @"this is the main label";
+    NSString *harvestDateString = @"this is the harvest date";
+    
     PlantIconView *plant = [[PlantIconView alloc]
                             initWithFrame:CGRectMake(0,0,0,0) withPlantId:(int)[indexPath row]+1];
-    
-    
+    NSDate *maturityDate = [appGlobals.globalGardenModel.plantingDate dateByAddingTimeInterval:60*60*24*plant.maturity];
+    harvestDateString = [dateFormatter stringFromDate:maturityDate];
+    harvestDateString = [NSString stringWithFormat:@"Harvest on or about: %@", harvestDateString];
     
     mainLabelString = plant.plantName;
     
     if(cell == nil){
         cell = [[PresentTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        cell.mainLabel = [[UILabel alloc]initWithFrame:CGRectMake(15,0,200,20)];
-        cell.mainLabel.text = mainLabelString;
+        cell.mainLabel = [[UILabel alloc]initWithFrame:CGRectMake(15,0,125,20)];
+        cell.harvestLabel = [[UILabel alloc]initWithFrame:CGRectMake(126,0,300,20)];
     }else{
     
     }
 
     cell.mainLabel.text = mainLabelString;
+    cell.harvestLabel.text = harvestDateString;
+    [cell.harvestLabel setFont: [UIFont systemFontOfSize:11]];
+    
     
     [cell.contentView addSubview:cell.mainLabel];
+    [cell.contentView addSubview:cell.harvestLabel];
     return cell;
 }
 

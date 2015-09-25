@@ -7,9 +7,6 @@
 //
 
 #import "PresentTableCell.h"
-//#import "ApplicationGlobals.h"
-//#import "DBManager.h"
-//#import "SqftGardenModel.h"
 
 @interface PresentTableCell()
 
@@ -22,9 +19,6 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString * _Nullable)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    //appGlobals = [ApplicationGlobals getSharedGlobals];
-    //[self buildPlantArrayFromModel:appGlobals.globalGardenModel];
-    
     return self;
 }
 

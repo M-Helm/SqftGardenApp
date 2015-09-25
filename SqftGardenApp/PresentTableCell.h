@@ -11,5 +11,8 @@
 @interface PresentTableCell : UITableViewCell
 
 @property(nonatomic) UILabel* mainLabel;
+@property(nonatomic) UILabel* harvestLabel;
+@property(nonatomic) UILabel* countLabel;
+@property(nonatomic) UIImageView* icon;
 
 @end
