@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BedView.h"
 
 @interface IsometricViewController : UIViewController
 @property(nonatomic) int bedRowCount;
 @property(nonatomic) int bedColumnCount;
 @property(nonatomic) int bedCellCount;
 @property(nonatomic) NSMutableArray *bedViewArray;
-@property(nonatomic) UIView *bedFrameView;
+@property(nonatomic) BedView *bedFrameView;
 
 @end

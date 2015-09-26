@@ -57,7 +57,7 @@ ApplicationGlobals *appGlobals;
     self.bedFrameView.transform = concatTransform2;
     
     
-    //[self addIsoIcons];
+    [self addIsoIcons];
     
 }
 -(void)addIsoIcons{
@@ -65,17 +65,17 @@ ApplicationGlobals *appGlobals;
         if([subview class]==[PlantIconView class]){
             PlantIconView *plant = (PlantIconView*)subview;
             UIImage *icon = [UIImage imageNamed: plant.isoIcon];
-            NSLog(@"this is the iso icon: %@", plant.isoIcon);
+            //NSLog(@"this is the iso icon: %@", plant.isoIcon);
             //UIImage *icon = [UIImage imageNamed: @"iso_generic_256px.png"];
             UIImageView *iconView = [[UIImageView alloc] initWithImage:icon];
             iconView.layer.borderWidth = 1;
             iconView.layer.borderColor = [UIColor lightGrayColor].CGColor;
             
-            CGPoint topLeftPoint = [plant transformedTopLeft];
+            CGPoint topLeftPoint = [self.bedFrameView transformedTopLeft];
             
             
             //CGRect frame = CGRectMake(plant.center.x,plant.center.y,44,44);
-            CGRect frame = CGRectMake(topLeftPoint.x,topLeftPoint.y,44,44);
+            CGRect frame = CGRectMake(topLeftPoint.x+88,topLeftPoint.y-44,44,44);
             iconView.frame = frame;
             [self.view addSubview:iconView];
             //[subview addSubview:iconView];
@@ -88,11 +88,10 @@ ApplicationGlobals *appGlobals;
     
     float xCo = self.bedColumnCount * appGlobals.bedDimension;
     int yCo = self.bedRowCount * appGlobals.bedDimension;
-    self.bedFrameView = [[UIView alloc]
-                         initWithFrame:CGRectMake(15,
-                                                  15 + 120+7,
-                                                  xCo+(15*2),
-                                                  yCo)];
+
+    self.bedFrameView = [[BedView alloc]
+                         initWithFrame:CGRectMake(15, 15 + 120+7,xCo+(15*2),yCo)
+                         isIsometric:YES];
     //add my array of beds
     for(int i = 0; i<self.bedViewArray.count;i++){
         [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
@@ -104,8 +103,8 @@ ApplicationGlobals *appGlobals;
             cellCount++;
         }
     }
-    self.bedFrameView.layer.borderColor = [UIColor blackColor].CGColor;
-    self.bedFrameView.layer.borderWidth = 3;
+    //self.bedFrameView.layer.borderColor = [UIColor blackColor].CGColor;
+    //self.bedFrameView.layer.borderWidth = 3;
 }
 
 - (NSMutableArray *)buildBedViewArray{

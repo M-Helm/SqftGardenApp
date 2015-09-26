@@ -17,10 +17,10 @@
 const int BEDVIEW_DEFAULT_BORDER = 1;
 const int BEDVIEW_DEFAULT_CORNER = 10;
 
-- (id)initWithFrame:(CGRect)frame : (int) plantId{
+- (id)initWithFrame:(CGRect)frame isIsometric:(bool)isIso{
     self = [super initWithFrame:frame];
-    self.primaryPlant = plantId;
     if (self) {
+        self.isIso = isIso;
         [self commonInit];
     }
     return self;
@@ -44,18 +44,79 @@ const int BEDVIEW_DEFAULT_CORNER = 10;
 }
 
 - (void) setDefaultParameters{
-    self.color = [UIColor clearColor];
-    self.fillColor = [self.color colorWithAlphaComponent:0.25];
+
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.layer.borderWidth = BEDVIEW_DEFAULT_BORDER;
     self.layer.cornerRadius = BEDVIEW_DEFAULT_CORNER;
 }
 
-- (void) setSecondaryPlant {
-    
+// Coordinate utilities
+- (CGPoint) offsetPointToParentCoordinates: (CGPoint) aPoint
+{
+    return CGPointMake(aPoint.x + self.center.x,
+                       aPoint.y + self.center.y);
 }
-- (void) setTertiaryPlant {
-    
+
+- (CGPoint) pointInViewCenterTerms: (CGPoint) aPoint
+{
+    return CGPointMake(aPoint.x - self.center.x,
+                       aPoint.y - self.center.y);
 }
+
+- (CGPoint) pointInTransformedView: (CGPoint) aPoint
+{
+    CGPoint offsetItem = [self pointInViewCenterTerms:aPoint];
+    CGPoint updatedItem = CGPointApplyAffineTransform(
+                                                      offsetItem, self.transform);
+    CGPoint finalItem =
+    [self offsetPointToParentCoordinates:updatedItem];
+    return finalItem;
+}
+
+- (CGRect) originalFrame
+{
+    CGAffineTransform currentTransform = self.transform;
+    self.transform = CGAffineTransformIdentity;
+    CGRect originalFrame = self.frame;
+    self.transform = currentTransform;
+    
+    return originalFrame;
+}
+
+// These four methods return the positions of view elements
+// with respect to the current transform
+
+- (CGPoint) transformedTopLeft
+{
+    CGRect frame = self.originalFrame;
+    CGPoint point = frame.origin;
+    return [self pointInTransformedView:point];
+}
+
+- (CGPoint) transformedTopRight
+{
+    CGRect frame = self.originalFrame;
+    CGPoint point = frame.origin;
+    point.x += frame.size.width;
+    return [self pointInTransformedView:point];
+}
+
+- (CGPoint) transformedBottomRight
+{
+    CGRect frame = self.originalFrame;
+    CGPoint point = frame.origin;
+    point.x += frame.size.width;
+    point.y += frame.size.height;
+    return [self pointInTransformedView:point];
+}
+
+- (CGPoint) transformedBottomLeft
+{
+    CGRect frame = self.originalFrame;
+    CGPoint point = frame.origin;
+    point.y += frame.size.height;
+    return [self pointInTransformedView:point];
+}
+
 
 @end

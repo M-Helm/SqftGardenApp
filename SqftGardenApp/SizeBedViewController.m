@@ -10,7 +10,7 @@
 #import "SizeBedViewController.h"
 #import "ApplicationGlobals.h"
 #import "DBManager.h"
-#import "BedView.h"
+#import "PlantIconView.h"
 
 @interface SizeBedViewController()
 
@@ -169,9 +169,12 @@ BOOL shouldContinueBlinking = NO;
     for(int i=0; i<self.bedRowCount; i++){
         while(columnNumber < self.bedColumnCount){
 
-            BedView *bed = [[BedView alloc] initWithFrame:CGRectMake(1 + (bedDimension*rowNumber),
-                                                                     (bedDimension*columnNumber)+1, bedDimension, bedDimension): 0];
-            bed.index = cell;
+            //PlantIconView *bed = [[PlantIconView alloc] initWithFrame:CGRectMake(1 + (bedDimension*rowNumber),
+            //                                                         (bedDimension*columnNumber)+1, bedDimension, bedDimension): 0];
+            PlantIconView *bed = [[PlantIconView alloc] initWithFrame:CGRectMake(1 + (bedDimension*rowNumber),(bedDimension*columnNumber)+1, bedDimension, bedDimension) withPlantId:0 isIsometric:NO];
+            
+            
+            bed.position = cell;
             bed.layer.borderWidth = 3;
             [bedArray addObject:bed];
             columnNumber++;
@@ -192,7 +195,7 @@ BOOL shouldContinueBlinking = NO;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [BedView class]){
+    if ([touchedView class] == [PlantIconView class]){
         shouldContinueBlinking = NO;
         CGPoint location = [touch locationInView:[self view]];
         svStartX = location.x - touchedView.center.x;
@@ -218,7 +221,7 @@ BOOL shouldContinueBlinking = NO;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [BedView class]){
+    if ([touchedView class] == [PlantIconView class]){
         
         CGPoint location = [touch locationInView:[self view]];
         touchedView.hidden=FALSE;
@@ -278,7 +281,7 @@ BOOL shouldContinueBlinking = NO;
     if([touch view] != nil){
         touchedView = [touch view];
     }
-    if ([touchedView class] == [BedView class]){
+    if ([touchedView class] == [PlantIconView class]){
         CGPoint location = [touch locationInView:[self view]];
         int columnCalc = round(location.x / [self bedDimension]);
         int rowCalc = round((location.y - self.bedFrameView.frame.origin.y) / [self bedDimension]);

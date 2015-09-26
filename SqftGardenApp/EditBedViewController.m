@@ -680,8 +680,17 @@ DBManager *dbManager;
 }
 
 - (UIView *)makeIsoIconView{
-    UIView *isoIcon = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-44, 140, 44, 44)];
-    isoIcon.backgroundColor = [UIColor blackColor];
+    //float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
+    UIImage *icon = [UIImage imageNamed:@"ic_isometric_256px.png"];
+    UIImageView *isoIcon = [[UIImageView alloc] initWithImage:icon];
+    isoIcon.frame = CGRectMake(self.view.frame.size.width-44, self.view.frame.size.height-44, 44, 44);
+    isoIcon.layer.borderColor = [UIColor blackColor].CGColor;
+    isoIcon.layer.borderWidth = 2;
+    isoIcon.layer.cornerRadius = 5;
+
+    isoIcon.userInteractionEnabled = YES;
+    isoIcon.clipsToBounds = YES;
+    
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(handleIsoIconSingleTap:)];

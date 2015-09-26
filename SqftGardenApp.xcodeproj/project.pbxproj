@@ -25,6 +25,7 @@
 		AD4B19A71BB612C400ABDD65 /* IsometricViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4B19A61BB612C400ABDD65 /* IsometricViewController.m */; settings = {ASSET_TAGS = (); }; };
 		AD4B19A91BB633E900ABDD65 /* iso_generic_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD4B19A81BB633E900ABDD65 /* iso_generic_256px.png */; settings = {ASSET_TAGS = (); }; };
 		AD4B98D21B0E355100EF6F96 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4B98D11B0E355100EF6F96 /* DBManager.m */; };
+		AD54939A1BB701FE0032292D /* ic_isometric_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493991BB701FE0032292D /* ic_isometric_256px.png */; settings = {ASSET_TAGS = (); }; };
 		AD56F3F81B8A2A170094BD99 /* SizeBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD56F3F71B8A2A170094BD99 /* SizeBedViewController.m */; };
 		AD59D6831BA9E3F900A0E5E2 /* growLogo_v001.png in Resources */ = {isa = PBXBuildFile; fileRef = AD59D6821BA9E3F900A0E5E2 /* growLogo_v001.png */; };
 		AD59D6851BA9ECDA00A0E5E2 /* cloth_test.png in Resources */ = {isa = PBXBuildFile; fileRef = AD59D6841BA9ECDA00A0E5E2 /* cloth_test.png */; };
@@ -122,6 +123,7 @@
 		AD4B19A81BB633E900ABDD65 /* iso_generic_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_generic_256px.png; path = ../../../Documents/sqftGardenAssets/iso_generic_256px.png; sourceTree = "<group>"; };
 		AD4B98D01B0E352200EF6F96 /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		AD4B98D11B0E355100EF6F96 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		AD5493991BB701FE0032292D /* ic_isometric_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_isometric_256px.png; path = ../../../Documents/sqftGardenAssets/ic_isometric_256px.png; sourceTree = "<group>"; };
 		AD56F3F61B8A29FF0094BD99 /* SizeBedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SizeBedViewController.h; sourceTree = "<group>"; };
 		AD56F3F71B8A2A170094BD99 /* SizeBedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SizeBedViewController.m; sourceTree = "<group>"; };
 		AD59D6821BA9E3F900A0E5E2 /* growLogo_v001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = growLogo_v001.png; path = ../../../Documents/sqftGardenAssets/growLogo_v001.png; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD5493991BB701FE0032292D /* ic_isometric_256px.png */,
 				AD4B19A81BB633E900ABDD65 /* iso_generic_256px.png */,
 				ADB982751BB32F8C0084BAC1 /* ic_date_detail_512px.png */,
 				AD9B67A81BB321C500241837 /* ic_eggplant2_flat_256px.png */,
@@ -503,6 +506,7 @@
 				ADFB3ED11BAF0DD500D68424 /* ic_save_256px.png in Resources */,
 				AD1A91C51AF434DA00DC0983 /* Images.xcassets in Resources */,
 				ADA752121B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png in Resources */,
+				AD54939A1BB701FE0032292D /* ic_isometric_256px.png in Resources */,
 				AD4B19A91BB633E900ABDD65 /* iso_generic_256px.png in Resources */,
 				ADD47F291AF44A7A00D7E26F /* Main.storyboard in Resources */,
 			);
