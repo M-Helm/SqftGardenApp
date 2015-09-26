@@ -255,6 +255,7 @@
                         <segue destination="5kp-sf-cE8" kind="show" identifier="openBed" id="4wv-5b-sBp"/>
                         <segue destination="MvH-5s-HTu" kind="show" identifier="showLegal" id="yjf-UC-sHO"/>
                         <segue destination="Hos-Uk-Wnj" kind="show" identifier="showPresent" id="Khg-Bx-xGs"/>
+                        <segue destination="bI1-oH-nUb" kind="show" identifier="showIso" id="hBe-TC-HEl"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G7I-jw-rOk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -287,6 +288,24 @@
                 <customObject id="6VO-41-R7D" customClass="ButtonHandler"/>
             </objects>
             <point key="canvasLocation" x="660" y="-876"/>
+        </scene>
+        <!--Isomorphic View Controller-->
+        <scene sceneID="ZFo-pb-NTr">
+            <objects>
+                <viewController id="bI1-oH-nUb" customClass="IsomorphicViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Kbo-kQ-xJd"/>
+                        <viewControllerLayoutGuide type="bottom" id="Pro-2S-pe1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QnH-Wa-AnF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dnM-1b-nCO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1520" y="-1889"/>
         </scene>
         <!--Data Presentation Table View Controller-->
         <scene sceneID="iCs-91-qhK">

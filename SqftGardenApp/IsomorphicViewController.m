@@ -9,6 +9,8 @@
 #import "IsomorphicViewController.h"
 #import "ApplicationGlobals.h"
 
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
+
 @interface IsomorphicViewController()
 
 @end
@@ -21,21 +23,53 @@ ApplicationGlobals *appGlobals;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.bedRowCount = 2;
-    self.bedColumnCount = 2;
+    self.bedRowCount = 4;
+    self.bedColumnCount = 5;
     appGlobals = [ApplicationGlobals getSharedGlobals];
+    
+    self.bedViewArray = [self buildBedViewArray];
+    [self makeBedFrame:self.view.frame.size.width :self.view.frame.size.height];
+    
+    [self.view addSubview:self.bedFrameView];
+    
+    //scale
+    
+    CGAffineTransform scaleTransform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 0.86062);
+    //[self.bedFrameView setTransform:scaleTransform];
+    
+
+    //shear
+    
+    CGFloat shearValue = .99f; // You can change this to anything you want
+    CGAffineTransform shearTransform = CGAffineTransformMake(1.f, 0.f, shearValue, 1.f, 0.f, 0.f);
+    //[self.bedFrameView setTransform:shearTransform];
+    
+    //concat
+    CGAffineTransform concatTransform = CGAffineTransformConcat(scaleTransform, shearTransform);
+    //self.bedFrameView.transform = concatTransform;
+    
+    //rotate
+    
+    double rads = DEGREES_TO_RADIANS(-30);
+    CGAffineTransform rotateTransform = CGAffineTransformRotate(CGAffineTransformIdentity, rads);
+    //self.bedFrameView.transform = transform;
+    
+    //self.bedFrameView.transform = CGAffineTransformConcat(scaleTransfrom, shearTransform);
+    
+    CGAffineTransform concatTransform2 = CGAffineTransformConcat(concatTransform, rotateTransform);
+    self.bedFrameView.transform = concatTransform2;
 }
 
 
 
 -(void)makeBedFrame : (int) width : (int) height{
     
-    float xCo = self.view.bounds.size.width;
+    float xCo = self.bedColumnCount * appGlobals.bedDimension;
     int yCo = self.bedRowCount * appGlobals.bedDimension;
     self.bedFrameView = [[UIView alloc]
                          initWithFrame:CGRectMake(15,
                                                   15 + 120+7,
-                                                  xCo+(15*-2),
+                                                  xCo+(15*2),
                                                   yCo)];
     //add my array of beds
     for(int i = 0; i<self.bedViewArray.count;i++){
@@ -48,6 +82,8 @@ ApplicationGlobals *appGlobals;
             cellCount++;
         }
     }
+    self.bedFrameView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.bedFrameView.layer.borderWidth = 3;
 }
 
 - (NSMutableArray *)buildBedViewArray{

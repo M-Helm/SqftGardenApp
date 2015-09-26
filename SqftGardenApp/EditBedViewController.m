@@ -152,6 +152,10 @@ DBManager *dbManager;
     [self makeBedFrame : width : height];
     [self makeSelectMessageView: width : height];
     [self makeSelectView: width : height];
+    
+    self.selectIsoView = [self makeIsoIconView];
+    [self.view addSubview:self.selectIsoView];
+    
 
 }
 -(void)setToolIconPositions{
@@ -674,6 +678,23 @@ DBManager *dbManager;
     [alert show];
 }
 
+- (UIView *)makeIsoIconView{
+    UIView *isoIcon = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-44, 140, 44, 44)];
+    isoIcon.backgroundColor = [UIColor blackColor];
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleIsoIconSingleTap:)];
+    [isoIcon addGestureRecognizer:singleFingerTap];
+    
+    return isoIcon;
+}
+- (void)handleIsoIconSingleTap:(UITapGestureRecognizer *)recognizer {
+    //bool success = [self.currentGardenModel saveModelWithOverWriteOption:YES];
+    [appGlobals setGlobalGardenModel:self.currentGardenModel];
+    NSLog(@"iso icon tapped");
+    [self.navigationController performSegueWithIdentifier:@"showIso" sender:self];
+    
+}
 
 @end
 
