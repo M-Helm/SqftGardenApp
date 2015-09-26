@@ -49,7 +49,7 @@ NSDateFormatter *dateFormatter;
     NSString *harvestDateString = @"this is the harvest date";
     
     PlantIconView *plant = [[PlantIconView alloc]
-                            initWithFrame:CGRectMake(0,0,0,0) withPlantId:(int)[indexPath row]+1];
+                            initWithFrame:CGRectMake(0,0,0,0) withPlantId:(int)[indexPath row]+1 isIsometric:NO];
     NSDate *maturityDate = [appGlobals.globalGardenModel.plantingDate dateByAddingTimeInterval:60*60*24*plant.maturity];
     harvestDateString = [dateFormatter stringFromDate:maturityDate];
     harvestDateString = [NSString stringWithFormat:@"Harvest on or about: %@", harvestDateString];

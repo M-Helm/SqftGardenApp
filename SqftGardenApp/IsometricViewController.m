@@ -1,31 +1,31 @@
 //
-//  IsomorphicViewController.m
+//  IsometricViewController.m
 //  SqftGardenApp
 //
 //  Created by Matthew Helm on 9/25/15.
 //  Copyright © 2015 Matthew Helm. All rights reserved.
 //
 
-#import "IsomorphicViewController.h"
+#import "IsometricViewController.h"
 #import "ApplicationGlobals.h"
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
-@interface IsomorphicViewController()
+@interface IsometricViewController()
 
 @end
 
-@implementation IsomorphicViewController
+@implementation IsometricViewController
 
 ApplicationGlobals *appGlobals;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.bedRowCount = 4;
-    self.bedColumnCount = 5;
     appGlobals = [ApplicationGlobals getSharedGlobals];
+    self.bedRowCount = appGlobals.globalGardenModel.rows;
+    self.bedColumnCount = appGlobals.globalGardenModel.columns;
+
     
     self.bedViewArray = [self buildBedViewArray];
     [self makeBedFrame:self.view.frame.size.width :self.view.frame.size.height];
@@ -40,26 +40,48 @@ ApplicationGlobals *appGlobals;
 
     //shear
     
-    CGFloat shearValue = .99f; // You can change this to anything you want
+    CGFloat shearValue = .99f;
     CGAffineTransform shearTransform = CGAffineTransformMake(1.f, 0.f, shearValue, 1.f, 0.f, 0.f);
-    //[self.bedFrameView setTransform:shearTransform];
+
     
     //concat
     CGAffineTransform concatTransform = CGAffineTransformConcat(scaleTransform, shearTransform);
-    //self.bedFrameView.transform = concatTransform;
+
     
     //rotate
     
     double rads = DEGREES_TO_RADIANS(-30);
     CGAffineTransform rotateTransform = CGAffineTransformRotate(CGAffineTransformIdentity, rads);
-    //self.bedFrameView.transform = transform;
-    
-    //self.bedFrameView.transform = CGAffineTransformConcat(scaleTransfrom, shearTransform);
-    
+
     CGAffineTransform concatTransform2 = CGAffineTransformConcat(concatTransform, rotateTransform);
     self.bedFrameView.transform = concatTransform2;
+    
+    
+    //[self addIsoIcons];
+    
 }
-
+-(void)addIsoIcons{
+    for(UIView *subview in self.bedFrameView.subviews){
+        if([subview class]==[PlantIconView class]){
+            PlantIconView *plant = (PlantIconView*)subview;
+            UIImage *icon = [UIImage imageNamed: plant.isoIcon];
+            NSLog(@"this is the iso icon: %@", plant.isoIcon);
+            //UIImage *icon = [UIImage imageNamed: @"iso_generic_256px.png"];
+            UIImageView *iconView = [[UIImageView alloc] initWithImage:icon];
+            iconView.layer.borderWidth = 1;
+            iconView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+            
+            CGPoint topLeftPoint = [plant transformedTopLeft];
+            
+            
+            //CGRect frame = CGRectMake(plant.center.x,plant.center.y,44,44);
+            CGRect frame = CGRectMake(topLeftPoint.x,topLeftPoint.y,44,44);
+            iconView.frame = frame;
+            [self.view addSubview:iconView];
+            //[subview addSubview:iconView];
+        }
+    }
+}
 
 
 -(void)makeBedFrame : (int) width : (int) height{
@@ -113,7 +135,7 @@ ApplicationGlobals *appGlobals;
                                                            (bedDimension*rowNumber)+1,
                                                            bedDimension,
                                                            bedDimension)
-                                  withPlantId: plantId];
+                                  withPlantId: plantId isIsometric:YES];
             bed.layer.borderWidth = 1;
             bed.position = cell;
             [bedArray addObject:bed];

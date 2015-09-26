@@ -35,6 +35,7 @@ DBManager *dbManager;
     [dbManager addColumn:@"plants" : @"scientific_name" : @"char"];
     [dbManager addColumn:@"plants" : @"photo" : @"char(150)"];
     [dbManager addColumn:@"plants" : @"yield" : @"char"];
+    [dbManager addColumn:@"plants" : @"iso_icon" : @"char"];
     
     if([dbManager checkTableExists:@"plants"]){
         [dbManager getInitPlants];

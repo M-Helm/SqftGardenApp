@@ -174,7 +174,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population, class, description, scientific_name, photo, yield) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population, class, description, scientific_name, photo, yield, iso_icon) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                                [msgJSON objectForKey:@"name"],
                                [msgJSON objectForKey:@"timestamp"],
                                [msgJSON objectForKey:@"icon"],
@@ -184,11 +184,12 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                [msgJSON objectForKey:@"description"],
                                [msgJSON objectForKey:@"scientific_name"],
                                [msgJSON objectForKey:@"photo"],
-                               [msgJSON objectForKey:@"yield"]];
+                               [msgJSON objectForKey:@"yield"],
+                               [msgJSON objectForKey:@"iso_icon"]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            //NSLog(@"plant saved to db");
+            NSLog(@"plant saved to db with ISO property: %@", [msgJSON objectForKey:@"iso_icon"]);
             sqlite3_finalize(statement);
             sqlite3_close(database);
             return true;
@@ -391,6 +392,8 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                               (const char *) sqlite3_column_text(statement, 9)];
                 NSString *plantYield = [[NSString alloc] initWithUTF8String:
                                         (const char *) sqlite3_column_text(statement, 10)];
+                NSString *isoIcon = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 11)];
 
                 [plantData setObject:local_id forKey:@"plant_id"];
                 [plantData setObject:plantName forKey:@"name"];
@@ -403,7 +406,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [plantData setObject:plantScienceName forKey:@"scientific_name"];
                 [plantData setObject:plantPhoto forKey:@"photo"];
                 [plantData setObject:plantYield forKey:@"yield"];
-
+                [plantData setObject:isoIcon forKey:@"isoIcon"];
             }
         }
         sqlite3_finalize(statement);

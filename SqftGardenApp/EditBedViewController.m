@@ -468,7 +468,8 @@ DBManager *dbManager;
                                                            (bedDimension*rowNumber)+1,
                                                            bedDimension,
                                                            bedDimension)
-                                                            withPlantId: plantId];
+                                                            withPlantId: plantId
+                                                            isIsometric:NO];
             bed.layer.borderWidth = 1;
             bed.position = cell;
             [bedArray addObject:bed];

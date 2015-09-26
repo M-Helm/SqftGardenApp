@@ -17,9 +17,10 @@ const int PLANT_ICON_PADDING = 7;
 NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 ApplicationGlobals *appGlobals;
 
-- (id)initWithFrame:(CGRect)frame withPlantId: (int)plantIndex{
+- (id)initWithFrame:(CGRect)frame withPlantId: (int)plantIndex isIsometric:(bool)isIsometric{
     //self.index = plantIndex;
     self.plantId = plantIndex;
+    self.isIsometric = isIsometric;
     self = [super initWithFrame:frame];
     if (self) {
         [self commonInit];
@@ -56,10 +57,12 @@ ApplicationGlobals *appGlobals;
     
     NSDictionary *json = [dbManager getPlantDataById:self.plantId];
     
+    
+    //self.iconResource = @"iso_generic_256.png";
+    
     self.plantName = [json objectForKey:@"name"];
     self.iconResource = [json objectForKey:@"icon"];
     self.photoResource = [json objectForKey:@"photo"];
-    if([self.iconResource isEqualToString:@"na"])self.iconResource = PLANT_DEFAULT_ICON;
     NSString *str = [json objectForKey:@"maturity"];
     NSString *population = [json objectForKey:@"population"];
     self.population = population.intValue;
@@ -69,6 +72,11 @@ ApplicationGlobals *appGlobals;
     self.plantDescription = [json objectForKeyedSubscript:@"description"];
     self.plantScientificName = [json objectForKey:@"scientific_name"];
     self.plantYield = [json objectForKey:@"yield"];
+    self.isoIcon =[json objectForKey:@"isoIcon"];
+    if([self.iconResource isEqualToString:@"na"])self.iconResource = PLANT_DEFAULT_ICON;
+    if(self.isIsometric)self.iconResource = @"";
+    
+    //self.iconResource = @"iso_generic_256px.png";
     
     [self setLayoutGrid:population.intValue];
     [self updateLabel];
@@ -191,6 +199,7 @@ ApplicationGlobals *appGlobals;
     [self addSubview:label];
 }
 -(void)setNumberTokenImage{
+    if(self.isIsometric)return;
     if(self.population < 2)return;
     UIImage *icon = [UIImage imageNamed: @"asset_circle_token_512px.png"];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
@@ -204,6 +213,74 @@ ApplicationGlobals *appGlobals;
     label.textAlignment = NSTextAlignmentCenter;
     [label setFont:[UIFont boldSystemFontOfSize:10]];
     [imageView addSubview:label];
+}
+
+// Coordinate utilities
+- (CGPoint) offsetPointToParentCoordinates: (CGPoint) aPoint
+{
+    return CGPointMake(aPoint.x + self.center.x,
+                       aPoint.y + self.center.y);
+}
+
+- (CGPoint) pointInViewCenterTerms: (CGPoint) aPoint
+{
+    return CGPointMake(aPoint.x - self.center.x,
+                       aPoint.y - self.center.y);
+}
+
+- (CGPoint) pointInTransformedView: (CGPoint) aPoint
+{
+    CGPoint offsetItem = [self pointInViewCenterTerms:aPoint];
+    CGPoint updatedItem = CGPointApplyAffineTransform(
+                                                      offsetItem, self.transform);
+    CGPoint finalItem =
+    [self offsetPointToParentCoordinates:updatedItem];
+    return finalItem;
+}
+
+- (CGRect) originalFrame
+{
+    CGAffineTransform currentTransform = self.transform;
+    self.transform = CGAffineTransformIdentity;
+    CGRect originalFrame = self.frame;
+    self.transform = currentTransform;
+    
+    return originalFrame;
+}
+
+// These four methods return the positions of view elements
+// with respect to the current transform
+
+- (CGPoint) transformedTopLeft
+{
+    CGRect frame = self.originalFrame;
+    CGPoint point = frame.origin;
+    return [self pointInTransformedView:point];
+}
+
+- (CGPoint) transformedTopRight
+{
+    CGRect frame = self.originalFrame;
+    CGPoint point = frame.origin;
+    point.x += frame.size.width;
+    return [self pointInTransformedView:point];
+}
+
+- (CGPoint) transformedBottomRight
+{
+    CGRect frame = self.originalFrame;
+    CGPoint point = frame.origin;
+    point.x += frame.size.width;
+    point.y += frame.size.height;
+    return [self pointInTransformedView:point];
+}
+
+- (CGPoint) transformedBottomLeft
+{
+    CGRect frame = self.originalFrame;
+    CGPoint point = frame.origin;
+    point.y += frame.size.height;
+    return [self pointInTransformedView:point];
 }
 
 

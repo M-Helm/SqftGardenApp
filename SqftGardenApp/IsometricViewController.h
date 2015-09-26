@@ -1,5 +1,5 @@
 //
-//  IsomorphicViewController.h
+//  IsometricViewController.h
 //  SqftGardenApp
 //
 //  Created by Matthew Helm on 9/25/15.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface IsomorphicViewController : UIViewController
+@interface IsometricViewController : UIViewController
 @property(nonatomic) int bedRowCount;
 @property(nonatomic) int bedColumnCount;
 @property(nonatomic) int bedCellCount;

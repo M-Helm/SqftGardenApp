@@ -98,7 +98,9 @@ EditBedViewController *editBedVC;
     
     //add cancel button
     PlantIconView *cancelBtn = [[PlantIconView alloc]
-                                initWithFrame:CGRectMake(6 + (frameDimension*0), 2, frameDimension,frameDimension) withPlantId: -1];
+                                initWithFrame:CGRectMake(6 + (frameDimension*0), 2, frameDimension,frameDimension) withPlantId: -1 isIsometric:NO];
+    
+    
     [selectArray addObject:cancelBtn];
     
     //int rowCount = [dbManager getTableRowCount:@"plants"];
@@ -106,7 +108,7 @@ EditBedViewController *editBedVC;
     for(int i=0; i<list.count; i++){
         NSString *index = list[i];
         PlantIconView *plantIcon = [[PlantIconView alloc]
-                                    initWithFrame:CGRectMake(6 + (frameDimension*(i+1)), 2, frameDimension,frameDimension) withPlantId: index.intValue];
+                                    initWithFrame:CGRectMake(6 + (frameDimension*(i+1)), 2, frameDimension,frameDimension) withPlantId: index.intValue isIsometric:NO];
         [plantIcon setViewAsIcon:true];
         //NSLog(@"LIST VALUE COMING OUT OF DB: %i", index.intValue);
        // UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];

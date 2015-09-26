@@ -289,10 +289,10 @@
             </objects>
             <point key="canvasLocation" x="660" y="-876"/>
         </scene>
-        <!--Isomorphic View Controller-->
+        <!--Isometric View Controller-->
         <scene sceneID="ZFo-pb-NTr">
             <objects>
-                <viewController id="bI1-oH-nUb" customClass="IsomorphicViewController" sceneMemberID="viewController">
+                <viewController id="bI1-oH-nUb" customClass="IsometricViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Kbo-kQ-xJd"/>
                         <viewControllerLayoutGuide type="bottom" id="Pro-2S-pe1"/>
