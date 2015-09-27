@@ -41,6 +41,7 @@ EditBedViewController *editBedVC;
     self = [super initWithFrame:frame];
     editBedVC = (EditBedViewController*)editBed;
     [self setDatePickerIsOpen:NO];
+    [self setIsoViewIsOpen:NO];
     if (self) {
         [self commonInit];
     }
@@ -145,6 +146,7 @@ EditBedViewController *editBedVC;
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if(self.datePickerIsOpen)return;
+    if(self.isoViewIsOpen)return;
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
@@ -213,6 +215,7 @@ EditBedViewController *editBedVC;
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     if(self.datePickerIsOpen)return;
+    if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -232,6 +235,7 @@ EditBedViewController *editBedVC;
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     if(self.datePickerIsOpen)return;
+    if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     CGPoint locationInBed;

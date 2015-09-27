@@ -5,7 +5,7 @@
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 
 #import "EditBedViewController.h"
-//#import "BedView.h"
+
 #import "PlantIconView.h"
 #import "ClassIconView.h"
 //#import "SelectPlantView.h"
@@ -62,6 +62,7 @@ DBManager *dbManager;
     self.navigationController.navigationBar.hidden = NO;
 
     [self setDatePickerIsOpen:NO];
+    [self setIsoViewIsOpen:NO];
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationController.navigationBar.backgroundColor = [[UIColor orangeColor]colorWithAlphaComponent:.05];
@@ -99,6 +100,8 @@ DBManager *dbManager;
     //self.selectPlantArray = [self buildPlantSelectArray];
     [self.currentGardenModel setRows:self.bedRowCount];
     [self.currentGardenModel setColumns:self.bedColumnCount];
+    
+
 
     [self initViews];
 }
@@ -127,6 +130,8 @@ DBManager *dbManager;
 
 -(void)initViews{
     //get rid of all old views.
+    [self setIsoViewIsOpen:NO];
+    [self.selectPlantView setIsoViewIsOpen:NO];
     for(UIView* subview in self.view.subviews){
         [subview removeFromSuperview];
     }
@@ -146,6 +151,8 @@ DBManager *dbManager;
     bk.frame = self.view.frame;
     [self.view addSubview:bk];
     
+
+    
     [self makeSaveIcon];
     [self makeTitleBar];
     [self setToolIconPositions];
@@ -153,7 +160,14 @@ DBManager *dbManager;
     [self makeSelectMessageView: width : height];
     [self makeSelectView: width : height];
     
+    NSLog(@"select orgin = %i", (int)self.selectMessageLabel.frame.origin.y);
+    self.selectPlantScreenView = [[UIView alloc] initWithFrame:CGRectMake(0,self.selectPlantView.frame.origin.y, self.view.frame.size.width,self.selectMessageView.frame.size.height + self.selectPlantView.frame.size.height)];
+    self.selectPlantScreenView.backgroundColor = [UIColor darkGrayColor];
+    self.selectPlantScreenView.alpha = 0;
+    
+    
     self.selectIsoView = [self makeIsoIconView];
+    [self.view addSubview:self.selectPlantScreenView];
     [self.view addSubview:self.selectIsoView];
     
 
@@ -292,7 +306,7 @@ DBManager *dbManager;
 -(void)makeBedFrame : (int) width : (int) height{
     
     float xCo = self.view.bounds.size.width;
-    int yCo = self.bedRowCount * [self bedDimension];
+    float yCo = self.bedRowCount * [self bedDimension];
     self.bedFrameView = [[UIView alloc]
                          initWithFrame:CGRectMake(self.sideOffset,
                                                   self.topOffset + self.titleView.frame.size.height+7,
@@ -533,7 +547,7 @@ DBManager *dbManager;
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     //if(self.datePickerIsOpen)return;
-    
+    if(self.isoViewIsOpen)return;
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
@@ -554,6 +568,7 @@ DBManager *dbManager;
 }
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     //if(self.datePickerIsOpen)return;
+    if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -575,6 +590,7 @@ DBManager *dbManager;
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     //if(self.datePickerIsOpen)return;
+    if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -699,11 +715,47 @@ DBManager *dbManager;
     return isoIcon;
 }
 - (void)handleIsoIconSingleTap:(UITapGestureRecognizer *)recognizer {
+    NSLog(@"handle iso singletap");
+    if(self.isoViewIsOpen){
+        NSLog(@"isoview is open");
+        [self.isoView unwindIsoViewTransform];
+        return;
+    }
+    
+    [self setIsoViewIsOpen:YES];
+    [self.selectPlantView setIsoViewIsOpen:YES];
     //bool success = [self.currentGardenModel saveModelWithOverWriteOption:YES];
     [appGlobals setGlobalGardenModel:self.currentGardenModel];
-    NSLog(@"iso icon tapped");
-    [self.navigationController performSegueWithIdentifier:@"showIso" sender:self];
+    //NSLog(@"iso icon tapped");
+    self.isoView = [[IsometricView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width, self.view.frame.size.height - 44) andEditBedVC:self];
+
     
+    self.isoView.alpha = 1;
+    self.bedFrameView.alpha = 0;
+    self.selectPlantView.alpha = .25;
+    self.selectMessageView.alpha = .25;
+    self.selectPlantScreenView.alpha = .8;
+
+    [self.view addSubview:self.isoView];
+   
+}
+- (void)unwindIsoView{
+    [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.isoView.alpha = 0;
+                         self.bedFrameView.alpha = 1;
+                         self.selectPlantView.alpha = 1;
+                         self.selectMessageView.alpha = 1;
+                         self.selectPlantScreenView.alpha = 0;
+                     }
+                     completion:^(BOOL finished) {
+                         if(finished){
+                             [self initViews];
+                             [self setIsoViewIsOpen:NO];
+                             [self.selectPlantView setIsoViewIsOpen:NO];
+                             [self.isoView removeFromSuperview];
+                         }
+                     }];
 }
 
 @end

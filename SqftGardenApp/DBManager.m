@@ -189,7 +189,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"plant saved to db with ISO property: %@", [msgJSON objectForKey:@"iso_icon"]);
+            //NSLog(@"plant saved to db with ISO property: %@", [msgJSON objectForKey:@"iso_icon"]);
             sqlite3_finalize(statement);
             sqlite3_close(database);
             return true;

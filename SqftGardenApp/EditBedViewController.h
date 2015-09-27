@@ -9,12 +9,16 @@
 #import "SqftGardenModel.h"
 #import "SelectPlantView.h"
 #import "DateSelectView.h"
+#import "IsometricView.h"
 
 
 @interface EditBedViewController : UIViewController
 @property(nonatomic) SqftGardenModel *currentGardenModel;
 @property(nonatomic) DateSelectView *datePickerView;
 @property(nonatomic) SelectPlantView *selectPlantView;
+
+@property(nonatomic) bool datePickerIsOpen;
+@property(nonatomic) bool isoViewIsOpen;
 
 @property(nonatomic) int topOffset;
 @property(nonatomic) int sideOffset;
@@ -33,14 +37,13 @@
 @property(nonatomic) UIView *dateIconView;
 @property(nonatomic) UIView *saveIconView;
 @property(nonatomic) UIView *dataPresentIconView;
+@property(nonatomic) UIView *selectPlantScreenView;
+@property(nonatomic) IsometricView *isoView;
 
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;
 - (void) updatePlantingDate : (NSDate *)date;
 - (void) initViews;
-
-
-
-@property(nonatomic) bool datePickerIsOpen;
+- (void) unwindIsoView;
 
 @end
 

@@ -74,7 +74,7 @@ ApplicationGlobals *appGlobals;
     self.plantYield = [json objectForKey:@"yield"];
     self.isoIcon =[json objectForKey:@"isoIcon"];
     if([self.iconResource isEqualToString:@"na"])self.iconResource = PLANT_DEFAULT_ICON;
-    if(self.isIsometric)self.iconResource = @"";
+    //if(self.isIsometric)self.iconResource = @"";
     
     //self.iconResource = @"iso_generic_256px.png";
     
@@ -166,6 +166,7 @@ ApplicationGlobals *appGlobals;
                                          padding + (iconSize * rowNumber) + yFrameAdjuster,
                                          iconSize-(padding * 2),
                                          iconSize-(padding * 2));
+            if(self.isIsometric)imageView.alpha = .5;
             [self addSubview:imageView];
             columnNumber++;
             cell++;
@@ -216,20 +217,17 @@ ApplicationGlobals *appGlobals;
 }
 
 // Coordinate utilities
-- (CGPoint) offsetPointToParentCoordinates: (CGPoint) aPoint
-{
+- (CGPoint) offsetPointToParentCoordinates: (CGPoint) aPoint{
     return CGPointMake(aPoint.x + self.center.x,
                        aPoint.y + self.center.y);
 }
 
-- (CGPoint) pointInViewCenterTerms: (CGPoint) aPoint
-{
+- (CGPoint) pointInViewCenterTerms: (CGPoint) aPoint{
     return CGPointMake(aPoint.x - self.center.x,
                        aPoint.y - self.center.y);
 }
 
-- (CGPoint) pointInTransformedView: (CGPoint) aPoint
-{
+- (CGPoint) pointInTransformedView: (CGPoint) aPoint{
     CGPoint offsetItem = [self pointInViewCenterTerms:aPoint];
     CGPoint updatedItem = CGPointApplyAffineTransform(
                                                       offsetItem, self.transform);
@@ -238,8 +236,7 @@ ApplicationGlobals *appGlobals;
     return finalItem;
 }
 
-- (CGRect) originalFrame
-{
+- (CGRect) originalFrame{
     CGAffineTransform currentTransform = self.transform;
     self.transform = CGAffineTransformIdentity;
     CGRect originalFrame = self.frame;
@@ -251,23 +248,20 @@ ApplicationGlobals *appGlobals;
 // These four methods return the positions of view elements
 // with respect to the current transform
 
-- (CGPoint) transformedTopLeft
-{
+- (CGPoint) transformedTopLeft{
     CGRect frame = self.originalFrame;
     CGPoint point = frame.origin;
     return [self pointInTransformedView:point];
 }
 
-- (CGPoint) transformedTopRight
-{
+- (CGPoint) transformedTopRight{
     CGRect frame = self.originalFrame;
     CGPoint point = frame.origin;
     point.x += frame.size.width;
     return [self pointInTransformedView:point];
 }
 
-- (CGPoint) transformedBottomRight
-{
+- (CGPoint) transformedBottomRight{
     CGRect frame = self.originalFrame;
     CGPoint point = frame.origin;
     point.x += frame.size.width;
@@ -275,11 +269,17 @@ ApplicationGlobals *appGlobals;
     return [self pointInTransformedView:point];
 }
 
-- (CGPoint) transformedBottomLeft
-{
+- (CGPoint) transformedBottomLeft{
     CGRect frame = self.originalFrame;
     CGPoint point = frame.origin;
     point.y += frame.size.height;
+    return [self pointInTransformedView:point];
+}
+- (CGPoint) transformedCenter{
+    CGRect frame = self.originalFrame;
+    CGPoint point;
+    point.x = frame.origin.x - (frame.size.width/2);
+    point.y = frame.origin.y - (frame.size.height/2);
     return [self pointInTransformedView:point];
 }
 

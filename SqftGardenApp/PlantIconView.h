@@ -29,5 +29,6 @@
 @property (nonatomic) bool isIsometric;
 -(void)setViewAsIcon:(bool)isIcon;
 - (CGPoint) transformedTopLeft;
-
+- (CGPoint) transformedTopRight;
+- (CGPoint) transformedCenter;
 @end

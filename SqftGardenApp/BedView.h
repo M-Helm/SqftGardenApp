@@ -13,5 +13,7 @@
 - (id)initWithFrame:(CGRect)frame isIsometric:(bool)isIso;
 @property (nonatomic)bool isIso;
 - (CGPoint) transformedTopLeft;
+- (CGPoint) transformedTopRight;
+- (CGPoint) transformedCenter;
 
 @end
