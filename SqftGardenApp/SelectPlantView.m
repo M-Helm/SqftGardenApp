@@ -142,15 +142,34 @@ EditBedViewController *editBedVC;
     return selectArray;
 }
 
+-(void) findClosestSquareWhileIso{
+    for(UIView *subview in editBedVC.bedFrameView.subviews){
+        CGRect transformFrame = [editBedVC.isoView  convertRect:[subview frame] fromView:editBedVC.isoView.bedFrameView];
+        CGPoint point;
+        point.x = transformFrame.origin.x + (transformFrame.size.width/2);
+        point.y = transformFrame.origin.y + (appGlobals.bedDimension/4);
+    }
+}
+
+-(void) cancelSelectPlant{
+    for(UIView *subview in self.subviews){
+        [subview removeFromSuperview];
+    }
+    NSArray *array = [self buildClassSelectArray];
+    for(int i=0;i<array.count;i++){
+        [self addSubview:array[i]];
+    }
+}
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if(self.datePickerIsOpen)return;
-    if(self.isoViewIsOpen)return;
+
+    //if(self.isoViewIsOpen)return;
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
     }
+    if(self.datePickerIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -203,19 +222,11 @@ EditBedViewController *editBedVC;
     }
 }
 
--(void) cancelSelectPlant{
-    for(UIView *subview in self.subviews){
-        [subview removeFromSuperview];
-    }
-    NSArray *array = [self buildClassSelectArray];
-    for(int i=0;i<array.count;i++){
-        [self addSubview:array[i]];
-    }
-}
+
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     if(self.datePickerIsOpen)return;
-    if(self.isoViewIsOpen)return;
+    //if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -235,7 +246,7 @@ EditBedViewController *editBedVC;
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     if(self.datePickerIsOpen)return;
-    if(self.isoViewIsOpen)return;
+    //if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     CGPoint locationInBed;
@@ -261,20 +272,8 @@ EditBedViewController *editBedVC;
         float xCo = 0;
         float yCo = 0;
         
-        /*
-        float pageSize = (self.mainView.frame.size.width / touchedView.frame.size.width);
-        if(plantView.position >= pageSize){
-            xCo = (self.mainView.frame.size.width + (plantView.position*2)) * -1;
-        }
-        if(plantView.position >= pageSize - .5){
-            xCo = (self.mainView.frame.size.width + (plantView.position*2)) * -1;
-        }
-        if(plantView.position >= pageSize * 2){
-            xCo = ((self.mainView.frame.size.width + (plantView.position*2))* 2) * -1;
-        }
-        */
+
         yCo = locationInBed.y;
-        //xCo = fabs(xCo + touchedView.center.x);
         xCo = locationInBed.x;
         //NSLog(@"XCordinate: %f  screenWidth: %f", xCo, self.mainView.frame.size.width);
         //NSLog(@"YCordinate: %f  TouchCoord: %f screenHeight: %f", yCo, touchedView.center.y, self.mainView.frame.size.height);

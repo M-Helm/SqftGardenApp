@@ -37,7 +37,6 @@
 @property(nonatomic) UIView *dateIconView;
 @property(nonatomic) UIView *saveIconView;
 @property(nonatomic) UIView *dataPresentIconView;
-@property(nonatomic) UIView *selectPlantScreenView;
 @property(nonatomic) IsometricView *isoView;
 
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;

@@ -68,6 +68,7 @@ EditBedViewController *editBedVC;
     // Adjust scroll view content size
     self.contentSize = CGSizeMake(self.frame.size.width * 1.5, self.frame.size.height * 1.5);
     self.pagingEnabled= NO;
+    self.contentInset = UIEdgeInsetsMake(20,20,20,20);
     
     //self.backgroundColor = [UIColor clearColor];
 }
@@ -157,7 +158,6 @@ EditBedViewController *editBedVC;
             CGRect transformFrame = [self  convertRect:[plant frame] fromView:self.bedFrameView];
             CGPoint point;
             point.x = transformFrame.origin.x + (transformFrame.size.width/2);
-            //point.y = transformFrame.origin.y + (transformFrame.size.height/2);
             point.y = transformFrame.origin.y + (bedDimension/4);
 
             UIImage *icon = [UIImage imageNamed: plant.isoIcon];
@@ -243,6 +243,14 @@ EditBedViewController *editBedVC;
         rowNumber++;
     }
     return bedArray;
+}
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    //if(self.datePickerIsOpen)return;
+    NSLog(@"isoview touches began");
+    if(appGlobals.isMenuDrawerOpen == YES){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
+        return;
+    }
 }
 
 @end

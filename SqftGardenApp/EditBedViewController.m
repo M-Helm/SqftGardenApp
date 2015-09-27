@@ -8,10 +8,8 @@
 
 #import "PlantIconView.h"
 #import "ClassIconView.h"
-//#import "SelectPlantView.h"
 #import "ApplicationGlobals.h"
 #import "DBManager.h"
-
 
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
@@ -101,8 +99,6 @@ DBManager *dbManager;
     [self.currentGardenModel setRows:self.bedRowCount];
     [self.currentGardenModel setColumns:self.bedColumnCount];
     
-
-
     [self initViews];
 }
 
@@ -159,15 +155,8 @@ DBManager *dbManager;
     [self makeBedFrame : width : height];
     [self makeSelectMessageView: width : height];
     [self makeSelectView: width : height];
-    
-    NSLog(@"select orgin = %i", (int)self.selectMessageLabel.frame.origin.y);
-    self.selectPlantScreenView = [[UIView alloc] initWithFrame:CGRectMake(0,self.selectPlantView.frame.origin.y, self.view.frame.size.width,self.selectMessageView.frame.size.height + self.selectPlantView.frame.size.height)];
-    self.selectPlantScreenView.backgroundColor = [UIColor darkGrayColor];
-    self.selectPlantScreenView.alpha = 0;
-    
-    
+
     self.selectIsoView = [self makeIsoIconView];
-    [self.view addSubview:self.selectPlantScreenView];
     [self.view addSubview:self.selectIsoView];
     
 
@@ -428,7 +417,7 @@ DBManager *dbManager;
         }else{
             //no date selected
             
-            NSLog(@"NO DATE SELECTED. GO TO DATE PICKER");
+            //NSLog(@"NO DATE SELECTED. GO TO DATE PICKER");
             
         }
     }
@@ -441,7 +430,7 @@ DBManager *dbManager;
 }
 - (void)handleSaveIconSingleTap:(UITapGestureRecognizer *)recognizer {
     bool success = [self.currentGardenModel saveModelWithOverWriteOption:YES];
-    NSLog(@"save icon tapped %i", success);
+    //NSLog(@"save icon tapped %i", success);
     if(success){
         [self showWriteSuccessAlertForFile:self.currentGardenModel.name atIndex:self.currentGardenModel.localId];
         [appGlobals setGlobalGardenModel:self.currentGardenModel];
@@ -449,7 +438,7 @@ DBManager *dbManager;
 }
 
 - (void)handleDataPresentIconSingleTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"data present icon tapped ");
+    //NSLog(@"data present icon tapped ");
     [appGlobals setGlobalGardenModel:self.currentGardenModel];    
     self.dataPresentIconView.tag = 6;
     self.dataPresentIconView.alpha = 0;
@@ -525,7 +514,7 @@ DBManager *dbManager;
     //[appGlobals.globalGardenModel setPlantingDate:date];
     [self.currentGardenModel autoSaveModel];
     [appGlobals setCurrentGardenModel:self.currentGardenModel];
-    NSLog(@"Dates from updater: self %@, global %@", self.currentGardenModel.plantingDate, appGlobals.globalGardenModel.plantingDate);
+    //NSLog(@"Dates from updater: self %@, global %@", self.currentGardenModel.plantingDate, appGlobals.globalGardenModel.plantingDate);
 
 }
 
@@ -547,11 +536,13 @@ DBManager *dbManager;
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     //if(self.datePickerIsOpen)return;
-    if(self.isoViewIsOpen)return;
+    //NSLog(@"touches began");
+
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
     }
+    if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -599,6 +590,7 @@ DBManager *dbManager;
     else return;
     [self calculatePlantDropPosition:touchedView];
 }
+
 -(void)calculatePlantDropPosition : (UIView*)touchedView{
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *bedView = (PlantIconView*)touchedView;
@@ -715,9 +707,8 @@ DBManager *dbManager;
     return isoIcon;
 }
 - (void)handleIsoIconSingleTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"handle iso singletap");
+    //NSLog(@"handle iso singletap");
     if(self.isoViewIsOpen){
-        NSLog(@"isoview is open");
         [self.isoView unwindIsoViewTransform];
         return;
     }
@@ -734,7 +725,6 @@ DBManager *dbManager;
     self.bedFrameView.alpha = 0;
     self.selectPlantView.alpha = .25;
     self.selectMessageView.alpha = .25;
-    self.selectPlantScreenView.alpha = .8;
 
     [self.view addSubview:self.isoView];
    
@@ -746,7 +736,6 @@ DBManager *dbManager;
                          self.bedFrameView.alpha = 1;
                          self.selectPlantView.alpha = 1;
                          self.selectMessageView.alpha = 1;
-                         self.selectPlantScreenView.alpha = 0;
                      }
                      completion:^(BOOL finished) {
                          if(finished){
