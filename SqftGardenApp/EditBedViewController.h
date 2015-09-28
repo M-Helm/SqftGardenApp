@@ -39,9 +39,12 @@
 @property(nonatomic) UIView *dataPresentIconView;
 @property(nonatomic) IsometricView *isoView;
 
+@property(nonatomic) int cellHorizontalPadding;
+
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;
 - (void) updatePlantingDate : (NSDate *)date;
 - (void) initViews;
+- (CGRect)calculateBedFrame;
 - (void) unwindIsoView;
 
 @end

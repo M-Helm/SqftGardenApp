@@ -41,7 +41,7 @@ EditBedViewController *editBedVC;
     
     
     self.bedViewArray = [self buildBedViewArray];
-    [self makeBedFrame:self.frame.size.width :self.frame.size.height];
+    [self makeIsoBedFrame:self.frame.size.width :self.frame.size.height];
     
     [self addSubview:self.bedFrameView];
     [self setScrollView];
@@ -56,13 +56,14 @@ EditBedViewController *editBedVC;
 
 }
 
+/*
 -(CGRect)makeBedFrame{
     float xCo = editBedVC.view.bounds.size.width;
     float yCo = appGlobals.globalGardenModel.rows * appGlobals.bedDimension;
     CGRect frame = CGRectMake(editBedVC.sideOffset, editBedVC.topOffset + editBedVC.titleView.frame.size.height+7, xCo+(editBedVC.sideOffset*-2),yCo);
     return frame;
 }
-
+*/
 
 - (void) setScrollView{
     // Adjust scroll view content size
@@ -128,11 +129,18 @@ EditBedViewController *editBedVC;
         }
     }
     //CGRect frame = CGRectMake(50, 140,self.bedFrameView.frame.size.width,self.bedFrameView.frame.size.height);
-    CGRect frame = [self makeBedFrame];
+    CGRect frame = [editBedVC calculateBedFrame];
+    //calc delta of bed view and the bed orgin as caclulated in editvc
+    //NSLog(@"iso frame = %f", frame.origin.x);
+    //NSLog(@"anchor frame = %f", editBedVC.cellHorizontalPadding);
+    //NSLog(@"anchor delta = %f", editBedVC.bedViewAnchor.x-frame.origin.x);
+    
+    frame = CGRectMake(editBedVC.cellHorizontalPadding - 5, frame.origin.y, frame.size.width, frame.size.width);
     [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.bedFrameView.transform = [self buildUnwindIsometricTransform];
                          self.bedFrameView.frame = frame;
+                         
                      }
                      completion:^(BOOL finished) {
                          if(finished){
@@ -174,7 +182,7 @@ EditBedViewController *editBedVC;
 }
 
 
--(void)makeBedFrame : (int) width : (int) height{
+-(void)makeIsoBedFrame : (int) width : (int) height{
     
     float xCo = self.bedColumnCount * appGlobals.bedDimension;
     int yCo = self.bedRowCount * appGlobals.bedDimension;

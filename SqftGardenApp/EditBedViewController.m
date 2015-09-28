@@ -104,9 +104,6 @@ DBManager *dbManager;
 
 - (void) viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
-    self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.bedFrameView.layer.borderWidth = 0;
-    self.bedFrameView.layer.cornerRadius = 15;
     for(int i =0; i<self.bedViewArray.count; i++){
         PlantIconView *bed = [self.bedViewArray objectAtIndex:i];
         UITapGestureRecognizer *singleFingerTap =
@@ -147,12 +144,10 @@ DBManager *dbManager;
     bk.frame = self.view.frame;
     [self.view addSubview:bk];
     
-
-    
     [self makeSaveIcon];
     [self makeTitleBar];
     [self setToolIconPositions];
-    [self makeBedFrame : width : height];
+    [self makeBedFrameView];
     [self makeSelectMessageView: width : height];
     [self makeSelectView: width : height];
 
@@ -184,7 +179,7 @@ DBManager *dbManager;
             [self.navigationController.navigationBar addSubview: self.dataPresentIconView];
         }
     }else{
-        //something bad has happened. Throw an error
+        //something bad has happened. Handle error
     }
 }
 
@@ -291,16 +286,9 @@ DBManager *dbManager;
     [self.view addSubview: self.titleView];
 
 }
-
--(void)makeBedFrame : (int) width : (int) height{
-    
-    float xCo = self.view.bounds.size.width;
-    float yCo = self.bedRowCount * [self bedDimension];
+-(void)makeBedFrameView{
     self.bedFrameView = [[UIView alloc]
-                         initWithFrame:CGRectMake(self.sideOffset,
-                                                  self.topOffset + self.titleView.frame.size.height+7,
-                                                  xCo+(self.sideOffset*-2),
-                                                  yCo)];
+                         initWithFrame:[self calculateBedFrame]];
     //add my array of beds
     for(int i = 0; i<self.bedViewArray.count;i++){
         [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
@@ -312,6 +300,20 @@ DBManager *dbManager;
             cellCount++;
         }
     }
+    //self.bedFrameView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.bedFrameView.layer.borderWidth = 0;
+    //self.bedFrameView.layer.cornerRadius = 15;
+    
+}
+
+-(CGRect)calculateBedFrame{
+    float xCo = self.view.bounds.size.width;
+    float yCo = self.bedRowCount * [self bedDimension];
+    CGRect bedFrame = CGRectMake(self.sideOffset,
+                                  self.topOffset + self.titleView.frame.size.height+7,
+                                  xCo+(self.sideOffset*-2),
+                                  yCo);
+    return bedFrame;
 }
 
 -(void)makeSelectMessageView : (int)width :(int)height{
@@ -383,7 +385,6 @@ DBManager *dbManager;
     if(self.view.frame.size.height < 481){
         if(bedDimension > 65)bedDimension = 65;
     }
-    
     [appGlobals setBedDimension:bedDimension];
     return bedDimension;
 }
@@ -476,6 +477,7 @@ DBManager *dbManager;
             bed.layer.borderWidth = 1;
             bed.position = cell;
             [bedArray addObject:bed];
+            //if(i==0)self.bedViewAnchor = bed.frame.origin;
             columnNumber++;
             cell++;
         }
@@ -488,6 +490,7 @@ DBManager *dbManager;
 - (float) calculateBedViewHorizontalPadding{
     float padding = 1;
     padding = (self.view.frame.size.width - (([self bedDimension]-1)*self.bedColumnCount))/2;
+    [self setCellHorizontalPadding:padding];
     return padding;
 }
 
