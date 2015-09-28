@@ -44,7 +44,18 @@ UIColor *tabColor;
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 50)];
     UILabel *labelView = [[UILabel alloc] initWithFrame:CGRectMake((headerView.frame.size.width/2)-75, 0, 150, 50)];
+    //add cancel button
+    PlantIconView *cancelBtn = [[PlantIconView alloc]
+                                initWithFrame:CGRectMake(self.view.frame.size.width - 55, 1, 44,44) withPlantId: -1 isIsometric:NO];
+    cancelBtn.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleCancelSingleTap:)];
+    [cancelBtn addGestureRecognizer:singleFingerTap];
+    
+    
     [headerView addSubview:labelView];
+    [headerView addSubview:cancelBtn];
     labelView.text = @"Save Garden";
     labelView.textAlignment = NSTextAlignmentCenter;
     [labelView setFont:[UIFont boldSystemFontOfSize:18]];
@@ -310,6 +321,10 @@ UIColor *tabColor;
     if (buttonIndex == 2) {
         NSLog(@"Btn2");
     }
+}
+- (void)handleCancelSingleTap:(UITapGestureRecognizer *)recognizer {
+    [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
+    return;
 }
 
 @end

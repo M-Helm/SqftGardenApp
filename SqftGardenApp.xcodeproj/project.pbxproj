@@ -30,6 +30,14 @@
 		AD54939F1BB732240032292D /* iso_generic_bush_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD54939E1BB732240032292D /* iso_generic_bush_256px.png */; settings = {ASSET_TAGS = (); }; };
 		AD5493A31BB738370032292D /* iso_border_base_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493A21BB738370032292D /* iso_border_base_512px.png */; settings = {ASSET_TAGS = (); }; };
 		AD5493A51BB73B810032292D /* iso_lettuce_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493A41BB73B810032292D /* iso_lettuce_512px.png */; settings = {ASSET_TAGS = (); }; };
+		AD5493A71BB868D70032292D /* iso_lettuce2_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493A61BB868D70032292D /* iso_lettuce2_512px.png */; settings = {ASSET_TAGS = (); }; };
+		AD5493A91BB86B770032292D /* iso_lettuce3_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493A81BB86B770032292D /* iso_lettuce3_256px.png */; settings = {ASSET_TAGS = (); }; };
+		AD5493AB1BB86CA30032292D /* iso_generic2_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493AA1BB86CA30032292D /* iso_generic2_256px.png */; settings = {ASSET_TAGS = (); }; };
+		AD5493AD1BB86E4B0032292D /* iso_generic_bush2_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493AC1BB86E4B0032292D /* iso_generic_bush2_256px.png */; settings = {ASSET_TAGS = (); }; };
+		AD5493AF1BB875FA0032292D /* iso_spinach_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493AE1BB875FA0032292D /* iso_spinach_256px.png */; settings = {ASSET_TAGS = (); }; };
+		AD5493B11BB879300032292D /* iso_spinach_4x_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493B01BB879300032292D /* iso_spinach_4x_256px.png */; settings = {ASSET_TAGS = (); }; };
+		AD5493B31BB87E650032292D /* ic_tomato_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493B21BB87E650032292D /* ic_tomato_flat_256px.png */; settings = {ASSET_TAGS = (); }; };
+		AD5493B51BB883090032292D /* ic_backbutton_128px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493B41BB883090032292D /* ic_backbutton_128px.png */; settings = {ASSET_TAGS = (); }; };
 		AD56F3F81B8A2A170094BD99 /* SizeBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD56F3F71B8A2A170094BD99 /* SizeBedViewController.m */; };
 		AD59D6831BA9E3F900A0E5E2 /* growLogo_v001.png in Resources */ = {isa = PBXBuildFile; fileRef = AD59D6821BA9E3F900A0E5E2 /* growLogo_v001.png */; };
 		AD59D6851BA9ECDA00A0E5E2 /* cloth_test.png in Resources */ = {isa = PBXBuildFile; fileRef = AD59D6841BA9ECDA00A0E5E2 /* cloth_test.png */; };
@@ -133,6 +141,14 @@
 		AD54939E1BB732240032292D /* iso_generic_bush_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_generic_bush_256px.png; path = ../../../Documents/sqftGardenAssets/iso_generic_bush_256px.png; sourceTree = "<group>"; };
 		AD5493A21BB738370032292D /* iso_border_base_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_border_base_512px.png; path = ../../../Documents/sqftGardenAssets/iso_border_base_512px.png; sourceTree = "<group>"; };
 		AD5493A41BB73B810032292D /* iso_lettuce_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_lettuce_512px.png; path = ../../../Documents/sqftGardenAssets/iso_lettuce_512px.png; sourceTree = "<group>"; };
+		AD5493A61BB868D70032292D /* iso_lettuce2_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_lettuce2_512px.png; path = ../../../Documents/sqftGardenAssets/iso_lettuce2_512px.png; sourceTree = "<group>"; };
+		AD5493A81BB86B770032292D /* iso_lettuce3_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_lettuce3_256px.png; path = ../../../Documents/sqftGardenAssets/iso_lettuce3_256px.png; sourceTree = "<group>"; };
+		AD5493AA1BB86CA30032292D /* iso_generic2_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_generic2_256px.png; path = ../../../Documents/sqftGardenAssets/iso_generic2_256px.png; sourceTree = "<group>"; };
+		AD5493AC1BB86E4B0032292D /* iso_generic_bush2_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_generic_bush2_256px.png; path = ../../../Documents/sqftGardenAssets/iso_generic_bush2_256px.png; sourceTree = "<group>"; };
+		AD5493AE1BB875FA0032292D /* iso_spinach_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_spinach_256px.png; path = ../../../Documents/sqftGardenAssets/iso_spinach_256px.png; sourceTree = "<group>"; };
+		AD5493B01BB879300032292D /* iso_spinach_4x_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_spinach_4x_256px.png; path = ../../../Documents/sqftGardenAssets/iso_spinach_4x_256px.png; sourceTree = "<group>"; };
+		AD5493B21BB87E650032292D /* ic_tomato_flat_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_tomato_flat_256px.png; path = ../../../Documents/sqftGardenAssets/ic_tomato_flat_256px.png; sourceTree = "<group>"; };
+		AD5493B41BB883090032292D /* ic_backbutton_128px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_backbutton_128px.png; path = ../../../Documents/sqftGardenAssets/ic_backbutton_128px.png; sourceTree = "<group>"; };
 		AD56F3F61B8A29FF0094BD99 /* SizeBedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SizeBedViewController.h; sourceTree = "<group>"; };
 		AD56F3F71B8A2A170094BD99 /* SizeBedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SizeBedViewController.m; sourceTree = "<group>"; };
 		AD59D6821BA9E3F900A0E5E2 /* growLogo_v001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = growLogo_v001.png; path = ../../../Documents/sqftGardenAssets/growLogo_v001.png; sourceTree = "<group>"; };
@@ -327,54 +343,62 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AD5493A21BB738370032292D /* iso_border_base_512px.png */,
-				AD5493A41BB73B810032292D /* iso_lettuce_512px.png */,
-				AD54939E1BB732240032292D /* iso_generic_bush_256px.png */,
-				AD5493991BB701FE0032292D /* ic_isometric_256px.png */,
-				AD4B19A81BB633E900ABDD65 /* iso_generic_256px.png */,
-				ADB982751BB32F8C0084BAC1 /* ic_date_detail_512px.png */,
-				AD9B67A81BB321C500241837 /* ic_eggplant2_flat_256px.png */,
-				AD9B67A61BB320F800241837 /* ic_herb2_flat_256px.png */,
-				ADFB3ED21BAF101300D68424 /* ic_save_512px.png */,
-				ADFB3ED01BAF0DD500D68424 /* ic_save_256px.png */,
-				AD8566AD1BACA784009328F3 /* growLogo_v003.png */,
-				AD326C071BAB8DDB008CDABC /* ic_edit_date_512px.png */,
-				AD59D6861BA9EE1400A0E5E2 /* growLogo_v002.png */,
+				ADC372161BA8605400FF994A /* asset_circle_token_512px.png */,
 				AD59D6841BA9ECDA00A0E5E2 /* cloth_test.png */,
 				AD59D6821BA9E3F900A0E5E2 /* growLogo_v001.png */,
-				ADC372161BA8605400FF994A /* asset_circle_token_512px.png */,
-				ADC3720C1BA7730100FF994A /* photo_basil_512px.jpg */,
-				ADC372131BA78C8F00FF994A /* photo_cilantro_512px.jpg */,
-				ADC372101BA787BC00FF994A /* photo_cucumber_512px.jpg */,
-				ADC3720E1BA7779600FF994A /* photo_eggplant_512px.jpg */,
-				ADC372121BA78C8F00FF994A /* photo_dill_512px.jpg */,
-				AD71D4B01BA4A2A4005848AB /* ic_carrot_flat_256px.png */,
-				AD3A38C01BA61D8600FC0528 /* ic_cancel_256px.png */,
-				AD71D4B11BA4A2A4005848AB /* ic_cucumber_flat_256px.png */,
-				AD3449621BA482F100E1DB4B /* ic_herb_flat_256px.png */,
-				AD3449631BA482F100E1DB4B /* ic_leafy_flat_256px.png */,
-				AD3449641BA482F100E1DB4B /* ic_bean_flat_256px.png */,
-				AD3449651BA482F100E1DB4B /* ic_pepper_flat_256px.png */,
-				AD3449661BA482F100E1DB4B /* ic_eggplant_flat_256px.png */,
-				AD3449671BA482F100E1DB4B /* ic_onion_flat_256px.png */,
-				AD967E9D1BA0A409009D7546 /* init_plants.txt */,
-				ADD364BD1B9F829C00F3B652 /* init_plant_classes.txt */,
-				ADD364BF1B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png */,
+				AD59D6861BA9EE1400A0E5E2 /* growLogo_v002.png */,
+				AD8566AD1BACA784009328F3 /* growLogo_v003.png */,
+				AD5493B41BB883090032292D /* ic_backbutton_128px.png */,
 				ADA751FC1B06B6E300C56F5F /* ic_bean_256.png */,
+				AD3449641BA482F100E1DB4B /* ic_bean_flat_256px.png */,
+				AD1A91F51AF43FA900DC0983 /* ic_burger_44.png */,
+				AD3A38C01BA61D8600FC0528 /* ic_cancel_256px.png */,
+				AD71D4B01BA4A2A4005848AB /* ic_carrot_flat_256px.png */,
 				ADA751FD1B06B6E300C56F5F /* ic_cereal_wheat_256.png */,
+				AD71D4B11BA4A2A4005848AB /* ic_cucumber_flat_256px.png */,
+				ADB982751BB32F8C0084BAC1 /* ic_date_detail_512px.png */,
+				AD326C071BAB8DDB008CDABC /* ic_edit_date_512px.png */,
+				AD3449661BA482F100E1DB4B /* ic_eggplant_flat_256px.png */,
+				AD9B67A81BB321C500241837 /* ic_eggplant2_flat_256px.png */,
 				ADA751FE1B06B6E300C56F5F /* ic_fruit_strawberry_256.png */,
+				AD3449621BA482F100E1DB4B /* ic_herb_flat_256px.png */,
+				AD9B67A61BB320F800241837 /* ic_herb2_flat_256px.png */,
+				AD5493991BB701FE0032292D /* ic_isometric_256px.png */,
+				AD3449631BA482F100E1DB4B /* ic_leafy_flat_256px.png */,
+				AD3449671BA482F100E1DB4B /* ic_onion_flat_256px.png */,
+				AD3449651BA482F100E1DB4B /* ic_pepper_flat_256px.png */,
+				ADFB3ED01BAF0DD500D68424 /* ic_save_256px.png */,
+				ADFB3ED21BAF101300D68424 /* ic_save_512px.png */,
+				AD5493B21BB87E650032292D /* ic_tomato_flat_256px.png */,
+				ADA752071B06B6E300C56F5F /* ic_vegetable_brinjal_256.png */,
 				ADA751FF1B06B6E300C56F5F /* ic_vegetable_cabbage_256.png */,
 				ADA752001B06B6E300C56F5F /* ic_vegetable_capsicum_256.png */,
 				ADA752011B06B6E300C56F5F /* ic_vegetable_carrot_256.png */,
 				ADA752021B06B6E300C56F5F /* ic_vegetable_chilly_256.png */,
+				ADD364BF1B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png */,
 				ADA752031B06B6E300C56F5F /* ic_vegetable_onion_256.png */,
 				ADA752041B06B6E300C56F5F /* ic_vegetable_radish_256.png */,
 				ADA752051B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png */,
 				ADA752061B06B6E300C56F5F /* ic_vegetable_tomato_02_256.png */,
-				ADA752071B06B6E300C56F5F /* ic_vegetable_brinjal_256.png */,
-				AD1A91F51AF43FA900DC0983 /* ic_burger_44.png */,
 				AD1A91B81AF434DA00DC0983 /* Info.plist */,
+				ADD364BD1B9F829C00F3B652 /* init_plant_classes.txt */,
+				AD967E9D1BA0A409009D7546 /* init_plants.txt */,
+				AD5493A21BB738370032292D /* iso_border_base_512px.png */,
+				AD4B19A81BB633E900ABDD65 /* iso_generic_256px.png */,
+				AD54939E1BB732240032292D /* iso_generic_bush_256px.png */,
+				AD5493AC1BB86E4B0032292D /* iso_generic_bush2_256px.png */,
+				AD5493AA1BB86CA30032292D /* iso_generic2_256px.png */,
+				AD5493A41BB73B810032292D /* iso_lettuce_512px.png */,
+				AD5493A61BB868D70032292D /* iso_lettuce2_512px.png */,
+				AD5493A81BB86B770032292D /* iso_lettuce3_256px.png */,
+				AD5493B01BB879300032292D /* iso_spinach_4x_256px.png */,
+				AD5493AE1BB875FA0032292D /* iso_spinach_256px.png */,
 				AD1A91B91AF434DA00DC0983 /* main.m */,
+				ADC3720C1BA7730100FF994A /* photo_basil_512px.jpg */,
+				ADC372131BA78C8F00FF994A /* photo_cilantro_512px.jpg */,
+				ADC372101BA787BC00FF994A /* photo_cucumber_512px.jpg */,
+				ADC372121BA78C8F00FF994A /* photo_dill_512px.jpg */,
+				ADC3720E1BA7779600FF994A /* photo_eggplant_512px.jpg */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -481,6 +505,7 @@
 				ADD364BE1B9F829C00F3B652 /* init_plant_classes.txt in Resources */,
 				ADB982761BB32F8C0084BAC1 /* ic_date_detail_512px.png in Resources */,
 				AD34496D1BA482F100E1DB4B /* ic_onion_flat_256px.png in Resources */,
+				AD5493B31BB87E650032292D /* ic_tomato_flat_256px.png in Resources */,
 				AD9B67A91BB321C500241837 /* ic_eggplant2_flat_256px.png in Resources */,
 				AD5493A51BB73B810032292D /* iso_lettuce_512px.png in Resources */,
 				ADA752081B06B6E300C56F5F /* ic_bean_256.png in Resources */,
@@ -501,6 +526,7 @@
 				ADC372171BA8605400FF994A /* asset_circle_token_512px.png in Resources */,
 				AD59D6851BA9ECDA00A0E5E2 /* cloth_test.png in Resources */,
 				ADC3720F1BA7779600FF994A /* photo_eggplant_512px.jpg in Resources */,
+				AD5493A71BB868D70032292D /* iso_lettuce2_512px.png in Resources */,
 				ADA752101B06B6E300C56F5F /* ic_vegetable_radish_256.png in Resources */,
 				AD8566AE1BACA784009328F3 /* growLogo_v003.png in Resources */,
 				AD967E9E1BA0A409009D7546 /* init_plants.txt in Resources */,
@@ -508,14 +534,20 @@
 				ADA7520D1B06B6E300C56F5F /* ic_vegetable_carrot_256.png in Resources */,
 				AD71D4B21BA4A2A4005848AB /* ic_carrot_flat_256px.png in Resources */,
 				AD59D6831BA9E3F900A0E5E2 /* growLogo_v001.png in Resources */,
+				AD5493AF1BB875FA0032292D /* iso_spinach_256px.png in Resources */,
+				AD5493B11BB879300032292D /* iso_spinach_4x_256px.png in Resources */,
 				ADA7520C1B06B6E300C56F5F /* ic_vegetable_capsicum_256.png in Resources */,
 				AD3449681BA482F100E1DB4B /* ic_herb_flat_256px.png in Resources */,
+				AD5493AB1BB86CA30032292D /* iso_generic2_256px.png in Resources */,
 				ADC3720D1BA7730100FF994A /* photo_basil_512px.jpg in Resources */,
 				AD1A91F61AF43FA900DC0983 /* ic_burger_44.png in Resources */,
 				AD34496A1BA482F100E1DB4B /* ic_bean_flat_256px.png in Resources */,
 				AD59D6871BA9EE1400A0E5E2 /* growLogo_v002.png in Resources */,
+				AD5493AD1BB86E4B0032292D /* iso_generic_bush2_256px.png in Resources */,
 				ADC372141BA78C8F00FF994A /* photo_dill_512px.jpg in Resources */,
+				AD5493B51BB883090032292D /* ic_backbutton_128px.png in Resources */,
 				AD1A91C81AF434DA00DC0983 /* LaunchScreen.xib in Resources */,
+				AD5493A91BB86B770032292D /* iso_lettuce3_256px.png in Resources */,
 				ADFB3ED31BAF101300D68424 /* ic_save_512px.png in Resources */,
 				ADC372151BA78C8F00FF994A /* photo_cilantro_512px.jpg in Resources */,
 				AD34496B1BA482F100E1DB4B /* ic_pepper_flat_256px.png in Resources */,

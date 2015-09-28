@@ -26,6 +26,10 @@ DBManager *dbManager;
         ApplicationSetup *appSetup = [[ApplicationSetup alloc] init];
         [appSetup createDB];
     }
+    //UIImage *backBtn = [UIImage imageNamed:@"ic_backbutton_128px.png"];
+    //[[UIBarButtonItem appearance] setBackButtonBackgroundImage:backBtn
+    //                                                  forState:UIControlStateNormal
+    //                                                barMetrics:UIBarMetricsDefault];
     
     return YES;
 }

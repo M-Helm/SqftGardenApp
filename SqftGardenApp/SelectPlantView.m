@@ -142,14 +142,6 @@ EditBedViewController *editBedVC;
     return selectArray;
 }
 
--(void) findClosestSquareWhileIso{
-    for(UIView *subview in editBedVC.bedFrameView.subviews){
-        CGRect transformFrame = [editBedVC.isoView  convertRect:[subview frame] fromView:editBedVC.isoView.bedFrameView];
-        CGPoint point;
-        point.x = transformFrame.origin.x + (transformFrame.size.width/2);
-        point.y = transformFrame.origin.y + (appGlobals.bedDimension/4);
-    }
-}
 
 -(void) cancelSelectPlant{
     for(UIView *subview in self.subviews){
@@ -164,7 +156,7 @@ EditBedViewController *editBedVC;
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 
-    //if(self.isoViewIsOpen)return;
+    if(self.isoViewIsOpen)return;
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
@@ -201,7 +193,7 @@ EditBedViewController *editBedVC;
         //test the page bounds, if too close to edge, return
         float clipValue = self.frame.size.width - ((appGlobals.bedDimension-5)*.40);
         if(location.x > clipValue){
-            NSLog(@"CLIPPED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            
             //reset everything in plant select to avoid errant planticons floating about
             for(UIView *subview in self.subviews){
                 [subview removeFromSuperview];
@@ -226,7 +218,7 @@ EditBedViewController *editBedVC;
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     if(self.datePickerIsOpen)return;
-    //if(self.isoViewIsOpen)return;
+    if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -244,15 +236,26 @@ EditBedViewController *editBedVC;
     self.scrollEnabled = YES;
 }
 
+-(CGPoint) convertPointToIso: (UIView*)view{
+    CGPoint point;
+    //CGRect transformFrame = [editBedVC.isoView  convertRect:[view frame] fromView:editBedVC.isoView.bedFrameView];
+    CGRect transformFrame = [editBedVC.isoView  convertRect:[view frame] fromView:nil];
+    point.x = transformFrame.origin.x + (transformFrame.size.width/2);
+    point.y = transformFrame.origin.y + (appGlobals.bedDimension/4);
+    NSLog(@"transform point x %f", point.x);
+    return point;
+}
+
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     if(self.datePickerIsOpen)return;
-    //if(self.isoViewIsOpen)return;
+    if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     CGPoint locationInBed;
     if([touch view] != nil){
         touchedView = [touch view];
         locationInBed = [touch locationInView:editBedVC.bedFrameView];
+        if(self.isoViewIsOpen)locationInBed = [self convertPointToIso:touchedView];
         NSLog(@"Location in Bed: %f", locationInBed.x);
     }
     if ([touchedView class] == [PlantIconView class]){
@@ -283,6 +286,7 @@ EditBedViewController *editBedVC;
         int targetCell = -1;
         for(UIView *subview in editBedVC.bedFrameView.subviews){
             CGPoint location = subview.center;
+            if(self.isoViewIsOpen)location = [self convertPointToIso:subview];
             //NSLog(@"subview center x : %f",subview.center.x);
             float bedX = fabs(location.x);
             float bedY = fabs(location.y);

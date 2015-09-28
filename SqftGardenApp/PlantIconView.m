@@ -191,7 +191,7 @@ ApplicationGlobals *appGlobals;
     float height = self.bounds.size.height;
     float width = self.bounds.size.width;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 11, width, 11)];
-    [label setFont:[UIFont boldSystemFontOfSize:11]];
+    [label setFont:[UIFont boldSystemFontOfSize:10]];
     label.textColor = [UIColor blackColor];
     if(self.population > 3)label.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
     if(appGlobals.showPlantNumberTokens)label.backgroundColor = [UIColor clearColor];
@@ -201,7 +201,7 @@ ApplicationGlobals *appGlobals;
 }
 -(void)setNumberTokenImage{
     if(self.isIsometric)return;
-    if(self.population < 2)return;
+    //if(self.population < 2)return;
     UIImage *icon = [UIImage imageNamed: @"asset_circle_token_512px.png"];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
     float iconDimension = self.frame.size.width / 3.5;

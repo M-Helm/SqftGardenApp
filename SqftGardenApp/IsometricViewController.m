@@ -74,7 +74,7 @@ ApplicationGlobals *appGlobals;
 
 
     int bedDimension = appGlobals.bedDimension;
-    float padding = 5;
+    //float padding = 5;
 
 
     for(UIView *subview in self.bedFrameView.subviews){

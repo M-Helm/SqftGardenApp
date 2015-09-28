@@ -246,7 +246,7 @@ EditBedViewController *editBedVC;
 }
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     //if(self.datePickerIsOpen)return;
-    NSLog(@"isoview touches began");
+    //NSLog(@"isoview touches began");
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
