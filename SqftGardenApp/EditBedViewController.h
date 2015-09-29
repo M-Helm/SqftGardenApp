@@ -10,12 +10,14 @@
 #import "SelectPlantView.h"
 #import "DateSelectView.h"
 #import "IsometricView.h"
+#import "GrowToolBarView.h"
 
 
 @interface EditBedViewController : UIViewController
 @property(nonatomic) SqftGardenModel *currentGardenModel;
 @property(nonatomic) DateSelectView *datePickerView;
 @property(nonatomic) SelectPlantView *selectPlantView;
+@property(nonatomic) GrowToolBarView *toolBar;
 
 @property(nonatomic) bool datePickerIsOpen;
 @property(nonatomic) bool isoViewIsOpen;

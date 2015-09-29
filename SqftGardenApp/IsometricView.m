@@ -56,15 +56,6 @@ EditBedViewController *editBedVC;
 
 }
 
-/*
--(CGRect)makeBedFrame{
-    float xCo = editBedVC.view.bounds.size.width;
-    float yCo = appGlobals.globalGardenModel.rows * appGlobals.bedDimension;
-    CGRect frame = CGRectMake(editBedVC.sideOffset, editBedVC.topOffset + editBedVC.titleView.frame.size.height+7, xCo+(editBedVC.sideOffset*-2),yCo);
-    return frame;
-}
-*/
-
 - (void) setScrollView{
     // Adjust scroll view content size
     self.contentSize = CGSizeMake(self.frame.size.width * 1.5, self.frame.size.height * 1.5);
@@ -170,11 +161,18 @@ EditBedViewController *editBedVC;
 
             UIImage *icon = [UIImage imageNamed: plant.isoIcon];
             
-            CGRect frame = CGRectMake(0,0,bedDimension,bedDimension);
+            CGRect frame = CGRectMake(0,0,bedDimension*1.75,bedDimension*1.75);
             UIImageView *iconView = [[UIImageView alloc] initWithImage:icon];
             iconView.tag = 4;
             iconView.frame = frame;
             iconView.center = point;
+            iconView.layer.borderWidth =0;
+            iconView.layer.borderColor = [UIColor blackColor].CGColor;
+            
+            
+            
+
+            
             //[self addSubview:iconView];
             [self addSubview:iconView];
         }
@@ -194,21 +192,14 @@ EditBedViewController *editBedVC;
     for(int i = 0; i<self.bedViewArray.count;i++){
         [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
     }
-    //add icons to bedviews
-    int cellCount = 0;
-    for (UIView *subview in self.bedFrameView.subviews){
-        if( [subview class] == [PlantIconView class]){
-            cellCount++;
-        }
-    }
     //self.bedFrameView.layer.borderColor = [UIColor blackColor].CGColor;
     self.bedFrameView.layer.borderWidth = 0;
     
-    UIImage *border = [UIImage imageNamed:@"iso_border_base_512px.png"];
-    UIImageView *borderView = [[UIImageView alloc] initWithImage:border];
-    borderView.layer.borderWidth = 0;
-    borderView.frame = CGRectMake(-15, -15,xCo+15,yCo+15);
-    borderView.tag = 4;
+    //UIImage *border = [UIImage imageNamed:@"iso_border_base_512px.png"];
+    //UIImageView *borderView = [[UIImageView alloc] initWithImage:border];
+    //borderView.layer.borderWidth = 0;
+    //borderView.frame = CGRectMake(-15, -15,xCo+15,yCo+15);
+    //borderView.tag = 4;
     
     //[self.bedFrameView addSubview:borderView];
 }
@@ -243,6 +234,7 @@ EditBedViewController *editBedVC;
                                   withPlantId: plantId isIsometric:YES];
             bed.layer.borderWidth = 1;
             bed.position = cell;
+        
             [bedArray addObject:bed];
             columnNumber++;
             cell++;

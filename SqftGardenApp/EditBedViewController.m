@@ -5,7 +5,6 @@
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 
 #import "EditBedViewController.h"
-
 #import "PlantIconView.h"
 #import "ClassIconView.h"
 #import "ApplicationGlobals.h"
@@ -151,11 +150,42 @@ DBManager *dbManager;
     [self makeSelectMessageView: width : height];
     [self makeSelectView: width : height];
 
+    self.toolBar = [self makeToolbar];
     self.selectIsoView = [self makeIsoIconView];
-    [self.view addSubview:self.selectIsoView];
-    
-
+    [self.toolBar addSubview:self.selectIsoView];
+    [self.view addSubview:self.toolBar];
 }
+
+-(GrowToolBarView *)makeToolbar{
+    GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-55,self.view.frame.size.width,55) andEditBedVC:self];
+    return toolBar;
+}
+- (UIView *)makeIsoIconView{
+    //float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
+    UIImage *icon = [UIImage imageNamed:@"ic_isometric_256px.png"];
+    UIImageView *isoIcon = [[UIImageView alloc] initWithImage:icon];
+    
+    isoIcon.frame = CGRectMake(self.toolBar.frame.size.width-44, self.toolBar.frame.size.height-55, 44, 44);
+    isoIcon.layer.borderColor = [UIColor blackColor].CGColor;
+    isoIcon.layer.borderWidth = 1;
+    isoIcon.layer.cornerRadius = 5;
+    isoIcon.userInteractionEnabled = YES;
+    isoIcon.clipsToBounds = NO;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,45,44,10)];
+    [label setFont:[UIFont systemFontOfSize:11]];
+    label.text = @"3d View";
+    [isoIcon addSubview:label];
+
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleIsoIconSingleTap:)];
+    [isoIcon addGestureRecognizer:singleFingerTap];
+    
+    return isoIcon;
+}
+
+
 -(void)setToolIconPositions{
     //check if a date exists
     CGRect navBarFrame = CGRectMake((self.view.frame.size.width)-88-44,0,44,44);
@@ -293,17 +323,6 @@ DBManager *dbManager;
     for(int i = 0; i<self.bedViewArray.count;i++){
         [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
     }
-    //add icons to bedviews
-    int cellCount = 0;
-    for (UIView *subview in self.bedFrameView.subviews){
-        if( [subview class] == [PlantIconView class]){
-            cellCount++;
-        }
-    }
-    //self.bedFrameView.layer.borderColor = [UIColor blackColor].CGColor;
-    self.bedFrameView.layer.borderWidth = 0;
-    //self.bedFrameView.layer.cornerRadius = 15;
-    
 }
 
 -(CGRect)calculateBedFrame{
@@ -690,25 +709,7 @@ DBManager *dbManager;
     [alert show];
 }
 
-- (UIView *)makeIsoIconView{
-    //float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
-    UIImage *icon = [UIImage imageNamed:@"ic_isometric_256px.png"];
-    UIImageView *isoIcon = [[UIImageView alloc] initWithImage:icon];
-    isoIcon.frame = CGRectMake(self.view.frame.size.width-44, self.view.frame.size.height-44, 44, 44);
-    isoIcon.layer.borderColor = [UIColor blackColor].CGColor;
-    isoIcon.layer.borderWidth = 2;
-    isoIcon.layer.cornerRadius = 5;
 
-    isoIcon.userInteractionEnabled = YES;
-    isoIcon.clipsToBounds = YES;
-    
-    UITapGestureRecognizer *singleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleIsoIconSingleTap:)];
-    [isoIcon addGestureRecognizer:singleFingerTap];
-    
-    return isoIcon;
-}
 - (void)handleIsoIconSingleTap:(UITapGestureRecognizer *)recognizer {
     //NSLog(@"handle iso singletap");
     if(self.isoViewIsOpen){

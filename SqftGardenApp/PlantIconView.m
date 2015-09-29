@@ -166,7 +166,7 @@ ApplicationGlobals *appGlobals;
                                          padding + (iconSize * rowNumber) + yFrameAdjuster,
                                          iconSize-(padding * 2),
                                          iconSize-(padding * 2));
-            if(self.isIsometric)imageView.alpha = .5;
+            if(self.isIsometric)imageView.alpha = 0.0;
             [self addSubview:imageView];
             columnNumber++;
             cell++;
@@ -196,6 +196,7 @@ ApplicationGlobals *appGlobals;
     if(self.population > 3)label.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
     if(appGlobals.showPlantNumberTokens)label.backgroundColor = [UIColor clearColor];
     label.text = self.plantName;
+    //if(self.isIsometric)label.text = @"";
     label.textAlignment = NSTextAlignmentCenter;
     [self addSubview:label];
 }
