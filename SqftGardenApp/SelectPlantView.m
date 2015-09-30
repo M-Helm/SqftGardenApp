@@ -155,8 +155,6 @@ EditBedViewController *editBedVC;
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     
-    [self hideGrowToolBar];
-    
     if(self.isoViewIsOpen)return;
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];

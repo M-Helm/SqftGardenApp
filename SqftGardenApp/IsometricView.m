@@ -57,12 +57,13 @@ EditBedViewController *editBedVC;
 }
 
 - (void) setScrollView{
-    // Adjust scroll view content size
     self.contentSize = CGSizeMake(self.frame.size.width * 1.5, self.frame.size.height * 1.5);
-    self.pagingEnabled= NO;
+    self.pagingEnabled = NO;
     self.contentInset = UIEdgeInsetsMake(20,20,20,20);
-    
-    //self.backgroundColor = [UIColor clearColor];
+    self.decelerationRate = UIScrollViewDecelerationRateFast;
+    self.showsHorizontalScrollIndicator = NO;
+    self.showsVerticalScrollIndicator = NO;
+
 }
 
 -(CGAffineTransform) buildIsometricTransform{
@@ -118,16 +119,11 @@ EditBedViewController *editBedVC;
             [subview removeFromSuperview];
         }
     }
-    //CGRect frame = CGRectMake(50, 140,self.bedFrameView.frame.size.width,self.bedFrameView.frame.size.height);
     CGRect frame = [editBedVC calculateBedFrame];
-    //calc delta of bed view and the bed orgin as caclulated in editvc
-    //NSLog(@"iso frame = %f", frame.origin.x);
-    //NSLog(@"anchor frame = %f", editBedVC.cellHorizontalPadding);
-    //NSLog(@"anchor delta = %f", editBedVC.bedViewAnchor.x-frame.origin.x);
-    
     frame = CGRectMake(editBedVC.cellHorizontalPadding - 5, frame.origin.y, frame.size.width, frame.size.width);
     [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
+                         
                          self.bedFrameView.transform = [self buildUnwindIsometricTransform];
                          self.bedFrameView.frame = frame;
                          

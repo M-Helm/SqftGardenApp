@@ -17,8 +17,8 @@
 @end
 
 @implementation EditBedViewController
-const int BED_LAYOUT_HEIGHT_BUFFER = 3;
-const int BED_LAYOUT_WIDTH_BUFFER = -17;
+//const int BED_LAYOUT_HEIGHT_BUFFER = 3;
+//const int BED_LAYOUT_WIDTH_BUFFER = -17;
 const float BED_LAYOUT_WIDTH_RATIO = 1.0;
 const float BED_LAYOUT_HEIGHT_RATIO = .60;
 const float SELECT_LAYOUT_WIDTH_RATIO = 1.0;
@@ -488,7 +488,6 @@ DBManager *dbManager;
     for(int i=0; i<self.bedRowCount; i++){
         while(columnNumber < self.bedColumnCount){
             int plantId = [self.currentGardenModel getPlantIdForCell:cell];
-
             float padding = [self calculateBedViewHorizontalPadding];
             PlantIconView *bed = [[PlantIconView alloc]
                                   initWithFrame:CGRectMake(padding + (bedDimension*columnNumber),
@@ -734,9 +733,8 @@ DBManager *dbManager;
     self.selectMessageView.alpha = .25;
 
     [self.view addSubview:self.isoView];
-   
 }
-- (void)unwindIsoView{
+- (void)unwindIsoView {
     [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.isoView.alpha = 0;
