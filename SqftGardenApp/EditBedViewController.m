@@ -151,38 +151,42 @@ DBManager *dbManager;
     [self makeSelectView: width : height];
 
     self.toolBar = [self makeToolbar];
-    self.selectIsoView = [self makeIsoIconView];
-    [self.toolBar addSubview:self.selectIsoView];
+    self.isoIconView = [self makeIsoIconView];
+    [self.toolBar addSubview:self.isoIconView];
     [self.view addSubview:self.toolBar];
 }
 
 -(GrowToolBarView *)makeToolbar{
-    GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-55,self.view.frame.size.width,55) andEditBedVC:self];
+    GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-44,self.view.frame.size.width,44) andEditBedVC:self];
     return toolBar;
 }
 - (UIView *)makeIsoIconView{
     //float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
+    self.isoIconView = [[UIView alloc]initWithFrame:CGRectMake(self.toolBar.frame.size.width-54, self.toolBar.frame.size.height-44, 44, 44)];
+    self.isoIconView.userInteractionEnabled = YES;
+    
     UIImage *icon = [UIImage imageNamed:@"ic_isometric_256px.png"];
     UIImageView *isoIcon = [[UIImageView alloc] initWithImage:icon];
     
-    isoIcon.frame = CGRectMake(self.toolBar.frame.size.width-44, self.toolBar.frame.size.height-55, 44, 44);
+    isoIcon.frame = CGRectMake(10,5,24,24);
     isoIcon.layer.borderColor = [UIColor blackColor].CGColor;
     isoIcon.layer.borderWidth = 1;
     isoIcon.layer.cornerRadius = 5;
     isoIcon.userInteractionEnabled = YES;
     isoIcon.clipsToBounds = NO;
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,45,44,10)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,30,44,10)];
     [label setFont:[UIFont systemFontOfSize:11]];
     label.text = @"3d View";
-    [isoIcon addSubview:label];
+    [self.isoIconView addSubview:label];
+    [self.isoIconView addSubview:isoIcon];
 
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(handleIsoIconSingleTap:)];
-    [isoIcon addGestureRecognizer:singleFingerTap];
+    [self.isoIconView addGestureRecognizer:singleFingerTap];
     
-    return isoIcon;
+    return self.isoIconView;
 }
 
 
@@ -529,7 +533,6 @@ DBManager *dbManager;
     
     //NSString *dateString = [dateFormat stringFromDate:date];
     //NSDate *formatedDate = [dateFormat dateFromString:dateString];
-    
     //self.currentGardenModel.plantingDate = date;
     //appGlobals.globalGardenModel.plantingDate = date;
     [self.currentGardenModel setPlantingDate:date];

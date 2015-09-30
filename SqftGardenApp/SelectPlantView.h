@@ -24,5 +24,7 @@
 @property(nonatomic) bool datePickerIsOpen;
 @property(nonatomic) bool isoViewIsOpen;
 
+@property(nonatomic) bool toolBarHidden;
+
 
 @end

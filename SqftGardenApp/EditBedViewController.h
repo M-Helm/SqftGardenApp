@@ -18,6 +18,7 @@
 @property(nonatomic) DateSelectView *datePickerView;
 @property(nonatomic) SelectPlantView *selectPlantView;
 @property(nonatomic) GrowToolBarView *toolBar;
+@property(nonatomic) IsometricView *isoView;
 
 @property(nonatomic) bool datePickerIsOpen;
 @property(nonatomic) bool isoViewIsOpen;
@@ -32,14 +33,14 @@
 @property(nonatomic) NSMutableArray *selectPlantArray;
 
 @property(nonatomic) UIView *bedFrameView;
-@property(nonatomic) UIView *selectIsoView;
+//@property(nonatomic) UIView *selectIsoView;
 @property(nonatomic) UIView *selectMessageView;
 @property(nonatomic) UILabel *selectMessageLabel;
 @property(nonatomic) UIView *titleView;
 @property(nonatomic) UIView *dateIconView;
 @property(nonatomic) UIView *saveIconView;
 @property(nonatomic) UIView *dataPresentIconView;
-@property(nonatomic) IsometricView *isoView;
+@property(nonatomic) UIView *isoIconView;
 
 @property(nonatomic) int cellHorizontalPadding;
 

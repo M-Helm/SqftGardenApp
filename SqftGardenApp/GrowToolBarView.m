@@ -22,11 +22,27 @@ EditBedViewController *editBedVC;
     self = [super initWithFrame:frame];
     if (self) {
         editBedVC = (EditBedViewController*)editBed;
-        //[self commonInit];
+        [self commonInit];
     }
     return self;
 }
 
+-(void) commonInit{
+    
+    /*
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    UIBarButtonItem *flexiableItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil];
+    UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:nil];
+    
+    [items addObject:flexiableItem];
+    [items addObject:item1];
+    [items addObject:item2];
+    
+    [self setItems:items animated:YES];
+    
+    */
+}
 
 
 @end

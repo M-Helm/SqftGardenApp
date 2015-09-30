@@ -102,7 +102,6 @@ EditBedViewController *editBedVC;
     
     CGAffineTransform concatTransform2 = CGAffineTransformConcat(concatTransform, rotateTransform);
     return concatTransform2;
-    
 }
 
 -(void) unwindIsoViewTransform{

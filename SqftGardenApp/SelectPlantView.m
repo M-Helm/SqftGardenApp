@@ -153,9 +153,10 @@ EditBedViewController *editBedVC;
     }
 }
 
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    [self hideGrowToolBar];
+    
     if(self.isoViewIsOpen)return;
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
@@ -315,5 +316,41 @@ EditBedViewController *editBedVC;
         AudioServicesPlaySystemSound(1105);
     }
 }
-    
+
+-(void) hideGrowToolBar{
+    CGRect toolbarFrame = CGRectMake(editBedVC.toolBar.frame.origin.x,
+                                     editBedVC.toolBar.frame.origin.y +44,
+                                     editBedVC.toolBar.frame.size.width,
+                                     editBedVC.toolBar.frame.size.height);
+    [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+
+         editBedVC.toolBar.frame = toolbarFrame;
+     }
+                     completion:^(BOOL finished)
+     {
+         editBedVC.toolBar.hidden = YES;
+         self.toolBarHidden = YES;
+     }];
+}
+
+-(void) showGrowToolBar{
+    editBedVC.toolBar.hidden = NO;
+    self.toolBarHidden = NO;
+    CGRect toolbarFrame = CGRectMake(editBedVC.toolBar.frame.origin.x,
+                                     editBedVC.toolBar.frame.origin.y -44,
+                                     editBedVC.toolBar.frame.size.width,
+                                     editBedVC.toolBar.frame.size.height);
+    [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         
+                         editBedVC.toolBar.frame = toolbarFrame;
+                     }
+                     completion:^(BOOL finished)
+     {
+         
+     }];
+}
+
+
 @end
