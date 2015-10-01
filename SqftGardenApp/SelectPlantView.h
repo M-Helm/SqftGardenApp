@@ -23,7 +23,6 @@
 - (id)initWithFrame:(CGRect)frame andEditBedVC:(UIViewController*)editBed;
 @property(nonatomic) bool datePickerIsOpen;
 @property(nonatomic) bool isoViewIsOpen;
-
 @property(nonatomic) bool toolBarHidden;
 
 

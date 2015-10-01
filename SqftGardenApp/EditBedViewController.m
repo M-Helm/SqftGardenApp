@@ -143,16 +143,19 @@ DBManager *dbManager;
     bk.frame = self.view.frame;
     [self.view addSubview:bk];
     
-    [self makeSaveIcon];
+    self.toolBar = [self makeToolbar];
+    self.isoIconView = [self makeIsoIconView];
+    self.saveIconView = [self makeSaveIcon];
     [self makeTitleBar];
-    [self setToolIconPositions];
+    //[self setToolIconPositions];
     [self makeBedFrameView];
     [self makeSelectMessageView: width : height];
     [self makeSelectView: width : height];
 
-    self.toolBar = [self makeToolbar];
-    self.isoIconView = [self makeIsoIconView];
+    
+
     [self.toolBar addSubview:self.isoIconView];
+    [self.toolBar addSubview:self.saveIconView];
     [self.view addSubview:self.toolBar];
 }
 
@@ -189,6 +192,65 @@ DBManager *dbManager;
     return self.isoIconView;
 }
 
+-(UIView *)makeSaveIcon{
+    //remove self if exists
+    if(self.saveIconView != nil)[self.saveIconView removeFromSuperview];
+    
+    self.saveIconView = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-104, self.toolBar.frame.size.height-44, 44, 44)];
+    //make and add view
+    UIImage *icon = [UIImage imageNamed:@"ic_save_512px.png"];
+    UIImageView *imageView = [[UIImageView alloc]initWithImage:icon];
+    CGRect frame = CGRectMake(3,0,38,38);
+    imageView.frame = frame;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,30,44,10)];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    [label setFont:[UIFont systemFontOfSize:11]];
+    label.text = @"Save";
+    
+    self.saveIconView.userInteractionEnabled = YES;
+    [self.saveIconView addSubview:label];
+    [self.saveIconView addSubview:imageView];
+    
+    UITapGestureRecognizer *saveSingleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleSaveIconSingleTap:)];
+    [self.saveIconView addGestureRecognizer:saveSingleFingerTap];
+    
+    return self.saveIconView;
+}
+
+-(void)makeDataPresentIcon{
+    //remove self if exists
+    [self.dataPresentIconView removeFromSuperview];
+    UIImage *dataIcon = [UIImage imageNamed:@"ic_date_detail_512px.png"];
+    self.dataPresentIconView = [[UIImageView alloc]initWithImage:dataIcon];
+    CGRect dataFrame = CGRectMake((self.view.frame.size.width)-132-44,0,44,44);
+    //CGRect dataFrame = CGRectMake(0,0,44,44);
+    self.dataPresentIconView.frame = dataFrame;
+    self.dataPresentIconView.alpha = 1;
+    self.dataPresentIconView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleDataPresentIconSingleTap:)];
+    [self.dataPresentIconView addGestureRecognizer:singleFingerTap];
+    //[self.navigationController.navigationBar addSubview:self.dataPresentIconView];
+}
+
+-(UIImageView *)makeDateIcon{
+    UIImage *dateIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:dateIcon];
+    CGRect fm = CGRectMake(20,0,44,44);
+    imgView.frame = fm;
+    imgView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleDateIconSingleTap:)];
+    [imgView addGestureRecognizer:singleFingerTap];
+    return imgView;
+}
+
+/*
 
 -(void)setToolIconPositions{
     //check if a date exists
@@ -217,56 +279,9 @@ DBManager *dbManager;
     }
 }
 
--(void)makeSaveIcon{
-    //remove self if exists
-    [self.saveIconView removeFromSuperview];
-    //make and add view
-    UIImage *saveIcon = [UIImage imageNamed:@"ic_save_512px.png"];
-    self.saveIconView = [[UIImageView alloc]initWithImage:saveIcon];
-    //CGRect saveFrame = CGRectMake((self.view.frame.size.width)-88-44,0,44,44);
-    CGRect saveFrame = CGRectMake(0,0,44,44);
-    self.saveIconView.frame = saveFrame;
-    self.saveIconView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *saveSingleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleSaveIconSingleTap:)];
-    [self.saveIconView addGestureRecognizer:saveSingleFingerTap];
-    
-    //if name.length < 1 we assume an empty garden model and alpha out save icon
-    //if(appGlobals.globalGardenModel.name.length < 1) self.saveIconView.alpha = .05;
-    
-    //[self.navigationController.navigationBar addSubview:self.saveIconView];
-}
+*/
 
--(void)makeDataPresentIcon{
-    //remove self if exists
-    [self.dataPresentIconView removeFromSuperview];
-    UIImage *dataIcon = [UIImage imageNamed:@"ic_date_detail_512px.png"];
-    self.dataPresentIconView = [[UIImageView alloc]initWithImage:dataIcon];
-    CGRect dataFrame = CGRectMake((self.view.frame.size.width)-132-44,0,44,44);
-    //CGRect dataFrame = CGRectMake(0,0,44,44);
-    self.dataPresentIconView.frame = dataFrame;
-    self.dataPresentIconView.alpha = 1;
-    self.dataPresentIconView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *singleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleDataPresentIconSingleTap:)];
-    [self.dataPresentIconView addGestureRecognizer:singleFingerTap];
-    //[self.navigationController.navigationBar addSubview:self.dataPresentIconView];
-}
 
--(UIImageView *)makeDateIcon{
-    UIImage *dateIcon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:dateIcon];
-    CGRect fm = CGRectMake(20,0,44,44);
-    imgView.frame = fm;
-    imgView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *singleFingerTap =
-                [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleDateIconSingleTap:)];
-    [imgView addGestureRecognizer:singleFingerTap];
-    return imgView;
-}
 
 -(void)makeTitleBar{
     //remove self if exists
