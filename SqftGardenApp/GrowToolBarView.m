@@ -16,18 +16,19 @@
 
 @implementation GrowToolBarView
 
-EditBedViewController *editBedVC;
+UIViewController *viewController;
 ApplicationGlobals *appGlobals;
 
-- (id)initWithFrame:(CGRect)frame andEditBedVC:(UIViewController*)editBed{
+- (id)initWithFrame:(CGRect)frame andViewController:(UIViewController*)controller{
     
     self = [super initWithFrame:frame];
     if (self) {
-        editBedVC = (EditBedViewController*)editBed;
+        viewController = controller;
         appGlobals = [ApplicationGlobals getSharedGlobals];
         self.toolBarTag = 72;
         self.toolBarIsPinned = NO;
         self.enableBackButton = NO;
+        self.enableMenuButton = YES;
         [self commonInit];
     }
     return self;
@@ -61,6 +62,11 @@ ApplicationGlobals *appGlobals;
     self.enableBackButton = enabled;
     if(self.enableBackButton)self.backButtonIconView.alpha = 1;
     else self.backButtonIconView.alpha = .3;
+}
+-(void)enableMenuButton:(bool)enabled{
+    self.enableMenuButton = enabled;
+    if(self.enableMenuButton)self.backButtonIconView.alpha = 1;
+    else self.menuIconView.alpha = .3;
 }
 
 -(void) showToolBar{
@@ -117,10 +123,10 @@ ApplicationGlobals *appGlobals;
 }
 - (UIView *)makeIsoIconView{
     int toolbarPosition = 2;
-    float iconWidth = (editBedVC.view.frame.size.width/5);
+    float iconWidth = (viewController.view.frame.size.width/5);
     
     //float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
-    self.isoIconView = [[UIView alloc]initWithFrame:CGRectMake((editBedVC.view.frame.size.width/5)*toolbarPosition,
+    self.isoIconView = [[UIView alloc]initWithFrame:CGRectMake((viewController.view.frame.size.width/5)*toolbarPosition,
                                                                self.frame.size.height-44, iconWidth, 44)];
     
     self.isoIconView.userInteractionEnabled = YES;
@@ -157,11 +163,11 @@ ApplicationGlobals *appGlobals;
 }
 -(UIView *)makeBackButtonIcon{
     int toolbarPosition = 0;
-    float iconWidth = (editBedVC.view.frame.size.width/5);
+    float iconWidth = (viewController.view.frame.size.width/5);
     //remove self if exists
     if(self.backButtonIconView != nil)[self.saveIconView removeFromSuperview];
     
-    self.backButtonIconView = [[UIView alloc]initWithFrame:CGRectMake((editBedVC.view.frame.size.width/5)*toolbarPosition,
+    self.backButtonIconView = [[UIView alloc]initWithFrame:CGRectMake((viewController.view.frame.size.width/5)*toolbarPosition,
                                                                 self.frame.size.height-44, iconWidth, 44)];
     //make and add view
     UIImage *icon = [UIImage imageNamed:@"ic_backbutton_128px.png"];
@@ -192,11 +198,11 @@ ApplicationGlobals *appGlobals;
 
 -(UIView *)makeMenuIcon{
     int toolbarPosition = 4;
-    float iconWidth = (editBedVC.view.frame.size.width/5);
+    float iconWidth = (viewController.view.frame.size.width/5);
     //remove self if exists
     if(self.menuIconView != nil)[self.saveIconView removeFromSuperview];
     
-    self.menuIconView = [[UIView alloc]initWithFrame:CGRectMake((editBedVC.view.frame.size.width/5)*toolbarPosition,
+    self.menuIconView = [[UIView alloc]initWithFrame:CGRectMake((viewController.view.frame.size.width/5)*toolbarPosition,
                                                                 self.frame.size.height-44, iconWidth, 44)];
     //make and add view
     UIImage *icon = [UIImage imageNamed:@"ic_burger_44.png"];
@@ -228,11 +234,11 @@ ApplicationGlobals *appGlobals;
 
 -(UIView *)makeSaveIcon{
     int toolbarPosition = 3;
-    float iconWidth = (editBedVC.view.frame.size.width/5);
+    float iconWidth = (viewController.view.frame.size.width/5);
     //remove self if exists
     if(self.saveIconView != nil)[self.saveIconView removeFromSuperview];
     
-    self.saveIconView = [[UIView alloc]initWithFrame:CGRectMake((editBedVC.view.frame.size.width/5)*toolbarPosition,
+    self.saveIconView = [[UIView alloc]initWithFrame:CGRectMake((viewController.view.frame.size.width/5)*toolbarPosition,
                                                                 self.frame.size.height-44, iconWidth, 44)];
     //make and add view
     UIImage *icon = [UIImage imageNamed:@"ic_save_512px.png"];
@@ -263,11 +269,11 @@ ApplicationGlobals *appGlobals;
 
 -(UIView *)makeDateIcon{
     int toolbarPosition = 1;
-    float iconWidth = (editBedVC.view.frame.size.width/5);
+    float iconWidth = (viewController.view.frame.size.width/5);
     if(self.dateIconView != nil)[self.dateIconView removeFromSuperview];
     
-    self.dateIconView = [[UIView alloc]initWithFrame:CGRectMake((editBedVC.view.frame.size.width/5)*toolbarPosition,
-                                                                self.frame.size.height-44, (editBedVC.view.frame.size.width/5), 44)];
+    self.dateIconView = [[UIView alloc]initWithFrame:CGRectMake((viewController.view.frame.size.width/5)*toolbarPosition,
+                                                                self.frame.size.height-44, (viewController.view.frame.size.width/5), 44)];
     
     UIImage *icon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
@@ -302,7 +308,7 @@ ApplicationGlobals *appGlobals;
     [self.dataPresentIconView removeFromSuperview];
     UIImage *dataIcon = [UIImage imageNamed:@"ic_date_detail_512px.png"];
     self.dataPresentIconView = [[UIImageView alloc]initWithImage:dataIcon];
-    CGRect dataFrame = CGRectMake((editBedVC.view.frame.size.width)-132-44,0,44,44);
+    CGRect dataFrame = CGRectMake((viewController.view.frame.size.width)-132-44,0,44,44);
     //CGRect dataFrame = CGRectMake(0,0,44,44);
     self.dataPresentIconView.frame = dataFrame;
     self.dataPresentIconView.alpha = 1;
@@ -321,7 +327,9 @@ ApplicationGlobals *appGlobals;
 - (void)handleBackButtonSingleTap:(UITapGestureRecognizer *)recognizer {
     if(!self.enableBackButton)return;
     [self clickAnimationIn:recognizer.view];
-    [editBedVC.navigationController popViewControllerAnimated:YES];
+    [viewController.navigationController popViewControllerAnimated:YES];
+    //editBedVC.view.alpha = 0;
+    //[editBedVC.view removeFromSuperview];
 }
                                    
 
@@ -347,62 +355,77 @@ ApplicationGlobals *appGlobals;
     //    [subview removeFromSuperview];
     //}
     
+    if([viewController class] == [EditBedViewController class]){
+        EditBedViewController *editBedVC = (EditBedViewController*)viewController;
+        [editBedVC showDatePickerView];
+    }
     
-    [editBedVC showDatePickerView];
 }
 - (void)handleMenuIconSingleTap:(UITapGestureRecognizer *)recognizer {
+    if(!self.enableMenuButton)return;
     [self clickAnimationIn:recognizer.view];
-    bool success = [editBedVC.currentGardenModel saveModelWithOverWriteOption:YES];
-    //NSLog(@"save icon tapped %i", success);
-    if(success){
-        [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
-        //[editBedVC showWriteSuccessAlertForFile:editBedVC.currentGardenModel.name atIndex:editBedVC.currentGardenModel.localId];
-        
+    if([viewController class] == [EditBedViewController class]){
+        EditBedViewController *editBedVC = (EditBedViewController*)viewController;
+        bool success = [editBedVC.currentGardenModel saveModelWithOverWriteOption:YES];
+        //NSLog(@"save icon tapped %i", success);
+        if(success){
+            [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
+            //[editBedVC showWriteSuccessAlertForFile:editBedVC.currentGardenModel.name atIndex:editBedVC.currentGardenModel.localId];
+        }
     }
 }
 
 - (void)handleSaveIconSingleTap:(UITapGestureRecognizer *)recognizer {
     //if(appGlobals.isMenuDrawerOpen == YES)return;
     [self clickAnimationIn:recognizer.view];
-    bool success = [editBedVC.currentGardenModel saveModelWithOverWriteOption:YES];
-    //NSLog(@"save icon tapped %i", success);
-    if(success){
-        [editBedVC showWriteSuccessAlertForFile:editBedVC.currentGardenModel.name atIndex:editBedVC.currentGardenModel.localId];
-        [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
+    if([viewController class] == [EditBedViewController class]){
+        EditBedViewController *editBedVC = (EditBedViewController*)viewController;
+        bool success = [editBedVC.currentGardenModel saveModelWithOverWriteOption:YES];
+        //NSLog(@"save icon tapped %i", success);
+        if(success){
+            [editBedVC showWriteSuccessAlertForFile:editBedVC.currentGardenModel.name atIndex:editBedVC.currentGardenModel.localId];
+            [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
+        }
     }
 }
 
 - (void)handleDataPresentIconSingleTap:(UITapGestureRecognizer *)recognizer {
     //NSLog(@"data present icon tapped ");
-    [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
-    self.dataPresentIconView.tag = 6;
-    self.dataPresentIconView.alpha = 0;
-    [editBedVC.navigationController performSegueWithIdentifier:@"showPresent" sender:self];
+    if([viewController class] == [EditBedViewController class]){
+        EditBedViewController *editBedVC = (EditBedViewController*)viewController;
+        [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
+        self.dataPresentIconView.tag = 6;
+        self.dataPresentIconView.alpha = 0;
+        [viewController.navigationController performSegueWithIdentifier:@"showPresent" sender:self];
+    }
 }
 
 - (void)handleIsoIconSingleTap:(UITapGestureRecognizer *)recognizer {
     //NSLog(@"handle iso singletap");
     [self clickAnimationIn:recognizer.view];
+    if([viewController class] == [EditBedViewController class]){
+        EditBedViewController *editBedVC = (EditBedViewController*)viewController;
+   
+        if(editBedVC.isoViewIsOpen){
+            [editBedVC.isoView unwindIsoViewTransform];
+            return;
+        }
     
-    if(editBedVC.isoViewIsOpen){
-        [editBedVC.isoView unwindIsoViewTransform];
-        return;
+        [editBedVC setIsoViewIsOpen:YES];
+        [editBedVC.selectPlantView setIsoViewIsOpen:YES];
+        //bool success = [self.currentGardenModel saveModelWithOverWriteOption:YES];
+        [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
+        //NSLog(@"iso icon tapped");
+        editBedVC.isoView = [[IsometricView alloc]initWithFrame:CGRectMake(0,0,viewController.view.frame.size.width, viewController.view.frame.size.height - 44) andEditBedVC:viewController];
+        editBedVC.isoView.alpha = 1;
+        //editBedVC.isoView.backgroundColor = [UIColor lightGrayColor];
+        editBedVC.bedFrameView.alpha = 0.0;
+        editBedVC.selectPlantView.alpha = .25;
+        editBedVC.selectMessageView.alpha = .25;
+    
+        [editBedVC.view addSubview:editBedVC.isoView];
     }
-    
-    [editBedVC setIsoViewIsOpen:YES];
-    [editBedVC.selectPlantView setIsoViewIsOpen:YES];
-    //bool success = [self.currentGardenModel saveModelWithOverWriteOption:YES];
-    [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
-    //NSLog(@"iso icon tapped");
-    editBedVC.isoView = [[IsometricView alloc]initWithFrame:CGRectMake(0,0,editBedVC.view.frame.size.width, editBedVC.view.frame.size.height - 44) andEditBedVC:editBedVC];
-    editBedVC.isoView.alpha = 1;
-    //editBedVC.isoView.backgroundColor = [UIColor lightGrayColor];
-    editBedVC.bedFrameView.alpha = 0.0;
-    editBedVC.selectPlantView.alpha = .25;
-    editBedVC.selectMessageView.alpha = .25;
-    
-    [editBedVC.view addSubview:editBedVC.isoView];
 }
 
 @end

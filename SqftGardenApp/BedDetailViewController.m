@@ -124,7 +124,7 @@ ApplicationGlobals *appGlobals;
     float toolBarYOrigin = self.view.frame.size.height-44;
     //if(!self.toolBarIsOpen)toolBarYOrigin = self.view.frame.size.height;
     
-    GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,toolBarYOrigin,self.view.frame.size.width,44) andEditBedVC:self];
+    GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,toolBarYOrigin,self.view.frame.size.width,44) andViewController:self];
     [toolBar setToolBarIsPinned:YES];
     //using this view to detect touches to toolbar are when the bar itself is hidden
     //self.toolBarContainer = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-44,self.view.frame.size.width,44)];
@@ -132,6 +132,8 @@ ApplicationGlobals *appGlobals;
     //self.toolBarContainer.tag = 7;
     
     [self.view addSubview:toolBar];
+    [toolBar enableBackButton:YES];
+    [toolBar enableMenuButton:NO];
 }
 
 @end

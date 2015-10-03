@@ -9,10 +9,12 @@
 
 @interface GrowToolBarView : UIToolbar
 
-- (id) initWithFrame:(CGRect)frame andEditBedVC:(UIViewController*)editBed;
+- (id)initWithFrame:(CGRect)frame andViewController:(UIViewController*)controller;
 - (void) showToolBar;
 - (void) hideToolBar;
 - (void) enableToolBar;
+- (void) enableMenuButton:(bool)enabled;
+- (void) enableBackButton:(bool)enabled;
 
 @property(nonatomic) UIView *dateIconView;
 @property(nonatomic) UIView *saveIconView;
@@ -24,7 +26,7 @@
 @property(nonatomic) bool toolBarIsPinned;
 @property(nonatomic) bool toolBarIsEnabled;
 @property(nonatomic) bool enableBackButton;
-@property(nonatomic) bool enableMenu;
+@property(nonatomic) bool enableMenuButton;
 
 
 @end
