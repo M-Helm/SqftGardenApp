@@ -11,6 +11,7 @@
 #import "ApplicationGlobals.h"
 #import "PlantIconView.h"
 #import "SelectPlantView.h"
+#import "GrowToolbarView.h"
 
 @implementation BedDetailViewController
 const int BED_DETAIL_LAYOUT_HEIGHT_BUFFER = 3;
@@ -109,6 +110,8 @@ ApplicationGlobals *appGlobals;
     plantDescriptionText.text = appGlobals.selectedPlant.plantDescription;
     plantDescriptionText.editable = NO;
     [self.view addSubview:plantDescriptionText];
+    
+    [self makeToolbar];
 }
 
 -(UIImageView *) getIcon{
@@ -117,5 +120,18 @@ ApplicationGlobals *appGlobals;
     return imageView;
 }
 
+-(void)makeToolbar{
+    float toolBarYOrigin = self.view.frame.size.height-44;
+    //if(!self.toolBarIsOpen)toolBarYOrigin = self.view.frame.size.height;
+    
+    GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,toolBarYOrigin,self.view.frame.size.width,44) andEditBedVC:self];
+    [toolBar setToolBarIsPinned:YES];
+    //using this view to detect touches to toolbar are when the bar itself is hidden
+    //self.toolBarContainer = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-44,self.view.frame.size.width,44)];
+    //self.toolBarContainer.userInteractionEnabled = YES;
+    //self.toolBarContainer.tag = 7;
+    
+    [self.view addSubview:toolBar];
+}
 
 @end

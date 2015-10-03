@@ -10,6 +10,7 @@
 #import "ApplicationGlobals.h"
 #import "DBManager.h"
 
+
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
 @interface EditBedViewController ()
@@ -37,6 +38,7 @@ ApplicationGlobals *appGlobals;
 DBManager *dbManager;
 
 
+
 - (id) initWithDimensions:(int)rows :(int)columns {
     self.bedRowCount = rows;
     self.bedColumnCount = columns;
@@ -50,6 +52,7 @@ DBManager *dbManager;
     [self bedDimension];
     return self;
 }
+
 
 - (void) viewDidLoad {
     [super viewDidLoad];
@@ -213,13 +216,13 @@ DBManager *dbManager;
     UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
     float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
     
-    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15,navBarHeight - 2, self.view.frame.size.width - 5, self.topOffset)];
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15,navBarHeight *.5, self.view.frame.size.width - 5, self.topOffset)];
     self.titleView.backgroundColor = [color colorWithAlphaComponent:0.55];
     self.titleView.layer.cornerRadius = 15;
     self.titleView.layer.borderWidth = 3;
     self.titleView.layer.borderColor = [color colorWithAlphaComponent:1].CGColor;
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(65,0, self.view.frame.size.width - 75, 18)];
-    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(65,18, self.view.frame.size.width - 75, (navBarHeight / 1.5)-18)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(35,0, self.view.frame.size.width - 75, 18)];
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(35,18, self.view.frame.size.width - 75, (navBarHeight / 1.5)-18)];
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
     NSString *plantDate = @"Planting not selected";

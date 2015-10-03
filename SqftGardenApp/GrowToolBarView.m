@@ -26,24 +26,46 @@ ApplicationGlobals *appGlobals;
         editBedVC = (EditBedViewController*)editBed;
         appGlobals = [ApplicationGlobals getSharedGlobals];
         self.toolBarTag = 72;
+        self.toolBarIsPinned = NO;
+        self.enableBackButton = NO;
         [self commonInit];
     }
     return self;
 }
 
 -(void) commonInit{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enableToolBar) name:@"notifyButtonPressed" object:nil];
+    self.toolBarIsEnabled = YES;
     self.isoIconView = [self makeIsoIconView];
     self.saveIconView = [self makeSaveIcon];
     self.dateIconView = [self makeDateIcon];
     self.menuIconView = [self makeMenuIcon];
+    self.backButtonIconView = [self makeBackButtonIcon];
     
     [self addSubview:self.dateIconView];
     [self addSubview:self.isoIconView];
     [self addSubview:self.saveIconView];
     [self addSubview:self.menuIconView];
+    [self addSubview:self.backButtonIconView];
 }
+
+-(void)enableToolBar{
+    if(self.toolBarIsEnabled)self.toolBarIsEnabled = NO;
+    else self.toolBarIsEnabled = YES;
+    for(UIView* subview in self.subviews){
+        subview.userInteractionEnabled = self.toolBarIsEnabled;
+    }
+}
+
+-(void)enableBackButton:(bool)enabled{
+    self.enableBackButton = enabled;
+    if(self.enableBackButton)self.backButtonIconView.alpha = 1;
+    else self.backButtonIconView.alpha = .3;
+}
+
 -(void) showToolBar{
     //NSLog(@"show tool bar");
+    if(self.toolBarIsPinned)return;
     CGRect frame = CGRectMake(self.frame.origin.x,self.frame.origin.y - 44,self.frame.size.width,self.frame.size.height);
     [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
@@ -57,6 +79,7 @@ ApplicationGlobals *appGlobals;
 }
 -(void) hideToolBar{
     //NSLog(@"hide tool bar");
+    if(self.toolBarIsPinned)return;
     CGRect frame = CGRectMake(self.frame.origin.x,self.frame.origin.y + 44,self.frame.size.width,self.frame.size.height);
     [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
@@ -93,7 +116,7 @@ ApplicationGlobals *appGlobals;
                      }];
 }
 - (UIView *)makeIsoIconView{
-    int toolbarPosition = 3;
+    int toolbarPosition = 2;
     float iconWidth = (editBedVC.view.frame.size.width/5);
     
     //float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
@@ -131,6 +154,40 @@ ApplicationGlobals *appGlobals;
                                             action:@selector(handleIsoIconSingleTap:)];
     [self.isoIconView addGestureRecognizer:singleFingerTap];
     return self.isoIconView;
+}
+-(UIView *)makeBackButtonIcon{
+    int toolbarPosition = 0;
+    float iconWidth = (editBedVC.view.frame.size.width/5);
+    //remove self if exists
+    if(self.backButtonIconView != nil)[self.saveIconView removeFromSuperview];
+    
+    self.backButtonIconView = [[UIView alloc]initWithFrame:CGRectMake((editBedVC.view.frame.size.width/5)*toolbarPosition,
+                                                                self.frame.size.height-44, iconWidth, 44)];
+    //make and add view
+    UIImage *icon = [UIImage imageNamed:@"ic_backbutton_128px.png"];
+    UIImageView *imageView = [[UIImageView alloc]initWithImage:icon];
+    //CGRect frame = CGRectMake(0,0,38,38);
+    CGRect frame = CGRectMake((iconWidth/2)-12,3,25,25);
+    imageView.frame = frame;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((iconWidth/2)-22,30,44,10)];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    [label setFont:[UIFont systemFontOfSize:11]];
+    label.text = @"Back";
+    self.saveIconView.userInteractionEnabled = YES;
+    
+    imageView.tag = self.toolBarTag;
+    label.tag = self.toolBarTag;
+    self.backButtonIconView.tag = self.toolBarTag;
+    if(!self.enableBackButton)self.backButtonIconView.alpha = .3;
+    
+    [self.backButtonIconView addSubview:label];
+    [self.backButtonIconView addSubview:imageView];
+    UITapGestureRecognizer *backButtonSingleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleBackButtonSingleTap:)];
+    [self.backButtonIconView addGestureRecognizer:backButtonSingleFingerTap];
+    
+    return self.backButtonIconView;
 }
 
 -(UIView *)makeMenuIcon{
@@ -170,7 +227,7 @@ ApplicationGlobals *appGlobals;
 
 
 -(UIView *)makeSaveIcon{
-    int toolbarPosition = 1;
+    int toolbarPosition = 3;
     float iconWidth = (editBedVC.view.frame.size.width/5);
     //remove self if exists
     if(self.saveIconView != nil)[self.saveIconView removeFromSuperview];
@@ -205,7 +262,7 @@ ApplicationGlobals *appGlobals;
 }
 
 -(UIView *)makeDateIcon{
-    int toolbarPosition = 2;
+    int toolbarPosition = 1;
     float iconWidth = (editBedVC.view.frame.size.width/5);
     if(self.dateIconView != nil)[self.dateIconView removeFromSuperview];
     
@@ -220,7 +277,7 @@ ApplicationGlobals *appGlobals;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((iconWidth/2)-22,30,44,10)];
     [label setTextAlignment:NSTextAlignmentCenter];
     [label setFont:[UIFont systemFontOfSize:11]];
-    label.text = @"Date";
+    label.text = @"Cal";
     
     imageView.userInteractionEnabled = YES;
     imageView.tag = self.toolBarTag;
@@ -261,6 +318,12 @@ ApplicationGlobals *appGlobals;
     [self.dataPresentIconView addGestureRecognizer:singleFingerTap];
     //[self.navigationController.navigationBar addSubview:self.dataPresentIconView];
 }
+- (void)handleBackButtonSingleTap:(UITapGestureRecognizer *)recognizer {
+    if(!self.enableBackButton)return;
+    [self clickAnimationIn:recognizer.view];
+    [editBedVC.navigationController popViewControllerAnimated:YES];
+}
+                                   
 
 - (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
     [self clickAnimationIn:recognizer.view];
@@ -300,6 +363,7 @@ ApplicationGlobals *appGlobals;
 }
 
 - (void)handleSaveIconSingleTap:(UITapGestureRecognizer *)recognizer {
+    //if(appGlobals.isMenuDrawerOpen == YES)return;
     [self clickAnimationIn:recognizer.view];
     bool success = [editBedVC.currentGardenModel saveModelWithOverWriteOption:YES];
     //NSLog(@"save icon tapped %i", success);
