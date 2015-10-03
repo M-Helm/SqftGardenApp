@@ -9,6 +9,15 @@
 
 @interface GrowToolBarView : UIToolbar
 
-- (id)initWithFrame:(CGRect)frame andEditBedVC:(UIViewController*)editBed;
+- (id) initWithFrame:(CGRect)frame andEditBedVC:(UIViewController*)editBed;
+- (void) showToolBar;
+- (void) hideToolBar;
+
+@property(nonatomic) UIView *dateIconView;
+@property(nonatomic) UIView *saveIconView;
+@property(nonatomic) UIView *dataPresentIconView;
+@property(nonatomic) UIView *isoIconView;
+@property(nonatomic) UIView *menuIconView;
+@property(nonatomic) int toolBarTag;
 
 @end

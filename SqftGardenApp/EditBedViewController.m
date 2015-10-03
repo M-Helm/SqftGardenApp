@@ -56,12 +56,13 @@ DBManager *dbManager;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
-    self.navigationController.navigationBar.hidden = NO;
-
+    
     [self setDatePickerIsOpen:NO];
     [self setIsoViewIsOpen:NO];
-    self.view.backgroundColor = [UIColor whiteColor];
+    [self setToolBarIsOpen:YES];
     
+    self.navigationController.navigationBar.hidden = YES;
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBar.backgroundColor = [[UIColor orangeColor]colorWithAlphaComponent:.05];
     
     self.sideOffset = 10;
@@ -98,6 +99,9 @@ DBManager *dbManager;
     [self.currentGardenModel setRows:self.bedRowCount];
     [self.currentGardenModel setColumns:self.bedColumnCount];
     
+
+
+    
     [self initViews];
 }
 
@@ -121,15 +125,15 @@ DBManager *dbManager;
 }
 
 -(void)initViews{
+    
+    NSLog(@"init views");
+    
     //get rid of all old views.
     [self setIsoViewIsOpen:NO];
     [self.selectPlantView setIsoViewIsOpen:NO];
     for(UIView* subview in self.view.subviews){
         [subview removeFromSuperview];
     }
-    //UIColor *color = [appGlobals colorFromHexString:@"#fefefe"];
-    //self.view.backgroundColor = color;
-    
     self.navigationItem.hidesBackButton = YES;
     [self.bedFrameView removeFromSuperview];
     int width = self.view.bounds.size.width;
@@ -144,132 +148,30 @@ DBManager *dbManager;
     [self.view addSubview:bk];
     
     self.toolBar = [self makeToolbar];
-    self.isoIconView = [self makeIsoIconView];
-    self.saveIconView = [self makeSaveIcon];
-    self.dateIconView = [self makeDateIcon];
+    [self.view addSubview:self.toolBarContainer];
+    [self.view addSubview:self.toolBar];
+    
     [self makeTitleBar];
-    //[self setToolIconPositions];
     [self makeBedFrameView];
     [self makeSelectMessageView: width : height];
     [self makeSelectView: width : height];
 
-    
-    [self.toolBar addSubview:self.dateIconView];
-    [self.toolBar addSubview:self.isoIconView];
-    [self.toolBar addSubview:self.saveIconView];
-    [self.view addSubview:self.toolBar];
 }
 
 -(GrowToolBarView *)makeToolbar{
-    GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-44,self.view.frame.size.width,44) andEditBedVC:self];
+    float toolBarYOrigin = self.view.frame.size.height-44;
+    if(!self.toolBarIsOpen)toolBarYOrigin = self.view.frame.size.height;
+    
+    GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,toolBarYOrigin,self.view.frame.size.width,44) andEditBedVC:self];
+    
+    //using this view to detect touches to toolbar are when the bar itself is hidden
+    self.toolBarContainer = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-44,self.view.frame.size.width,44)];
+    self.toolBarContainer.userInteractionEnabled = YES;
+    self.toolBarContainer.tag = 7;
+    
     return toolBar;
 }
-- (UIView *)makeIsoIconView{
-    int toolbarPosition = 3;
-    float iconWidth = (self.view.frame.size.width/5);
-    
-    //float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
-    self.isoIconView = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/5)*toolbarPosition,
-                                                               self.toolBar.frame.size.height-44, iconWidth, 44)];
-    self.isoIconView.userInteractionEnabled = YES;
-    
-    UIImage *icon = [UIImage imageNamed:@"ic_isometric_256px.png"];
-    UIImageView *isoIcon = [[UIImageView alloc] initWithImage:icon];
-    
-    //isoIcon.frame = CGRectMake(10,5,24,24);
-    CGRect frame = CGRectMake((iconWidth/2)-12,5,24,24);
-    isoIcon.frame = frame;
-    isoIcon.layer.borderColor = [UIColor blackColor].CGColor;
-    isoIcon.layer.borderWidth = 1;
-    isoIcon.layer.cornerRadius = 5;
-    isoIcon.userInteractionEnabled = YES;
-    isoIcon.clipsToBounds = NO;
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((iconWidth/2)-22,30,44,10)];
-    [label setFont:[UIFont systemFontOfSize:11]];
-    label.text = @"3d View";
-    [self.isoIconView addSubview:label];
-    [self.isoIconView addSubview:isoIcon];
 
-    UITapGestureRecognizer *singleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleIsoIconSingleTap:)];
-    [self.isoIconView addGestureRecognizer:singleFingerTap];
-    return self.isoIconView;
-}
-
--(UIView *)makeSaveIcon{
-    int toolbarPosition = 1;
-    float iconWidth = (self.view.frame.size.width/5);
-    //remove self if exists
-    if(self.saveIconView != nil)[self.saveIconView removeFromSuperview];
-    
-    self.saveIconView = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/5)*toolbarPosition,
-                                                                self.toolBar.frame.size.height-44, iconWidth, 44)];
-    //make and add view
-    UIImage *icon = [UIImage imageNamed:@"ic_save_512px.png"];
-    UIImageView *imageView = [[UIImageView alloc]initWithImage:icon];
-    //CGRect frame = CGRectMake(3,0,38,38);
-    CGRect frame = CGRectMake((iconWidth/2)-19,0,38,38);
-    imageView.frame = frame;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((iconWidth/2)-22,30,44,10)];
-    [label setTextAlignment:NSTextAlignmentCenter];
-    [label setFont:[UIFont systemFontOfSize:11]];
-    label.text = @"Save";
-    self.saveIconView.userInteractionEnabled = YES;
-    [self.saveIconView addSubview:label];
-    [self.saveIconView addSubview:imageView];
-    UITapGestureRecognizer *saveSingleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleSaveIconSingleTap:)];
-    [self.saveIconView addGestureRecognizer:saveSingleFingerTap];
-    
-    return self.saveIconView;
-}
-
--(UIView *)makeDateIcon{
-    int toolbarPosition = 2;
-    float iconWidth = (self.view.frame.size.width/5);
-    if(self.dateIconView != nil)[self.dateIconView removeFromSuperview];
-    
-    self.dateIconView = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/5)*toolbarPosition,
-                                                                self.toolBar.frame.size.height-44, (self.view.frame.size.width/5), 44)];
-    
-    UIImage *icon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:icon];
-    //CGRect fm = CGRectMake(5,-3,34,34);
-    CGRect frame = CGRectMake((iconWidth/2)-17,-3,34,34);
-    imgView.frame = frame;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((iconWidth/2)-22,30,44,10)];
-    [label setTextAlignment:NSTextAlignmentCenter];
-    [label setFont:[UIFont systemFontOfSize:11]];
-    label.text = @"Date";
-    [self.dateIconView addSubview:label];
-    [self.dateIconView addSubview:imgView];
-    imgView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *singleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleDateIconSingleTap:)];
-    [self.dateIconView addGestureRecognizer:singleFingerTap];
-    return self.dateIconView;
-}
-
--(void)makeDataPresentIcon{
-    //remove self if exists
-    [self.dataPresentIconView removeFromSuperview];
-    UIImage *dataIcon = [UIImage imageNamed:@"ic_date_detail_512px.png"];
-    self.dataPresentIconView = [[UIImageView alloc]initWithImage:dataIcon];
-    CGRect dataFrame = CGRectMake((self.view.frame.size.width)-132-44,0,44,44);
-    //CGRect dataFrame = CGRectMake(0,0,44,44);
-    self.dataPresentIconView.frame = dataFrame;
-    self.dataPresentIconView.alpha = 1;
-    self.dataPresentIconView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *singleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleDataPresentIconSingleTap:)];
-    [self.dataPresentIconView addGestureRecognizer:singleFingerTap];
-    //[self.navigationController.navigationBar addSubview:self.dataPresentIconView];
-}
 
 /*
 
@@ -347,7 +249,7 @@ DBManager *dbManager;
     label2.textColor = [UIColor blackColor];
     label.backgroundColor = [UIColor clearColor];
     label2.backgroundColor = [UIColor clearColor];
-    self.dateIconView = [self makeDateIcon];
+    //self.dateIconView = [self makeDateIcon];
 
     
     [self.titleView addSubview:label];
@@ -448,64 +350,7 @@ DBManager *dbManager;
     return bedDimension;
 }
 
-- (void)handleBedSingleTap:(UITapGestureRecognizer *)recognizer {
-    if(self.datePickerIsOpen)return;
-    PlantIconView *bd = (PlantIconView*)recognizer.view;
-    if(bd.plantId < 1)return;
-    for(int i = 0; i<self.bedViewArray.count; i++){
-        UIView *bed = [self.bedViewArray objectAtIndex:i];
-        bed.backgroundColor = [UIColor clearColor];
-        bed.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    }
-    recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    appGlobals.selectedPlant = bd;
-    appGlobals.selectedCell = bd.position;
-    [self calculatePlantDropPosition:bd];
-    [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
-}
 
-- (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
-    [self clickAnimationIn:recognizer.view];
-    //check if a date exists
-    if(appGlobals.globalGardenModel.plantingDate != nil){
-        
-        NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
-        if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
-            
-            //date selected go somewhere else...
-            
-            
-        }else{
-            //no date selected
-            
-            //NSLog(@"NO DATE SELECTED. GO TO DATE PICKER");
-            
-        }
-    }
-    //for(UIView* subview in self.navigationController.navigationBar.subviews){
-    //    [subview removeFromSuperview];
-    //}
-    
-
-    [self showDatePickerView];
-}
-- (void)handleSaveIconSingleTap:(UITapGestureRecognizer *)recognizer {
-    [self clickAnimationIn:recognizer.view];
-    bool success = [self.currentGardenModel saveModelWithOverWriteOption:YES];
-    //NSLog(@"save icon tapped %i", success);
-    if(success){
-        [self showWriteSuccessAlertForFile:self.currentGardenModel.name atIndex:self.currentGardenModel.localId];
-        [appGlobals setGlobalGardenModel:self.currentGardenModel];
-    }
-}
-
-- (void)handleDataPresentIconSingleTap:(UITapGestureRecognizer *)recognizer {
-    //NSLog(@"data present icon tapped ");
-    [appGlobals setGlobalGardenModel:self.currentGardenModel];    
-    self.dataPresentIconView.tag = 6;
-    self.dataPresentIconView.alpha = 0;
-    [self.navigationController performSegueWithIdentifier:@"showPresent" sender:self];
-}
 
 - (NSMutableArray *)buildBedViewArray{
     NSMutableArray *bedArray = [[NSMutableArray alloc] init];
@@ -599,17 +444,27 @@ DBManager *dbManager;
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     //if(self.datePickerIsOpen)return;
     //NSLog(@"touches began");
-
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
     }
-    if(self.isoViewIsOpen)return;
+    
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
         touchedView = [touch view];
+        if(touchedView.tag == self.toolBar.toolBarTag)return;
+        if((touchedView.tag == 7) && (!self.toolBarIsOpen)){
+            [self.toolBar showToolBar];
+            self.toolBarIsOpen = YES;
+        }
+        if((self.toolBarIsOpen) && (touchedView.tag != 7)){
+            [self.toolBar hideToolBar];
+            self.toolBarIsOpen = NO;
+        }
     }
+    if(self.isoViewIsOpen)return;
+    
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *plantView = (PlantIconView*)[touch view];
         if(plantView.plantId < 1)return;
@@ -748,54 +603,23 @@ DBManager *dbManager;
     [alert show];
 }
 
-- (void)clickAnimationIn:(UIView *)subview{
-    [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         //subview.alpha = .5;
-                         subview.backgroundColor = [UIColor lightGrayColor];
-                     }
-                     completion:^(BOOL finished) {
-                         if(finished){
-                             [self clickAnimationout:subview];
-                         }
-                     }];
-}
--(void)clickAnimationout:(UIView *)subview{
-    [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         //subview.alpha = 1;
-                         subview.backgroundColor = [UIColor clearColor];
-                     }
-                     completion:^(BOOL finished) {
-                         if(finished){
-                             //recognizer.view.alpha = 1;
-                         }
-                     }];
-}
 
-
-- (void)handleIsoIconSingleTap:(UITapGestureRecognizer *)recognizer {
-    //NSLog(@"handle iso singletap");
-    [self clickAnimationIn:recognizer.view];
-    
-    if(self.isoViewIsOpen){
-        [self.isoView unwindIsoViewTransform];
-        return;
+- (void)handleBedSingleTap:(UITapGestureRecognizer *)recognizer {
+    if(self.datePickerIsOpen)return;
+    PlantIconView *bd = (PlantIconView*)recognizer.view;
+    if(bd.plantId < 1)return;
+    for(int i = 0; i<self.bedViewArray.count; i++){
+        UIView *bed = [self.bedViewArray objectAtIndex:i];
+        bed.backgroundColor = [UIColor clearColor];
+        bed.layer.borderColor = [UIColor lightGrayColor].CGColor;
     }
-    
-    [self setIsoViewIsOpen:YES];
-    [self.selectPlantView setIsoViewIsOpen:YES];
-    //bool success = [self.currentGardenModel saveModelWithOverWriteOption:YES];
-    [appGlobals setGlobalGardenModel:self.currentGardenModel];
-    //NSLog(@"iso icon tapped");
-    self.isoView = [[IsometricView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width, self.view.frame.size.height - 44) andEditBedVC:self];
-    self.isoView.alpha = 1;
-    self.bedFrameView.alpha = 0;
-    self.selectPlantView.alpha = .25;
-    self.selectMessageView.alpha = .25;
-
-    [self.view addSubview:self.isoView];
+    recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    appGlobals.selectedPlant = bd;
+    appGlobals.selectedCell = bd.position;
+    [self calculatePlantDropPosition:bd];
+    [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
 }
+
 - (void)unwindIsoView {
     [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{

@@ -190,13 +190,13 @@ EditBedViewController *editBedVC;
     //self.bedFrameView.layer.borderColor = [UIColor blackColor].CGColor;
     self.bedFrameView.layer.borderWidth = 0;
     
-    //UIImage *border = [UIImage imageNamed:@"iso_border_base_512px.png"];
-    //UIImageView *borderView = [[UIImageView alloc] initWithImage:border];
-    //borderView.layer.borderWidth = 0;
-    //borderView.frame = CGRectMake(-15, -15,xCo+15,yCo+15);
-    //borderView.tag = 4;
+    UIImage *border = [UIImage imageNamed:@"iso_border_base_512px.png"];
+    UIImageView *borderView = [[UIImageView alloc] initWithImage:border];
+    borderView.layer.borderWidth = 0;
+    borderView.frame = CGRectMake(-15, -15,xCo+15,yCo+15);
+    borderView.tag = 4;
     
-    //[self.bedFrameView addSubview:borderView];
+    [self.bedFrameView addSubview:borderView];
 }
 
 - (NSMutableArray *)buildBedViewArray{

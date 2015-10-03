@@ -22,9 +22,11 @@
 
 @property(nonatomic) bool datePickerIsOpen;
 @property(nonatomic) bool isoViewIsOpen;
+@property(nonatomic) bool toolBarIsOpen;
 
 @property(nonatomic) int topOffset;
 @property(nonatomic) int sideOffset;
+@property(nonatomic) int cellHorizontalPadding;
 @property(nonatomic) float heightMultiplier;
 @property(nonatomic) int bedRowCount;
 @property(nonatomic) int bedColumnCount;
@@ -33,22 +35,22 @@
 @property(nonatomic) NSMutableArray *selectPlantArray;
 
 @property(nonatomic) UIView *bedFrameView;
-//@property(nonatomic) UIView *selectIsoView;
 @property(nonatomic) UIView *selectMessageView;
 @property(nonatomic) UILabel *selectMessageLabel;
 @property(nonatomic) UIView *titleView;
-@property(nonatomic) UIView *dateIconView;
-@property(nonatomic) UIView *saveIconView;
-@property(nonatomic) UIView *dataPresentIconView;
-@property(nonatomic) UIView *isoIconView;
 
-@property(nonatomic) int cellHorizontalPadding;
+
+
+@property(nonatomic) UIView *toolBarContainer;
+
 
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;
 - (void) updatePlantingDate : (NSDate *)date;
 - (void) initViews;
-- (CGRect)calculateBedFrame;
 - (void) unwindIsoView;
+- (CGRect)calculateBedFrame;
+- (void) showWriteSuccessAlertForFile: (NSString *)fileName atIndex: (int) index;
+- (void) showDatePickerView;
 
 @end
 
