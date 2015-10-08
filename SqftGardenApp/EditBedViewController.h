@@ -51,6 +51,8 @@
 - (CGRect)calculateBedFrame;
 - (void) showWriteSuccessAlertForFile: (NSString *)fileName atIndex: (int) index;
 - (void) showDatePickerView;
+- (void) hideSelectView;
+- (void) showSelectView;
 
 @end
 

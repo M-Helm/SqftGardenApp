@@ -51,6 +51,7 @@ ApplicationGlobals *appGlobals;
     [self addSubview:self.saveIconView];
     [self addSubview:self.menuIconView];
     [self addSubview:self.backButtonIconView];
+    
 }
 
 -(void)enableToolBar{
@@ -290,8 +291,11 @@ ApplicationGlobals *appGlobals;
     float iconWidth = (viewController.view.frame.size.width/5);
     if(self.dateIconView != nil)[self.dateIconView removeFromSuperview];
     
-    self.dateIconView = [[UIView alloc]initWithFrame:CGRectMake((viewController.view.frame.size.width/5)*toolbarPosition,
-                                                                self.frame.size.height-44, (viewController.view.frame.size.width/5), 44)];
+    self.dateIconView = [[UIView alloc]initWithFrame:
+                         CGRectMake((viewController.view.frame.size.width/5)*toolbarPosition,
+                                    self.frame.size.height-44,
+                                    (viewController.view.frame.size.width/5),
+                                    44)];
     
     UIImage *icon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
@@ -430,6 +434,8 @@ ApplicationGlobals *appGlobals;
    
         if(editBedVC.isoViewIsOpen){
             [editBedVC.isoView unwindIsoViewTransform];
+            //No need to call showSelect() as unwind handles
+            [editBedVC showSelectView];
             return;
         }
     
@@ -442,9 +448,9 @@ ApplicationGlobals *appGlobals;
         editBedVC.isoView.alpha = 1;
         //editBedVC.isoView.backgroundColor = [UIColor lightGrayColor];
         editBedVC.bedFrameView.alpha = 0.0;
-        editBedVC.selectPlantView.alpha = .25;
-        editBedVC.selectMessageView.alpha = .25;
-    
+        //editBedVC.selectPlantView.alpha = .25;
+        //editBedVC.selectMessageView.alpha = .25;
+        [editBedVC hideSelectView];
         [editBedVC.view addSubview:editBedVC.isoView];
     }
 }

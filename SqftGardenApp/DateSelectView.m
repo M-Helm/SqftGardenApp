@@ -25,10 +25,8 @@ NSDate* selectedDate;
     //NSLog(@"New Date: %@", sender.date);
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
-    
     NSString *dateString = [dateFormat stringFromDate:sender.date];
     NSDate *date = [dateFormat dateFromString:dateString];
-    
     selectedDate = date;
     
 }
@@ -86,9 +84,13 @@ NSDate* selectedDate;
     float width = self.frame.size.width;
     //float height = self.frame.size.height;
 
-    CGRect toolbarTargetFrame = CGRectMake(0,self.bounds.size.height, 300, 44);
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, width, 44)];
+    //CGRect toolbarTargetFrame = CGRectMake(0,self.bounds.size.height, 300, 44);
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,34,300,44)];
+    label.text = @"Estimate the date of the last frost:";
     
+    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
+
+    //toolBar.backgroundColor = [UIColor blackColor];
     //CGRect datePickerTargetFrame = CGRectMake(0, 44, self.frame.size.width, 216);
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.bounds.size.height+44, 320, 216)];
     
@@ -100,8 +102,6 @@ NSDate* selectedDate;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissDatePicker:)];
     [lightView addGestureRecognizer:tapGesture];
     [self addSubview:lightView];
-
-    
     datePicker.tag = 10;
     datePicker.datePickerMode = UIDatePickerModeDate;
     datePicker.userInteractionEnabled = YES;
@@ -122,18 +122,14 @@ NSDate* selectedDate;
     
     [toolBar setItems:[NSArray arrayWithObjects:cancelButton, spacer, doneButton, nil]];
     [self addSubview:toolBar];
+    [self addSubview:label];
     
     
-    toolBar.frame = toolbarTargetFrame;
-    
-    
-    
-    [UIView beginAnimations:@"MoveIn" context:nil];
     //toolBar.frame = toolbarTargetFrame;
-    //datePicker.frame = datePickerTargetFrame;
-    lightView.alpha = 0.5;
-    [UIView commitAnimations];
     
+    //[UIView beginAnimations:@"MoveIn" context:nil];
+    //lightView.alpha = 0.5;
+    //[UIView commitAnimations];
 }
 
 

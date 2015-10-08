@@ -643,8 +643,8 @@ DBManager *dbManager;
                      animations:^{
                          self.isoView.alpha = 0;
                          self.bedFrameView.alpha = 1;
-                         self.selectPlantView.alpha = 1;
-                         self.selectMessageView.alpha = 1;
+                         //self.selectPlantView.alpha = 1;
+                         //self.selectMessageView.alpha = 1;
                      }
                      completion:^(BOOL finished) {
                          if(finished){
@@ -655,6 +655,48 @@ DBManager *dbManager;
                          }
                      }];
 }
+
+- (void)hideSelectView{
+    CGRect selectFrame = self.selectPlantView.frame;
+    CGRect msgFrame = self.selectMessageView.frame;
+    CGRect frame = CGRectMake(selectFrame.origin.x, selectFrame.origin.y+300,
+                              selectFrame.size.width, selectFrame.size.height);
+    CGRect mFrame = CGRectMake(msgFrame.origin.x, msgFrame.origin.y+300,
+                              msgFrame.size.width, msgFrame.size.height);
+    [UIView animateWithDuration:0.8 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.selectPlantView.alpha = .5;
+                         self.selectMessageView.alpha = .5;
+                         self.selectPlantView.frame = frame;
+                         self.selectMessageView.frame = mFrame;
+                     }
+                     completion:^(BOOL finished) {
+                         if(finished){
+                             //do stuff
+                         }
+                     }];
+}
+- (void)showSelectView{
+    CGRect selectFrame = self.selectPlantView.frame;
+    CGRect msgFrame = self.selectMessageView.frame;
+    CGRect frame = CGRectMake(selectFrame.origin.x,selectFrame.origin.y-300,
+                              selectFrame.size.width, selectFrame.size.height);
+    CGRect mFrame = CGRectMake(msgFrame.origin.x, msgFrame.origin.y-300,
+                               msgFrame.size.width, msgFrame.size.height);
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.selectPlantView.alpha = 1;
+                         self.selectMessageView.alpha = 1;
+                         self.selectPlantView.frame = frame;
+                         self.selectMessageView.frame = mFrame;
+                     }
+                     completion:^(BOOL finished) {
+                         if(finished){
+                             //do stuff
+                         }
+                     }];
+}
+
 
 @end
 

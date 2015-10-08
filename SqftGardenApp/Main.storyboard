@@ -128,25 +128,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="317-qL-Gfe">
-                                                    <rect key="frame" x="8" y="14" width="584" height="21"/>
-                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell4" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="jkz-K6-aev">
-                                        <rect key="frame" x="0.0" y="266" width="600" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jkz-K6-aev" id="3iA-VM-1VS">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="About/Legal" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lNc-de-6Qb">
                                                     <rect key="frame" x="8" y="14" width="584" height="21"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -159,7 +140,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <segue destination="Oyj-sx-DCa" kind="custom" customClass="DisplayContentSegue" id="wdM-4R-Gya"/>
+                                            <segue destination="Oyj-sx-DCa" kind="custom" identifier="showLegal" customClass="DisplayContentSegue" id="F24-Hx-zLc"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -174,7 +155,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k6m-yx-GES" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1546" y="-714"/>
+            <point key="canvasLocation" x="-1666" y="-2100"/>
         </scene>
         <!--Launch Screen View Controller-->
         <scene sceneID="ozv-z6-kMp">
@@ -483,11 +464,11 @@
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PPq-sL-RDI"/>
-        <segue reference="rcr-6R-xSl"/>
-        <segue reference="yjf-UC-sHO"/>
-        <segue reference="9Nd-1O-DIL"/>
         <segue reference="Mgh-Xv-c24"/>
         <segue reference="QB4-Vf-Rim"/>
+        <segue reference="PPq-sL-RDI"/>
+        <segue reference="rcr-6R-xSl"/>
+        <segue reference="9Nd-1O-DIL"/>
+        <segue reference="yjf-UC-sHO"/>
     </inferredMetricsTieBreakers>
 </document>
