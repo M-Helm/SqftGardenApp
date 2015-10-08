@@ -74,6 +74,9 @@ DBManager *dbManager;
     self.heightMultiplier = self.view.frame.size.height/667;
     
     self.topOffset = self.topOffset*self.heightMultiplier;
+    //if((int)self.bedRowCount < 1)self.bedRowCount = 1;
+    //if((int)self.bedColumnCount < 1)self.bedColumnCount = 1;
+    
     //NSLog(@"EditBed VC Calls show appG model info on %@", appGlobals.globalGardenModel.name);
     //[appGlobals.globalGardenModel showModelInfo];
 
@@ -93,8 +96,6 @@ DBManager *dbManager;
         }
         return;
     }
-    if((int)self.bedRowCount < 1)self.bedRowCount = 3;
-    if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildClassSelectArray];
@@ -118,10 +119,20 @@ DBManager *dbManager;
 }
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    if (self.currentGardenModel == nil){
+        if(appGlobals.hasShownLaunchScreen == NO)
+            [self.navigationController performSegueWithIdentifier:@"showLaunch" sender:self];
+        else{
+            //NSLog(@"EDITBED VC REPORTS NIL FOR ITS MODEL");
+            [self.navigationController performSegueWithIdentifier:@"showResize" sender:self];
+        }
+        return;
+    }
     [self initViews];
-}
-    
+    //if(!self.toolBarIsOpen)[self.toolBar showToolBar];
+    [self.toolBar showToolBar];
 
+}
 
 
 - (void)didReceiveMemoryWarning {
@@ -218,8 +229,8 @@ DBManager *dbManager;
     UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
     float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
     
-    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15,navBarHeight *.5, self.view.frame.size.width - 5, self.topOffset)];
-    self.titleView.backgroundColor = [color colorWithAlphaComponent:0.55];
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15,navBarHeight *.5, self.view.frame.size.width - 5, self.topOffset * .75)];
+    self.titleView.backgroundColor = [color colorWithAlphaComponent:0.45];
     self.titleView.layer.cornerRadius = 15;
     self.titleView.layer.borderWidth = 3;
     self.titleView.layer.borderColor = [color colorWithAlphaComponent:1].CGColor;
@@ -333,6 +344,8 @@ DBManager *dbManager;
 }
 
 -(int)bedDimension{
+    if(self.bedColumnCount < 1)self.bedColumnCount = 1;
+    if(self.bedRowCount < 1)self.bedRowCount = 1;
     int columnDimension = (int)(self.view.bounds.size.width - 20) / (int)self.bedColumnCount;
     int bedDimension = (int)(self.view.bounds.size.height - 60) / (int)self.bedRowCount;
     if(bedDimension > columnDimension){

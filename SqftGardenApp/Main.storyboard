@@ -483,11 +483,11 @@
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Cfc-ec-VXb"/>
-        <segue reference="QB4-Vf-Rim"/>
-        <segue reference="9xN-8o-myG"/>
-        <segue reference="vbB-Zd-bn8"/>
         <segue reference="PPq-sL-RDI"/>
-        <segue reference="NdY-OM-yHK"/>
+        <segue reference="rcr-6R-xSl"/>
+        <segue reference="yjf-UC-sHO"/>
+        <segue reference="9Nd-1O-DIL"/>
+        <segue reference="Mgh-Xv-c24"/>
+        <segue reference="QB4-Vf-Rim"/>
     </inferredMetricsTieBreakers>
 </document>

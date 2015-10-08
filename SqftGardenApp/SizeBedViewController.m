@@ -105,9 +105,8 @@ BOOL shouldContinueBlinking = NO;
     shouldContinueBlinking = YES;
     //[self blinkAnimation:@"blinkAnimation" finished:YES target:[bedArray objectAtIndex:0]];
     [self blinkAnimation:[bedArray objectAtIndex:0]];
-
-    
 }
+
 -(void)makeSizeLabel{
     float xCo = self.view.bounds.size.width;
     int yCo = (self.bedRowCount * [self bedDimension] * self.maxRowCount)+self.titleView.frame.size.height;

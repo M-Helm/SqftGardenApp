@@ -134,6 +134,9 @@ ApplicationGlobals *appGlobals;
     [self.view addSubview:toolBar];
     [toolBar enableBackButton:YES];
     [toolBar enableMenuButton:NO];
+    [toolBar enableDateButton:NO];
+    [toolBar enableSaveButton:NO];
+    [toolBar enableIsoButton:NO];
 }
 
 @end

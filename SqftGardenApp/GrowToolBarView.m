@@ -29,6 +29,9 @@ ApplicationGlobals *appGlobals;
         self.toolBarIsPinned = NO;
         self.enableBackButton = NO;
         self.enableMenuButton = YES;
+        self.enableDateButton = YES;
+        self.enableIsoButton = YES;
+        self.enableSaveButton = YES;
         [self commonInit];
     }
     return self;
@@ -65,14 +68,29 @@ ApplicationGlobals *appGlobals;
 }
 -(void)enableMenuButton:(bool)enabled{
     self.enableMenuButton = enabled;
-    if(self.enableMenuButton)self.backButtonIconView.alpha = 1;
+    if(self.enableMenuButton)self.menuIconView.alpha = 1;
     else self.menuIconView.alpha = .3;
+}
+-(void)enableDateButton:(bool)enabled{
+    self.enableDateButton = enabled;
+    if(self.enableDateButton)self.dateIconView.alpha = 1;
+    else self.dateIconView.alpha = .3;
+}
+-(void)enableIsoButton:(bool)enabled{
+    self.enableIsoButton = enabled;
+    if(self.enableIsoButton)self.isoIconView.alpha = 1;
+    else self.isoIconView.alpha = .3;
+}
+-(void)enableSaveButton:(bool)enabled{
+    self.enableSaveButton = enabled;
+    if(self.enableSaveButton)self.saveIconView.alpha = 1;
+    else self.saveIconView.alpha = .3;
 }
 
 -(void) showToolBar{
     //NSLog(@"show tool bar");
     if(self.toolBarIsPinned)return;
-    CGRect frame = CGRectMake(self.frame.origin.x,self.frame.origin.y - 44,self.frame.size.width,self.frame.size.height);
+    CGRect frame = CGRectMake(self.frame.origin.x,viewController.view.frame.size.height - 44,self.frame.size.width,self.frame.size.height);
     [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
                          self.frame = frame;
@@ -86,7 +104,7 @@ ApplicationGlobals *appGlobals;
 -(void) hideToolBar{
     //NSLog(@"hide tool bar");
     if(self.toolBarIsPinned)return;
-    CGRect frame = CGRectMake(self.frame.origin.x,self.frame.origin.y + 44,self.frame.size.width,self.frame.size.height);
+    CGRect frame = CGRectMake(self.frame.origin.x,viewController.view.frame.size.height+44,self.frame.size.width,self.frame.size.height);
     [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.frame = frame;
@@ -334,6 +352,7 @@ ApplicationGlobals *appGlobals;
                                    
 
 - (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
+    if(!self.enableDateButton)return;
     [self clickAnimationIn:recognizer.view];
     //check if a date exists
     if(appGlobals.globalGardenModel.plantingDate != nil){
@@ -377,6 +396,7 @@ ApplicationGlobals *appGlobals;
 }
 
 - (void)handleSaveIconSingleTap:(UITapGestureRecognizer *)recognizer {
+    if(!self.enableSaveButton)return;
     //if(appGlobals.isMenuDrawerOpen == YES)return;
     [self clickAnimationIn:recognizer.view];
     if([viewController class] == [EditBedViewController class]){
@@ -402,6 +422,7 @@ ApplicationGlobals *appGlobals;
 }
 
 - (void)handleIsoIconSingleTap:(UITapGestureRecognizer *)recognizer {
+    if(!self.enableIsoButton)return;
     //NSLog(@"handle iso singletap");
     [self clickAnimationIn:recognizer.view];
     if([viewController class] == [EditBedViewController class]){

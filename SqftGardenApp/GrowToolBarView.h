@@ -15,6 +15,9 @@
 - (void) enableToolBar;
 - (void) enableMenuButton:(bool)enabled;
 - (void) enableBackButton:(bool)enabled;
+- (void) enableDateButton:(bool)enabled;
+- (void) enableIsoButton:(bool)enabled;
+- (void) enableSaveButton:(bool)enabled;
 
 @property(nonatomic) UIView *dateIconView;
 @property(nonatomic) UIView *saveIconView;
@@ -27,6 +30,9 @@
 @property(nonatomic) bool toolBarIsEnabled;
 @property(nonatomic) bool enableBackButton;
 @property(nonatomic) bool enableMenuButton;
+@property(nonatomic) bool enableDateButton;
+@property(nonatomic) bool enableIsoButton;
+@property(nonatomic) bool enableSaveButton;
 
 
 @end

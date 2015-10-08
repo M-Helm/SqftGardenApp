@@ -196,7 +196,7 @@ ApplicationGlobals *appGlobals;
     if(self.population > 3)label.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
     if(appGlobals.showPlantNumberTokens)label.backgroundColor = [UIColor clearColor];
     label.text = self.plantName;
-    //if(self.isIsometric)label.text = @"";
+    if(self.isIsometric)label.text = @"";
     label.textAlignment = NSTextAlignmentCenter;
     [self addSubview:label];
 }
