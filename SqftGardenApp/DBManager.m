@@ -174,7 +174,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population, class, description, scientific_name, photo, yield, iso_icon) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population, class, description, scientific_name, photo, yield, iso_icon, tip0, tip1, tip2, tip3, tip4, tip5, tip6) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                                [msgJSON objectForKey:@"name"],
                                [msgJSON objectForKey:@"timestamp"],
                                [msgJSON objectForKey:@"icon"],
@@ -185,7 +185,14 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                [msgJSON objectForKey:@"scientific_name"],
                                [msgJSON objectForKey:@"photo"],
                                [msgJSON objectForKey:@"yield"],
-                               [msgJSON objectForKey:@"iso_icon"]];
+                               [msgJSON objectForKey:@"iso_icon"],
+                               [msgJSON objectForKey:@"tip0"],
+                               [msgJSON objectForKey:@"tip1"],
+                               [msgJSON objectForKey:@"tip2"],
+                               [msgJSON objectForKey:@"tip3"],
+                               [msgJSON objectForKey:@"tip4"],
+                               [msgJSON objectForKey:@"tip5"],
+                               [msgJSON objectForKey:@"tip6"]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
