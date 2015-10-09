@@ -99,6 +99,7 @@
 		ADE7042C1B85515D002ABC74 /* UITextView+FileProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE7042B1B85515D002ABC74 /* UITextView+FileProperties.m */; };
 		ADE78D9D1B6D8CDD00B5D320 /* OpenBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */; };
 		ADE9AC621BC7300C009DEDB1 /* init_plants.txt in Resources */ = {isa = PBXBuildFile; fileRef = ADE9AC611BC7300C009DEDB1 /* init_plants.txt */; settings = {ASSET_TAGS = (); }; };
+		ADE9AC641BC762F2009DEDB1 /* lattis_test_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADE9AC631BC762F2009DEDB1 /* lattis_test_512px.png */; settings = {ASSET_TAGS = (); }; };
 		ADFB3ECF1BAEFDFE00D68424 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ADFB3ECE1BAEFDFE00D68424 /* libsqlite3.0.tbd */; };
 		ADFB3ED11BAF0DD500D68424 /* ic_save_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADFB3ED01BAF0DD500D68424 /* ic_save_256px.png */; settings = {ASSET_TAGS = (); }; };
 		ADFB3ED31BAF101300D68424 /* ic_save_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADFB3ED21BAF101300D68424 /* ic_save_512px.png */; settings = {ASSET_TAGS = (); }; };
@@ -241,6 +242,7 @@
 		ADE78D9B1B6D8C5B00B5D320 /* OpenBedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenBedViewController.h; sourceTree = "<group>"; };
 		ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenBedViewController.m; sourceTree = "<group>"; };
 		ADE9AC611BC7300C009DEDB1 /* init_plants.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init_plants.txt; sourceTree = "<group>"; };
+		ADE9AC631BC762F2009DEDB1 /* lattis_test_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lattis_test_512px.png; path = ../../../Documents/sqftGardenAssets/lattis_test_512px.png; sourceTree = "<group>"; };
 		ADFB3ECE1BAEFDFE00D68424 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		ADFB3ED01BAF0DD500D68424 /* ic_save_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_save_256px.png; path = ../../../Documents/sqftGardenAssets/ic_save_256px.png; sourceTree = "<group>"; };
 		ADFB3ED21BAF101300D68424 /* ic_save_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_save_512px.png; path = ../../../Documents/sqftGardenAssets/ic_save_512px.png; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ADE9AC631BC762F2009DEDB1 /* lattis_test_512px.png */,
 				AD39BF0D1BC1AE060091125D /* iso_cabbage_model_512px.png */,
 				ADC372161BA8605400FF994A /* asset_circle_token_512px.png */,
 				AD59D6841BA9ECDA00A0E5E2 /* cloth_test.png */,
@@ -547,6 +550,7 @@
 				AD3A38C11BA61D8600FC0528 /* ic_cancel_256px.png in Resources */,
 				ADA7520E1B06B6E300C56F5F /* ic_vegetable_chilly_256.png in Resources */,
 				AD39BF0E1BC1AE060091125D /* iso_cabbage_model_512px.png in Resources */,
+				ADE9AC641BC762F2009DEDB1 /* lattis_test_512px.png in Resources */,
 				ADA752091B06B6E300C56F5F /* ic_cereal_wheat_256.png in Resources */,
 				ADC372171BA8605400FF994A /* asset_circle_token_512px.png in Resources */,
 				AD59D6851BA9ECDA00A0E5E2 /* cloth_test.png in Resources */,

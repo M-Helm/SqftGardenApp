@@ -161,12 +161,9 @@ EditBedViewController *editBedVC;
             iconView.tag = 4;
             iconView.frame = frame;
             iconView.center = point;
-            iconView.layer.borderWidth =0;
+            iconView.layer.borderWidth =0.5;
             iconView.layer.borderColor = [UIColor blackColor].CGColor;
-            
-            
-            
-
+    
             
             //[self addSubview:iconView];
             [self addSubview:iconView];

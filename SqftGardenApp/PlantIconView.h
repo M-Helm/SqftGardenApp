@@ -27,6 +27,7 @@
 @property (nonatomic) NSString *plantScientificName;
 @property (nonatomic) bool isIcon;
 @property (nonatomic) bool isIsometric;
+@property (nonatomic) bool isTall;
 -(void)setViewAsIcon:(bool)isIcon;
 - (CGPoint) transformedTopLeft;
 - (CGPoint) transformedTopRight;

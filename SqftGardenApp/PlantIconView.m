@@ -47,6 +47,7 @@ ApplicationGlobals *appGlobals;
 
 - (void)commonInit {
     self.backgroundColor = [UIColor clearColor];
+    //self.isTall = NO;
     if(self.plantId == -1){
         [self setAsCancelIcon];
         return;
@@ -73,6 +74,9 @@ ApplicationGlobals *appGlobals;
     self.plantScientificName = [json objectForKey:@"scientific_name"];
     self.plantYield = [json objectForKey:@"yield"];
     self.isoIcon =[json objectForKey:@"isoIcon"];
+    NSString *tall = [json objectForKey:@"isTall"];
+    self.isTall = tall.intValue;
+
     if([self.iconResource isEqualToString:@"na"])self.iconResource = PLANT_DEFAULT_ICON;
     //if(self.isIsometric)self.iconResource = @"";
     
@@ -197,6 +201,7 @@ ApplicationGlobals *appGlobals;
     if(appGlobals.showPlantNumberTokens)label.backgroundColor = [UIColor clearColor];
     label.text = self.plantName;
     if(self.isIsometric)label.text = @"";
+    if(self.isTall)label.text = @"isTall true";
     label.textAlignment = NSTextAlignmentCenter;
     [self addSubview:label];
 }

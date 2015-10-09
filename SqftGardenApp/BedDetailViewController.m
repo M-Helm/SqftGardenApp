@@ -12,16 +12,19 @@
 #import "PlantIconView.h"
 #import "SelectPlantView.h"
 #import "GrowToolbarView.h"
+#import "DBManager.h"
 
 @implementation BedDetailViewController
 const int BED_DETAIL_LAYOUT_HEIGHT_BUFFER = 3;
 const int BED_DETAIL_LAYOUT_WIDTH_BUFFER = -17;
 ApplicationGlobals *appGlobals;
+DBManager *dbManager;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     appGlobals = [ApplicationGlobals getSharedGlobals];
+    dbManager = [DBManager getSharedDBManager];
     //setup views
     //self.navigationItem.title = appGlobals.appTitle;
     self.navigationController.navigationItem.backBarButtonItem.title = @"Back";
