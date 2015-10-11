@@ -33,6 +33,7 @@ NSDateFormatter *dateFormatter;
                   initWithArray: [self buildPlantArrayFromModel:appGlobals.globalGardenModel]];
     dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM dd, yyyy"];
+    [self makeHeader];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -95,6 +96,36 @@ NSDateFormatter *dateFormatter;
             if(subview.tag == 6) subview.alpha = 1;
         }
     }
+}
+
+- (void) makeHeader{
+    float width = self.view.frame.size.width;
+    //float height = self.view.frame.size.height;
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 50)];
+    UILabel *labelView = [[UILabel alloc] initWithFrame:CGRectMake((headerView.frame.size.width/2)-75, 0, 150, 50)];
+    //add cancel button
+    PlantIconView *cancelBtn = [[PlantIconView alloc]
+                                initWithFrame:CGRectMake(self.view.frame.size.width - 55, 1, 44,44) withPlantId: -1 isIsometric:NO];
+    cancelBtn.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleCancelSingleTap:)];
+    [cancelBtn addGestureRecognizer:singleFingerTap];
+    
+    
+    [headerView addSubview:labelView];
+    [headerView addSubview:cancelBtn];
+    labelView.text = @"Timeline";
+    labelView.textAlignment = NSTextAlignmentCenter;
+    [labelView setFont:[UIFont boldSystemFontOfSize:18]];
+    headerView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    
+    self.tableView.tableHeaderView = headerView;
+}
+- (void)handleCancelSingleTap:(UITapGestureRecognizer *)recognizer {
+    [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
+    return;
 }
 
 - (NSMutableArray *)buildPlantArrayFromModel:(SqftGardenModel*)model{

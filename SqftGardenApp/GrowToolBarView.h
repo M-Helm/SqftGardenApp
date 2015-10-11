@@ -28,6 +28,7 @@
 @property(nonatomic) int toolBarTag;
 @property(nonatomic) bool toolBarIsPinned;
 @property(nonatomic) bool toolBarIsEnabled;
+@property(nonatomic) bool dateSelected;
 @property(nonatomic) bool enableBackButton;
 @property(nonatomic) bool enableMenuButton;
 @property(nonatomic) bool enableDateButton;

@@ -189,39 +189,6 @@ DBManager *dbManager;
 }
 
 
-/*
-
--(void)setToolIconPositions{
-    //check if a date exists
-    CGRect navBarFrame = CGRectMake((self.view.frame.size.width)-88-44,0,44,44);
-    if(appGlobals.globalGardenModel.plantingDate != nil){
-        NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
-        if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
-            //no date selected
-            self.saveIconView.frame = navBarFrame;
-            [self.navigationController.navigationBar addSubview:self.saveIconView];
-            self.dateIconView = [self makeDateIcon];
-            [self.titleView addSubview:self.dateIconView];
-            
-        }else{
-            //a date is selected
-            CGRect titleViewIconFrame = CGRectMake(20,0,44,44);
-            self.saveIconView.frame = titleViewIconFrame;
-            [self.titleView addSubview:self.saveIconView];
-            
-            [self makeDataPresentIcon];
-            self.dataPresentIconView.frame = navBarFrame;
-            [self.navigationController.navigationBar addSubview: self.dataPresentIconView];
-        }
-    }else{
-        //something bad has happened. Handle error
-    }
-}
-
-*/
-
-
-
 -(void)makeTitleBar{
     //remove self if exists
     [self.titleView removeFromSuperview];

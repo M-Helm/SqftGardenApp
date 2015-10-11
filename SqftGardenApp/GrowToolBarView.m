@@ -40,6 +40,7 @@ ApplicationGlobals *appGlobals;
 -(void) commonInit{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enableToolBar) name:@"notifyButtonPressed" object:nil];
     self.toolBarIsEnabled = YES;
+    [self checkPlantingDate];
     self.isoIconView = [self makeIsoIconView];
     self.saveIconView = [self makeSaveIcon];
     self.dateIconView = [self makeDateIcon];
@@ -61,6 +62,24 @@ ApplicationGlobals *appGlobals;
         subview.userInteractionEnabled = self.toolBarIsEnabled;
     }
 }
+
+ 
+ -(void)checkPlantingDate{
+     //check if a date exists
+     if(appGlobals.globalGardenModel.plantingDate != nil){
+         NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
+         if([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
+             //no date selected
+             self.dateSelected = NO;
+         }else{
+             //a date is selected
+             self.dateSelected = YES;
+         }
+     }else{
+         // something bad has happened.
+         // planting date should never be nil - handle error
+     }
+ }
 
 -(void)enableBackButton:(bool)enabled{
     self.enableBackButton = enabled;
@@ -298,14 +317,25 @@ ApplicationGlobals *appGlobals;
                                     44)];
     
     UIImage *icon = [UIImage imageNamed:@"ic_edit_date_512px.png"];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
     //CGRect fm = CGRectMake(5,-3,34,34);
     CGRect frame = CGRectMake((iconWidth/2)-17,-3,34,34);
+    
+    if(self.dateSelected){
+        icon = [UIImage imageNamed:@"ic_sequence_128px.png"];
+        frame = CGRectMake((iconWidth/2)-17,0,34,34);
+    }
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
     imageView.frame = frame;
+    
+    
+    
+    
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((iconWidth/2)-22,30,44,10)];
     [label setTextAlignment:NSTextAlignmentCenter];
     [label setFont:[UIFont systemFontOfSize:11]];
     label.text = @"Cal";
+    if(self.dateSelected)label.text = @"Seq";
     
     imageView.userInteractionEnabled = YES;
     imageView.tag = self.toolBarTag;
@@ -363,15 +393,11 @@ ApplicationGlobals *appGlobals;
         
         NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
         if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
-            
-            //date selected go somewhere else...
-            
-            
-        }else{
             //no date selected
-            
-            //NSLog(@"NO DATE SELECTED. GO TO DATE PICKER");
-            
+        }else{
+            //date selected go somewhere else...
+            [viewController.navigationController performSegueWithIdentifier:@"showPresent" sender:self];
+            return;
         }
     }
     //for(UIView* subview in self.navigationController.navigationBar.subviews){
