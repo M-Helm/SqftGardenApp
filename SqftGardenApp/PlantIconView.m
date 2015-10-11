@@ -201,7 +201,6 @@ ApplicationGlobals *appGlobals;
     if(appGlobals.showPlantNumberTokens)label.backgroundColor = [UIColor clearColor];
     label.text = self.plantName;
     if(self.isIsometric)label.text = @"";
-    if(self.isTall)label.text = @"isTall true";
     label.textAlignment = NSTextAlignmentCenter;
     [self addSubview:label];
 }

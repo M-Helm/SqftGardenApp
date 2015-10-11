@@ -46,6 +46,8 @@
 		AD59D68A1BA9EF2D00A0E5E2 /* TermsScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD59D6891BA9EF2D00A0E5E2 /* TermsScreenViewController.m */; };
 		AD71D4B21BA4A2A4005848AB /* ic_carrot_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD71D4B01BA4A2A4005848AB /* ic_carrot_flat_256px.png */; };
 		AD71D4B31BA4A2A4005848AB /* ic_cucumber_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD71D4B11BA4A2A4005848AB /* ic_cucumber_flat_256px.png */; };
+		AD781D091BC88DA400D5C24B /* iso_polebean_1024x765px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD781D081BC88DA400D5C24B /* iso_polebean_1024x765px.png */; settings = {ASSET_TAGS = (); }; };
+		AD781D0B1BC8900700D5C24B /* iso_cucumber_1024x765px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD781D0A1BC8900700D5C24B /* iso_cucumber_1024x765px.png */; settings = {ASSET_TAGS = (); }; };
 		AD8551A51BB99C78002D813B /* iso_model_plant001_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD8551A41BB99C78002D813B /* iso_model_plant001_512px.png */; settings = {ASSET_TAGS = (); }; };
 		AD8551A91BB9CFD2002D813B /* GrowToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8551A81BB9CFD2002D813B /* GrowToolBarView.m */; settings = {ASSET_TAGS = (); }; };
 		AD8551AB1BB9FD0B002D813B /* iso_spinach_model_x9_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD8551AA1BB9FD0B002D813B /* iso_spinach_model_x9_512px.png */; settings = {ASSET_TAGS = (); }; };
@@ -100,6 +102,8 @@
 		ADE78D9D1B6D8CDD00B5D320 /* OpenBedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */; };
 		ADE9AC621BC7300C009DEDB1 /* init_plants.txt in Resources */ = {isa = PBXBuildFile; fileRef = ADE9AC611BC7300C009DEDB1 /* init_plants.txt */; settings = {ASSET_TAGS = (); }; };
 		ADE9AC641BC762F2009DEDB1 /* lattis_test_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADE9AC631BC762F2009DEDB1 /* lattis_test_512px.png */; settings = {ASSET_TAGS = (); }; };
+		ADE9BEC21BC9DAD300F9B061 /* iso_eggplant_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADE9BEC11BC9DAD300F9B061 /* iso_eggplant_512px.png */; settings = {ASSET_TAGS = (); }; };
+		ADE9BEC41BC9F2D900F9B061 /* iso_basil_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADE9BEC31BC9F2D900F9B061 /* iso_basil_512px.png */; settings = {ASSET_TAGS = (); }; };
 		ADFB3ECF1BAEFDFE00D68424 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ADFB3ECE1BAEFDFE00D68424 /* libsqlite3.0.tbd */; };
 		ADFB3ED11BAF0DD500D68424 /* ic_save_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADFB3ED01BAF0DD500D68424 /* ic_save_256px.png */; settings = {ASSET_TAGS = (); }; };
 		ADFB3ED31BAF101300D68424 /* ic_save_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADFB3ED21BAF101300D68424 /* ic_save_512px.png */; settings = {ASSET_TAGS = (); }; };
@@ -167,6 +171,8 @@
 		AD59D6891BA9EF2D00A0E5E2 /* TermsScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsScreenViewController.m; sourceTree = "<group>"; };
 		AD71D4B01BA4A2A4005848AB /* ic_carrot_flat_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_carrot_flat_256px.png; path = ../../../Documents/sqftGardenAssets/ic_carrot_flat_256px.png; sourceTree = "<group>"; };
 		AD71D4B11BA4A2A4005848AB /* ic_cucumber_flat_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_cucumber_flat_256px.png; path = ../../../Documents/sqftGardenAssets/ic_cucumber_flat_256px.png; sourceTree = "<group>"; };
+		AD781D081BC88DA400D5C24B /* iso_polebean_1024x765px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_polebean_1024x765px.png; path = ../../../Documents/sqftGardenAssets/iso_polebean_1024x765px.png; sourceTree = "<group>"; };
+		AD781D0A1BC8900700D5C24B /* iso_cucumber_1024x765px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_cucumber_1024x765px.png; path = ../../../Documents/sqftGardenAssets/iso_cucumber_1024x765px.png; sourceTree = "<group>"; };
 		AD8551A41BB99C78002D813B /* iso_model_plant001_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_model_plant001_512px.png; path = ../../../Documents/sqftGardenAssets/iso_model_plant001_512px.png; sourceTree = "<group>"; };
 		AD8551A71BB9CF9D002D813B /* GrowToolBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowToolBarView.h; sourceTree = "<group>"; };
 		AD8551A81BB9CFD2002D813B /* GrowToolBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowToolBarView.m; sourceTree = "<group>"; };
@@ -243,6 +249,8 @@
 		ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenBedViewController.m; sourceTree = "<group>"; };
 		ADE9AC611BC7300C009DEDB1 /* init_plants.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init_plants.txt; sourceTree = "<group>"; };
 		ADE9AC631BC762F2009DEDB1 /* lattis_test_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lattis_test_512px.png; path = ../../../Documents/sqftGardenAssets/lattis_test_512px.png; sourceTree = "<group>"; };
+		ADE9BEC11BC9DAD300F9B061 /* iso_eggplant_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_eggplant_512px.png; path = ../../../Documents/sqftGardenAssets/iso_eggplant_512px.png; sourceTree = "<group>"; };
+		ADE9BEC31BC9F2D900F9B061 /* iso_basil_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_basil_512px.png; path = ../../../Documents/sqftGardenAssets/iso_basil_512px.png; sourceTree = "<group>"; };
 		ADFB3ECE1BAEFDFE00D68424 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		ADFB3ED01BAF0DD500D68424 /* ic_save_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_save_256px.png; path = ../../../Documents/sqftGardenAssets/ic_save_256px.png; sourceTree = "<group>"; };
 		ADFB3ED21BAF101300D68424 /* ic_save_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_save_512px.png; path = ../../../Documents/sqftGardenAssets/ic_save_512px.png; sourceTree = "<group>"; };
@@ -362,6 +370,10 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ADE9BEC31BC9F2D900F9B061 /* iso_basil_512px.png */,
+				ADE9BEC11BC9DAD300F9B061 /* iso_eggplant_512px.png */,
+				AD781D0A1BC8900700D5C24B /* iso_cucumber_1024x765px.png */,
+				AD781D081BC88DA400D5C24B /* iso_polebean_1024x765px.png */,
 				ADE9AC631BC762F2009DEDB1 /* lattis_test_512px.png */,
 				AD39BF0D1BC1AE060091125D /* iso_cabbage_model_512px.png */,
 				ADC372161BA8605400FF994A /* asset_circle_token_512px.png */,
@@ -539,7 +551,9 @@
 				ADC372111BA787BC00FF994A /* photo_cucumber_512px.jpg in Resources */,
 				ADA7520B1B06B6E300C56F5F /* ic_vegetable_cabbage_256.png in Resources */,
 				AD326C081BAB8DDB008CDABC /* ic_edit_date_512px.png in Resources */,
+				AD781D0B1BC8900700D5C24B /* iso_cucumber_1024x765px.png in Resources */,
 				AD3449691BA482F100E1DB4B /* ic_leafy_flat_256px.png in Resources */,
+				ADE9BEC41BC9F2D900F9B061 /* iso_basil_512px.png in Resources */,
 				ADD364C01B9FC78F00F3B652 /* ic_vegetable_cucumber_256.png in Resources */,
 				AD8551AF1BBA3B0F002D813B /* iso_kohlrabi_model_x4_512px.png in Resources */,
 				AD71D4B31BA4A2A4005848AB /* ic_cucumber_flat_256px.png in Resources */,
@@ -570,8 +584,10 @@
 				AD3449681BA482F100E1DB4B /* ic_herb_flat_256px.png in Resources */,
 				AD5493AB1BB86CA30032292D /* iso_generic2_256px.png in Resources */,
 				ADC3720D1BA7730100FF994A /* photo_basil_512px.jpg in Resources */,
+				ADE9BEC21BC9DAD300F9B061 /* iso_eggplant_512px.png in Resources */,
 				AD1A91F61AF43FA900DC0983 /* ic_burger_44.png in Resources */,
 				AD34496A1BA482F100E1DB4B /* ic_bean_flat_256px.png in Resources */,
+				AD781D091BC88DA400D5C24B /* iso_polebean_1024x765px.png in Resources */,
 				AD59D6871BA9EE1400A0E5E2 /* growLogo_v002.png in Resources */,
 				AD5493AD1BB86E4B0032292D /* iso_generic_bush2_256px.png in Resources */,
 				ADC372141BA78C8F00FF994A /* photo_dill_512px.jpg in Resources */,
