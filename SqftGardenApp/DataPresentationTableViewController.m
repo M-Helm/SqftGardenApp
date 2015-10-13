@@ -27,6 +27,8 @@ NSDateFormatter *dateFormatter;
 UIColor *plantingColor;
 UIColor *growingColor;
 UIColor *harvestColor;
+int maxDays;
+int minDays;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,24 +39,25 @@ UIColor *harvestColor;
     dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM dd, yyyy"];
     [self makeHeader];
-    [self calculateMaxPlantingDelta:plantArray];
+    [self calculateDateBounds:plantArray];
     plantingColor = [appGlobals colorFromHexString:@"#ba9060"];
     growingColor = [appGlobals colorFromHexString:@"#74aa4a"];
     harvestColor = [appGlobals colorFromHexString:@"#f9a239"];
 }
 
--(int)calculateMaxPlantingDelta:(NSArray *)array{
+-(void)calculateDateBounds:(NSArray *)array{
+    int min = 0;
     int max = 0;
     PlantIconView *plant;
     NSNumber *plantIndex = [NSNumber numberWithInt:0];
-    //NSInteger *plantIndex = NSInternalInconsistencyException
     for(int i = 0; i < array.count; i++){
         plantIndex = array[i];
         plant = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantIndex.intValue isIsometric:NO];
-        if(max < plant.plantingDelta)max = plant.plantingDelta;
+        if(min > plant.plantingDelta)min = plant.plantingDelta;
+        if(max < plant.maturity)max = plant.maturity;
     }
+    NSLog(@"MIN = %i", min);
     NSLog(@"MAX = %i", max);
-    return max;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

@@ -246,7 +246,7 @@
 "tip5":"",
 "tip6":"",
 "iso_icon": "iso_generic_256px.png",
-"planting_delta":0,
+"planting_delta":-21,
 "is_tall":0
 },
 
