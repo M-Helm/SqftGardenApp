@@ -24,6 +24,9 @@ ApplicationGlobals *appGlobals;
 static NSString *CellIdentifier = @"CellIdentifier";
 NSArray *plantArray;
 NSDateFormatter *dateFormatter;
+UIColor *plantingColor;
+UIColor *growingColor;
+UIColor *harvestColor;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,6 +37,24 @@ NSDateFormatter *dateFormatter;
     dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM dd, yyyy"];
     [self makeHeader];
+    [self calculateMaxPlantingDelta:plantArray];
+    plantingColor = [appGlobals colorFromHexString:@"#ba9060"];
+    growingColor = [appGlobals colorFromHexString:@"#74aa4a"];
+    harvestColor = [appGlobals colorFromHexString:@"#f9a239"];
+}
+
+-(int)calculateMaxPlantingDelta:(NSArray *)array{
+    int max = 0;
+    PlantIconView *plant;
+    NSNumber *plantIndex = [NSNumber numberWithInt:0];
+    //NSInteger *plantIndex = NSInternalInconsistencyException
+    for(int i = 0; i < array.count; i++){
+        plantIndex = array[i];
+        plant = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantIndex.intValue isIsometric:NO];
+        if(max < plant.plantingDelta)max = plant.plantingDelta;
+    }
+    NSLog(@"MAX = %i", max);
+    return max;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -48,30 +69,49 @@ NSDateFormatter *dateFormatter;
     PresentTableCell *cell;
     NSString *mainLabelString = @"this is the main label";
     NSString *harvestDateString = @"this is the harvest date";
+    NSString *plantingDateString = @"this is the planting date";
     
     PlantIconView *plant = [[PlantIconView alloc]
                             initWithFrame:CGRectMake(0,0,0,0) withPlantId:(int)[indexPath row]+1 isIsometric:NO];
     NSDate *maturityDate = [appGlobals.globalGardenModel.plantingDate dateByAddingTimeInterval:60*60*24*plant.maturity];
+    NSDate *plantingDate = [appGlobals.globalGardenModel.plantingDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
     harvestDateString = [dateFormatter stringFromDate:maturityDate];
     harvestDateString = [NSString stringWithFormat:@"Harvest on or about: %@", harvestDateString];
+    
+    plantingDateString = [dateFormatter stringFromDate:plantingDate];
+    plantingDateString = [NSString stringWithFormat:@"Plant on: %@", plantingDateString];
     
     mainLabelString = plant.plantName;
     
     if(cell == nil){
         cell = [[PresentTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        CGFloat height = cell.contentView.frame.size.height;
         cell.mainLabel = [[UILabel alloc]initWithFrame:CGRectMake(15,0,125,20)];
-        cell.harvestLabel = [[UILabel alloc]initWithFrame:CGRectMake(126,0,300,20)];
+        cell.plantLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,20,25,height - 20)];
+        cell.growingLabel = [[UILabel alloc]initWithFrame:CGRectMake(25,20,125,height - 20)];
+        cell.harvestLabel = [[UILabel alloc]initWithFrame:CGRectMake(150,20,20,height - 20)];
     }else{
-    
+        
     }
-
+    
+    
+    
+    
+    cell.plantLabel.backgroundColor = plantingColor;
+    cell.growingLabel.backgroundColor = growingColor;
+    cell.harvestLabel.backgroundColor = harvestColor;
+    cell.plantLabel.alpha = .8;
+    cell.growingLabel.alpha = .7;
+    cell.harvestLabel.alpha = .8;
     cell.mainLabel.text = mainLabelString;
-    cell.harvestLabel.text = harvestDateString;
+    //cell.harvestLabel.text = harvestDateString;
     [cell.harvestLabel setFont: [UIFont systemFontOfSize:11]];
     
-    
-    [cell.contentView addSubview:cell.mainLabel];
+    [cell.contentView addSubview:cell.plantLabel];
+    [cell.contentView addSubview:cell.growingLabel];
     [cell.contentView addSubview:cell.harvestLabel];
+    [cell.contentView addSubview:cell.mainLabel];
+    
     return cell;
 }
 
@@ -129,6 +169,7 @@ NSDateFormatter *dateFormatter;
 }
 
 - (NSMutableArray *)buildPlantArrayFromModel:(SqftGardenModel*)model{
+    //running through the model bed state to get non-zero and unique plant ids
     NSMutableArray *array = [[NSMutableArray alloc]init];
     NSDictionary *dict = model.bedStateDictionary;
     int cellCount = model.rows * model.columns;
@@ -139,7 +180,7 @@ NSDateFormatter *dateFormatter;
         int plant = plantStr.intValue;
         if(plant < 1)continue;
         NSNumber *plantObj = [NSNumber numberWithInt:plant];
-        NSLog(@"plantStr = %@", plantStr);
+        //NSLog(@"plantStr = %@", plantStr);
         if(array.count < 1){
             [array addObject:plantStr];
             continue;
@@ -151,7 +192,7 @@ NSDateFormatter *dateFormatter;
                 [array addObject:plantObj];
         }
     }
-    NSLog(@"%@ Array = %i", array, (int)array.count);
+    //NSLog(@"%@ Array = %i", array, (int)array.count);
     return array;
 }
 

@@ -85,7 +85,11 @@ NSDate* selectedDate;
     //float height = self.frame.size.height;
 
     //CGRect toolbarTargetFrame = CGRectMake(0,self.bounds.size.height, 300, 44);
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,34,300,44)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5,34,300,44)];
+    [label setFont: [UIFont boldSystemFontOfSize:18]];
+    label.textColor = [UIColor blackColor];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    label.backgroundColor = [UIColor whiteColor];
     label.text = @"Estimate the date of the last frost:";
     
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];

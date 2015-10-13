@@ -28,6 +28,7 @@
 @property (nonatomic) bool isIcon;
 @property (nonatomic) bool isIsometric;
 @property (nonatomic) bool isTall;
+@property (nonatomic) int plantingDelta;
 -(void)setViewAsIcon:(bool)isIcon;
 - (CGPoint) transformedTopLeft;
 - (CGPoint) transformedTopRight;

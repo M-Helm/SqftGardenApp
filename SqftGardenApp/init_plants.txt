@@ -45,7 +45,8 @@
 "is_tall":0
 },
 
-{"name":"Basil",
+{
+"name":"Basil",
 "timestamp":0,
 "icon":"ic_herb2_flat_256px.png",
 "maturity":55,
@@ -68,7 +69,8 @@
 "is_tall":0
 },
 
-{"name":"Cilantro",
+{
+"name":"Cilantro",
 "timestamp":0,
 "icon":"ic_herb2_flat_256px.png",
 "maturity":69,
@@ -91,7 +93,8 @@
 "is_tall":0
 },
 
-{"name":"Oregano", "timestamp":0, "icon":"ic_herb_flat_256px.png", "maturity":69, "population":1, "class": "Herb", "description": "", "scientific_name": "Origanum vulgare", "photo": "null", "yield": ".5 lbs", "zone": "-1",
+{
+"name":"Oregano", "timestamp":0, "icon":"ic_herb_flat_256px.png", "maturity":69, "population":1, "class": "Herb", "description": "", "scientific_name": "Origanum vulgare", "photo": "null", "yield": ".5 lbs", "zone": "-1",
 "tip0":"",
 "tip1":"",
 "tip2":"",

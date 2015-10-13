@@ -76,6 +76,9 @@ ApplicationGlobals *appGlobals;
     self.isoIcon =[json objectForKey:@"isoIcon"];
     NSString *tall = [json objectForKey:@"isTall"];
     self.isTall = tall.intValue;
+    NSString *delta = [json objectForKey:@"plantingDelta"];
+    self.plantingDelta = delta.intValue;
+    //self.plantingDelta = 0;
 
     if([self.iconResource isEqualToString:@"na"])self.iconResource = PLANT_DEFAULT_ICON;
     //if(self.isIsometric)self.iconResource = @"";

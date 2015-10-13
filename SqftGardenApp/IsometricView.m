@@ -32,7 +32,6 @@ EditBedViewController *editBedVC;
     return self;
 }
 
-
 - (void)commonInit {
 
     appGlobals = [ApplicationGlobals getSharedGlobals];
@@ -140,7 +139,6 @@ EditBedViewController *editBedVC;
 
 -(void)addIsoIcons{
     
-    
     int bedDimension = appGlobals.bedDimension;
     //float padding = 5;
     
@@ -169,11 +167,32 @@ EditBedViewController *editBedVC;
             iconView.layer.borderWidth = 0;
             iconView.layer.borderColor = [UIColor blackColor].CGColor;
     
-            
             //[self addSubview:iconView];
             [self addSubview:iconView];
         }
     }
+}
+
+-(void)setIsoIconLayout{
+    
+    //make an array of plant icon views from the subview array
+    
+    NSMutableArray *iconArray = [[NSMutableArray alloc] init];
+    int rowCount = appGlobals.globalGardenModel.rows;
+    int colCount = appGlobals.globalGardenModel.columns;
+    int cellCount = rowCount*colCount;
+    for(UIView *subview in self.bedFrameView.subviews){
+        if([subview class]==[PlantIconView class]){
+            [iconArray addObject:subview];
+        }
+    }
+
+    //now we have our array, so we need to set the icon starting at the last column, first row.
+    
+    for(int i=cellCount; i>0;i--){
+        // iterate through the cells and add to the subview
+    }
+    
 }
 
 

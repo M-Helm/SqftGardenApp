@@ -12,7 +12,10 @@
 
 @property(nonatomic) UILabel* mainLabel;
 @property(nonatomic) UILabel* harvestLabel;
-@property(nonatomic) UILabel* countLabel;
+@property(nonatomic) UILabel* plantLabel;
+@property(nonatomic) UILabel* growingLabel;
+//@property(nonatomic) UILabel* countLabel;
 @property(nonatomic) UIImageView* icon;
+
 
 @end

@@ -14,11 +14,10 @@
 
 @implementation PresentTableCell
 
-//NSMutableArray *plantArray;
-//ApplicationGlobals *appGlobals;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString * _Nullable)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
     return self;
 }
 

@@ -198,7 +198,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            //NSLog(@"plant saved to db with ISO property: %@", [msgJSON objectForKey:@"iso_icon"]);
+            //NSLog(@"plant saved to db with Delta property: %@", [msgJSON objectForKey:@"planting_delta"]);
             sqlite3_finalize(statement);
             sqlite3_close(database);
             return true;
@@ -403,6 +403,8 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                         (const char *) sqlite3_column_text(statement, 10)];
                 NSString *isoIcon = [[NSString alloc] initWithUTF8String:
                                         (const char *) sqlite3_column_text(statement, 11)];
+                NSString *plantingDelta = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 19)];
                 NSString *isTall = [[NSString alloc] initWithUTF8String:
                                      (const char *) sqlite3_column_text(statement, 20)];
 
@@ -419,6 +421,8 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [plantData setObject:plantYield forKey:@"yield"];
                 [plantData setObject:isoIcon forKey:@"isoIcon"];
                 [plantData setObject:isTall forKey:@"isTall"];
+                [plantData setObject:plantingDelta forKey:@"plantingDelta"];
+                //NSLog(@"PLANTING DELTA = %@",plantingDelta);
             }
         }
         sqlite3_finalize(statement);
