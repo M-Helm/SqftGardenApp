@@ -12,6 +12,9 @@
 #import "PresentTableCell.h"
 //#import "SqftGardenModel.h"
 #import "PlantIconView.h"
+#import "GrowToolBarView.h"
+
+
 
 @interface DataPresentationTableViewController()
 
@@ -31,6 +34,7 @@ UIColor *plantingColor;
 UIColor *growingColor;
 UIColor *harvestColor;
 UIColor *frostColor;
+UIColor *summerColor;
 bool boundsCalculated;
 int maxDays;
 int minDays;
@@ -51,7 +55,8 @@ CGFloat height;
     plantingColor = [appGlobals colorFromHexString:@"#ba9060"];
     growingColor = [appGlobals colorFromHexString:@"#74aa4a"];
     harvestColor = [appGlobals colorFromHexString:@"#f9a239"];
-    frostColor= [appGlobals colorFromHexString:@"#77ccd1"];
+    frostColor = [appGlobals colorFromHexString:@"#77ccd1"];
+    summerColor = [appGlobals colorFromHexString:@"#f6c32c"];
     
     
     width = self.view.frame.size.width;
@@ -64,6 +69,12 @@ CGFloat height;
     //    [[UIView alloc]initWithFrame:CGRectMake(plantingDateAnchor, 80, 2, height-130)];
     //plantingDateLine.backgroundColor = [UIColor lightGrayColor];
     //[self.view addSubview:plantingDateLine];
+    
+    self.tableView.separatorColor = [UIColor clearColor];
+    
+    
+    [self makeToolbar];
+    
 }
 
 -(void)calculateDateBounds:(NSArray *)array{
@@ -95,6 +106,8 @@ CGFloat height;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PresentTableCell *cell;
+
+    
     NSString *mainLabelString = @"this is the main label";
     NSString *harvestDateString = @"this is the harvest date";
     NSString *plantingDateString = @"this is the planting date";
@@ -121,30 +134,61 @@ CGFloat height;
         cell.growingView = [[UIView alloc]initWithFrame:CGRectMake(25,20,125,height - 20)];
         cell.harvestView = [[UIView alloc]initWithFrame:CGRectMake(150,20,20,height - 20)];
         cell.frostView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
+        cell.springView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
+        cell.summerView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
+        cell.autumnView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
+        //cell.layer.cornerRadius = 10;
+        //cell.layer.borderColor = [UIColor blackColor].CGColor;
+        //cell.layer.borderWidth = 0;
+        //cell.clipsToBounds = YES;
     }else{
         
     }
 
-    CGRect adjustedFrame = CGRectMake(plantingDateAnchor + plant.plantingDelta, 13, 10, height - 20);
+    CGRect adjustedFrame = CGRectMake(plantingDateAnchor + plant.plantingDelta, 13, 0, height - 20);
     cell.plantView.frame = adjustedFrame;
-    //cell.growingView.frame = CGRectMake(adjustedFrame.origin.x+10, 13,(plant.maturity*daysPerPoint), height -20);
     cell.growingView.frame = CGRectMake(adjustedFrame.origin.x+10, 13,0, height -20);
-    cell.harvestView.frame = CGRectMake(adjustedFrame.origin.x+(plant.maturity*daysPerPoint)+10, 13,20, height -20);
+    cell.harvestView.frame = CGRectMake(adjustedFrame.origin.x+(plant.maturity*daysPerPoint)+10, 13,0, height -20);
     
     cell.mainLabel.frame = CGRectMake(self.view.frame.origin.x+80,
                                       cell.growingView.frame.origin.y,
                                       cell.growingView.frame.size.width,
                                       cell.growingView.frame.size.height);
     cell.frostView.frame = CGRectMake(self.view.frame.origin.x + 5,
-                                      10,
+                                      0.5,
                                       plantingDateAnchor-5,
-                                      height-17);
-    CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.startPoint = CGPointMake(0,0);
-    gradient.endPoint = CGPointMake(1,0);
-    gradient.frame = cell.frostView.bounds;
-    gradient.colors = [NSArray arrayWithObjects:(id)[frostColor CGColor], (id)[[UIColor whiteColor] CGColor], nil];
-    [cell.frostView.layer insertSublayer:gradient atIndex:0];
+                                      height-1);
+    cell.springView.frame = CGRectMake(-5,
+                                      .5,
+                                      (self.view.frame.size.width/2),
+                                      height-1);
+    cell.summerView.frame = CGRectMake((self.view.frame.size.width/2)-5,
+                                      .5,
+                                      (self.view.frame.size.width/1.45)-((self.view.frame.size.width/1.45)*.5),
+                                      height-1);
+    cell.summerView.backgroundColor = summerColor;
+    
+    CAGradientLayer *frostGradient = [CAGradientLayer layer];
+    frostGradient.startPoint = CGPointMake(0,0);
+    frostGradient.endPoint = CGPointMake(1,0);
+    frostGradient.frame = cell.frostView.bounds;
+    frostGradient.colors = [NSArray arrayWithObjects:
+                            (id)[frostColor CGColor], (id)[[UIColor whiteColor] CGColor], nil];
+    [cell.frostView.layer insertSublayer:frostGradient atIndex:0];
+    
+    
+    CAGradientLayer *springGradient = [CAGradientLayer layer];
+    springGradient.startPoint = CGPointMake(1,0);
+    springGradient.endPoint = CGPointMake(0,0);
+    springGradient.frame = cell.springView.bounds;
+    springGradient.colors = [NSArray arrayWithObjects:
+                             (id)[summerColor CGColor], (id)[UIColor whiteColor], nil];
+    [cell.springView.layer insertSublayer:springGradient atIndex:0];
+    cell.springView.alpha = .5;
+    cell.summerView.alpha = .5;
+    
+    
+    
     
     //cell.frostView.backgroundColor = frostColor;
     //cell.frostView.alpha = .2;
@@ -170,7 +214,7 @@ CGFloat height;
     plantingLabel.text = plantingDateString;
     [cell.plantView addSubview:plantingLabel];
     
-    UILabel *harvestLabel = [[UILabel alloc]initWithFrame:CGRectMake(-20,20,40,15)];
+    UILabel *harvestLabel = [[UILabel alloc]initWithFrame:CGRectMake(-20,16,40,15)];
     harvestLabel.layer.borderColor = [UIColor blackColor].CGColor;
     harvestLabel.layer.borderWidth = 1;
     harvestLabel.layer.cornerRadius = 5;
@@ -185,9 +229,14 @@ CGFloat height;
     
     //cell.harvestLabel.text = harvestDateString;
     [cell.mainLabel setFont: [UIFont systemFontOfSize:11]];
+    cell.mainLabel.text = mainLabelString;
     //[cell.mainLabel setTextAlignment:NSTextAlignmentCenter];
     
+    cell.harvestView.alpha = 0;
+    
     [cell.contentView addSubview:cell.frostView];
+    [cell.contentView addSubview:cell.springView];
+    [cell.contentView addSubview:cell.summerView];
     [cell.contentView addSubview:cell.growingView];
     [cell.contentView addSubview:cell.plantView];
     [cell.contentView addSubview:cell.harvestView];
@@ -213,21 +262,68 @@ CGFloat height;
         NSNumber *plantId = plantArray[(int)[indexPath row]];
         PlantIconView *plant = [[PlantIconView alloc]
                                 initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantId.intValue isIsometric:NO];
-        CGRect frame = CGRectMake(tableCell.growingView.frame.origin.x,
-                              tableCell.growingView.frame.origin.y,
-                              0,
-                              tableCell.growingView.frame.size.height);
-    
-        [UIView animateWithDuration:1.25 delay:0.1 options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         tableCell.growingView.frame = CGRectMake(frame.origin.x,frame.origin.y,(plant.maturity*daysPerPoint),frame.size.height);
-
-                         
-                        }
-                         completion:^(BOOL finished) {
-                         
-                        }];
+        [self animatePlantViewforCell:tableCell forPlant:plant];
     }
+}
+
+
+
+
+
+
+- (void)animatePlantViewforCell:(PresentTableCell*)cell forPlant:(PlantIconView*)plant{
+    CGRect frame = CGRectMake(cell.plantView.frame.origin.x,
+                              cell.plantView.frame.origin.y,
+                              0,
+                              cell.plantView.frame.size.height);
+    
+    [UIView animateWithDuration:0.35 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         cell.plantView.frame = CGRectMake(frame.origin.x,frame.origin.y,10,frame.size.height);
+                     }
+                     completion:^(BOOL finished) {
+                         if(finished)[self animateGrowViewforCell:cell forPlant:plant];
+                     }];
+}
+
+
+
+- (void)animateGrowViewforCell:(PresentTableCell*)cell forPlant:(PlantIconView*)plant{
+    CGRect frame = CGRectMake(cell.growingView.frame.origin.x,
+                              cell.growingView.frame.origin.y,
+                              0,
+                              cell.growingView.frame.size.height);
+    CGFloat duration = (plant.maturity*daysPerPoint)/120;
+    
+    [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         cell.growingView.frame = CGRectMake(frame.origin.x,frame.origin.y,(plant.maturity*daysPerPoint),frame.size.height);
+                         cell.mainLabel.frame = CGRectMake(cell.growingView.frame.origin.x + 15,
+                                                           cell.growingView.frame.origin.y,
+                                                           cell.growingView.frame.size.width,
+                                                           cell.growingView.frame.size.height);
+                     }
+                     completion:^(BOOL finished) {
+                         if(finished)[self animateHarvestViewforCell:cell forPlant:plant];
+                     }];
+}
+- (void)animateHarvestViewforCell:(PresentTableCell*)cell forPlant:(PlantIconView*)plant{
+    CGRect frame = CGRectMake(cell.harvestView.frame.origin.x,
+                              cell.harvestView.frame.origin.y,
+                              0,
+                              cell.harvestView.frame.size.height);
+    
+    [UIView animateWithDuration:0.30 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         cell.harvestView.alpha = 1;
+                         cell.harvestView.frame = CGRectMake(frame.origin.x,
+                                                             frame.origin.y,
+                                                             20,
+                                                             frame.size.height);
+                     }
+                     completion:^(BOOL finished) {
+                         if(finished)return;
+                     }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -298,6 +394,80 @@ CGFloat height;
     }
     NSLog(@"%@ Array = %i", array, (int)array.count);
     return array;
+}
+
+-(void)makeToolbar{
+    //added an extra 20 points here because the table view offsets that much
+    float toolBarYOrigin = self.view.frame.size.height-64;
+    //if(!self.toolBarIsOpen)toolBarYOrigin = self.view.frame.size.height;
+    
+    GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,toolBarYOrigin,self.view.frame.size.width,44) andViewController:self];
+    [toolBar setToolBarIsPinned:YES];
+    toolBar.canOverrideDate = YES;
+
+    //using this view to detect touches to toolbar are when the bar itself is hidden
+    //self.toolBarContainer = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-44,self.view.frame.size.width,44)];
+    //self.toolBarContainer.userInteractionEnabled = YES;
+    //self.toolBarContainer.tag = 7;
+    
+    [self.view addSubview:toolBar];
+    [toolBar enableBackButton:YES];
+    [toolBar enableMenuButton:NO];
+    [toolBar enableDateButton:YES];
+    [toolBar enableSaveButton:NO];
+    [toolBar enableIsoButton:NO];
+    [toolBar enableDateOverride:YES];
+    }
+
+- (void)sortArrayByKey:(NSString *)key {
+
+    NSArray *sortedPlants;    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:key
+                                                 ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    sortedPlants = [plantArray sortedArrayUsingDescriptors:sortDescriptors];
+    [self.tableView reloadData];
+}
+
+-(void) showDatePickerView{
+    
+    if(self.datePickerIsOpen){
+        [self setDatePickerIsOpen:NO];
+        //[self.selectPlantView setDatePickerIsOpen:NO];
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.datePickerView.alpha = 0.0f;
+                             self.tableView.alpha = 1.00f;
+        //                     self.selectMessageView.alpha = 1.00f;
+        //                     self.selectPlantView.alpha = 1.00f;
+                         }
+                         completion:^(BOOL finished) {
+         //                    [self initViews];
+                         }];
+        return;
+    }
+    [self setDatePickerIsOpen:YES];
+    //[self.selectPlantView setDatePickerIsOpen:YES];
+    self.datePickerView = [[DateSelectView alloc] init];
+    self.datePickerView.userInteractionEnabled = YES;
+    [self.datePickerView createDatePicker:self];
+    
+    CGRect fm = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 44+216);
+    self.datePickerView.frame = fm;
+    
+    self.datePickerView.alpha = 1.0f;
+    [self.view addSubview:self.datePickerView];
+    
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.datePickerView.alpha = 1.0f;
+                         self.datePickerView.backgroundColor = [UIColor whiteColor];
+                         //self.tableView.alpha = 0.00f;
+                  //       self.selectMessageView.alpha = 0.00f;
+                  //       self.selectPlantView.alpha = 0.00f;
+                     }
+                     completion:^(BOOL finished) {
+                     }];
 }
 
 

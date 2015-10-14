@@ -8,6 +8,7 @@
 
 #import "GrowToolBarView.h"
 #import "EditBedViewController.h"
+#import "DataPresentationTableViewController.h"
 #import "ApplicationGlobals.h"
 
 @interface GrowToolBarView()
@@ -105,6 +106,15 @@ ApplicationGlobals *appGlobals;
     self.enableSaveButton = enabled;
     if(self.enableSaveButton)self.saveIconView.alpha = 1;
     else self.saveIconView.alpha = .3;
+}
+-(void)enableDateOverride:(bool)canOverrideDate{
+    self.canOverrideDate = canOverrideDate;
+    [self.dateIconView removeFromSuperview];
+    self.dateIconView = [self makeDateIcon];
+    [self addSubview:self.dateIconView];
+    self.dateIconView.alpha = 1;
+    //if(self.enableSaveButton)self.saveIconView.alpha = 1;
+    //else self.saveIconView.alpha = .3;
 }
 
 -(void) showToolBar{
@@ -320,15 +330,13 @@ ApplicationGlobals *appGlobals;
     //CGRect fm = CGRectMake(5,-3,34,34);
     CGRect frame = CGRectMake((iconWidth/2)-17,-3,34,34);
     
-    if(self.dateSelected){
+    if(self.dateSelected && !self.canOverrideDate){
         icon = [UIImage imageNamed:@"ic_sequence_128px.png"];
         frame = CGRectMake((iconWidth/2)-17,0,34,34);
     }
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
     imageView.frame = frame;
-    
-    
     
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((iconWidth/2)-22,30,44,10)];
@@ -355,27 +363,6 @@ ApplicationGlobals *appGlobals;
     return self.dateIconView;
 }
 
--(void)makeDataPresentIcon{
-    //remove self if exists
-    [self.dataPresentIconView removeFromSuperview];
-    UIImage *dataIcon = [UIImage imageNamed:@"ic_date_detail_512px.png"];
-    self.dataPresentIconView = [[UIImageView alloc]initWithImage:dataIcon];
-    CGRect dataFrame = CGRectMake((viewController.view.frame.size.width)-132-44,0,44,44);
-    //CGRect dataFrame = CGRectMake(0,0,44,44);
-    self.dataPresentIconView.frame = dataFrame;
-    self.dataPresentIconView.alpha = 1;
-    self.dataPresentIconView.userInteractionEnabled = YES;
-    //imageView.userInteractionEnabled = YES;
-    //imageView.tag = self.toolBarTag;
-    //label.tag = self.toolBarTag;
-    self.dataPresentIconView.tag = self.toolBarTag;
-    
-    UITapGestureRecognizer *singleFingerTap =
-            [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleDataPresentIconSingleTap:)];
-    [self.dataPresentIconView addGestureRecognizer:singleFingerTap];
-    //[self.navigationController.navigationBar addSubview:self.dataPresentIconView];
-}
 - (void)handleBackButtonSingleTap:(UITapGestureRecognizer *)recognizer {
     if(!self.enableBackButton)return;
     [self clickAnimationIn:recognizer.view];
@@ -388,6 +375,14 @@ ApplicationGlobals *appGlobals;
 - (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
     if(!self.enableDateButton)return;
     [self clickAnimationIn:recognizer.view];
+    if(self.canOverrideDate){
+        if([viewController class] == [DataPresentationTableViewController class]){
+            DataPresentationTableViewController *dataVC = (DataPresentationTableViewController*)viewController;
+            [dataVC showDatePickerView];
+            return;
+        }
+    }
+    
     //check if a date exists
     if(appGlobals.globalGardenModel.plantingDate != nil){
         
@@ -400,9 +395,6 @@ ApplicationGlobals *appGlobals;
             return;
         }
     }
-    //for(UIView* subview in self.navigationController.navigationBar.subviews){
-    //    [subview removeFromSuperview];
-    //}
     
     if([viewController class] == [EditBedViewController class]){
         EditBedViewController *editBedVC = (EditBedViewController*)viewController;
@@ -440,16 +432,6 @@ ApplicationGlobals *appGlobals;
     }
 }
 
-- (void)handleDataPresentIconSingleTap:(UITapGestureRecognizer *)recognizer {
-    //NSLog(@"data present icon tapped ");
-    if([viewController class] == [EditBedViewController class]){
-        EditBedViewController *editBedVC = (EditBedViewController*)viewController;
-        [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
-        self.dataPresentIconView.tag = 6;
-        self.dataPresentIconView.alpha = 0;
-        [viewController.navigationController performSegueWithIdentifier:@"showPresent" sender:self];
-    }
-}
 
 - (void)handleIsoIconSingleTap:(UITapGestureRecognizer *)recognizer {
     if(!self.enableIsoButton)return;

@@ -15,6 +15,9 @@
 @property(nonatomic) UIView* plantView;
 @property(nonatomic) UIView* growingView;
 @property(nonatomic) UIView* frostView;
+@property(nonatomic) UIView* springView;
+@property(nonatomic) UIView* summerView;
+@property(nonatomic) UIView* autumnView;
 //@property(nonatomic) UILabel* countLabel;
 @property(nonatomic) UIImageView* icon;
 

@@ -7,9 +7,12 @@
 //
 
 #import<UIKit/UIKit.h>
+#import "DateSelectView.h"
 
 @interface DataPresentationTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
-
+@property(nonatomic) bool datePickerIsOpen;
+@property(nonatomic) DateSelectView *datePickerView;
+- (void) showDatePickerView;
 
 
 @end

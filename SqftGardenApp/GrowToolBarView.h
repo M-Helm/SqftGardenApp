@@ -18,6 +18,7 @@
 - (void) enableDateButton:(bool)enabled;
 - (void) enableIsoButton:(bool)enabled;
 - (void) enableSaveButton:(bool)enabled;
+- (void) enableDateOverride:(bool)canOverrideDate;
 
 @property(nonatomic) UIView *dateIconView;
 @property(nonatomic) UIView *saveIconView;
@@ -34,6 +35,7 @@
 @property(nonatomic) bool enableDateButton;
 @property(nonatomic) bool enableIsoButton;
 @property(nonatomic) bool enableSaveButton;
+@property(nonatomic) bool canOverrideDate;
 
 
 @end
