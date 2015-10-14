@@ -60,8 +60,7 @@ NSDate* selectedDate;
     }
     NSLog(@"New Date: %@", selectedDate);
     appGlobals.globalGardenModel.plantingDate = selectedDate;
-    //CGRect toolbarTargetFrame = CGRectMake(0, self.bounds.size.height, 320, 44);
-    //CGRect datePickerTargetFrame = CGRectMake(0, self.bounds.size.height+44, 320, 216);
+    [appGlobals.globalGardenModel saveModelWithOverWriteOption:YES];
     [UIView beginAnimations:@"MoveOut" context:nil];
     [self viewWithTag:9].alpha = 0;
     //[self viewWithTag:10].frame = datePickerTargetFrame;
@@ -91,13 +90,9 @@ NSDate* selectedDate;
     if ([self viewWithTag:9]) {
         return;
     }
-    //float topOffset = self.navigationController.navigationBar.frame.size.height * 1.5;
-    //float topOffset = 0;
-    float width = self.frame.size.width;
-    //float height = self.frame.size.height;
 
-    //CGRect toolbarTargetFrame = CGRectMake(0,self.bounds.size.height, 300, 44);
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5,34,300,44)];
+    float width = self.frame.size.width;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,34,300,44)];
     [label setFont: [UIFont boldSystemFontOfSize:18]];
     label.textColor = [UIColor blackColor];
     [label setTextAlignment:NSTextAlignmentCenter];
@@ -106,8 +101,6 @@ NSDate* selectedDate;
     
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
 
-    //toolBar.backgroundColor = [UIColor blackColor];
-    //CGRect datePickerTargetFrame = CGRectMake(0, 44, self.frame.size.width, 216);
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.bounds.size.height+44, 320, 216)];
     
     UIView *lightView = [[UIView alloc] initWithFrame:self.bounds];
@@ -124,7 +117,7 @@ NSDate* selectedDate;
     
     [datePicker addTarget:self action:@selector(changeDate:) forControlEvents:UIControlEventValueChanged];
     [self addSubview:datePicker];
-    
+    datePicker.date = [self getInitialDate];
 
     toolBar.tag = 11;
     toolBar.barStyle = UIBarStyleDefault;
@@ -146,6 +139,16 @@ NSDate* selectedDate;
     //[UIView beginAnimations:@"MoveIn" context:nil];
     //lightView.alpha = 0.5;
     //[UIView commitAnimations];
+}
+- (NSDate *)getInitialDate{
+    NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
+    if([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
+        //no date selected
+        return [[NSDate alloc]initWithTimeIntervalSinceNow:0];
+    }else{
+        //a date is selected
+        return appGlobals.globalGardenModel.plantingDate;
+    }
 }
 
 

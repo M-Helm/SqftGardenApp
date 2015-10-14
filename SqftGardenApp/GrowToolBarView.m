@@ -343,7 +343,7 @@ ApplicationGlobals *appGlobals;
     [label setTextAlignment:NSTextAlignmentCenter];
     [label setFont:[UIFont systemFontOfSize:11]];
     label.text = @"Cal";
-    if(self.dateSelected)label.text = @"Seq";
+    if(self.dateSelected && !self.canOverrideDate)label.text = @"Seq";
     
     imageView.userInteractionEnabled = YES;
     imageView.tag = self.toolBarTag;

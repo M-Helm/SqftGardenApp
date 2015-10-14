@@ -79,10 +79,11 @@ CGFloat height;
     int min = 0;
     int max = 0;
     PlantIconView *plant;
-    NSNumber *plantIndex = [NSNumber numberWithInt:0];
+    //NSNumber *plantIndex = [NSNumber numberWithInt:0];
     for(int i = 0; i < array.count; i++){
-        plantIndex = array[i];
-        plant = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantIndex.intValue isIsometric:NO];
+        //plantIndex = array[i];
+        //plant = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantIndex.intValue isIsometric:NO];
+        plant = array[i];
         if(min > plant.plantingDelta)min = plant.plantingDelta;
         if(max < plant.maturity)max = plant.maturity;
     }
@@ -108,10 +109,11 @@ CGFloat height;
     NSString *mainLabelString = @"this is the main label";
     NSString *harvestDateString = @"this is the harvest date";
     NSString *plantingDateString = @"this is the planting date";
-    NSNumber *plantId = plantArray[(int)[indexPath row]];
+    PlantIconView *plant = [plantArray objectAtIndex:[indexPath row]];
+    //NSNumber *plantId = plantArray[(int)[indexPath row]];
     
-    PlantIconView *plant = [[PlantIconView alloc]
-                            initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantId.intValue isIsometric:NO];
+    //PlantIconView *plant = [[PlantIconView alloc]
+    //                        initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantId.intValue isIsometric:NO];
     NSDate *maturityDate = [appGlobals.globalGardenModel.plantingDate dateByAddingTimeInterval:60*60*24*plant.maturity];
     NSDate *plantingDate = [appGlobals.globalGardenModel.plantingDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
     harvestDateString = [dateFormatter stringFromDate:maturityDate];
@@ -123,7 +125,7 @@ CGFloat height;
     mainLabelString = plant.plantName;
     
     if(cell == nil){
-        NSLog(@"value of bounds %i", boundsCalculated);
+        //NSLog(@"value of bounds %i", boundsCalculated);
         cell = [[PresentTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         height = cell.contentView.frame.size.height;
         cell.mainLabel = [[UILabel alloc]initWithFrame:CGRectMake(15,0,125,20)];
@@ -159,10 +161,14 @@ CGFloat height;
                                       .5,
                                       (self.view.frame.size.width/2),
                                       height-1);
+    //cell.summerView.frame = CGRectMake((self.view.frame.size.width/2)-5,
+    //                         .5,
+    //                        (self.view.frame.size.width/1.45)-((self.view.frame.size.width/1.45)*.5),
+    //                         height-1);
+    
+    //temp size for summer to just push it off screen
     cell.summerView.frame = CGRectMake((self.view.frame.size.width/2)-5,
-                                      .5,
-                                      (self.view.frame.size.width/1.45)-((self.view.frame.size.width/1.45)*.5),
-                                      height-1);
+                                       .5, self.view.frame.size.width, height-1);
     cell.summerView.backgroundColor = summerColor;
     
     CAGradientLayer *frostGradient = [CAGradientLayer layer];
@@ -256,9 +262,10 @@ CGFloat height;
     PresentTableCell *tableCell;
     if([cell class] == [PresentTableCell class]){
         tableCell = (PresentTableCell*)cell;
-        NSNumber *plantId = plantArray[(int)[indexPath row]];
-        PlantIconView *plant = [[PlantIconView alloc]
-                                initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantId.intValue isIsometric:NO];
+        //NSNumber *plantId = plantArray[(int)[indexPath row]];
+        //PlantIconView *plant = [[PlantIconView alloc]
+        //                        initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantId.intValue isIsometric:NO];
+        PlantIconView *plant = [plantArray objectAtIndex:[indexPath row]];
         [self animatePlantViewforCell:tableCell forPlant:plant];
     }
 }
@@ -342,6 +349,7 @@ CGFloat height;
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 50)];
     UILabel *labelView = [[UILabel alloc] initWithFrame:CGRectMake((headerView.frame.size.width/2)-75, 0, 150, 50)];
     //add cancel button
+    /*
     PlantIconView *cancelBtn = [[PlantIconView alloc]
                                 initWithFrame:CGRectMake(self.view.frame.size.width - 55, 1, 44,44) withPlantId: -1 isIsometric:NO];
     cancelBtn.userInteractionEnabled = YES;
@@ -349,10 +357,10 @@ CGFloat height;
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(handleCancelSingleTap:)];
     [cancelBtn addGestureRecognizer:singleFingerTap];
-    
+     [headerView addSubview:cancelBtn];
+    */
     
     [headerView addSubview:labelView];
-    [headerView addSubview:cancelBtn];
     labelView.text = @"Timeline";
     labelView.textAlignment = NSTextAlignmentCenter;
     [labelView setFont:[UIFont boldSystemFontOfSize:18]];
@@ -364,8 +372,42 @@ CGFloat height;
     [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
     return;
 }
+-(void) showDatePickerView{
+    
+    if(self.datePickerIsOpen){
+        [self setDatePickerIsOpen:NO];
+        //[self.selectPlantView setDatePickerIsOpen:NO];
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.datePickerView.alpha = 0.0f;
+                             self.tableView.alpha = 1.00f;
+                         }
+                         completion:^(BOOL finished) {
+                             
+                         }];
+        return;
+    }
+    [self setDatePickerIsOpen:YES];;
+    self.datePickerView = [[DateSelectView alloc] init];
+    self.datePickerView.userInteractionEnabled = YES;
+    [self.datePickerView createDatePicker:self];
+    
+    CGRect fm = CGRectMake((self.view.frame.size.width-315)/2, self.view.frame.origin.y+80, 300, 44+216);
+    self.datePickerView.frame = fm;
+    
+    self.datePickerView.alpha = 1.0f;
+    [self.view addSubview:self.datePickerView];
+    
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.datePickerView.alpha = 1.0f;
+                         self.datePickerView.backgroundColor = [UIColor whiteColor];
+                     }
+                     completion:^(BOOL finished) {
+                     }];
+}
 
-- (NSMutableArray *)buildPlantArrayFromModel:(SqftGardenModel*)model{
+- (NSArray *)buildPlantArrayFromModel:(SqftGardenModel*)model{
     //running through the model bed state to get non-zero and unique plant ids
     NSMutableArray *array = [[NSMutableArray alloc]init];
     NSDictionary *dict = model.bedStateDictionary;
@@ -389,24 +431,26 @@ CGFloat height;
                 [array addObject:plantObj];
         }
     }
-    NSLog(@"%@ Array = %i", array, (int)array.count);
-    return array;
+    NSMutableArray *plantArray = [[NSMutableArray alloc]init];
+    for(int i = 0; i < array.count; i++){
+        NSString *str = [array objectAtIndex:i];
+        PlantIconView *plant = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0)
+                                                       withPlantId:str.intValue isIsometric:NO];
+        [plantArray addObject:plant];
+    }
+
+    NSArray *sorted = [self sortArray:plantArray ByKey:@"plantingDelta" Ascending:YES];
+    //NSLog(@"%@ Array = %i", sorted, (int)array.count);
+    return sorted;
 }
 
 -(void)makeToolbar{
     //added an extra 20 points here because the table view offsets that much
     float toolBarYOrigin = self.view.frame.size.height-64;
-    //if(!self.toolBarIsOpen)toolBarYOrigin = self.view.frame.size.height;
     
     GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,toolBarYOrigin,self.view.frame.size.width,44) andViewController:self];
     [toolBar setToolBarIsPinned:YES];
     toolBar.canOverrideDate = YES;
-
-    //using this view to detect touches to toolbar are when the bar itself is hidden
-    //self.toolBarContainer = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-44,self.view.frame.size.width,44)];
-    //self.toolBarContainer.userInteractionEnabled = YES;
-    //self.toolBarContainer.tag = 7;
-    
     [self.view addSubview:toolBar];
     [toolBar enableBackButton:YES];
     [toolBar enableMenuButton:NO];
@@ -416,56 +460,20 @@ CGFloat height;
     [toolBar enableDateOverride:YES];
     }
 
-- (void)sortArrayByKey:(NSString *)key {
+- (NSArray *)sortArray:(NSArray *)array ByKey:(NSString *)key Ascending:(bool)ascending{
 
     NSArray *sortedPlants;    NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:key
-                                                 ascending:NO];
+                                                 ascending:ascending];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    sortedPlants = [plantArray sortedArrayUsingDescriptors:sortDescriptors];
-    [self.tableView reloadData];
+    sortedPlants = [array sortedArrayUsingDescriptors:sortDescriptors];
+    return sortedPlants;
+    //[self.tableView reloadData];
+    
+    
 }
 
--(void) showDatePickerView{
-    
-    if(self.datePickerIsOpen){
-        [self setDatePickerIsOpen:NO];
-        //[self.selectPlantView setDatePickerIsOpen:NO];
-        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.datePickerView.alpha = 0.0f;
-                             self.tableView.alpha = 1.00f;
-        //                     self.selectMessageView.alpha = 1.00f;
-        //                     self.selectPlantView.alpha = 1.00f;
-                         }
-                         completion:^(BOOL finished) {
-         //                    [self initViews];
-                         }];
-        return;
-    }
-    [self setDatePickerIsOpen:YES];
-    //[self.selectPlantView setDatePickerIsOpen:YES];
-    self.datePickerView = [[DateSelectView alloc] init];
-    self.datePickerView.userInteractionEnabled = YES;
-    [self.datePickerView createDatePicker:self];
-    
-    CGRect fm = CGRectMake((self.view.frame.size.width-315)/2, self.view.frame.origin.y+80, self.view.frame.size.width, 44+216);
-    self.datePickerView.frame = fm;
-    
-    self.datePickerView.alpha = 1.0f;
-    [self.view addSubview:self.datePickerView];
-    
-    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         self.datePickerView.alpha = 1.0f;
-                         self.datePickerView.backgroundColor = [UIColor whiteColor];
-                         //self.tableView.alpha = 0.00f;
-                  //       self.selectMessageView.alpha = 0.00f;
-                  //       self.selectPlantView.alpha = 0.00f;
-                     }
-                     completion:^(BOOL finished) {
-                     }];
-}
+
 
 
 
