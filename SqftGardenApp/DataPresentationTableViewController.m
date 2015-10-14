@@ -71,10 +71,7 @@ CGFloat height;
     //[self.view addSubview:plantingDateLine];
     
     self.tableView.separatorColor = [UIColor clearColor];
-    
-    
     [self makeToolbar];
-    
 }
 
 -(void)calculateDateBounds:(NSArray *)array{
@@ -452,7 +449,7 @@ CGFloat height;
     self.datePickerView.userInteractionEnabled = YES;
     [self.datePickerView createDatePicker:self];
     
-    CGRect fm = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 44+216);
+    CGRect fm = CGRectMake((self.view.frame.size.width-315)/2, self.view.frame.origin.y+80, self.view.frame.size.width, 44+216);
     self.datePickerView.frame = fm;
     
     self.datePickerView.alpha = 1.0f;
@@ -469,6 +466,7 @@ CGFloat height;
                      completion:^(BOOL finished) {
                      }];
 }
+
 
 
 @end

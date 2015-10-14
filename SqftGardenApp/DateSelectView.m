@@ -10,13 +10,14 @@
 #import "DateSelectView.h"
 #import "EditBedViewController.h"
 #import "ApplicationGlobals.h"
+#import "DataPresentationTableViewController.h"
 
 @interface DateSelectView()
 
 @end
 
 @implementation DateSelectView
-EditBedViewController *editBedVC;
+UIViewController *viewController;
 ApplicationGlobals *appGlobals;
 NSDate* selectedDate;
 
@@ -28,17 +29,28 @@ NSDate* selectedDate;
     NSString *dateString = [dateFormat stringFromDate:sender.date];
     NSDate *date = [dateFormat dateFromString:dateString];
     selectedDate = date;
-    
 }
 
 - (void)removeViews:(id)object {
     if(selectedDate == nil)selectedDate = [[NSDate alloc]initWithTimeIntervalSince1970:0];
-    [[self viewWithTag:9] removeFromSuperview];
-    [[self viewWithTag:10] removeFromSuperview];
-    [[self viewWithTag:11] removeFromSuperview];
-    [editBedVC setDatePickerIsOpen:NO];
-    [editBedVC updatePlantingDate:selectedDate];
-    [editBedVC initViews];
+    for(UIView *subview in self.subviews){
+        [subview removeFromSuperview];
+    }
+
+    
+    if([viewController class] == [EditBedViewController class]){
+        EditBedViewController *editVC = (EditBedViewController *)viewController;
+        [editVC setDatePickerIsOpen:NO];
+        [editVC updatePlantingDate:selectedDate];
+        [editVC initViews];
+        return;
+    }
+    if([viewController class] == [DataPresentationTableViewController class]){
+        DataPresentationTableViewController *dataVC = (DataPresentationTableViewController *)viewController;
+        [dataVC setDatePickerIsOpen:NO];
+        [dataVC.tableView reloadData];
+    }
+    [self removeFromSuperview];
 }
 
 - (void)dismissDatePicker:(id)sender {
@@ -74,7 +86,7 @@ NSDate* selectedDate;
 
 - (void)createDatePicker:(id)sender {
     self.userInteractionEnabled = YES;
-    editBedVC = (EditBedViewController *)sender;
+    viewController = sender;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     if ([self viewWithTag:9]) {
         return;
