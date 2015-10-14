@@ -11,9 +11,10 @@
 @interface PresentTableCell : UITableViewCell
 
 @property(nonatomic) UILabel* mainLabel;
-@property(nonatomic) UILabel* harvestLabel;
-@property(nonatomic) UILabel* plantLabel;
-@property(nonatomic) UILabel* growingLabel;
+@property(nonatomic) UIView* harvestView;
+@property(nonatomic) UIView* plantView;
+@property(nonatomic) UIView* growingView;
+@property(nonatomic) UIView* frostView;
 //@property(nonatomic) UILabel* countLabel;
 @property(nonatomic) UIImageView* icon;
 
