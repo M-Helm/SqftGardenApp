@@ -112,7 +112,6 @@ int localIdOfSelected;
     border.clipsToBounds = YES;
     border.backgroundColor = [tabColor colorWithAlphaComponent:.05];
 
-    
     if(index == 0){
         //setup the cancel button in the first cell
         CGRect leftFrame = CGRectMake(-20,0,self.view.frame.size.width, cell.frame.size.height);
@@ -188,7 +187,6 @@ int localIdOfSelected;
     return model;
 }
 
-
 - (void) showDeleteAlertForFile : (NSString *)fileName atIndex: (int) index{
     NSString *alertStr = [NSString stringWithFormat:@"Delete %@?", fileName];
     
@@ -199,7 +197,7 @@ int localIdOfSelected;
                                           otherButtonTitles:@"YES", nil];
     [alert show];
 }
-- (void) showFailureAlertForFile : (NSString *)failMessage atIndex: (int) index{
+- (void) showFailureAlertForFile : (NSString *)failMessage atIndex: (int) index {
     NSString *alertStr = [NSString stringWithFormat:@"%@", failMessage];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:appGlobals.appTitle
@@ -210,8 +208,7 @@ int localIdOfSelected;
     [alert show];
 }
 
--(
-  void) handleDeleteSelect:(UITapGestureRecognizer *)recognizer{
+-(void) handleDeleteSelect:(UITapGestureRecognizer *)recognizer {
     DeleteButtonView *btn = (DeleteButtonView*)recognizer.view;
     localIdOfSelected = btn.localId;
     if(btn.localId < 2)
@@ -219,8 +216,8 @@ int localIdOfSelected;
     else{
         [self showDeleteAlertForFile:btn.fileName atIndex:btn.localId];
     }
-    
 }
+
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     // the user clicked OK
     if (buttonIndex == 0) {

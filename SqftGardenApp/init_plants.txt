@@ -94,7 +94,17 @@
 },
 
 {
-"name":"Oregano", "timestamp":0, "icon":"ic_herb_flat_256px.png", "maturity":69, "population":1, "class": "Herb", "description": "", "scientific_name": "Origanum vulgare", "photo": "null", "yield": ".5 lbs", "zone": "-1",
+"name":"Oregano",
+"timestamp":0,
+"icon":"ic_herb_flat_256px.png",
+"maturity":69,
+"population":1,
+"class": "Herb",
+"description": "",
+"scientific_name": "Origanum vulgare",
+"photo": "null",
+"yield": ".5 lbs",
+"zone": "-1",
 "tip0":"",
 "tip1":"",
 "tip2":"",

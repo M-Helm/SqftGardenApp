@@ -23,7 +23,6 @@
 		AD34496D1BA482F100E1DB4B /* ic_onion_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD3449671BA482F100E1DB4B /* ic_onion_flat_256px.png */; };
 		AD39BF0E1BC1AE060091125D /* iso_cabbage02_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD39BF0D1BC1AE060091125D /* iso_cabbage02_512px.png */; settings = {ASSET_TAGS = (); }; };
 		AD3A38C11BA61D8600FC0528 /* ic_cancel_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD3A38C01BA61D8600FC0528 /* ic_cancel_256px.png */; };
-		AD4B19A71BB612C400ABDD65 /* IsometricViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4B19A61BB612C400ABDD65 /* IsometricViewController.m */; settings = {ASSET_TAGS = (); }; };
 		AD4B19A91BB633E900ABDD65 /* iso_generic_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD4B19A81BB633E900ABDD65 /* iso_generic_256px.png */; settings = {ASSET_TAGS = (); }; };
 		AD4B98D21B0E355100EF6F96 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4B98D11B0E355100EF6F96 /* DBManager.m */; };
 		AD54939A1BB701FE0032292D /* ic_isometric_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493991BB701FE0032292D /* ic_isometric_256px.png */; settings = {ASSET_TAGS = (); }; };
@@ -146,8 +145,6 @@
 		AD3449671BA482F100E1DB4B /* ic_onion_flat_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_onion_flat_256px.png; path = ../../../Documents/sqftGardenAssets/ic_onion_flat_256px.png; sourceTree = "<group>"; };
 		AD39BF0D1BC1AE060091125D /* iso_cabbage02_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_cabbage02_512px.png; path = ../../../Documents/sqftGardenAssets/iso_cabbage02_512px.png; sourceTree = "<group>"; };
 		AD3A38C01BA61D8600FC0528 /* ic_cancel_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_cancel_256px.png; path = ../../../Documents/sqftGardenAssets/ic_cancel_256px.png; sourceTree = "<group>"; };
-		AD4B19A51BB612AF00ABDD65 /* IsometricViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IsometricViewController.h; sourceTree = "<group>"; };
-		AD4B19A61BB612C400ABDD65 /* IsometricViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IsometricViewController.m; sourceTree = "<group>"; };
 		AD4B19A81BB633E900ABDD65 /* iso_generic_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_generic_256px.png; path = ../../../Documents/sqftGardenAssets/iso_generic_256px.png; sourceTree = "<group>"; };
 		AD4B98D01B0E352200EF6F96 /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		AD4B98D11B0E355100EF6F96 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
@@ -305,70 +302,68 @@
 		AD1A91B61AF434DA00DC0983 /* SqftGardenApp */ = {
 			isa = PBXGroup;
 			children = (
+				ADD47F2A1AF44AB100D7E26F /* AppDelegate.h */,
+				ADD47F2B1AF44AB100D7E26F /* AppDelegate.m */,
+				ADCC87331B04ED3B003F1A08 /* ApplicationGlobals.h */,
+				ADCC87341B04ED4C003F1A08 /* ApplicationGlobals.m */,
+				AD15F26A1B67EE77003A010D /* ApplicationSetup.h */,
+				AD15F26B1B67EE86003A010D /* ApplicationSetup.m */,
+				ADCC872D1B03B443003F1A08 /* BedDetailViewController.h */,
+				ADCC872E1B03B455003F1A08 /* BedDetailViewController.m */,
+				ADD47F2D1AF44E6C00D7E26F /* BedView.h */,
+				ADD47F2E1AF44E8700D7E26F /* BedView.m */,
+				ADD47F191AF44A5700D7E26F /* ButtonHandler.h */,
+				ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */,
+				AD967E9F1BA0E462009D7546 /* ClassIconView.h */,
+				AD967EA01BA0E481009D7546 /* ClassIconView.m */,
+				ADD205321BB1E27D004CF4C9 /* DataPresentationTableViewController.h */,
+				ADD205331BB1E28C004CF4C9 /* DataPresentationTableViewController.m */,
+				AD8566AF1BACBE6C009328F3 /* DateSelectView.h */,
+				AD8566B01BACBE7B009328F3 /* DateSelectView.m */,
+				AD4B98D01B0E352200EF6F96 /* DBManager.h */,
+				AD4B98D11B0E355100EF6F96 /* DBManager.m */,
+				ADFB3ED41BB05C3200D68424 /* DeleteButtonView.h */,
+				ADFB3ED51BB05C4000D68424 /* DeleteButtonView.m */,
+				ADD47F1B1AF44A5700D7E26F /* DisplayContentSegue.h */,
+				ADD47F1C1AF44A5700D7E26F /* DisplayContentSegue.m */,
+				ADD47F1D1AF44A5700D7E26F /* EditBedViewController.h */,
+				ADD47F1E1AF44A5700D7E26F /* EditBedViewController.m */,
 				AD8551A71BB9CF9D002D813B /* GrowToolBarView.h */,
 				AD8551A81BB9CFD2002D813B /* GrowToolBarView.m */,
 				AD54939B1BB7250B0032292D /* IsometricView.h */,
 				AD54939C1BB7258A0032292D /* IsometricView.m */,
-				AD4B19A51BB612AF00ABDD65 /* IsometricViewController.h */,
-				AD4B19A61BB612C400ABDD65 /* IsometricViewController.m */,
-				ADD205351BB1F07F004CF4C9 /* PresentTableCell.h */,
-				ADD205361BB1F0AD004CF4C9 /* PresentTableCell.m */,
-				ADD205321BB1E27D004CF4C9 /* DataPresentationTableViewController.h */,
-				ADD205331BB1E28C004CF4C9 /* DataPresentationTableViewController.m */,
-				ADFB3ED41BB05C3200D68424 /* DeleteButtonView.h */,
-				ADFB3ED51BB05C4000D68424 /* DeleteButtonView.m */,
-				AD8566AF1BACBE6C009328F3 /* DateSelectView.h */,
-				AD8566B01BACBE7B009328F3 /* DateSelectView.m */,
 				ADC372181BA893D700FF994A /* LaunchScreenViewController.h */,
 				ADC372191BA893ED00FF994A /* LaunchScreenViewController.m */,
-				AD59D6881BA9EF1600A0E5E2 /* TermsScreenViewController.h */,
-				AD59D6891BA9EF2D00A0E5E2 /* TermsScreenViewController.m */,
-				ADE704231B826DB6002ABC74 /* SqftGardenModel.h */,
-				ADE704211B826DA0002ABC74 /* SqftGardenModel.m */,
-				AD56F3F61B8A29FF0094BD99 /* SizeBedViewController.h */,
-				AD56F3F71B8A2A170094BD99 /* SizeBedViewController.m */,
-				ADE78D9B1B6D8C5B00B5D320 /* OpenBedViewController.h */,
-				ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */,
-				ADE704271B83E8B5002ABC74 /* SaveGardenViewController.h */,
-				ADE704281B83E8C5002ABC74 /* SaveGardenViewController.m */,
-				ADE7042A1B85513E002ABC74 /* UITextView+FileProperties.h */,
-				ADE7042B1B85515D002ABC74 /* UITextView+FileProperties.m */,
-				AD15F26A1B67EE77003A010D /* ApplicationSetup.h */,
-				AD15F26B1B67EE86003A010D /* ApplicationSetup.m */,
-				AD4B98D01B0E352200EF6F96 /* DBManager.h */,
-				AD4B98D11B0E355100EF6F96 /* DBManager.m */,
-				ADCC87331B04ED3B003F1A08 /* ApplicationGlobals.h */,
-				ADCC87341B04ED4C003F1A08 /* ApplicationGlobals.m */,
 				ADCC87301B03C061003F1A08 /* MainNavigationController.h */,
 				ADCC87311B03C06D003F1A08 /* MainNavigationController.m */,
-				ADE704241B83B88B002ABC74 /* OpenGardenNavigationController.h */,
-				ADE704251B83B899002ABC74 /* OpenGardenNavigationController.m */,
-				ADCC872A1B03B1F1003F1A08 /* PlantIconView.h */,
-				ADCC872B1B03B202003F1A08 /* PlantIconView.m */,
-				AD967E9F1BA0E462009D7546 /* ClassIconView.h */,
-				AD967EA01BA0E481009D7546 /* ClassIconView.m */,
-				AD2BB4FD1B025EB000E1541C /* SelectPlantView.h */,
-				AD2BB4FE1B025EC300E1541C /* SelectPlantView.m */,
-				ADD47F2D1AF44E6C00D7E26F /* BedView.h */,
-				ADD47F2E1AF44E8700D7E26F /* BedView.m */,
-				ADD47F2A1AF44AB100D7E26F /* AppDelegate.h */,
-				ADD47F2B1AF44AB100D7E26F /* AppDelegate.m */,
-				ADD47F191AF44A5700D7E26F /* ButtonHandler.h */,
-				ADD47F1A1AF44A5700D7E26F /* ButtonHandler.m */,
-				ADD47F1B1AF44A5700D7E26F /* DisplayContentSegue.h */,
-				ADD47F1C1AF44A5700D7E26F /* DisplayContentSegue.m */,
-				ADCC872D1B03B443003F1A08 /* BedDetailViewController.h */,
-				ADCC872E1B03B455003F1A08 /* BedDetailViewController.m */,
-				ADD47F1D1AF44A5700D7E26F /* EditBedViewController.h */,
-				ADD47F1E1AF44A5700D7E26F /* EditBedViewController.m */,
 				ADD47F1F1AF44A5700D7E26F /* MenuDrawViewController.h */,
 				ADD47F201AF44A5700D7E26F /* MenuDrawViewController.m */,
 				ADD47F211AF44A5700D7E26F /* MenuViewController.h */,
 				ADD47F221AF44A5700D7E26F /* MenuViewController.m */,
+				ADE78D9B1B6D8C5B00B5D320 /* OpenBedViewController.h */,
+				ADE78D9C1B6D8CDD00B5D320 /* OpenBedViewController.m */,
+				ADE704241B83B88B002ABC74 /* OpenGardenNavigationController.h */,
+				ADE704251B83B899002ABC74 /* OpenGardenNavigationController.m */,
+				ADCC872A1B03B1F1003F1A08 /* PlantIconView.h */,
+				ADCC872B1B03B202003F1A08 /* PlantIconView.m */,
+				ADD205351BB1F07F004CF4C9 /* PresentTableCell.h */,
+				ADD205361BB1F0AD004CF4C9 /* PresentTableCell.m */,
+				ADE704271B83E8B5002ABC74 /* SaveGardenViewController.h */,
+				ADE704281B83E8C5002ABC74 /* SaveGardenViewController.m */,
+				AD2BB4FD1B025EB000E1541C /* SelectPlantView.h */,
+				AD2BB4FE1B025EC300E1541C /* SelectPlantView.m */,
+				AD56F3F61B8A29FF0094BD99 /* SizeBedViewController.h */,
+				AD56F3F71B8A2A170094BD99 /* SizeBedViewController.m */,
+				ADE704231B826DB6002ABC74 /* SqftGardenModel.h */,
+				ADE704211B826DA0002ABC74 /* SqftGardenModel.m */,
 				AD1A91C41AF434DA00DC0983 /* Images.xcassets */,
-				ADD47F281AF44A7A00D7E26F /* Main.storyboard */,
 				AD1A91C61AF434DA00DC0983 /* LaunchScreen.xib */,
+				ADD47F281AF44A7A00D7E26F /* Main.storyboard */,
 				AD1A91B71AF434DA00DC0983 /* Supporting Files */,
+				AD59D6881BA9EF1600A0E5E2 /* TermsScreenViewController.h */,
+				AD59D6891BA9EF2D00A0E5E2 /* TermsScreenViewController.m */,
+				ADE7042A1B85513E002ABC74 /* UITextView+FileProperties.h */,
+				ADE7042B1B85515D002ABC74 /* UITextView+FileProperties.m */,
 			);
 			path = SqftGardenApp;
 			sourceTree = "<group>";
@@ -666,7 +661,6 @@
 				ADCC872F1B03B455003F1A08 /* BedDetailViewController.m in Sources */,
 				ADD47F251AF44A5700D7E26F /* EditBedViewController.m in Sources */,
 				ADD47F2C1AF44AB100D7E26F /* AppDelegate.m in Sources */,
-				AD4B19A71BB612C400ABDD65 /* IsometricViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

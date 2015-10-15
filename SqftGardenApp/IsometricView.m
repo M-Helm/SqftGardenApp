@@ -139,60 +139,69 @@ EditBedViewController *editBedVC;
 
 -(void)addIsoIcons{
     
-    int bedDimension = appGlobals.bedDimension;
-    //float padding = 5;
-    
-    
+    NSMutableArray *array = [[NSMutableArray alloc]init];
     for(UIView *subview in self.bedFrameView.subviews){
         if([subview class]==[PlantIconView class]){
             PlantIconView *plant = (PlantIconView*)subview;
-            
-            CGRect transformFrame = [self  convertRect:[plant frame] fromView:self.bedFrameView];
-            CGPoint point;
-            point.x = transformFrame.origin.x + (transformFrame.size.width/2);
-            point.y = transformFrame.origin.y + (bedDimension/4);
-            if(plant.isTall){
-                point.x = transformFrame.origin.x;
-                point.y = transformFrame.origin.y - (bedDimension/6);
-            }
-            
-            UIImage *icon = [UIImage imageNamed: plant.isoIcon];
-            
-            CGRect frame = CGRectMake(0,0,bedDimension*1.75,bedDimension*1.75);
-            if(plant.isTall) frame = CGRectMake(0,0,frame.size.width * 2, frame.size.height * 1.5);
-            UIImageView *iconView = [[UIImageView alloc] initWithImage:icon];
-            iconView.tag = 4;
-            iconView.frame = frame;
-            iconView.center = point;
-            iconView.layer.borderWidth = 0;
-            iconView.layer.borderColor = [UIColor blackColor].CGColor;
-    
-            //[self addSubview:iconView];
-            [self addSubview:iconView];
+            [array addObject:plant];
         }
     }
+    NSLog(@"array count = %i", (int)array.count);
+    [self setIsoIconLayout:array];
 }
 
--(void)setIsoIconLayout{
+- (void)addIsoIcon:(PlantIconView *)plant{
+
+    int bedDimension = appGlobals.bedDimension;
+    CGRect transformFrame = [self  convertRect:[plant frame] fromView:self.bedFrameView];
+    CGPoint point;
+    point.x = transformFrame.origin.x + (transformFrame.size.width/2);
+    point.y = transformFrame.origin.y + (bedDimension/4);
+    if(plant.isTall){
+        point.x = transformFrame.origin.x;
+        point.y = transformFrame.origin.y - (bedDimension/6);
+    }
     
-    //make an array of plant icon views from the subview array
+    UIImage *icon = [UIImage imageNamed: plant.isoIcon];
     
-    NSMutableArray *iconArray = [[NSMutableArray alloc] init];
+    CGRect frame = CGRectMake(0,0,bedDimension*1.75,bedDimension*1.75);
+    if(plant.isTall) frame = CGRectMake(0,0,frame.size.width * 2, frame.size.height * 1.5);
+    UIImageView *iconView = [[UIImageView alloc] initWithImage:icon];
+    iconView.tag = 4;
+    iconView.frame = frame;
+    iconView.center = point;
+    iconView.layer.borderWidth = 0;
+    iconView.layer.borderColor = [UIColor blackColor].CGColor;
+    
+    //[self addSubview:iconView];
+    [self addSubview:iconView];
+}
+
+-(void)setIsoIconLayout:(NSMutableArray *)array{
+    
+
+
     int rowCount = appGlobals.globalGardenModel.rows;
     int colCount = appGlobals.globalGardenModel.columns;
     int cellCount = rowCount*colCount;
-    for(UIView *subview in self.bedFrameView.subviews){
-        if([subview class]==[PlantIconView class]){
-            [iconArray addObject:subview];
-        }
-    }
+    
+    //set the icon starting at the last column, first row.
+    int rowPosition = 1;
+    int colPosition = colCount;
+    int i = 0;
+    int position = 0;
 
-    //now we have our array, so we need to set the icon starting at the last column, first row.
-    
-    for(int i=cellCount; i>0;i--){
-        // iterate through the cells and add to the subview
+    while(i<cellCount){
+        while(rowPosition < rowCount+1){
+            position = ((rowPosition-1) * colCount) + (colPosition-1);
+            PlantIconView *plant = [array objectAtIndex:position];
+            [self addIsoIcon:plant];
+            rowPosition++;
+            i++;
+        }
+        colPosition--;
+        rowPosition = 1;
     }
-    
 }
 
 

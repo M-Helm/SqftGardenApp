@@ -67,18 +67,11 @@ DBManager *dbManager;
     self.navigationController.navigationBar.hidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBar.backgroundColor = [[UIColor orangeColor]colorWithAlphaComponent:.05];
-    
     self.sideOffset = 10;
+    
     self.topOffset = self.navigationController.navigationBar.frame.size.height * 1.5;
-    
     self.heightMultiplier = self.view.frame.size.height/667;
-    
     self.topOffset = self.topOffset*self.heightMultiplier;
-    //if((int)self.bedRowCount < 1)self.bedRowCount = 1;
-    //if((int)self.bedColumnCount < 1)self.bedColumnCount = 1;
-    
-    //NSLog(@"EditBed VC Calls show appG model info on %@", appGlobals.globalGardenModel.name);
-    //[appGlobals.globalGardenModel showModelInfo];
 
     if ([appGlobals getCurrentGardenModel] != nil){
         //self.currentGardenModel = [appGlobals getCurrentGardenModel];
@@ -196,7 +189,10 @@ DBManager *dbManager;
     UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
     float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
     
-    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15,navBarHeight *.5, self.view.frame.size.width - 5, self.topOffset * .75)];
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15,
+                                                              navBarHeight *.5,
+                                                              self.view.frame.size.width - 5,
+                                                              self.topOffset * .75)];
     self.titleView.backgroundColor = [color colorWithAlphaComponent:0.45];
     self.titleView.layer.cornerRadius = 15;
     self.titleView.layer.borderWidth = 3;
@@ -232,12 +228,10 @@ DBManager *dbManager;
     label2.textColor = [UIColor blackColor];
     label.backgroundColor = [UIColor clearColor];
     label2.backgroundColor = [UIColor clearColor];
-    //self.dateIconView = [self makeDateIcon];
 
     
     [self.titleView addSubview:label];
     [self.titleView addSubview:label2];
-    //[self.titleView addSubview: self.dateIconView];
     [self.view addSubview: self.titleView];
 
 }
@@ -287,10 +281,7 @@ DBManager *dbManager;
     if((self.view.frame.size.width / selectDimension) > 6)selectDimension = self.view.frame.size.width / 6;
     if((self.view.frame.size.width / selectDimension) < 3)selectDimension = self.view.frame.size.width / 3;
     CGRect selectFrame = CGRectMake(0, selectTopOffset, width, selectDimension);
-    //self.selectPlantView = [[SelectPlantView alloc]initWithEditBedVC:self];
     self.selectPlantView = [[SelectPlantView alloc]initWithFrame:selectFrame andEditBedVC:self];
-    //self.selectPlantView.frame = selectFrame;
-    //self.selectPlantView = [[SelectPlantView alloc] initWithFrame: CGRectMake(0, selectTopOffset, width, selectDimension)];
     for(int i = 0; i<self.selectPlantArray.count;i++){
         [self.selectPlantView addSubview:[self.selectPlantArray objectAtIndex:i]];
     }
@@ -334,8 +325,6 @@ DBManager *dbManager;
     [appGlobals setBedDimension:bedDimension];
     return bedDimension;
 }
-
-
 
 - (NSMutableArray *)buildBedViewArray{
     NSMutableArray *bedArray = [[NSMutableArray alloc] init];
@@ -397,17 +386,9 @@ DBManager *dbManager;
 - (void) updatePlantingDate : (NSDate *)date{
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
-    
-    //NSString *dateString = [dateFormat stringFromDate:date];
-    //NSDate *formatedDate = [dateFormat dateFromString:dateString];
-    //self.currentGardenModel.plantingDate = date;
-    //appGlobals.globalGardenModel.plantingDate = date;
     [self.currentGardenModel setPlantingDate:date];
-    //[appGlobals.globalGardenModel setPlantingDate:date];
     [self.currentGardenModel autoSaveModel];
     [appGlobals setCurrentGardenModel:self.currentGardenModel];
-    //NSLog(@"Dates from updater: self %@, global %@", self.currentGardenModel.plantingDate, appGlobals.globalGardenModel.plantingDate);
-
 }
 
 - (NSMutableArray *)buildClassSelectArray{

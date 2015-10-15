@@ -39,8 +39,6 @@
 @property(nonatomic) UILabel *selectMessageLabel;
 @property(nonatomic) UIView *titleView;
 
-
-
 @property(nonatomic) UIView *toolBarContainer;
 
 
