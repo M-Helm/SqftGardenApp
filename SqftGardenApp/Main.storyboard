@@ -31,7 +31,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wu5-KR-7I6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2252" y="-728"/>
+            <point key="canvasLocation" x="-2396" y="-1160"/>
         </scene>
         <!--Menu View Controller-->
         <scene sceneID="une-bc-XSk">
@@ -155,7 +155,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k6m-yx-GES" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1666" y="-2100"/>
+            <point key="canvasLocation" x="-1658" y="-1180"/>
         </scene>
         <!--Launch Screen View Controller-->
         <scene sceneID="ozv-z6-kMp">
@@ -267,7 +267,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R2U-wW-LqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="6VO-41-R7D" customClass="ButtonHandler"/>
             </objects>
-            <point key="canvasLocation" x="660" y="-876"/>
+            <point key="canvasLocation" x="918" y="-840"/>
         </scene>
         <!--Data Presentation Table View Controller-->
         <scene sceneID="iCs-91-qhK">
@@ -295,7 +295,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n8M-ta-FdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1984" y="-913"/>
+            <point key="canvasLocation" x="1992" y="-921"/>
         </scene>
         <!--Bed Detail View Controller-->
         <scene sceneID="urq-99-lm0">
@@ -464,10 +464,10 @@
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Mgh-Xv-c24"/>
-        <segue reference="QB4-Vf-Rim"/>
         <segue reference="PPq-sL-RDI"/>
-        <segue reference="rcr-6R-xSl"/>
+        <segue reference="9xN-8o-myG"/>
+        <segue reference="vbB-Zd-bn8"/>
+        <segue reference="QB4-Vf-Rim"/>
         <segue reference="9Nd-1O-DIL"/>
         <segue reference="yjf-UC-sHO"/>
     </inferredMetricsTieBreakers>

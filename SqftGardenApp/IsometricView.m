@@ -50,7 +50,7 @@ EditBedViewController *editBedVC;
                          self.bedFrameView.transform = [self buildIsometricTransform];
                      }
                      completion:^(BOOL finished) {
-                         [self addIsoIcons];
+                         [self makeIsoIconArray];
                      }];
 
 }
@@ -137,7 +137,7 @@ EditBedViewController *editBedVC;
 
 
 
--(void)addIsoIcons{
+-(void)makeIsoIconArray{
     
     NSMutableArray *array = [[NSMutableArray alloc]init];
     for(UIView *subview in self.bedFrameView.subviews){
@@ -219,15 +219,25 @@ EditBedViewController *editBedVC;
     }
     //self.bedFrameView.layer.borderColor = [UIColor blackColor].CGColor;
     self.bedFrameView.layer.borderWidth = 0;
-    
-    UIImage *border = [UIImage imageNamed:@"iso_border_base_512px.png"];
-    UIImageView *borderView = [[UIImageView alloc] initWithImage:border];
-    borderView.layer.borderWidth = 0;
-    borderView.frame = CGRectMake(-15, -15,xCo+15,yCo+15);
-    borderView.tag = 4;
-    
-    [self.bedFrameView addSubview:borderView];
+
+    //the border only looks good on a square layout...
+    if(self.bedRowCount == self.bedColumnCount){
+        //and it has to be more than one cell too....
+        if(self.bedRowCount < 2)return;
+        UIColor* plantingColor = [appGlobals colorFromHexString:@"#ba9060"];
+        UIImage *border = [UIImage imageNamed:@"iso_border_base_512px.png"];
+        UIImageView *borderView = [[UIImageView alloc] initWithImage:border];
+        UIView *topPane = [[UIView alloc]initWithFrame:CGRectMake(0, 0, xCo+15, yCo+5)];
+        topPane.backgroundColor = [plantingColor colorWithAlphaComponent:0.05];
+        //topPane.backgroundColor = [[UIColor orangeColor]colorWithAlphaComponent:0.3];
+        borderView.layer.borderWidth = 0;
+        borderView.frame = CGRectMake(-10, -10,xCo+10,yCo+10);
+        borderView.tag = 4;
+        [borderView addSubview:topPane];
+        [self.bedFrameView addSubview:borderView];
+    }
 }
+
 
 - (NSMutableArray *)buildBedViewArray{
     NSMutableArray *bedArray = [[NSMutableArray alloc] init];

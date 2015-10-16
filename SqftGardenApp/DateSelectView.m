@@ -96,7 +96,7 @@ NSDate* selectedDate;
     [label setFont: [UIFont boldSystemFontOfSize:18]];
     label.textColor = [UIColor blackColor];
     [label setTextAlignment:NSTextAlignmentCenter];
-    label.backgroundColor = [UIColor whiteColor];
+    label.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:.3];
     label.text = @"Estimate the date of the last frost:";
     
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];

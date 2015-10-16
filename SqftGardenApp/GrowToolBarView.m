@@ -53,6 +53,7 @@ ApplicationGlobals *appGlobals;
     [self addSubview:self.saveIconView];
     [self addSubview:self.menuIconView];
     [self addSubview:self.backButtonIconView];
+    //self.backgroundColor = [UIColor lightGrayColor];
     
 }
 

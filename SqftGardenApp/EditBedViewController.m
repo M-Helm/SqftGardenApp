@@ -59,6 +59,9 @@ DBManager *dbManager;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
+    //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+    //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
+    //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     
     [self setDatePickerIsOpen:NO];
     [self setIsoViewIsOpen:NO];
@@ -96,7 +99,10 @@ DBManager *dbManager;
     [self.currentGardenModel setRows:self.bedRowCount];
     [self.currentGardenModel setColumns:self.bedColumnCount];
     [self initViews];
+
 }
+
+
 
 - (void) viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
@@ -107,23 +113,16 @@ DBManager *dbManager;
                                                 action:@selector(handleBedSingleTap:)];
         [bed addGestureRecognizer:singleFingerTap];
     }
+    
     [self.view addSubview:self.bedFrameView];
     [self.view addSubview:self.selectPlantView];
+    [self.view addSubview:self.toolBar];
+    [self.toolBar showToolBar];
+    
 }
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (self.currentGardenModel == nil){
-        if(appGlobals.hasShownLaunchScreen == NO)
-            [self.navigationController performSegueWithIdentifier:@"showLaunch" sender:self];
-        else{
-            //NSLog(@"EDITBED VC REPORTS NIL FOR ITS MODEL");
-            [self.navigationController performSegueWithIdentifier:@"showResize" sender:self];
-        }
-        return;
-    }
     [self initViews];
-    //if(!self.toolBarIsOpen)[self.toolBar showToolBar];
-    [self.toolBar showToolBar];
 
 }
 
@@ -158,7 +157,7 @@ DBManager *dbManager;
     
     self.toolBar = [self makeToolbar];
     [self.view addSubview:self.toolBarContainer];
-    [self.view addSubview:self.toolBar];
+    
     
     [self makeTitleBar];
     [self makeBedFrameView];
@@ -201,7 +200,7 @@ DBManager *dbManager;
     UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(35,18, self.view.frame.size.width - 75, (navBarHeight / 1.5)-18)];
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
-    NSString *plantDate = @"Planting not selected";
+    NSString *plantDate = @"Planting date not set";
     if(appGlobals.globalGardenModel.plantingDate != nil){
         NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
         if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
