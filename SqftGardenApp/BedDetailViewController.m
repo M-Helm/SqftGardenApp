@@ -15,8 +15,8 @@
 #import "DBManager.h"
 
 @implementation BedDetailViewController
-const int BED_DETAIL_LAYOUT_HEIGHT_BUFFER = 3;
-const int BED_DETAIL_LAYOUT_WIDTH_BUFFER = -17;
+//const int BED_DETAIL_LAYOUT_HEIGHT_BUFFER = 3;
+//const int BED_DETAIL_LAYOUT_WIDTH_BUFFER = -17;
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
 
@@ -37,42 +37,57 @@ DBManager *dbManager;
 
 - (void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
-    self.bedFrameView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.bedFrameView.layer.borderWidth = 0;
-    self.bedFrameView.layer.cornerRadius = 15;
-    [self.view addSubview:self.bedFrameView];
 }
 
 -(void)initViewGrid{
-    float xCo = self.view.bounds.size.width;
-    int bedDimension = (xCo/2)/self.bedColumnCount - 3;
-    int yCo = self.bedRowCount * bedDimension;
-    self.bedFrameView = [[UIView alloc] initWithFrame:CGRectMake(10, 100,
-                                                                 (xCo/2)+BED_DETAIL_LAYOUT_WIDTH_BUFFER, yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER)];
+    float width = self.view.bounds.size.width;
+    int margin = 5;
+    float height = self.view.bounds.size.height;
+    //int bedDimension = (width/2)/self.bedColumnCount - 3;
+    //int yCo = self.bedRowCount * bedDimension;
+    
+    UIView *plantIconView = [[UIView alloc] initWithFrame:CGRectMake(10, 30, 88, 88)];
     UIImageView *icon = [self getIcon];
-    icon.frame = CGRectMake(5, 5, self.bedFrameView.frame.size.width-45, self.bedFrameView.frame.size.height-45);
-    self.bedFrameView.clipsToBounds = YES;
-    [self.bedFrameView addSubview:icon];
+    icon.frame = CGRectMake(margin, margin, plantIconView.frame.size.width-(margin*2), plantIconView.frame.size.height-(margin*2));
+    plantIconView.clipsToBounds = YES;
+    [plantIconView addSubview:icon];
+    
+    plantIconView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    plantIconView.layer.borderWidth = 0;
+    plantIconView.layer.cornerRadius = 15;
+    [self.view addSubview:plantIconView];
     
     
-    UILabel *plantNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bedFrameView.frame.size.width, 100, xCo/2, 25)];
+    UILabel *plantNameLabel = [[UILabel alloc]
+                               initWithFrame:CGRectMake(plantIconView.frame.size.width + (margin*3),
+                                                        plantIconView.frame.origin.y+10,
+                                                        width - plantIconView.frame.size.width-(margin*4),
+                                                        25)];
     plantNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
     plantNameLabel.layer.borderWidth = 0;
     plantNameLabel.layer.cornerRadius = 0;
     plantNameLabel.text = appGlobals.selectedPlant.plantName;
     [plantNameLabel setFont:[UIFont boldSystemFontOfSize:18]];
+    plantNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    plantNameLabel.layer.borderWidth = 0;
     [self.view addSubview:plantNameLabel];
     
-    UILabel *plantScienceNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bedFrameView.frame.size.width, 100 + plantNameLabel.layer.bounds.size.height, (xCo/2), 12)];
+    UILabel *plantScienceNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(plantIconView.frame.size.width + (margin*3),
+                                                                               plantIconView.frame.origin.y+35,
+                                                                               width - plantIconView.frame.size.width-(margin*4),
+                                                                               12)];
     plantScienceNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
     plantScienceNameLabel.layer.borderWidth = 0;
-    plantScienceNameLabel.layer.cornerRadius = 15;
+    plantScienceNameLabel.layer.cornerRadius = 0;
     plantScienceNameLabel.text = appGlobals.selectedPlant.plantScientificName;
     [plantScienceNameLabel setFont:[UIFont italicSystemFontOfSize:12]];
     plantScienceNameLabel.textColor = [UIColor blackColor];
     [self.view addSubview:plantScienceNameLabel];
     
-    UILabel *plantMaturityLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bedFrameView.frame.size.width, 100 + (plantNameLabel.layer.bounds.size.height + 12), (xCo/2), 12)];
+    UILabel *plantMaturityLabel = [[UILabel alloc] initWithFrame:CGRectMake(plantIconView.frame.size.width + (margin*3),
+                                                                            plantIconView.frame.origin.y+50,
+                                                                            width - plantIconView.frame.size.width-(margin*4),
+                                                                            12)];
     plantMaturityLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
     plantMaturityLabel.layer.borderWidth = 0;
     plantMaturityLabel.layer.cornerRadius = 15;
@@ -82,31 +97,13 @@ DBManager *dbManager;
     plantMaturityLabel.textColor = [UIColor blackColor];
     [self.view addSubview:plantMaturityLabel];
     
-    //UIImageView *plantPhotoView = [[UIImageView alloc] initWithFrame:CGRectMake(self.bedFrameView.frame.size.width+25,  100 + plantNameLabel.layer.bounds.size.height + 24, (xCo/2)-25, (xCo/2)-25)];
-    UIImage *photo = [UIImage imageNamed:appGlobals.selectedPlant.photoResource];
-    UIImageView *photoImageView = [[UIImageView alloc] initWithImage:photo];
-    [photoImageView setFrame: CGRectMake(self.bedFrameView.frame.size.width+15,  100 + plantNameLabel.layer.bounds.size.height + 24, (xCo/2)-25, (xCo/2)-55)];
-    photoImageView.layer.cornerRadius = 15;
-    photoImageView.clipsToBounds = YES;
-    
-    [self.view addSubview:photoImageView];
     
     
-    UITextView *plantYieldText = [[UITextView alloc] initWithFrame:CGRectMake(10, yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER + 102, xCo - 20, 75)];
-    plantYieldText.layer.borderWidth = 0;
-    plantYieldText.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    plantYieldText.layer.cornerRadius = 15;
-    [plantYieldText setFont:[UIFont boldSystemFontOfSize:14]];
-    NSString *plural = @"has";
-    if([appGlobals.selectedPlant.plantName hasSuffix:@"s"])plural = @"have";
-    
-    NSString *yieldStr = [NSString stringWithFormat:@"%@ %@ an expected yield of about %@ under good conditions. The recomended number of plants per square foot is %i.", appGlobals.selectedPlant.plantName, plural, appGlobals.selectedPlant.plantYield, appGlobals.selectedPlant.population];
-    plantYieldText.text = yieldStr;
-    plantYieldText.editable = NO;
-    [self.view addSubview:plantYieldText];
-    
-    UITextView *plantDescriptionText = [[UITextView alloc] initWithFrame:CGRectMake(10, yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER + 177, xCo - 20, self.view.bounds.size.height - (yCo+BED_DETAIL_LAYOUT_HEIGHT_BUFFER + 190))];
-    plantDescriptionText.layer.borderWidth = 0;
+    UITextView *plantDescriptionText = [[UITextView alloc] initWithFrame:CGRectMake(10,
+                                                                                    plantIconView.frame.size.height+30,
+                                                                                    width-20,
+                                                                                    height - (plantIconView.frame.size.height+90))];
+    plantDescriptionText.layer.borderWidth = 1;
     plantDescriptionText.layer.borderColor = [UIColor lightGrayColor].CGColor;
     plantDescriptionText.layer.cornerRadius = 15;
     [plantDescriptionText setFont:[UIFont systemFontOfSize:12]];
