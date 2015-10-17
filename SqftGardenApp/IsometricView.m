@@ -22,6 +22,7 @@ ApplicationGlobals *appGlobals;
 EditBedViewController *editBedVC;
 
 
+
 - (id)initWithFrame:(CGRect)frame andEditBedVC:(UIViewController*)editBed{
 
     self = [super initWithFrame:frame];
@@ -150,7 +151,8 @@ EditBedViewController *editBedVC;
     [self setIsoIconLayout:array];
 }
 
-- (void)addIsoIcon:(PlantIconView *)plant{
+- (void)addIsoIcon:(PlantIconView *)plant withDelay:(CGFloat)delay{
+    CGFloat duration = .25;
 
     int bedDimension = appGlobals.bedDimension;
     CGRect transformFrame = [self  convertRect:[plant frame] fromView:self.bedFrameView];
@@ -161,7 +163,6 @@ EditBedViewController *editBedVC;
         point.x = transformFrame.origin.x;
         point.y = transformFrame.origin.y - (bedDimension/6);
     }
-    
     UIImage *icon = [UIImage imageNamed: plant.isoIcon];
     
     CGRect frame = CGRectMake(0,0,bedDimension*1.75,bedDimension*1.75);
@@ -172,15 +173,22 @@ EditBedViewController *editBedVC;
     iconView.center = point;
     iconView.layer.borderWidth = 0;
     iconView.layer.borderColor = [UIColor blackColor].CGColor;
-    
-    //[self addSubview:iconView];
+    iconView.alpha = 0;
     [self addSubview:iconView];
+    if(plant.plantId >= 1){
+        NSLog(@"PLant ID = %i",plant.plantId);
+        [UIView animateWithDuration:duration delay:delay*.02 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             iconView.alpha=1;
+        
+                         } completion:^(BOOL finished) {
+        
+                         }];
+    }else plant.alpha = 1;
 }
 
 -(void)setIsoIconLayout:(NSMutableArray *)array{
     
-
-
     int rowCount = appGlobals.globalGardenModel.rows;
     int colCount = appGlobals.globalGardenModel.columns;
     int cellCount = rowCount*colCount;
@@ -195,7 +203,7 @@ EditBedViewController *editBedVC;
         while(rowPosition < rowCount+1){
             position = ((rowPosition-1) * colCount) + (colPosition-1);
             PlantIconView *plant = [array objectAtIndex:position];
-            [self addIsoIcon:plant];
+            [self addIsoIcon:plant withDelay:i];
             rowPosition++;
             i++;
         }

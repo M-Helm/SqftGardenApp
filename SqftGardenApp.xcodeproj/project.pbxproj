@@ -111,6 +111,7 @@
 		ADFB3ED11BAF0DD500D68424 /* ic_save_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADFB3ED01BAF0DD500D68424 /* ic_save_256px.png */; settings = {ASSET_TAGS = (); }; };
 		ADFB3ED31BAF101300D68424 /* ic_save_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADFB3ED21BAF101300D68424 /* ic_save_512px.png */; settings = {ASSET_TAGS = (); }; };
 		ADFB3ED61BB05C4000D68424 /* DeleteButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3ED51BB05C4000D68424 /* DeleteButtonView.m */; settings = {ASSET_TAGS = (); }; };
+		ADFD3A1B1BD1B7140002DA13 /* iso_tomato_1024x765px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADFD3A1A1BD1B7140002DA13 /* iso_tomato_1024x765px.png */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -261,6 +262,7 @@
 		ADFB3ED21BAF101300D68424 /* ic_save_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_save_512px.png; path = ../../../Documents/sqftGardenAssets/ic_save_512px.png; sourceTree = "<group>"; };
 		ADFB3ED41BB05C3200D68424 /* DeleteButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeleteButtonView.h; sourceTree = "<group>"; };
 		ADFB3ED51BB05C4000D68424 /* DeleteButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteButtonView.m; sourceTree = "<group>"; };
+		ADFD3A1A1BD1B7140002DA13 /* iso_tomato_1024x765px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_tomato_1024x765px.png; path = ../../../Documents/sqftGardenAssets/iso_tomato_1024x765px.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -373,6 +375,7 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ADFD3A1A1BD1B7140002DA13 /* iso_tomato_1024x765px.png */,
 				AD3259661BD03CDF00FBE950 /* iso_carrot_512px.png */,
 				ADAEF6E21BCC3E8B001DEA70 /* iso_cilantro_512px.png */,
 				ADAEF6E01BCC22FE001DEA70 /* iso_cabbage_512px.png */,
@@ -591,6 +594,7 @@
 				AD5493AF1BB875FA0032292D /* iso_spinach_256px.png in Resources */,
 				AD5493B11BB879300032292D /* iso_spinach_4x_256px.png in Resources */,
 				ADA7520C1B06B6E300C56F5F /* ic_vegetable_capsicum_256.png in Resources */,
+				ADFD3A1B1BD1B7140002DA13 /* iso_tomato_1024x765px.png in Resources */,
 				AD3449681BA482F100E1DB4B /* ic_herb_flat_256px.png in Resources */,
 				AD5493AB1BB86CA30032292D /* iso_generic2_256px.png in Resources */,
 				ADC3720D1BA7730100FF994A /* photo_basil_512px.jpg in Resources */,

@@ -320,7 +320,18 @@
 "is_tall":0
 },
 
-{"name":"Tomatoes", "timestamp":0, "icon":"ic_tomato_flat_256px.png", "maturity":69, "population":1, "class": "Tomato", "description": "", "scientific_name": "", "photo": "null", "yield": "null", "zone": "-1",
+{
+"name":"Tomatoes",
+"timestamp":0,
+"icon":"ic_tomato_flat_256px.png",
+"maturity":69,
+"population":1,
+"class": "Tomato",
+"description": "",
+"scientific_name": "",
+"photo": "null",
+"yield": "null",
+"zone": "-1",
 "tip0":"",
 "tip1":"",
 "tip2":"",
@@ -328,9 +339,9 @@
 "tip4":"",
 "tip5":"",
 "tip6":"",
-"iso_icon": "iso_generic_bush_256px.png",
+"iso_icon": "iso_tomato_1024x765px.png",
 "planting_delta":0,
-"is_tall":0
+"is_tall":1
 },
 
 {"name":"Okra", "timestamp":0, "icon":"ic_bean_flat_256px.png", "maturity":69, "population":1, "class": "Pod", "description": "", "scientific_name": "Abelmoschus esculentus", "photo": "null", "yield": "null", "zone": "-1",
