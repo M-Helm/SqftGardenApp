@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 //
 
+//THIS NEEDS TO BE REFACTORED INTO A PLANT MODEL CLASS AND A PLANT ICON VIEW CLASS
+
 #import "PlantIconView.h"
 #import "DBManager.h"
 #import "ApplicationGlobals.h"
@@ -58,7 +60,6 @@ ApplicationGlobals *appGlobals;
     
     NSDictionary *json = [dbManager getPlantDataById:self.plantId];
     
-    
     //self.iconResource = @"iso_generic_256.png";
     
     self.plantName = [json objectForKey:@"name"];
@@ -78,7 +79,13 @@ ApplicationGlobals *appGlobals;
     self.isTall = tall.intValue;
     NSString *delta = [json objectForKey:@"plantingDelta"];
     self.plantingDelta = delta.intValue;
-    //self.plantingDelta = 0;
+    self.tip0 = [json objectForKey:@"tip0"];
+    self.tip1 = [json objectForKey:@"tip1"];
+    self.tip2 = [json objectForKey:@"tip2"];
+    self.tip3 = [json objectForKey:@"tip3"];
+    self.tip4 = [json objectForKey:@"tip4"];
+    self.tip5 = [json objectForKey:@"tip5"];
+    self.tip6 = [json objectForKey:@"tip6"];
 
     if([self.iconResource isEqualToString:@"na"])self.iconResource = PLANT_DEFAULT_ICON;
     //if(self.isIsometric)self.iconResource = @"";

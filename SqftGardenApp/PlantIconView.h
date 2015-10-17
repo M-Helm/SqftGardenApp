@@ -12,7 +12,6 @@
 - (id)initWithFrame:(CGRect)frame withPlantId: (int)plantIndex isIsometric:(bool)isIsometric;
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
-//@property (nonatomic) UILabel* label;
 @property (nonatomic) int position;
 @property (nonatomic) NSString *plantName;
 @property (nonatomic) NSString *iconResource;
@@ -26,6 +25,13 @@
 @property (nonatomic) NSString *plantDescription;
 @property (nonatomic) NSString *plantScientificName;
 @property (nonatomic) bool isIcon;
+@property (nonatomic) NSString *tip0;
+@property (nonatomic) NSString *tip1;
+@property (nonatomic) NSString *tip2;
+@property (nonatomic) NSString *tip3;
+@property (nonatomic) NSString *tip4;
+@property (nonatomic) NSString *tip5;
+@property (nonatomic) NSString *tip6;
 @property (nonatomic) bool isIsometric;
 @property (nonatomic) bool isTall;
 @property (nonatomic) int plantingDelta;

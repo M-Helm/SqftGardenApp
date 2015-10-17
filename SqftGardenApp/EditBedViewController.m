@@ -31,7 +31,7 @@ NSString * const ROW_KEY = @"rows";
 NSString * const COLUMN_KEY = @"columns";
 float evStartX = 0;
 float evStartY = 0;
-//bool datePickerIsOpen = NO;
+
 
 //SelectPlantView *selectPlantView;
 ApplicationGlobals *appGlobals;
@@ -62,10 +62,10 @@ DBManager *dbManager;
     //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
     //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
     //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
-    
+    [self setToolBarIsOpen:YES];
     [self setDatePickerIsOpen:NO];
     [self setIsoViewIsOpen:NO];
-    [self setToolBarIsOpen:YES];
+
     
     self.navigationController.navigationBar.hidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
@@ -95,11 +95,9 @@ DBManager *dbManager;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildClassSelectArray];
-    //self.selectPlantArray = [self buildPlantSelectArray];
     [self.currentGardenModel setRows:self.bedRowCount];
     [self.currentGardenModel setColumns:self.bedColumnCount];
     [self initViews];
-
 }
 
 
@@ -117,13 +115,14 @@ DBManager *dbManager;
     [self.view addSubview:self.bedFrameView];
     [self.view addSubview:self.selectPlantView];
     [self.view addSubview:self.toolBar];
-    [self.toolBar showToolBar];
-    
+    //[self.toolBar showToolBar];
+    //[self.toolBar setToolBarIsPinned:YES];
+
 }
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    //have to call this here for the toolbar to work.
     [self initViews];
-
 }
 
 
@@ -167,6 +166,7 @@ DBManager *dbManager;
 }
 
 -(GrowToolBarView *)makeToolbar{
+    
     float toolBarYOrigin = self.view.frame.size.height-44;
     if(!self.toolBarIsOpen)toolBarYOrigin = self.view.frame.size.height;
     
@@ -235,6 +235,8 @@ DBManager *dbManager;
 
 }
 -(void)makeBedFrameView{
+    //remove self if exists
+    if(self.bedFrameView != nil)[self.bedFrameView removeFromSuperview];
     self.bedFrameView = [[UIView alloc]
                          initWithFrame:[self calculateBedFrame]];
     //add my array of beds
@@ -380,6 +382,7 @@ DBManager *dbManager;
     [appGlobals setCurrentGardenModel:self.currentGardenModel];
     //[self.currentGardenModel showModelInfo];
     [self initViews];
+    //[self makeBedFrameView];
 }
 
 - (void) updatePlantingDate : (NSDate *)date{
@@ -424,8 +427,8 @@ DBManager *dbManager;
             self.toolBarIsOpen = YES;
         }
         if((self.toolBarIsOpen) && (touchedView.tag != 7)){
-            [self.toolBar hideToolBar];
-            self.toolBarIsOpen = NO;
+            //[self.toolBar hideToolBar];
+            //self.toolBarIsOpen = NO;
         }
     }
     if(self.isoViewIsOpen)return;
