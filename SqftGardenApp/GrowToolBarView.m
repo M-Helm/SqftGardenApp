@@ -367,9 +367,12 @@ ApplicationGlobals *appGlobals;
 - (void)handleBackButtonSingleTap:(UITapGestureRecognizer *)recognizer {
     if(!self.enableBackButton)return;
     [self clickAnimationIn:recognizer.view];
+    //[viewController.navigationController popToRootViewControllerAnimated:YES];
+
     [viewController.navigationController popViewControllerAnimated:YES];
-    //editBedVC.view.alpha = 0;
-    //[editBedVC.view removeFromSuperview];
+    
+    NSLog(@"back button pressed vc count %i", (int)[viewController.navigationController.viewControllers count]);
+    
 }
                                    
 

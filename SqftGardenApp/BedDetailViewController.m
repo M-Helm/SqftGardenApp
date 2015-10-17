@@ -114,14 +114,17 @@ DBManager *dbManager;
     plantDescriptionText.text = [self makeDescriptionText];
     plantDescriptionText.editable = NO;
     [self.view addSubview:plantDescriptionText];
-    
-    [self makeToolbar];
 }
 
 -(UIImageView *) getIcon{
     UIImage *icon = [UIImage imageNamed:appGlobals.selectedPlant.iconResource];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
     return imageView;
+}
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //have to call this here for the toolbar to work.
+    [self makeToolbar];
 }
 
 -(void)makeToolbar{

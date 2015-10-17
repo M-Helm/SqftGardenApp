@@ -77,7 +77,7 @@ CGFloat height;
     //[self.navigationController.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
     //[self.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
     //[self.navigationController.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
-    
+
 }
 
 -(void)calculateDateBounds:(NSArray *)array{
@@ -211,7 +211,6 @@ CGFloat height;
     cell.mainLabel.text = mainLabelString;
     
     
-    
     UILabel *plantingLabel = [[UILabel alloc]initWithFrame:CGRectMake(-10,-12,40,15)];
     plantingLabel.layer.borderColor = [UIColor blackColor].CGColor;
     plantingLabel.layer.borderWidth = 1;
@@ -250,9 +249,9 @@ CGFloat height;
     [cell.contentView addSubview:cell.plantView];
     [cell.contentView addSubview:cell.harvestView];
     [cell.contentView addSubview:cell.mainLabel];
-    
     return cell;
 }
+
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
@@ -262,6 +261,9 @@ CGFloat height;
     return NO;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+        appGlobals.selectedPlant = [plantArray objectAtIndex:(int)[indexPath row]];
+    
+        [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
     return;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -344,6 +346,7 @@ CGFloat height;
         for(UIView *subview in self.navigationController.navigationBar.subviews){
             //tag 6 is set in the editView VC singletap method for the dataselect icon view
             if(subview.tag == 6) subview.alpha = 1;
+            
         }
     }
 }
@@ -448,6 +451,11 @@ CGFloat height;
     NSArray *sorted = [self sortArray:plantArray ByKey:@"plantingDelta" Ascending:YES];
     //NSLog(@"%@ Array = %i", sorted, (int)array.count);
     return sorted;
+}
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //have to call this here for the toolbar to work.
+    [self makeToolbar];
 }
 
 -(void)makeToolbar{

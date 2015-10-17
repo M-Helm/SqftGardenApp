@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface PresentTableCell : UITableViewCell
 
 @property(nonatomic) UILabel* mainLabel;
@@ -20,6 +21,7 @@
 @property(nonatomic) UIView* autumnView;
 //@property(nonatomic) UILabel* countLabel;
 @property(nonatomic) UIImageView* icon;
+
 
 
 @end

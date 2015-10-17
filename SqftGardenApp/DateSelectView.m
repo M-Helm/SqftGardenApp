@@ -144,7 +144,8 @@ NSDate* selectedDate;
     NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
     if([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
         //no date selected
-        return [[NSDate alloc]initWithTimeIntervalSinceNow:0];
+        int seconds = (24*60*60)*175;
+        return [[NSDate alloc]initWithTimeIntervalSinceNow:seconds];
     }else{
         //a date is selected
         return appGlobals.globalGardenModel.plantingDate;

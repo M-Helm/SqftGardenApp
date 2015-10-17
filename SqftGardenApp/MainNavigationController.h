@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BedDetailViewController.h"
+#import "EditBedViewController.h"
 
 
 @interface MainNavigationController : UINavigationController
-
+//@property (nonatomic, weak)EditBedViewController *editBedViewController;
+//@property (nonatomic, weak)BedDetailViewController *bedDetailViewController;
 @end

@@ -11,6 +11,7 @@
 #import "DBManager.h"
 
 
+
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
 @interface EditBedViewController ()
@@ -70,6 +71,11 @@ DBManager *dbManager;
     self.navigationController.navigationBar.hidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBar.backgroundColor = [[UIColor orangeColor]colorWithAlphaComponent:.05];
+    //NSMutableArray *vcArray = [[NSMutableArray alloc] init];
+    //[vcArray addObject:self];
+    //self.navigationController.viewControllers = vcArray;
+    
+    
     self.sideOffset = 10;
     
     self.topOffset = self.navigationController.navigationBar.frame.size.height * 1.5;
