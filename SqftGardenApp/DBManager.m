@@ -403,6 +403,20 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                         (const char *) sqlite3_column_text(statement, 10)];
                 NSString *isoIcon = [[NSString alloc] initWithUTF8String:
                                         (const char *) sqlite3_column_text(statement, 11)];
+                NSString *tip0 = [[NSString alloc] initWithUTF8String:
+                                     (const char *) sqlite3_column_text(statement, 12)];
+                NSString *tip1 = [[NSString alloc] initWithUTF8String:
+                                     (const char *) sqlite3_column_text(statement, 13)];
+                NSString *tip2 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 14)];
+                NSString *tip3 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 15)];
+                NSString *tip4 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 16)];
+                NSString *tip5 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 17)];
+                NSString *tip6 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 18)];
                 NSString *plantingDelta = [[NSString alloc] initWithUTF8String:
                                         (const char *) sqlite3_column_text(statement, 19)];
                 NSString *isTall = [[NSString alloc] initWithUTF8String:
@@ -420,6 +434,13 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [plantData setObject:plantPhoto forKey:@"photo"];
                 [plantData setObject:plantYield forKey:@"yield"];
                 [plantData setObject:isoIcon forKey:@"isoIcon"];
+                [plantData setObject:tip0 forKey:@"tip0"];
+                [plantData setObject:tip1 forKey:@"tip1"];
+                [plantData setObject:tip2 forKey:@"tip2"];
+                [plantData setObject:tip3 forKey:@"tip3"];
+                [plantData setObject:tip4 forKey:@"tip4"];
+                [plantData setObject:tip5 forKey:@"tip5"];
+                [plantData setObject:tip6 forKey:@"tip6"];
                 [plantData setObject:isTall forKey:@"isTall"];
                 [plantData setObject:plantingDelta forKey:@"plantingDelta"];
                 //NSLog(@"PLANTING DELTA = %@",plantingDelta);

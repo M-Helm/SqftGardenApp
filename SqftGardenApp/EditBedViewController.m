@@ -20,10 +20,10 @@
 @implementation EditBedViewController
 //const int BED_LAYOUT_HEIGHT_BUFFER = 3;
 //const int BED_LAYOUT_WIDTH_BUFFER = -17;
-const float BED_LAYOUT_WIDTH_RATIO = 1.0;
+//const float BED_LAYOUT_WIDTH_RATIO = 1.0;
 const float BED_LAYOUT_HEIGHT_RATIO = .60;
-const float SELECT_LAYOUT_WIDTH_RATIO = 1.0;
-const float SELECT_LAYOUT_HEIGHT_RATIO = .20;
+//const float SELECT_LAYOUT_WIDTH_RATIO = 1.0;
+//const float SELECT_LAYOUT_HEIGHT_RATIO = .20;
 const int BED_LAYOUT_MINIMUM_DIMENSION = 55;
 const int BED_LAYOUT_MAXIMUM_DIMENSION = 110;
 

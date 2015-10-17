@@ -10,8 +10,8 @@
 
 
 @interface BedDetailViewController : UIViewController
-@property int plantID;
-//@property(nonatomic) UIView *plantIconView;
+//@property int plantID;
+@property(nonatomic) UIView *plantIconView;
 //@property(nonatomic) UIView *selectPlantView;
 @property(nonatomic) int bedRowCount;
 @property(nonatomic) int bedColumnCount;

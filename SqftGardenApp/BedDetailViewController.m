@@ -72,10 +72,11 @@ DBManager *dbManager;
     plantNameLabel.layer.borderWidth = 0;
     [self.view addSubview:plantNameLabel];
     
-    UILabel *plantScienceNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(plantIconView.frame.size.width + (margin*3),
-                                                                               plantIconView.frame.origin.y+35,
-                                                                               width - plantIconView.frame.size.width-(margin*4),
-                                                                               12)];
+    UILabel *plantScienceNameLabel = [[UILabel alloc]
+                                      initWithFrame:CGRectMake(plantIconView.frame.size.width + (margin*3),
+                                                            plantIconView.frame.origin.y+35,
+                                                            width - plantIconView.frame.size.width-(margin*4),
+                                                            12)];
     plantScienceNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
     plantScienceNameLabel.layer.borderWidth = 0;
     plantScienceNameLabel.layer.cornerRadius = 0;
@@ -84,10 +85,11 @@ DBManager *dbManager;
     plantScienceNameLabel.textColor = [UIColor blackColor];
     [self.view addSubview:plantScienceNameLabel];
     
-    UILabel *plantMaturityLabel = [[UILabel alloc] initWithFrame:CGRectMake(plantIconView.frame.size.width + (margin*3),
-                                                                            plantIconView.frame.origin.y+50,
-                                                                            width - plantIconView.frame.size.width-(margin*4),
-                                                                            12)];
+    UILabel *plantMaturityLabel = [[UILabel alloc]
+                                   initWithFrame:CGRectMake(plantIconView.frame.size.width + (margin*3),
+                                                            plantIconView.frame.origin.y+50,
+                                                            width - plantIconView.frame.size.width-(margin*4),
+                                                            12)];
     plantMaturityLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
     plantMaturityLabel.layer.borderWidth = 0;
     plantMaturityLabel.layer.cornerRadius = 15;
@@ -99,15 +101,17 @@ DBManager *dbManager;
     
     
     
-    UITextView *plantDescriptionText = [[UITextView alloc] initWithFrame:CGRectMake(10,
-                                                                                    plantIconView.frame.size.height+30,
-                                                                                    width-20,
-                                                                                    height - (plantIconView.frame.size.height+90))];
-    plantDescriptionText.layer.borderWidth = 1;
+    UITextView *plantDescriptionText = [[UITextView alloc]
+                                        initWithFrame:CGRectMake(10,
+                                                                plantIconView.frame.size.height+30,
+                                                                width-20,
+                                                                height - (plantIconView.frame.size.height+90))];
+    plantDescriptionText.layer.borderWidth = 0;
     plantDescriptionText.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    //plantDescriptionText.backgroundColor = [[UIColor greenColor]colorWithAlphaComponent:.05];
     plantDescriptionText.layer.cornerRadius = 15;
-    [plantDescriptionText setFont:[UIFont systemFontOfSize:12]];
-    plantDescriptionText.text = appGlobals.selectedPlant.plantDescription;
+    [plantDescriptionText setFont:[UIFont systemFontOfSize:16]];
+    plantDescriptionText.text = [self makeDescriptionText];
     plantDescriptionText.editable = NO;
     [self.view addSubview:plantDescriptionText];
     
@@ -126,17 +130,29 @@ DBManager *dbManager;
     
     GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,toolBarYOrigin,self.view.frame.size.width,44) andViewController:self];
     [toolBar setToolBarIsPinned:YES];
-    //using this view to detect touches to toolbar are when the bar itself is hidden
-    //self.toolBarContainer = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.frame.size.height-44,self.view.frame.size.width,44)];
-    //self.toolBarContainer.userInteractionEnabled = YES;
-    //self.toolBarContainer.tag = 7;
-    
     [self.view addSubview:toolBar];
     [toolBar enableBackButton:YES];
     [toolBar enableMenuButton:NO];
     [toolBar enableDateButton:NO];
     [toolBar enableSaveButton:NO];
     [toolBar enableIsoButton:NO];
+}
+
+-(NSString *)makeDescriptionText{
+    NSString* text = [NSString stringWithFormat:@"\r\u2609 %@ %@ %@ %@ %@ %@ %@ %@ %@",
+                      appGlobals.selectedPlant.tip0,
+                      @"\r\r\u2609",
+                      appGlobals.selectedPlant.tip1,
+                      @"\r\r\u2609",
+                      appGlobals.selectedPlant.tip2,
+                      @"\r\r\u2609",
+                      appGlobals.selectedPlant.tip3,
+                      @"\r\r\u2609",
+                      appGlobals.selectedPlant.tip4
+                      ];
+
+    
+    return text;
 }
 
 @end

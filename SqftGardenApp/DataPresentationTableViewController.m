@@ -60,7 +60,7 @@ CGFloat height;
     
     
     width = self.view.frame.size.width;
-    daysPerPoint = (width / (15 + maxDays + abs(minDays)));
+    daysPerPoint = ((width-20) / (15 + maxDays + abs(minDays)));
     height = self.view.frame.size.height;
     plantingDateAnchor = (SIDE_OFFSET + (abs(minDays) * daysPerPoint));
     if(plantingDateAnchor < 15)plantingDateAnchor = 15;
