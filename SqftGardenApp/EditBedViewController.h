@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SpriteKit/SpriteKit.h>
 #import "SqftGardenModel.h"
 #import "SelectPlantView.h"
 #import "DateSelectView.h"
@@ -40,6 +41,7 @@
 @property(nonatomic) UIView *titleView;
 
 @property(nonatomic) UIView *toolBarContainer;
+@property(nonatomic) UIImageView *touchIcon;
 
 
 - (void) updatePlantBeds : (int)updatedCell : (int)plantId;

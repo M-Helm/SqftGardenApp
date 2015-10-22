@@ -1,4 +1,5 @@
-[{
+[
+{
 "name":"Cucumber",
 "timestamp":0,
 "icon":"ic_cucumber_flat_256px.png",
@@ -117,7 +118,17 @@
 "is_tall":0
 },
 
-{"name":"Parsley", "timestamp":0, "icon":"ic_herb_flat_256px.png", "maturity":69, "population":1, "class": "Herb", "description": "", "scientific_name": "Petroselinum crispum", "photo": "null", "yield": "several ounces", "zone": "-1",
+{
+"name":"Parsley",
+"timestamp":0,
+"icon":"ic_herb_flat_256px.png",
+"maturity":69, "population":1,
+"class": "Herb",
+"description": "",
+"scientific_name": "Petroselinum crispum",
+"photo": "null",
+"yield": "several ounces",
+"zone": "-1",
 "tip0":"",
 "tip1":"",
 "tip2":"",

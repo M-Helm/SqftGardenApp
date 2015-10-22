@@ -11,6 +11,8 @@
 #import "ApplicationGlobals.h"
 #import "DBManager.h"
 #import "PlantIconView.h"
+#define amRecording ((bool) YES)
+#define amDebugging ((bool) YES)
 
 @interface SizeBedViewController()
 
@@ -191,6 +193,23 @@ BOOL shouldContinueBlinking = NO;
     }
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
+    
+    if(amRecording){
+        self.touchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,34,34)];
+        UIImage *icon = [UIImage imageNamed:@"asset_circle_token_512px.png"];
+        self.touchIcon.image = icon;
+        self.touchIcon.center = [touch locationInView:self.view];
+        self.touchIcon.alpha = .8;
+        [self.view addSubview:self.touchIcon];
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.touchIcon.alpha = .5;
+                         }
+                         completion:^(BOOL finished) {
+                             //do stuff
+                         }];
+    }
+    
     if([touch view] != nil){
         touchedView = [touch view];
     }
@@ -205,6 +224,9 @@ BOOL shouldContinueBlinking = NO;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     
+    if(amRecording){
+        self.touchIcon.center = [touch locationInView:self.view];
+    }
     
     float bedSizeAdjuster = [self bedDimension]/2;
     bedSizeAdjuster = 0;
@@ -277,6 +299,16 @@ BOOL shouldContinueBlinking = NO;
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
+    if(amRecording){
+        self.touchIcon.center = [touch locationInView:self.view];
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.touchIcon.alpha = 0;
+                         }
+                         completion:^(BOOL finished) {
+                             [self.touchIcon removeFromSuperview];
+                         }];
+    }
     if([touch view] != nil){
         touchedView = [touch view];
     }

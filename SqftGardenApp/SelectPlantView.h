@@ -14,6 +14,7 @@
 @interface SelectPlantView : UIScrollView
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
+@property(nonatomic) UIImageView *touchIcon;
 //@property (nonatomic) UIView* mainView;
 //@property (nonatomic) EditBedViewController* editBedVC;
 @property (nonatomic) NSString *selectedClass;

@@ -13,6 +13,8 @@
 #import "ApplicationGlobals.h"
 #import "BedView.h"
 #import "DBManager.h"
+#define amRecording ((bool) YES)
+#define amDebugging ((bool) YES)
 
 @interface SelectPlantView()
 @end
@@ -152,6 +154,20 @@ EditBedViewController *editBedVC;
         [self addSubview:array[i]];
     }
 }
+-(void)setPlantSelect: (UIView*)touchedView {
+    ClassIconView *classView = (ClassIconView*)touchedView;
+    for(UIView *subview in self.subviews){
+        [subview removeFromSuperview];
+    }
+    self.selectedClass = classView.className;
+    NSArray *array = [self buildPlantSelectArray : self.selectedClass];
+    [self setContentOffset:(CGPointMake(0, 0))];
+    for(int i=0;i<array.count;i++){
+        [self addSubview:array[i]];
+    }
+    AudioServicesPlaySystemSound(1103);
+    return;
+}
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     
@@ -162,23 +178,43 @@ EditBedViewController *editBedVC;
     }
     if(self.datePickerIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
+
+    if(amRecording){
+        self.touchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,34,34)];
+        UIImage *icon = [UIImage imageNamed:@"asset_circle_token_512px.png"];
+        self.touchIcon.image = icon;
+        self.touchIcon.center = [touch locationInView:self];
+        self.touchIcon.alpha = .8;
+        [self addSubview:self.touchIcon];
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.touchIcon.alpha = .5;
+                         }
+                         completion:^(BOOL finished) {
+                             //do stuff
+                         }];
+    }
+    
     UIView *touchedView;
     if([touch view] != nil){
         touchedView = [touch view];
     }
     if ([touchedView class] == [ClassIconView class]){
-        ClassIconView *classView = (ClassIconView*)touchedView;
-        for(UIView *subview in self.subviews){
-            [subview removeFromSuperview];
+        if(amRecording){
+            [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                             animations:^{
+                                 self.touchIcon.alpha = 0;
+                             }
+                             completion:^(BOOL finished) {
+                                    //[self.touchIcon removeFromSuperview];
+                                    [self setPlantSelect:touchedView];
+                                    return;
+                             }];
         }
-        self.selectedClass = classView.className;
-        NSArray *array = [self buildPlantSelectArray : self.selectedClass];
-        [self setContentOffset:(CGPointMake(0, 0))];
-        for(int i=0;i<array.count;i++){
-            [self addSubview:array[i]];
+        else{
+            [self setPlantSelect:touchedView];
+            return;
         }
-        AudioServicesPlaySystemSound(1103);
-        return;
     }
     
     if ([touchedView class] == [PlantIconView class]){
@@ -219,6 +255,11 @@ EditBedViewController *editBedVC;
     if(self.datePickerIsOpen)return;
     if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
+    
+    if(amRecording){
+        self.touchIcon.center = [touch locationInView:self];
+    }
+    
     UIView *touchedView;
     if([touch view] != nil){
         touchedView = [touch view];
@@ -250,6 +291,17 @@ EditBedViewController *editBedVC;
     if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
+    if ([touchedView class] == [ClassIconView class])return;
+    if(amRecording){
+        self.touchIcon.center = [touch locationInView:self];
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.touchIcon.alpha = 0;
+                         }
+                         completion:^(BOOL finished) {
+                             [self.touchIcon removeFromSuperview];
+                         }];
+    }
     CGPoint locationInBed;
     if([touch view] != nil){
         touchedView = [touch view];

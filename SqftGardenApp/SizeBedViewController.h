@@ -22,6 +22,7 @@
 @property(nonatomic) UIView *bedFrameView;
 @property(nonatomic) UILabel *sizeLabel;
 @property(nonatomic) UIView *titleView;
+@property(nonatomic) UIImageView *touchIcon;
 
 @property(nonatomic) int topOffset;
 @property(nonatomic) int sideOffset;

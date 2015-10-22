@@ -12,6 +12,8 @@
 
 
 
+#define amRecording ((bool) YES)
+#define amDebugging ((bool) YES)
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
 @interface EditBedViewController ()
@@ -28,10 +30,10 @@ const float BED_LAYOUT_HEIGHT_RATIO = .60;
 const int BED_LAYOUT_MINIMUM_DIMENSION = 55;
 const int BED_LAYOUT_MAXIMUM_DIMENSION = 110;
 
-NSString * const ROW_KEY = @"rows";
-NSString * const COLUMN_KEY = @"columns";
-float evStartX = 0;
-float evStartY = 0;
+//NSString * const ROW_KEY = @"rows";
+//NSString * const COLUMN_KEY = @"columns";
+float editStartX = 0;
+float editStartY = 0;
 
 
 //SelectPlantView *selectPlantView;
@@ -418,12 +420,27 @@ DBManager *dbManager;
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     //if(self.datePickerIsOpen)return;
     //NSLog(@"touches began");
+    UITouch *touch = [[event allTouches] anyObject];
+    if(amRecording){
+        self.touchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,34,34)];
+        UIImage *icon = [UIImage imageNamed:@"asset_circle_token_512px.png"];
+        self.touchIcon.image = icon;
+        self.touchIcon.center = [touch locationInView:self.view];
+        self.touchIcon.alpha = .8;
+        [self.view addSubview:self.touchIcon];
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.touchIcon.alpha = .5;
+                         }
+                         completion:^(BOOL finished) {
+                             //do stuff
+                         }];
+    }
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;
     }
     
-    UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
         touchedView = [touch view];
@@ -443,16 +460,20 @@ DBManager *dbManager;
         PlantIconView *plantView = (PlantIconView*)[touch view];
         if(plantView.plantId < 1)return;
         CGPoint location = [touch locationInView:[self view]];
-        evStartX = location.x - touchedView.center.x;
-        evStartY = location.y - touchedView.center.y;
+        editStartX = location.x - touchedView.center.x;
+        editStartY = location.y - touchedView.center.y;
         AudioServicesPlaySystemSound(1104);
     }
 }
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    
     //if(self.datePickerIsOpen)return;
     if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
+    if(amRecording){
+        self.touchIcon.center = [touch locationInView:self.view];
+    }
     if([touch view] != nil){
         touchedView = [touch view];
     }
@@ -464,8 +485,8 @@ DBManager *dbManager;
         [self.view bringSubviewToFront:touchedView];
         [self.bedFrameView bringSubviewToFront:touchedView];
         CGPoint location = [touch locationInView:[self view]];
-        location.x = location.x - evStartX;
-        location.y = location.y - evStartY;
+        location.x = location.x - editStartX;
+        location.y = location.y - editStartY;
         touchedView.center = location;
     }
 }
@@ -474,6 +495,16 @@ DBManager *dbManager;
     //if(self.datePickerIsOpen)return;
     if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
+    if(amRecording){
+        self.touchIcon.center = [touch locationInView:self.view];
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.touchIcon.alpha = 0;
+                         }
+                         completion:^(BOOL finished) {
+                             [self.touchIcon removeFromSuperview];
+                         }];
+    }
     UIView *touchedView;
     if([touch view] != nil){
         touchedView = [touch view];
