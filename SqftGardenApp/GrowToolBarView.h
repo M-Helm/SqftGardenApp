@@ -36,6 +36,7 @@
 @property(nonatomic) bool enableIsoButton;
 @property(nonatomic) bool enableSaveButton;
 @property(nonatomic) bool canOverrideDate;
+@property(nonatomic) bool isoViewIsOpen;
 
 
 @end

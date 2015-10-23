@@ -54,7 +54,12 @@ ApplicationGlobals *appGlobals;
     [self addSubview:self.saveIconView];
     [self addSubview:self.menuIconView];
     [self addSubview:self.backButtonIconView];
-    //self.backgroundColor = [UIColor lightGrayColor];
+    //if(self.dateSelected == NO){
+    //    if([viewController class] == [EditBedViewController class]){
+    //        EditBedViewController* vc = (EditBedViewController*)viewController;
+    //        if(vc.isoViewIsOpen)[self enableDateButton:NO];
+    //    }
+    //}
     
 }
 
@@ -447,13 +452,14 @@ ApplicationGlobals *appGlobals;
    
         if(editBedVC.isoViewIsOpen){
             [editBedVC.isoView unwindIsoViewTransform];
-            //No need to call showSelect() as unwind handles
             [editBedVC showSelectView];
+            [self enableDateButton:YES];
             return;
         }
     
         [editBedVC setIsoViewIsOpen:YES];
         [editBedVC.selectPlantView setIsoViewIsOpen:YES];
+        [self enableDateButton:NO];
         //bool success = [self.currentGardenModel saveModelWithOverWriteOption:YES];
         [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
         //NSLog(@"iso icon tapped");

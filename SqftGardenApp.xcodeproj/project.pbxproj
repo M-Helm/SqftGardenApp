@@ -57,6 +57,7 @@
 		AD8566AE1BACA784009328F3 /* growLogo_v003.png in Resources */ = {isa = PBXBuildFile; fileRef = AD8566AD1BACA784009328F3 /* growLogo_v003.png */; };
 		AD8566B11BACBE7B009328F3 /* DateSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8566B01BACBE7B009328F3 /* DateSelectView.m */; };
 		AD9041891BDAB67B0081E8A7 /* iso_chives_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD9041881BDAB67B0081E8A7 /* iso_chives_512px.png */; settings = {ASSET_TAGS = (); }; };
+		AD90418B1BDAD8720081E8A7 /* iso_greenOnions_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD90418A1BDAD8720081E8A7 /* iso_greenOnions_512px.png */; settings = {ASSET_TAGS = (); }; };
 		AD967E9E1BA0A409009D7546 /* init_plants_old.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD967E9D1BA0A409009D7546 /* init_plants_old.txt */; };
 		AD967EA11BA0E481009D7546 /* ClassIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD967EA01BA0E481009D7546 /* ClassIconView.m */; };
 		AD9B67A71BB320F800241837 /* ic_herb2_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD9B67A61BB320F800241837 /* ic_herb2_flat_256px.png */; settings = {ASSET_TAGS = (); }; };
@@ -189,6 +190,7 @@
 		AD8566AF1BACBE6C009328F3 /* DateSelectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateSelectView.h; sourceTree = "<group>"; };
 		AD8566B01BACBE7B009328F3 /* DateSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateSelectView.m; sourceTree = "<group>"; };
 		AD9041881BDAB67B0081E8A7 /* iso_chives_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_chives_512px.png; path = ../../../Documents/sqftGardenAssets/iso_chives_512px.png; sourceTree = "<group>"; };
+		AD90418A1BDAD8720081E8A7 /* iso_greenOnions_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_greenOnions_512px.png; path = ../../../Documents/sqftGardenAssets/iso_greenOnions_512px.png; sourceTree = "<group>"; };
 		AD967E9D1BA0A409009D7546 /* init_plants_old.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init_plants_old.txt; sourceTree = "<group>"; };
 		AD967E9F1BA0E462009D7546 /* ClassIconView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassIconView.h; sourceTree = "<group>"; };
 		AD967EA01BA0E481009D7546 /* ClassIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassIconView.m; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD90418A1BDAD8720081E8A7 /* iso_greenOnions_512px.png */,
 				ADBAE4D61BD9E771006C43C7 /* iso_spinach_512px.png */,
 				AD9041881BDAB67B0081E8A7 /* iso_chives_512px.png */,
 				ADFD3A1A1BD1B7140002DA13 /* iso_tomato_1024x765px.png */,
@@ -555,6 +558,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD90418B1BDAD8720081E8A7 /* iso_greenOnions_512px.png in Resources */,
 				ADA752111B06B6E300C56F5F /* ic_vegetable_tomato_01_256.png in Resources */,
 				ADD364BE1B9F829C00F3B652 /* init_plant_classes.txt in Resources */,
 				ADB982761BB32F8C0084BAC1 /* ic_date_detail_512px.png in Resources */,
