@@ -13,7 +13,6 @@
 #import "ApplicationGlobals.h"
 #import "BedView.h"
 #import "DBManager.h"
-#define amRecording ((bool) YES)
 #define amDebugging ((bool) YES)
 
 @interface SelectPlantView()
@@ -68,6 +67,7 @@ EditBedViewController *editBedVC;
     //self.backgroundColor = [UIColor clearColor];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
+    self.showTouches = NO;
     [self setDefaultParameters];
     [self setScrollView];
 }
@@ -179,7 +179,7 @@ EditBedViewController *editBedVC;
     if(self.datePickerIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
 
-    if(amRecording){
+    if(self.showTouches){
         self.touchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,34,34)];
         UIImage *icon = [UIImage imageNamed:@"asset_circle_token_512px.png"];
         self.touchIcon.image = icon;
@@ -200,7 +200,7 @@ EditBedViewController *editBedVC;
         touchedView = [touch view];
     }
     if ([touchedView class] == [ClassIconView class]){
-        if(amRecording){
+        if(self.showTouches){
             [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                              animations:^{
                                  self.touchIcon.alpha = 0;
@@ -256,7 +256,7 @@ EditBedViewController *editBedVC;
     if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     
-    if(amRecording){
+    if(self.showTouches){
         self.touchIcon.center = [touch locationInView:self];
     }
     
@@ -292,7 +292,7 @@ EditBedViewController *editBedVC;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if ([touchedView class] == [ClassIconView class])return;
-    if(amRecording){
+    if(self.showTouches){
         self.touchIcon.center = [touch locationInView:self];
         [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                          animations:^{

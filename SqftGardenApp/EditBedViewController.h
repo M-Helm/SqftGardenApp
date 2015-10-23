@@ -24,6 +24,7 @@
 @property(nonatomic) bool datePickerIsOpen;
 @property(nonatomic) bool isoViewIsOpen;
 @property(nonatomic) bool toolBarIsOpen;
+@property(nonatomic) bool showTouches;
 
 @property(nonatomic) int topOffset;
 @property(nonatomic) int sideOffset;

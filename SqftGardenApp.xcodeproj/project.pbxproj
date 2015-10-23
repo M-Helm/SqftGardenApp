@@ -56,6 +56,7 @@
 		AD8551AF1BBA3B0F002D813B /* iso_kohlrabi_model_x4_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD8551AE1BBA3B0F002D813B /* iso_kohlrabi_model_x4_512px.png */; settings = {ASSET_TAGS = (); }; };
 		AD8566AE1BACA784009328F3 /* growLogo_v003.png in Resources */ = {isa = PBXBuildFile; fileRef = AD8566AD1BACA784009328F3 /* growLogo_v003.png */; };
 		AD8566B11BACBE7B009328F3 /* DateSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8566B01BACBE7B009328F3 /* DateSelectView.m */; };
+		AD9041891BDAB67B0081E8A7 /* iso_chives_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD9041881BDAB67B0081E8A7 /* iso_chives_512px.png */; settings = {ASSET_TAGS = (); }; };
 		AD967E9E1BA0A409009D7546 /* init_plants_old.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD967E9D1BA0A409009D7546 /* init_plants_old.txt */; };
 		AD967EA11BA0E481009D7546 /* ClassIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD967EA01BA0E481009D7546 /* ClassIconView.m */; };
 		AD9B67A71BB320F800241837 /* ic_herb2_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD9B67A61BB320F800241837 /* ic_herb2_flat_256px.png */; settings = {ASSET_TAGS = (); }; };
@@ -75,6 +76,7 @@
 		ADAEF6E11BCC22FE001DEA70 /* iso_cabbage_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADAEF6E01BCC22FE001DEA70 /* iso_cabbage_512px.png */; settings = {ASSET_TAGS = (); }; };
 		ADAEF6E31BCC3E8B001DEA70 /* iso_cilantro_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADAEF6E21BCC3E8B001DEA70 /* iso_cilantro_512px.png */; settings = {ASSET_TAGS = (); }; };
 		ADB982761BB32F8C0084BAC1 /* ic_date_detail_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADB982751BB32F8C0084BAC1 /* ic_date_detail_512px.png */; settings = {ASSET_TAGS = (); }; };
+		ADBAE4D71BD9E771006C43C7 /* iso_spinach_512px.png in Resources */ = {isa = PBXBuildFile; fileRef = ADBAE4D61BD9E771006C43C7 /* iso_spinach_512px.png */; settings = {ASSET_TAGS = (); }; };
 		ADC3720D1BA7730100FF994A /* photo_basil_512px.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ADC3720C1BA7730100FF994A /* photo_basil_512px.jpg */; };
 		ADC3720F1BA7779600FF994A /* photo_eggplant_512px.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ADC3720E1BA7779600FF994A /* photo_eggplant_512px.jpg */; };
 		ADC372111BA787BC00FF994A /* photo_cucumber_512px.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ADC372101BA787BC00FF994A /* photo_cucumber_512px.jpg */; };
@@ -186,6 +188,7 @@
 		AD8566AD1BACA784009328F3 /* growLogo_v003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = growLogo_v003.png; path = ../../../Documents/sqftGardenAssets/growLogo_v003.png; sourceTree = "<group>"; };
 		AD8566AF1BACBE6C009328F3 /* DateSelectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateSelectView.h; sourceTree = "<group>"; };
 		AD8566B01BACBE7B009328F3 /* DateSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateSelectView.m; sourceTree = "<group>"; };
+		AD9041881BDAB67B0081E8A7 /* iso_chives_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_chives_512px.png; path = ../../../Documents/sqftGardenAssets/iso_chives_512px.png; sourceTree = "<group>"; };
 		AD967E9D1BA0A409009D7546 /* init_plants_old.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = init_plants_old.txt; sourceTree = "<group>"; };
 		AD967E9F1BA0E462009D7546 /* ClassIconView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassIconView.h; sourceTree = "<group>"; };
 		AD967EA01BA0E481009D7546 /* ClassIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassIconView.m; sourceTree = "<group>"; };
@@ -206,6 +209,7 @@
 		ADAEF6E01BCC22FE001DEA70 /* iso_cabbage_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_cabbage_512px.png; path = ../../../Documents/sqftGardenAssets/iso_cabbage_512px.png; sourceTree = "<group>"; };
 		ADAEF6E21BCC3E8B001DEA70 /* iso_cilantro_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_cilantro_512px.png; path = ../../../Documents/sqftGardenAssets/iso_cilantro_512px.png; sourceTree = "<group>"; };
 		ADB982751BB32F8C0084BAC1 /* ic_date_detail_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_date_detail_512px.png; path = ../../../Documents/sqftGardenAssets/ic_date_detail_512px.png; sourceTree = "<group>"; };
+		ADBAE4D61BD9E771006C43C7 /* iso_spinach_512px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_spinach_512px.png; path = ../../../Documents/sqftGardenAssets/iso_spinach_512px.png; sourceTree = "<group>"; };
 		ADC3720C1BA7730100FF994A /* photo_basil_512px.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = photo_basil_512px.jpg; path = ../../../Documents/sqftGardenAssets/photo_basil_512px.jpg; sourceTree = "<group>"; };
 		ADC3720E1BA7779600FF994A /* photo_eggplant_512px.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = photo_eggplant_512px.jpg; path = ../../../Documents/sqftGardenAssets/photo_eggplant_512px.jpg; sourceTree = "<group>"; };
 		ADC372101BA787BC00FF994A /* photo_cucumber_512px.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = photo_cucumber_512px.jpg; path = ../../../Documents/sqftGardenAssets/photo_cucumber_512px.jpg; sourceTree = "<group>"; };
@@ -375,6 +379,8 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ADBAE4D61BD9E771006C43C7 /* iso_spinach_512px.png */,
+				AD9041881BDAB67B0081E8A7 /* iso_chives_512px.png */,
 				ADFD3A1A1BD1B7140002DA13 /* iso_tomato_1024x765px.png */,
 				AD3259661BD03CDF00FBE950 /* iso_carrot_512px.png */,
 				ADAEF6E21BCC3E8B001DEA70 /* iso_cilantro_512px.png */,
@@ -592,6 +598,7 @@
 				ADE9AC621BC7300C009DEDB1 /* init_plants.txt in Resources */,
 				AD59D6831BA9E3F900A0E5E2 /* growLogo_v001.png in Resources */,
 				AD5493AF1BB875FA0032292D /* iso_spinach_256px.png in Resources */,
+				AD9041891BDAB67B0081E8A7 /* iso_chives_512px.png in Resources */,
 				AD5493B11BB879300032292D /* iso_spinach_4x_256px.png in Resources */,
 				ADA7520C1B06B6E300C56F5F /* ic_vegetable_capsicum_256.png in Resources */,
 				ADFD3A1B1BD1B7140002DA13 /* iso_tomato_1024x765px.png in Resources */,
@@ -620,6 +627,7 @@
 				AD5493A31BB738370032292D /* iso_border_base_512px.png in Resources */,
 				AD8551AD1BBA33C1002D813B /* iso_collard_model_512px.png in Resources */,
 				AD4B19A91BB633E900ABDD65 /* iso_generic_256px.png in Resources */,
+				ADBAE4D71BD9E771006C43C7 /* iso_spinach_512px.png in Resources */,
 				AD8551A51BB99C78002D813B /* iso_model_plant001_512px.png in Resources */,
 				ADD47F291AF44A7A00D7E26F /* Main.storyboard in Resources */,
 			);

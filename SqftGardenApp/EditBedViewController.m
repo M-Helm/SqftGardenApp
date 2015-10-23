@@ -12,7 +12,7 @@
 
 
 
-#define amRecording ((bool) YES)
+
 #define amDebugging ((bool) YES)
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
@@ -62,6 +62,7 @@ DBManager *dbManager;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
+    self.showTouches = NO;
     //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
     //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
     //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
@@ -421,7 +422,7 @@ DBManager *dbManager;
     //if(self.datePickerIsOpen)return;
     //NSLog(@"touches began");
     UITouch *touch = [[event allTouches] anyObject];
-    if(amRecording){
+    if(self.showTouches){
         self.touchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,34,34)];
         UIImage *icon = [UIImage imageNamed:@"asset_circle_token_512px.png"];
         self.touchIcon.image = icon;
@@ -471,7 +472,7 @@ DBManager *dbManager;
     if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
-    if(amRecording){
+    if(self.showTouches){
         self.touchIcon.center = [touch locationInView:self.view];
     }
     if([touch view] != nil){
@@ -495,7 +496,7 @@ DBManager *dbManager;
     //if(self.datePickerIsOpen)return;
     if(self.isoViewIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
-    if(amRecording){
+    if(self.showTouches){
         self.touchIcon.center = [touch locationInView:self.view];
         [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
@@ -552,7 +553,7 @@ DBManager *dbManager;
             [touchedView removeFromSuperview];
             return;
         }
-        
+        if(self.touchIcon != nil)[self.touchIcon removeFromSuperview];
         [self updatePlantBeds:targetCell:bedView.plantId];
         //AudioServicesPlaySystemSound(1104);
     }
@@ -612,7 +613,10 @@ DBManager *dbManager;
 - (void)handleBedSingleTap:(UITapGestureRecognizer *)recognizer {
     if(self.datePickerIsOpen)return;
     PlantIconView *bd = (PlantIconView*)recognizer.view;
-    if(bd.plantId < 1)return;
+    if(bd.plantId < 1){
+        if(self.touchIcon != nil)[self.touchIcon removeFromSuperview];
+        return;
+    }
     for(int i = 0; i<self.bedViewArray.count; i++){
         UIView *bed = [self.bedViewArray objectAtIndex:i];
         bed.backgroundColor = [UIColor clearColor];
