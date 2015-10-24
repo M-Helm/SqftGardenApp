@@ -96,23 +96,20 @@ EditBedViewController *editBedVC;
     NSMutableArray *selectArray = [[NSMutableArray alloc] init];
 
     int frameDimension = appGlobals.bedDimension - 5;
-    //if((self.view.frame.size.width / frameDimension) > 6)frameDimension = self.view.frame.size.width / 6;
-    //if((self.view.frame.size.width / frameDimension) < 3)frameDimension = self.view.frame.size.width / 3;
     
     //add cancel button
     PlantIconView *cancelBtn = [[PlantIconView alloc]
-                                initWithFrame:CGRectMake(6 + (frameDimension*0), 2, frameDimension,frameDimension) withPlantId: -1 isIsometric:NO];
-    
-    
+                                initWithFrame:CGRectMake(6 + (frameDimension*0), 2, frameDimension,frameDimension) withPlantUuid: @"cancel" isIsometric:NO];
     [selectArray addObject:cancelBtn];
     
-    //int rowCount = [dbManager getTableRowCount:@"plants"];
-    NSArray *list = [dbManager getPlantIdsForClass:class];
+    NSArray *list = [dbManager getPlantUuidsForClass:class];
+    //NSLog(@"list count = %i, %@", (int)list.count, [list objectAtIndex:0]);
     for(int i=0; i<list.count; i++){
         NSString *index = list[i];
         PlantIconView *plantIcon = [[PlantIconView alloc]
-                                    initWithFrame:CGRectMake(6 + (frameDimension*(i+1)), 2, frameDimension,frameDimension) withPlantId: index.intValue isIsometric:NO];
+                                    initWithFrame:CGRectMake(6 + (frameDimension*(i+1)), 2, frameDimension,frameDimension) withPlantUuid: index isIsometric:NO];
         [plantIcon setViewAsIcon:true];
+        //NSLog(@"PLant name %@", plantIcon.plantName);
         //NSLog(@"LIST VALUE COMING OUT OF DB: %i", index.intValue);
        // UIImage *icon = [UIImage imageNamed: plantIcon.iconResource];
        // UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
@@ -219,7 +216,7 @@ EditBedViewController *editBedVC;
     
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *plantView = (PlantIconView*)touchedView;
-        if(plantView.plantId == -1){
+        if([plantView.plantUuid isEqualToString:@"cancel"]){
             [self cancelSelectPlant];
             return;
         }
@@ -362,7 +359,7 @@ EditBedViewController *editBedVC;
             return;
         }
         
-        [editBedVC updatePlantBeds:targetCell:plantView.plantId];
+        [editBedVC updatePlantBeds:targetCell:plantView.plantUuid];
         AudioServicesPlaySystemSound(1105);
     }
 }

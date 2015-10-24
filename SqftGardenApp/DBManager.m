@@ -174,7 +174,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population, class, description, scientific_name, photo, yield, iso_icon, tip0, tip1, tip2, tip3, tip4, tip5, tip6, planting_delta, is_tall) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population, class, description, scientific_name, photo, yield, iso_icon, tip0, tip1, tip2, tip3, tip4, tip5, tip6, planting_delta, is_tall, uuid) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                                [msgJSON objectForKey:@"name"],
                                [msgJSON objectForKey:@"timestamp"],
                                [msgJSON objectForKey:@"icon"],
@@ -194,7 +194,8 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                [msgJSON objectForKey:@"tip5"],
                                [msgJSON objectForKey:@"tip6"],
                                [msgJSON objectForKey:@"planting_delta"],
-                               [msgJSON objectForKey:@"is_tall"]];
+                               [msgJSON objectForKey:@"is_tall"],
+                               [msgJSON objectForKey:@"uuid"]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
@@ -343,22 +344,22 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     return classData;
 }
 
-- (NSMutableArray *) getPlantIdsForClass:(NSString *)class{
+- (NSMutableArray *) getPlantUuidsForClass:(NSString *)class{
     NSLog(@"msg sql outter class name: %@", class);
     NSMutableArray *list = [[NSMutableArray alloc] init];
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK){
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT local_id FROM plants WHERE class = \"%@\"", class];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT uuid FROM plants WHERE class = \"%@\"", class];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK){
             //NSLog(@"msg sql for plant data ok");
             while (sqlite3_step(statement) == SQLITE_ROW){
-                NSString *plantId = [[NSString alloc] initWithUTF8String:
+                NSString *plantUuid = [[NSString alloc] initWithUTF8String:
                                        (const char *) sqlite3_column_text(statement, 0)];
                 //NSLog(@"msg sql class name: %@", class);
                 //NSLog(@"msg sql: %@", plantMaturity);
                 //int index = plantId.intValue;
-                [list addObject:plantId];
+                [list addObject:plantUuid];
                 //NSLog(@"msg sql count: %lu",(unsigned long)list.count);
             }
         }
@@ -421,6 +422,8 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                         (const char *) sqlite3_column_text(statement, 19)];
                 NSString *isTall = [[NSString alloc] initWithUTF8String:
                                      (const char *) sqlite3_column_text(statement, 20)];
+                NSString *uuid = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 21)];
 
                 [plantData setObject:local_id forKey:@"plant_id"];
                 [plantData setObject:plantName forKey:@"name"];
@@ -443,7 +446,9 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [plantData setObject:tip6 forKey:@"tip6"];
                 [plantData setObject:isTall forKey:@"isTall"];
                 [plantData setObject:plantingDelta forKey:@"plantingDelta"];
+                [plantData setObject:uuid forKey:@"uuid"];
                 //NSLog(@"PLANTING DELTA = %@",plantingDelta);
+                //NSLog(@"UUID = %@",uuid);
             }
         }
         sqlite3_finalize(statement);
@@ -452,34 +457,90 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     return plantData;
 }
 
- - (NSDictionary *) getPlantDataByName:(NSString *) name{
-     NSMutableDictionary *plantData = nil;
-     const char *dbpath = [databasePath UTF8String];
-     if (sqlite3_open(dbpath, &database) == SQLITE_OK){
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM plants WHERE name = '%@' LIMIT 1", name];
+- (NSDictionary *) getPlantDataByUuid:(NSString *) uuid{
+    NSMutableDictionary *plantData = [[NSMutableDictionary alloc] init];
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK){
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM plants WHERE uuid = '%@' LIMIT 1", uuid];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK){
             //NSLog(@"msg sql for plant data ok");
             while (sqlite3_step(statement) == SQLITE_ROW){
+                NSString *local_id = [[NSString alloc] initWithUTF8String:
+                                      (const char *) sqlite3_column_text(statement, 0)];
                 NSString *plantName = [[NSString alloc] initWithUTF8String:
-                        (const char *) sqlite3_column_text(statement, 1)];
+                                       (const char *) sqlite3_column_text(statement, 1)];
+                NSString *timestamp = [[NSString alloc] initWithUTF8String:
+                                       (const char *) sqlite3_column_text(statement, 2)];
                 NSString *plantIcon = [[NSString alloc] initWithUTF8String:
-                        (const char *) sqlite3_column_text(statement, 3)];
+                                       (const char *) sqlite3_column_text(statement, 3)];
                 NSString *plantMaturity = [[NSString alloc] initWithUTF8String:
-                        (const char *) sqlite3_column_text(statement, 4)];
-                //NSLog(@"msg sql name: %@", plantName);
-                //NSLog(@"msg sql: %@", plantIcon);
-                //NSLog(@"msg sql: %@", plantMaturity);
+                                           (const char *) sqlite3_column_text(statement, 4)];
+                NSString *plantPopulation = [[NSString alloc] initWithUTF8String:
+                                             (const char *) sqlite3_column_text(statement, 5)];
+                NSString *plantClass = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 6)];
+                NSString *plantDescription = [[NSString alloc] initWithUTF8String:
+                                              (const char *) sqlite3_column_text(statement, 7)];
+                NSString *plantScienceName = [[NSString alloc] initWithUTF8String:
+                                              (const char *) sqlite3_column_text(statement, 8)];
+                NSString *plantPhoto = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 9)];
+                NSString *plantYield = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 10)];
+                NSString *isoIcon = [[NSString alloc] initWithUTF8String:
+                                     (const char *) sqlite3_column_text(statement, 11)];
+                NSString *tip0 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 12)];
+                NSString *tip1 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 13)];
+                NSString *tip2 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 14)];
+                NSString *tip3 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 15)];
+                NSString *tip4 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 16)];
+                NSString *tip5 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 17)];
+                NSString *tip6 = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 18)];
+                NSString *plantingDelta = [[NSString alloc] initWithUTF8String:
+                                           (const char *) sqlite3_column_text(statement, 19)];
+                NSString *isTall = [[NSString alloc] initWithUTF8String:
+                                    (const char *) sqlite3_column_text(statement, 20)];
+                
+                [plantData setObject:local_id forKey:@"plant_id"];
                 [plantData setObject:plantName forKey:@"name"];
+                [plantData setObject:timestamp forKey:@"timestamp"];
                 [plantData setObject:plantIcon forKey:@"icon"];
                 [plantData setObject:plantMaturity forKey:@"maturity"];
+                [plantData setObject:plantPopulation forKey:@"population"];
+                [plantData setObject:plantClass forKey:@"class"];
+                [plantData setObject:plantDescription forKey:@"description"];
+                [plantData setObject:plantScienceName forKey:@"scientific_name"];
+                [plantData setObject:plantPhoto forKey:@"photo"];
+                [plantData setObject:plantYield forKey:@"yield"];
+                [plantData setObject:isoIcon forKey:@"isoIcon"];
+                [plantData setObject:tip0 forKey:@"tip0"];
+                [plantData setObject:tip1 forKey:@"tip1"];
+                [plantData setObject:tip2 forKey:@"tip2"];
+                [plantData setObject:tip3 forKey:@"tip3"];
+                [plantData setObject:tip4 forKey:@"tip4"];
+                [plantData setObject:tip5 forKey:@"tip5"];
+                [plantData setObject:tip6 forKey:@"tip6"];
+                [plantData setObject:isTall forKey:@"isTall"];
+                [plantData setObject:plantingDelta forKey:@"plantingDelta"];
+                [plantData setObject:uuid forKey:@"uuid"];
+                NSLog(@"local_id = %@",local_id);
             }
         }
         sqlite3_finalize(statement);
         sqlite3_close(database);
-     }
-     return plantData;
+    }
+    return plantData;
 }
+
+
 - (NSMutableDictionary *) getGardenByLocalId : (int) index{
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     const char *dbpath = [databasePath UTF8String];
@@ -518,7 +579,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [dict setObject:uniqueId forKey:@"unique_id"];
                 [dict setObject:indexStr forKey:@"local_id"];
                 [dict setObject:plantingDate forKey:@"planting_date"];
-                NSLog(@"MODEL BY ID name %@, ts %@, uniqueID %@, plantingDate %@", saveName, saveTS, uniqueId, plantingDate);
+                NSLog(@"MODEL BY ID state %@, ts %@, uniqueID %@, plantingDate %@", saveState, saveTS, uniqueId, plantingDate);
 
             }
         }

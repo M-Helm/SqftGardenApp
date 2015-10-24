@@ -27,8 +27,8 @@
 - (void) setCurrentBedState:(NSMutableDictionary *)json;
 - (void) setBedRows:(int) rows;
 - (void) setBedColumns:(int) columns;
-- (int) getPlantIdForCell:(int) cell;
-- (void) setPlantIdForCell:(int) cell :(int) plant;
+- (NSString *) getPlantUuidForCell:(int) cell;
+- (void) setPlantUuidForCell:(int) cell :(NSString*) plantUuid;
 - (void) showModelInfo;
 - (BOOL) saveModelWithOverWriteOption : (BOOL) overwrite;
 - (BOOL) autoSaveModel;

@@ -25,14 +25,14 @@
 - (NSArray*) getInitPlants;
 - (NSArray*) getInitPlantClasses;
 - (NSDictionary *) getClassDataById:(int) classID;
-- (NSDictionary *) getPlantDataByName:(NSString *) name;
 - (NSDictionary *) getPlantDataById:(int) plantID;
+- (NSDictionary *) getPlantDataByUuid:(NSString *) uuid;
 - (BOOL) overwriteSavedGarden:(NSDictionary *)msgJSON;
 - (NSMutableArray *) getBedSaveList;
 - (NSMutableDictionary *) getGardenByLocalId : (int) index;
 - (int) saveGarden:(NSDictionary *)msgJSON;
 - (BOOL) deleteGardenWithId:(int)localId;
 - (NSMutableDictionary *) getGardenByUniqueId : (NSString *) uuid;
-- (NSMutableArray *) getPlantIdsForClass:(NSString *)class;
+- (NSMutableArray *) getPlantUuidsForClass:(NSString *)class;
 
 @end

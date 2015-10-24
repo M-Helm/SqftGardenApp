@@ -46,7 +46,7 @@ UIColor *tabColor;
     UILabel *labelView = [[UILabel alloc] initWithFrame:CGRectMake((headerView.frame.size.width/2)-75, 0, 150, 50)];
     //add cancel button
     PlantIconView *cancelBtn = [[PlantIconView alloc]
-                                initWithFrame:CGRectMake(self.view.frame.size.width - 55, 1, 44,44) withPlantId: -1 isIsometric:NO];
+                                initWithFrame:CGRectMake(self.view.frame.size.width - 55, 1, 44,44) withPlantUuid: nil isIsometric:NO];
     cancelBtn.userInteractionEnabled = YES;
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self

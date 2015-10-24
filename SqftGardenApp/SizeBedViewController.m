@@ -172,7 +172,7 @@ BOOL shouldContinueBlinking = NO;
 
             //PlantIconView *bed = [[PlantIconView alloc] initWithFrame:CGRectMake(1 + (bedDimension*rowNumber),
             //                                                         (bedDimension*columnNumber)+1, bedDimension, bedDimension): 0];
-            PlantIconView *bed = [[PlantIconView alloc] initWithFrame:CGRectMake(1 + (bedDimension*rowNumber),(bedDimension*columnNumber)+1, bedDimension, bedDimension) withPlantId:0 isIsometric:NO];
+            PlantIconView *bed = [[PlantIconView alloc] initWithFrame:CGRectMake(1 + (bedDimension*rowNumber),(bedDimension*columnNumber)+1, bedDimension, bedDimension) withPlantUuid:nil isIsometric:NO];
             
             
             bed.position = cell;

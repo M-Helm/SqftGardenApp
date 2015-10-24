@@ -347,21 +347,23 @@ DBManager *dbManager;
     if(self.currentGardenModel == nil){
         self.currentGardenModel = [[SqftGardenModel alloc] init];
     }
-    if([self.currentGardenModel getPlantIdForCell:0] < 0){
+    if([self.currentGardenModel getPlantUuidForCell:0] < 0){
         for(int i=0; i<cellCount; i++){
-            [self.currentGardenModel setPlantIdForCell:i :0];
+            [self.currentGardenModel setPlantUuidForCell:i :@"nil"];
         }
     }
     for(int i=0; i<self.bedRowCount; i++){
         while(columnNumber < self.bedColumnCount){
-            int plantId = [self.currentGardenModel getPlantIdForCell:cell];
+            NSString *plantUuid = [self.currentGardenModel getPlantUuidForCell:cell];
+            //NSLog(@"plantUUID in build = %@", plantUuid);
+            //int plantId = [self.currentGardenModel getPlantIdForCell:cell];
             float padding = [self calculateBedViewHorizontalPadding];
             PlantIconView *bed = [[PlantIconView alloc]
                                   initWithFrame:CGRectMake(padding + (bedDimension*columnNumber),
                                                            (bedDimension*rowNumber)+1,
                                                            bedDimension,
                                                            bedDimension)
-                                                            withPlantId: plantId
+                                                            withPlantUuid: plantUuid
                                                             isIsometric:NO];
             bed.layer.borderWidth = 1;
             bed.position = cell;
@@ -383,8 +385,8 @@ DBManager *dbManager;
     return padding;
 }
 
-- (void) updatePlantBeds : (int)updatedCell : (int)plantId{
-    [self.currentGardenModel setPlantIdForCell:updatedCell :plantId];
+- (void) updatePlantBeds : (int)updatedCell : (NSString *)plantUuid{
+    [self.currentGardenModel setPlantUuidForCell:updatedCell :plantUuid];
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildClassSelectArray];
     [self.currentGardenModel autoSaveModel];
@@ -420,7 +422,7 @@ DBManager *dbManager;
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     //if(self.datePickerIsOpen)return;
-    //NSLog(@"touches began");
+    NSLog(@"touches began");
     UITouch *touch = [[event allTouches] anyObject];
     if(self.showTouches){
         self.touchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,34,34)];
@@ -458,8 +460,9 @@ DBManager *dbManager;
     if(self.isoViewIsOpen)return;
     
     if ([touchedView class] == [PlantIconView class]){
+        NSLog(@"class = plantIconClass");
         PlantIconView *plantView = (PlantIconView*)[touch view];
-        if(plantView.plantId < 1)return;
+        if(plantView.plantUuid.length < 5)return;
         CGPoint location = [touch locationInView:[self view]];
         editStartX = location.x - touchedView.center.x;
         editStartY = location.y - touchedView.center.y;
@@ -480,7 +483,7 @@ DBManager *dbManager;
     }
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *plantView = (PlantIconView*)[touch view];
-        if(plantView.plantId < 1)return;
+        if(plantView.plantUuid.length < 5)return;
         touchedView.hidden=FALSE;
         touchedView.layer.borderWidth = 0;
         [self.view bringSubviewToFront:touchedView];
@@ -516,12 +519,12 @@ DBManager *dbManager;
 
 -(void)calculatePlantDropPosition : (UIView*)touchedView{
     if ([touchedView class] == [PlantIconView class]){
-        PlantIconView *bedView = (PlantIconView*)touchedView;
+        PlantIconView *plantView = (PlantIconView*)touchedView;
         //remove the bed from it's old spot
-        [self updatePlantBeds: bedView.position : 0];
+        [self updatePlantBeds: plantView.position : @"0"];
         
-        float xCo = bedView.center.x;
-        float yCo = bedView.center.y;
+        float xCo = plantView.center.x;
+        float yCo = plantView.center.y;
         
         float yLowerLimit = self.bedFrameView.center.y + self.bedFrameView.frame.size.height / 3;
         float yUpperLimit = 0;
@@ -554,7 +557,7 @@ DBManager *dbManager;
             return;
         }
         if(self.touchIcon != nil)[self.touchIcon removeFromSuperview];
-        [self updatePlantBeds:targetCell:bedView.plantId];
+        [self updatePlantBeds: targetCell :plantView.plantUuid];
         //AudioServicesPlaySystemSound(1104);
     }
 }
@@ -611,9 +614,10 @@ DBManager *dbManager;
 
 
 - (void)handleBedSingleTap:(UITapGestureRecognizer *)recognizer {
+    NSLog(@"plant icon single tap");
     if(self.datePickerIsOpen)return;
     PlantIconView *bd = (PlantIconView*)recognizer.view;
-    if(bd.plantId < 1){
+    if(bd.plantUuid.length < 5){
         if(self.touchIcon != nil)[self.touchIcon removeFromSuperview];
         return;
     }

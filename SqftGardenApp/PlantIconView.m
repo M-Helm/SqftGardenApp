@@ -19,9 +19,9 @@ const int PLANT_ICON_PADDING = 7;
 NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 ApplicationGlobals *appGlobals;
 
-- (id)initWithFrame:(CGRect)frame withPlantId: (int)plantIndex isIsometric:(bool)isIsometric{
+- (id)initWithFrame:(CGRect)frame withPlantUuid: (NSString *)plantUuid isIsometric:(bool)isIsometric{
     //self.index = plantIndex;
-    self.plantId = plantIndex;
+    self.plantUuid = plantUuid;
     self.isIsometric = isIsometric;
     self = [super initWithFrame:frame];
     if (self) {
@@ -50,18 +50,19 @@ ApplicationGlobals *appGlobals;
 - (void)commonInit {
     self.backgroundColor = [UIColor clearColor];
     //self.isTall = NO;
-    if(self.plantId == -1){
+    if([self.plantUuid isEqualToString:@"cancel"]){
         [self setAsCancelIcon];
         return;
     }
     DBManager *dbManager = [DBManager getSharedDBManager];
     appGlobals = [ApplicationGlobals getSharedGlobals];
-    //NSLog(@"PLANT VIEW ID TO DB: %i", self.index);
     
-    NSDictionary *json = [dbManager getPlantDataById:self.plantId];
     
+    NSDictionary *json = [dbManager getPlantDataByUuid:self.plantUuid];
+    
+    //NSLog(@"icon uuid = %@", self.plantUuid);
     //self.iconResource = @"iso_generic_256.png";
-    
+    self.plantUuid = [json objectForKey:@"uuid"];
     self.plantName = [json objectForKey:@"name"];
     self.iconResource = [json objectForKey:@"icon"];
     self.photoResource = [json objectForKey:@"photo"];

@@ -444,7 +444,7 @@ CGFloat height;
     for(int i = 0; i < array.count; i++){
         NSString *str = [array objectAtIndex:i];
         PlantIconView *plant = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0)
-                                                       withPlantId:str.intValue isIsometric:NO];
+                                                       withPlantUuid:str isIsometric:NO];
         [plantArray addObject:plant];
     }
 

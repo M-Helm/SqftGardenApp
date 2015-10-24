@@ -45,7 +45,7 @@
 @property(nonatomic) UIImageView *touchIcon;
 
 
-- (void) updatePlantBeds : (int)updatedCell : (int)plantId;
+- (void) updatePlantBeds : (int)updatedCell : (NSString *)plantUuid;
 - (void) updatePlantingDate : (NSDate *)date;
 - (void) initViews;
 - (void) unwindIsoView;

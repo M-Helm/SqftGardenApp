@@ -175,6 +175,7 @@ int localIdOfSelected;
     //set the current bed json pkg
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     if(self.savedBedJson.count > [indexPath row] - 1)json = self.savedBedJson[[indexPath row] - 1];
+    NSLog(@"OpenVC Bed state = %@", [json objectForKey:@"bedstate"]);
     [appGlobals clearCurrentGardenModel];
     SqftGardenModel *model = [[SqftGardenModel alloc] initWithDict:json];
 

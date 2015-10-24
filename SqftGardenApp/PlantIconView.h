@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface PlantIconView : UIView
-- (id)initWithFrame:(CGRect)frame withPlantId: (int)plantIndex isIsometric:(bool)isIsometric;
+- (id)initWithFrame:(CGRect)frame withPlantUuid: (NSString *)plantUuid isIsometric:(bool)isIsometric;
+@property (nonatomic) NSString* plantUuid;
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIColor* fillColor;
 @property (nonatomic) int position;

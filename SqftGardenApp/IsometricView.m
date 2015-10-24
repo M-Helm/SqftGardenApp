@@ -147,7 +147,6 @@ EditBedViewController *editBedVC;
             [array addObject:plant];
         }
     }
-    NSLog(@"array count = %i", (int)array.count);
     [self setIsoIconLayout:array];
 }
 
@@ -175,8 +174,7 @@ EditBedViewController *editBedVC;
     iconView.layer.borderColor = [UIColor blackColor].CGColor;
     iconView.alpha = 0;
     [self addSubview:iconView];
-    if(plant.plantId >= 1){
-        NSLog(@"PLant ID = %i",plant.plantId);
+    if(plant.plantUuid.length >= 5){
         [UIView animateWithDuration:duration delay:delay*.02 options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              iconView.alpha=1;
@@ -253,19 +251,21 @@ EditBedViewController *editBedVC;
     int rowNumber = 0;
     int columnNumber = 0;
     int cell = 0;
-    int cellCount = self.bedRowCount * self.bedColumnCount;
+    //int cellCount = self.bedRowCount * self.bedColumnCount;
     
     //if(self.currentGardenModel == nil){
     //    self.currentGardenModel = [[SqftGardenModel alloc] init];
     //}
-    if([appGlobals.globalGardenModel getPlantIdForCell:0] < 0){
-        for(int i=0; i<cellCount; i++){
-            [appGlobals.globalGardenModel setPlantIdForCell:i :0];
-        }
-    }
+    //if([appGlobals.globalGardenModel getPlantUuidForCell:0] < 0){
+    //    for(int i=0; i<cellCount; i++){
+            //[appGlobals.globalGardenModel setPlantUuidForCell:i :@"nil"];
+    //    }
+    //}
+    
     for(int i=0; i<self.bedRowCount; i++){
         while(columnNumber < self.bedColumnCount){
-            int plantId = [appGlobals.globalGardenModel getPlantIdForCell:cell];
+            NSString *plantUuid = [appGlobals.globalGardenModel getPlantUuidForCell:cell];
+            //int plantId = [appGlobals.globalGardenModel getPlantIdForCell:cell];
             
             //float padding = [self calculateBedViewHorizontalPadding];
             float padding = 15;
@@ -274,10 +274,9 @@ EditBedViewController *editBedVC;
                                                            (bedDimension*rowNumber)+1,
                                                            bedDimension,
                                                            bedDimension)
-                                  withPlantId: plantId isIsometric:YES];
+                                  withPlantUuid:plantUuid isIsometric:YES];
             bed.layer.borderWidth = 1;
             bed.position = cell;
-        
             [bedArray addObject:bed];
             columnNumber++;
             cell++;
@@ -289,7 +288,7 @@ EditBedViewController *editBedVC;
 }
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     //if(self.datePickerIsOpen)return;
-    //NSLog(@"isoview touches began");
+
     if(appGlobals.isMenuDrawerOpen == YES){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         return;

@@ -83,13 +83,13 @@ DBManager *dbManager;
     self.uniqueId = uuid;
 }
 
-- (void) setPlantIdForCell:(int) cell :(int) plant{
+- (void) setPlantUuidForCell:(int) cell :(NSString *) plantUuid{
     if(self.bedStateDictionary == nil){
         self.bedStateDictionary = [[NSMutableDictionary alloc] init];
     }
     NSString *key = [NSString stringWithFormat:@"cell%i", cell];
-    NSNumber *plantId = [NSNumber numberWithInt:plant];
-    [self.bedStateDictionary setObject:plantId forKey:key];
+    //NSNumber *plantId = [NSNumber numberWithInt:plant];
+    [self.bedStateDictionary setObject:plantUuid forKey:key];
     [self compileBedStateArrayString:self.bedStateDictionary];
     //NSString *tempStr = [self.bedStateDictionary objectForKey:key];
     //NSLog(@"temp string for set Plant Id: %@", tempStr);
@@ -97,9 +97,9 @@ DBManager *dbManager;
 
 }
 
-- (int) getPlantIdForCell:(int) cell{
+- (NSString *) getPlantUuidForCell:(int) cell{
     NSString *key = [NSString stringWithFormat:@"cell%i", cell];
-    int plantId = (int)[[self.bedStateDictionary valueForKey:key] integerValue];
+    NSString *plantId = [self.bedStateDictionary objectForKey:key];
     //NSLog(@"model get id method returns: %i", plantId);
     return plantId;
 }
@@ -156,8 +156,9 @@ DBManager *dbManager;
     NSString *key = @"";
     for(int i=0; i<cellCount; i++){
         key = [NSString stringWithFormat:@"cell%i", i];
-        int strId = (int)[[bedJSON valueForKey:key] integerValue];
-        tempStr = [NSString stringWithFormat:@"%i", strId];
+        //int strId = (int)[[bedJSON valueForKey:key] integerValue];
+        //tempStr = [NSString stringWithFormat:@"%i", strId];
+        tempStr = [bedJSON objectForKey:key];
         if(i == 0)tempArrayStr = [NSString stringWithFormat:@"%@", tempStr];
         else tempArrayStr = [NSString stringWithFormat:@"%@,%@", tempArrayStr, tempStr];
     }

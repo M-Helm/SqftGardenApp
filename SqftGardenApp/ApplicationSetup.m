@@ -44,6 +44,7 @@ DBManager *dbManager;
     [dbManager addColumn:@"plants" : @"tip6" : @"char"];
     [dbManager addColumn:@"plants" : @"planting_delta" : @"int"];
     [dbManager addColumn:@"plants" : @"is_tall" : @"int"];
+    [dbManager addColumn:@"plants" : @"uuid" : @"char"];
     
     if([dbManager checkTableExists:@"plants"]){
         [dbManager getInitPlants];
