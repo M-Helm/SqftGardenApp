@@ -18,7 +18,7 @@
 @property(nonatomic) NSMutableDictionary *bedStateDictionary;
 @property(nonatomic) int localId;
 @property(nonatomic) NSString *uniqueId;
-@property(nonatomic) NSDate *plantingDate;
+@property(nonatomic) NSDate *frostDate;
 
 - (id) initWithDict:(NSDictionary*)dict;
 - (void) clearCurrentBedState;

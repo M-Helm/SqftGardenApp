@@ -210,14 +210,14 @@ DBManager *dbManager;
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
     NSString *plantDate = @"Planting date not set";
-    if(appGlobals.globalGardenModel.plantingDate != nil){
+    if(appGlobals.globalGardenModel.frostDate != nil){
         NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
-        if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
+        if ([appGlobals.globalGardenModel.frostDate compare:compareDate] == NSOrderedAscending) {
             //no change
         }else{
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"MMM dd, yyyy"];
-            plantDate = [dateFormatter stringFromDate: appGlobals.globalGardenModel.plantingDate];
+            plantDate = [dateFormatter stringFromDate: appGlobals.globalGardenModel.frostDate];
         }
     }
 
@@ -399,7 +399,7 @@ DBManager *dbManager;
 - (void) updatePlantingDate : (NSDate *)date{
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
-    [self.currentGardenModel setPlantingDate:date];
+    [self.currentGardenModel setFrostDate:date];
     [self.currentGardenModel autoSaveModel];
     [appGlobals setCurrentGardenModel:self.currentGardenModel];
 }

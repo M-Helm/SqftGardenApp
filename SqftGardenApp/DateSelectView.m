@@ -59,7 +59,7 @@ NSDate* selectedDate;
         selectedDate = date;
     }
     NSLog(@"New Date: %@", selectedDate);
-    appGlobals.globalGardenModel.plantingDate = selectedDate;
+    appGlobals.globalGardenModel.frostDate = selectedDate;
     [appGlobals.globalGardenModel saveModelWithOverWriteOption:YES];
     [UIView beginAnimations:@"MoveOut" context:nil];
     [self viewWithTag:9].alpha = 0;
@@ -144,13 +144,13 @@ NSDate* selectedDate;
 }
 - (NSDate *)getInitialDate{
     NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
-    if([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
+    if([appGlobals.globalGardenModel.frostDate compare:compareDate] == NSOrderedAscending) {
         //no date selected
         int seconds = (24*60*60)*175;
         return [[NSDate alloc]initWithTimeIntervalSinceNow:seconds];
     }else{
         //a date is selected
-        return appGlobals.globalGardenModel.plantingDate;
+        return appGlobals.globalGardenModel.frostDate;
     }
 }
 

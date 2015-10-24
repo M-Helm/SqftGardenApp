@@ -74,9 +74,9 @@ ApplicationGlobals *appGlobals;
  
  -(void)checkPlantingDate{
      //check if a date exists
-     if(appGlobals.globalGardenModel.plantingDate != nil){
+     if(appGlobals.globalGardenModel.frostDate != nil){
          NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
-         if([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
+         if([appGlobals.globalGardenModel.frostDate compare:compareDate] == NSOrderedAscending) {
              //no date selected
              self.dateSelected = NO;
          }else{
@@ -394,10 +394,10 @@ ApplicationGlobals *appGlobals;
     }
     
     //check if a date exists
-    if(appGlobals.globalGardenModel.plantingDate != nil){
+    if(appGlobals.globalGardenModel.frostDate != nil){
         
         NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
-        if ([appGlobals.globalGardenModel.plantingDate compare:compareDate] == NSOrderedAscending) {
+        if ([appGlobals.globalGardenModel.frostDate compare:compareDate] == NSOrderedAscending) {
             //no date selected
         }else{
             //date selected go somewhere else...

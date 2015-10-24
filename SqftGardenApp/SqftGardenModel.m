@@ -39,14 +39,10 @@ DBManager *dbManager;
         [self compileBedStateDictFromString:self.bedStateArrayString];
         self.name = [dict valueForKey:@"name"];
         self.uniqueId = [dict valueForKey:@"unique_id"];
-        
-        
         NSString *dateString = [dict valueForKey:@"planting_date"];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        self.plantingDate = [dateFormatter dateFromString:dateString];
-
-        //NSLog(@"UUID from DICT: %@", self.uniqueId);
+        self.frostDate = [dateFormatter dateFromString:dateString];
         self.timestamp = ts.intValue;
         self.localId = localID.intValue;
         self.columns = dColumns.intValue;
@@ -54,7 +50,6 @@ DBManager *dbManager;
         if(self.columns < 1)self.columns = 3;
         if(self.rows < 1)self.rows = 3;
         if(self.localId < 2)self.localId = 1;
-        //NSLog(@"Local ID On INIT = %i, ROWS on INIT = %i", self.localId, self.rows);
     }
     [self commonInit];
     return self;
@@ -64,9 +59,9 @@ DBManager *dbManager;
     if(self.uniqueId.length < 8){
         self.uniqueId = [self getUUID];
     }
-    if(self.plantingDate == nil){
+    if(self.frostDate == nil){
         NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:0];
-        self.plantingDate = date;
+        self.frostDate = date;
         NSLog(@"DATE ON MODEL = %@", date);
     }
 }
@@ -88,20 +83,15 @@ DBManager *dbManager;
         self.bedStateDictionary = [[NSMutableDictionary alloc] init];
     }
     NSString *key = [NSString stringWithFormat:@"cell%i", cell];
-    //NSNumber *plantId = [NSNumber numberWithInt:plant];
     [self.bedStateDictionary setObject:plantUuid forKey:key];
     [self compileBedStateArrayString:self.bedStateDictionary];
-    //NSString *tempStr = [self.bedStateDictionary objectForKey:key];
-    //NSLog(@"temp string for set Plant Id: %@", tempStr);
-    //NSLog(@"set plant info: %@ # %i STRING: %@" , key, (int)plantId.integerValue, self.bedStateArrayString);
-
 }
 
 - (NSString *) getPlantUuidForCell:(int) cell{
     NSString *key = [NSString stringWithFormat:@"cell%i", cell];
-    NSString *plantId = [self.bedStateDictionary objectForKey:key];
+    NSString *plantUuid = [self.bedStateDictionary objectForKey:key];
     //NSLog(@"model get id method returns: %i", plantId);
-    return plantId;
+    return plantUuid;
 }
 
 - (void) setBedRows:(int) rows{
@@ -128,17 +118,17 @@ DBManager *dbManager;
     if(self.bedStateDictionary == nil){
         self.bedStateDictionary = [[NSMutableDictionary alloc] init];
     }
-    NSString *str = [self.bedStateDictionary valueForKey:@"bedstate"];
+    NSString *str = [self.bedStateDictionary objectForKey:@"bedstate"];
     //temp trim the string of the leading and trailing [] chars soon to be array of dicts
     str = [str substringWithRange:NSMakeRange(1, [str length]-1)];
     NSMutableArray *tempArray = [[NSMutableArray alloc]
                                  initWithArray:[str componentsSeparatedByString:@","]];
     
     for(int i=0;i<tempArray.count;i++){
-        int plantId = (int)[tempArray[i] integerValue];
-        NSNumber *plant = [NSNumber numberWithInt:plantId];
+        NSString *plantUuid = tempArray[i];
+        //NSNumber *plant = [NSNumber numberWithInt:plantId];
         NSString *cell = [NSString stringWithFormat:@"cell%i",i];
-        [self.bedStateDictionary setValue:plant forKey:cell];
+        [self.bedStateDictionary setValue:plantUuid forKey:cell];
     }
     
     return self.bedStateDictionary;
@@ -229,7 +219,7 @@ DBManager *dbManager;
     }
     name = self.name;
     //create a string date for db
-    NSDate *date = self.plantingDate;
+    NSDate *date = self.frostDate;
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
     NSString *dateString = [dateFormat stringFromDate:date];

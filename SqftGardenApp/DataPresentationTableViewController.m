@@ -95,6 +95,7 @@ CGFloat height;
     }
     NSLog(@"MIN = %i", min);
     NSLog(@"MAX = %i", max);
+    //if(min < 0)min = 0;
     minDays = min;
     maxDays = max;
     
@@ -116,12 +117,9 @@ CGFloat height;
     NSString *harvestDateString = @"this is the harvest date";
     NSString *plantingDateString = @"this is the planting date";
     PlantIconView *plant = [plantArray objectAtIndex:[indexPath row]];
-    //NSNumber *plantId = plantArray[(int)[indexPath row]];
-    
-    //PlantIconView *plant = [[PlantIconView alloc]
-    //                        initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantId.intValue isIsometric:NO];
-    NSDate *maturityDate = [appGlobals.globalGardenModel.plantingDate dateByAddingTimeInterval:60*60*24*plant.maturity];
-    NSDate *plantingDate = [appGlobals.globalGardenModel.plantingDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
+    NSDate *maturityDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.maturity];
+    maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
+    NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
     harvestDateString = [dateFormatter stringFromDate:maturityDate];
     harvestDateString = [NSString stringWithFormat:@"%@", harvestDateString];
     
@@ -150,7 +148,7 @@ CGFloat height;
         
     }
 
-    CGRect adjustedFrame = CGRectMake(plantingDateAnchor + plant.plantingDelta, 13, 0, height - 20);
+    CGRect adjustedFrame = CGRectMake(plantingDateAnchor + (plant.plantingDelta * daysPerPoint), 13, 0, height - 20);
     cell.plantView.frame = adjustedFrame;
     cell.growingView.frame = CGRectMake(adjustedFrame.origin.x+10, 13,0, height -20);
     cell.harvestView.frame = CGRectMake(adjustedFrame.origin.x+(plant.maturity*daysPerPoint)+10, 13,0, height -20);
@@ -425,19 +423,19 @@ CGFloat height;
     for(int i=0; i<cellCount; i++){
         NSString *cell = [NSString stringWithFormat:@"cell%i", i];
         NSString *plantStr = [dict objectForKey:cell];
-        int plant = plantStr.intValue;
-        if(plant < 1)continue;
-        NSNumber *plantObj = [NSNumber numberWithInt:plant];
-        NSLog(@"plantStr = %@", plantStr);
+        //int plant = plantStr.intValue;
+        if(plantStr.length < 5)continue;
+        //NSNumber *plantObj = [NSNumber numberWithInt:plant];
+        //NSLog(@"plantStr = %@", plantStr);
         if(array.count < 1){
             [array addObject:plantStr];
             continue;
         }
         for(int j=0; j<array.count; j++){
-            NSString *arrayStr = array[j];
-            if(arrayStr.intValue == plant)break;
+            NSString *arrayStr = [array objectAtIndex:j];
+            if([arrayStr isEqualToString:plantStr])break;
             if(j == array.count - 1)
-                [array addObject:plantObj];
+                [array addObject:plantStr];
         }
     }
     NSMutableArray *plantArray = [[NSMutableArray alloc]init];
