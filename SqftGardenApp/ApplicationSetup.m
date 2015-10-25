@@ -40,6 +40,10 @@ DBManager *dbManager;
     [dbManager addColumn:@"plants" : @"uuid" : @"char"];
     [dbManager addColumn:@"plants" : @"square_feet" : @"int"];
     [dbManager addColumn:@"plants" : @"tip_json" : @"char"];
+    [dbManager addColumn:@"plants" : @"start_seed" : @"int"];
+    [dbManager addColumn:@"plants" : @"start_inside" : @"int"];
+    [dbManager addColumn:@"plants" : @"start_inside_delta" : @"int"];
+    [dbManager addColumn:@"plants" : @"transplant_delta" : @"int"];
     
     if([dbManager checkTableExists:@"plants"]){
         [dbManager getInitPlants];

@@ -147,14 +147,22 @@ DBManager *dbManager;
     [toolBar enableSaveButton:NO];
     [toolBar enableIsoButton:NO];
 }
+
 -(NSString *)makeCriticalDatesText{
     NSString *text;
     NSDateFormatter *dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM dd"];
+    NSDate *startIndoorsDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.startInsideDelta];
+    
     NSDate *maturityDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.maturity];
     maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
     NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
-    text = [NSString stringWithFormat:@"%@ %@",plantingDate, maturityDate];
+    NSString *insideStr = [dateFormatter stringFromDate:startIndoorsDate];
+    NSString *maturityStr = [dateFormatter stringFromDate:maturityDate];
+    NSString *plantingStr = [dateFormatter stringFromDate:plantingDate];
+    
+    
+    text = [NSString stringWithFormat:@"%i, start inside %@ \r planting date %@  \r harvest date %@",appGlobals.selectedPlant.startInsideDelta, insideStr, plantingStr, maturityStr];
     
     return text;
 }

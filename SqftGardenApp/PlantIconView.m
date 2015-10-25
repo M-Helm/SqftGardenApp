@@ -47,7 +47,6 @@ ApplicationGlobals *appGlobals;
 
 - (void)commonInit {
     self.backgroundColor = [UIColor clearColor];
-    //self.isTall = NO;
     if([self.plantUuid isEqualToString:@"cancel"]){
         [self setAsCancelIcon];
         return;
@@ -76,6 +75,14 @@ ApplicationGlobals *appGlobals;
     self.isTall = tall.intValue;
     NSString *delta = [json objectForKey:@"plantingDelta"];
     self.plantingDelta = delta.intValue;
+    NSString *seed = [json objectForKey:@"start_seed"];
+    self.startSeed = seed.intValue;
+    NSString *inside = [json objectForKey:@"start_inside"];
+    self.startInside = inside.intValue;
+    NSString *insideDelta = [json objectForKey:@"start_inside_delta"];
+    self.startInsideDelta = insideDelta.intValue;
+    NSString *transDelta = [json objectForKey:@"transplantDelta"];
+    self.transplantDelta = transDelta.intValue;
     
     NSString *jsonString = [json objectForKey:@"tip_json"];
     self.tipJsonArray = [jsonString componentsSeparatedByString:@"{"];

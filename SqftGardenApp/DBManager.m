@@ -174,7 +174,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population, class, description, scientific_name, photo, yield, iso_icon, planting_delta, is_tall, uuid, square_feet, tip_json) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into plants (name, timestamp, icon, maturity, population, class, description, scientific_name, photo, yield, iso_icon, planting_delta, is_tall, uuid, square_feet, tip_json, start_seed, start_inside, start_inside_delta, transplant_delta) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                             [msgJSON objectForKey:@"name"],
                             [msgJSON objectForKey:@"timestamp"],
                             [msgJSON objectForKey:@"icon"],
@@ -190,11 +190,15 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                             [msgJSON objectForKey:@"is_tall"],
                             [msgJSON objectForKey:@"uuid"],
                             [msgJSON objectForKey:@"square_feet"],
-                            [msgJSON objectForKey:@"tip_json"]];
+                            [msgJSON objectForKey:@"tip_json"],
+                            [msgJSON objectForKey:@"start_seed"],
+                            [msgJSON objectForKey:@"start_inside"],
+                            [msgJSON objectForKey:@"start_inside_delta"],
+                            [msgJSON objectForKey:@"transplant_delta"]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"plant saved to db with Delta property: %@", [msgJSON objectForKey:@"planting_delta"]);
+            NSLog(@"plant saved to db with Delta property: %@", [msgJSON objectForKey:@"start_inside_delta"]);
             sqlite3_finalize(statement);
             sqlite3_close(database);
             return true;
@@ -409,6 +413,17 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                   (const char *) sqlite3_column_text(statement, 15)];
                 NSString *tipJson = [[NSString alloc] initWithUTF8String:
                                   (const char *) sqlite3_column_text(statement, 16)];
+                NSString *startSeed = [[NSString alloc] initWithUTF8String:
+                                     (const char *) sqlite3_column_text(statement, 17)];
+                NSString *startInside = [[NSString alloc] initWithUTF8String:
+                                     (const char *) sqlite3_column_text(statement, 18)];
+                NSString *startInsideDelta = [[NSString alloc] initWithUTF8String:
+                                     (const char *) sqlite3_column_text(statement, 19)];
+                NSString *transplantDelta = [[NSString alloc] initWithUTF8String:
+                                     (const char *) sqlite3_column_text(statement, 20)];
+                
+
+
 
                 [plantData setObject:local_id forKey:@"plant_id"];
                 [plantData setObject:plantName forKey:@"name"];
@@ -427,7 +442,13 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [plantData setObject:uuid forKey:@"uuid"];
                 [plantData setObject:squareFeet forKey:@"square_feet"];
                 [plantData setObject:tipJson forKey:@"tip_json"];
-                //NSLog(@"PLANTING DELTA = %@",plantingDelta);
+                [plantData setObject:startSeed forKey:@"start_seed"];
+                [plantData setObject:startInside forKey:@"start_inside"];
+                [plantData setObject:startInsideDelta forKey:@"start_inside_delta"];
+                [plantData setObject:transplantDelta forKey:@"transplant_delta"];
+                
+
+                //NSLog(@"PLANTING DELTA = %@",startInsideDelta);
                 //NSLog(@"UUID = %@",uuid);
             }
         }
@@ -481,6 +502,14 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                         (const char *) sqlite3_column_text(statement, 15)];
                 NSString *tipJson = [[NSString alloc] initWithUTF8String:
                                      (const char *) sqlite3_column_text(statement, 16)];
+                NSString *startSeed = [[NSString alloc] initWithUTF8String:
+                                       (const char *) sqlite3_column_text(statement, 17)];
+                NSString *startInside = [[NSString alloc] initWithUTF8String:
+                                         (const char *) sqlite3_column_text(statement, 18)];
+                NSString *startInsideDelta = [[NSString alloc] initWithUTF8String:
+                                              (const char *) sqlite3_column_text(statement, 19)];
+                NSString *transplantDelta = [[NSString alloc] initWithUTF8String:
+                                             (const char *) sqlite3_column_text(statement, 20)];
                 
                 [plantData setObject:local_id forKey:@"plant_id"];
                 [plantData setObject:plantName forKey:@"name"];
@@ -499,6 +528,10 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [plantData setObject:uuid forKey:@"uuid"];
                 [plantData setObject:squareFeet forKey:@"square_feet"];
                 [plantData setObject:tipJson forKey:@"tip_json"];
+                [plantData setObject:startSeed forKey:@"start_seed"];
+                [plantData setObject:startInside forKey:@"start_inside"];
+                [plantData setObject:startInsideDelta forKey:@"start_inside_delta"];
+                [plantData setObject:transplantDelta forKey:@"transplant_delta"];
                 //NSLog(@"local_id = %@",local_id);
             }
         }

@@ -26,7 +26,11 @@
 @property (nonatomic) int maturity;
 @property (nonatomic) int population;
 @property (nonatomic) int plantingDelta;
+@property (nonatomic) int startInsideDelta;
+@property (nonatomic) int transplantDelta;
 
+@property (nonatomic) bool startSeed;
+@property (nonatomic) bool startInside;
 @property (nonatomic) bool isIcon;
 @property (nonatomic) bool isIsometric;
 @property (nonatomic) bool isTall;
