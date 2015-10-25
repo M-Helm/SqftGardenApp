@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		062DB7B0C67EAC29819D9E75 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 587174D961614D5BCE559570 /* libPods.a */; };
 		AD15F26C1B67EE86003A010D /* ApplicationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = AD15F26B1B67EE86003A010D /* ApplicationSetup.m */; };
 		AD1A91BA1AF434DA00DC0983 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1A91B91AF434DA00DC0983 /* main.m */; };
 		AD1A91C51AF434DA00DC0983 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD1A91C41AF434DA00DC0983 /* Images.xcassets */; };
@@ -26,6 +27,7 @@
 		AD3A38C11BA61D8600FC0528 /* ic_cancel_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD3A38C01BA61D8600FC0528 /* ic_cancel_256px.png */; };
 		AD4B19A91BB633E900ABDD65 /* iso_generic_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD4B19A81BB633E900ABDD65 /* iso_generic_256px.png */; settings = {ASSET_TAGS = (); }; };
 		AD4B98D21B0E355100EF6F96 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4B98D11B0E355100EF6F96 /* DBManager.m */; };
+		AD4E0E8C1BDC8AB400D1AADE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD4E0E8B1BDC8AB400D1AADE /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
 		AD54939A1BB701FE0032292D /* ic_isometric_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD5493991BB701FE0032292D /* ic_isometric_256px.png */; settings = {ASSET_TAGS = (); }; };
 		AD54939D1BB7258A0032292D /* IsometricView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD54939C1BB7258A0032292D /* IsometricView.m */; settings = {ASSET_TAGS = (); }; };
 		AD54939F1BB732240032292D /* iso_generic_bush_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD54939E1BB732240032292D /* iso_generic_bush_256px.png */; settings = {ASSET_TAGS = (); }; };
@@ -128,6 +130,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F4AB23FEB56483EAB0634BC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		587174D961614D5BCE559570 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD15F26A1B67EE77003A010D /* ApplicationSetup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplicationSetup.h; sourceTree = "<group>"; };
 		AD15F26B1B67EE86003A010D /* ApplicationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationSetup.m; sourceTree = "<group>"; };
 		AD1A91B41AF434DA00DC0983 /* SqftGardenApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqftGardenApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +158,7 @@
 		AD4B19A81BB633E900ABDD65 /* iso_generic_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_generic_256px.png; path = ../../../Documents/sqftGardenAssets/iso_generic_256px.png; sourceTree = "<group>"; };
 		AD4B98D01B0E352200EF6F96 /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		AD4B98D11B0E355100EF6F96 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		AD4E0E8B1BDC8AB400D1AADE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AD5493991BB701FE0032292D /* ic_isometric_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_isometric_256px.png; path = ../../../Documents/sqftGardenAssets/ic_isometric_256px.png; sourceTree = "<group>"; };
 		AD54939B1BB7250B0032292D /* IsometricView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IsometricView.h; sourceTree = "<group>"; };
 		AD54939C1BB7258A0032292D /* IsometricView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IsometricView.m; sourceTree = "<group>"; };
@@ -269,6 +274,7 @@
 		ADFB3ED41BB05C3200D68424 /* DeleteButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeleteButtonView.h; sourceTree = "<group>"; };
 		ADFB3ED51BB05C4000D68424 /* DeleteButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteButtonView.m; sourceTree = "<group>"; };
 		ADFD3A1A1BD1B7140002DA13 /* iso_tomato_1024x765px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_tomato_1024x765px.png; path = ../../../Documents/sqftGardenAssets/iso_tomato_1024x765px.png; sourceTree = "<group>"; };
+		EFB775411681B5E6ED4B5741 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADFB3ECF1BAEFDFE00D68424 /* libsqlite3.0.tbd in Frameworks */,
+				062DB7B0C67EAC29819D9E75 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +297,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A1D43BB71F472B304231EE1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				587174D961614D5BCE559570 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AD1A91AB1AF434DA00DC0983 = {
 			isa = PBXGroup;
 			children = (
@@ -297,6 +312,8 @@
 				AD1A91B61AF434DA00DC0983 /* SqftGardenApp */,
 				AD1A91D01AF434DA00DC0983 /* SqftGardenAppTests */,
 				AD1A91B51AF434DA00DC0983 /* Products */,
+				E8E9D0C67A828C05B3C64CDD /* Pods */,
+				9A1D43BB71F472B304231EE1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -368,6 +385,7 @@
 				ADE704211B826DA0002ABC74 /* SqftGardenModel.m */,
 				AD1A91C41AF434DA00DC0983 /* Images.xcassets */,
 				AD1A91C61AF434DA00DC0983 /* LaunchScreen.xib */,
+				AD4E0E8B1BDC8AB400D1AADE /* GoogleService-Info.plist */,
 				ADD47F281AF44A7A00D7E26F /* Main.storyboard */,
 				AD1A91B71AF434DA00DC0983 /* Supporting Files */,
 				AD59D6881BA9EF1600A0E5E2 /* TermsScreenViewController.h */,
@@ -477,6 +495,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E8E9D0C67A828C05B3C64CDD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1F4AB23FEB56483EAB0634BC /* Pods.debug.xcconfig */,
+				EFB775411681B5E6ED4B5741 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -484,9 +511,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD1A91D71AF434DA00DC0983 /* Build configuration list for PBXNativeTarget "SqftGardenApp" */;
 			buildPhases = (
+				056AD57B6CA9802308C2A961 /* Check Pods Manifest.lock */,
 				AD1A91B01AF434DA00DC0983 /* Sources */,
 				AD1A91B11AF434DA00DC0983 /* Frameworks */,
 				AD1A91B21AF434DA00DC0983 /* Resources */,
+				7CB311D896DE32BB52836391 /* Embed Pods Frameworks */,
+				84B640EDB711E2EEAD3A585B /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -599,6 +629,7 @@
 				ADA7520F1B06B6E300C56F5F /* ic_vegetable_onion_256.png in Resources */,
 				ADA7520D1B06B6E300C56F5F /* ic_vegetable_carrot_256.png in Resources */,
 				AD71D4B21BA4A2A4005848AB /* ic_carrot_flat_256px.png in Resources */,
+				AD4E0E8C1BDC8AB400D1AADE /* GoogleService-Info.plist in Resources */,
 				ADE9AC621BC7300C009DEDB1 /* init_plants.txt in Resources */,
 				AD59D6831BA9E3F900A0E5E2 /* growLogo_v001.png in Resources */,
 				AD5493AF1BB875FA0032292D /* iso_spinach_256px.png in Resources */,
@@ -645,6 +676,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		056AD57B6CA9802308C2A961 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7CB311D896DE32BB52836391 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		84B640EDB711E2EEAD3A585B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AD1A91B01AF434DA00DC0983 /* Sources */ = {
@@ -795,6 +874,7 @@
 		};
 		AD1A91D81AF434DA00DC0983 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F4AB23FEB56483EAB0634BC /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -809,6 +889,7 @@
 		};
 		AD1A91D91AF434DA00DC0983 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EFB775411681B5E6ED4B5741 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

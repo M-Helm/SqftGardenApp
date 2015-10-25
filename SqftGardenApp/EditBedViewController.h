@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <SpriteKit/SpriteKit.h>
+#import <Google/Analytics.h>
 #import "SqftGardenModel.h"
 #import "SelectPlantView.h"
 #import "DateSelectView.h"
@@ -43,6 +43,8 @@
 
 @property(nonatomic) UIView *toolBarContainer;
 @property(nonatomic) UIImageView *touchIcon;
+
+@property(nonatomic) bool doTrack;
 
 
 - (void) updatePlantBeds : (int)updatedCell : (NSString *)plantUuid;

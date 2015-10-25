@@ -40,80 +40,87 @@ DBManager *dbManager;
 }
 
 -(void)initViewGrid{
-    float width = self.view.bounds.size.width;
     int margin = 5;
+    float width = self.view.bounds.size.width;
     float height = self.view.bounds.size.height;
-    //int bedDimension = (width/2)/self.bedColumnCount - 3;
-    //int yCo = self.bedRowCount * bedDimension;
     
     UIView *plantIconView = [[UIView alloc] initWithFrame:CGRectMake(10, 30, 88, 88)];
     UIImageView *icon = [self getIcon];
     icon.frame = CGRectMake(margin, margin, plantIconView.frame.size.width-(margin*2), plantIconView.frame.size.height-(margin*2));
     plantIconView.clipsToBounds = YES;
     [plantIconView addSubview:icon];
-    
     plantIconView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    plantIconView.layer.borderWidth = 0;
+    plantIconView.layer.borderWidth = 1;
     plantIconView.layer.cornerRadius = 15;
     [self.view addSubview:plantIconView];
-    
-    
+    [self.view addSubview:[self makeNameLabel:plantIconView withWidth:width andHeight:height andMargin:margin]];
+    [self.view addSubview:[self makeScienceNameLabel:plantIconView withWidth:width andHeight:height andMargin:margin]];
+    [self.view addSubview:[self makeMaturityLabel:plantIconView withWidth:width andHeight:height andMargin:margin]];
+    [self.view addSubview:[self makePlantTextView:plantIconView withWidth:width andHeight:height]];
+}
+-(UILabel*)makeNameLabel:(UIView *)base withWidth:(int)width andHeight:(int)height andMargin:(int)margin{
     UILabel *plantNameLabel = [[UILabel alloc]
-                               initWithFrame:CGRectMake(plantIconView.frame.size.width + (margin*3),
-                                                        plantIconView.frame.origin.y+10,
-                                                        width - plantIconView.frame.size.width-(margin*4),
+                               initWithFrame:CGRectMake(base.frame.size.width + (margin*3),
+                                                        base.frame.origin.y+10,
+                                                        width - base.frame.size.width-(margin*4),
                                                         25)];
     plantNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    plantNameLabel.layer.borderWidth = 0;
+    plantNameLabel.layer.borderWidth = 1;
     plantNameLabel.layer.cornerRadius = 0;
     plantNameLabel.text = appGlobals.selectedPlant.plantName;
     [plantNameLabel setFont:[UIFont boldSystemFontOfSize:18]];
     plantNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
     plantNameLabel.layer.borderWidth = 0;
-    [self.view addSubview:plantNameLabel];
-    
+    return plantNameLabel;
+
+}
+
+-(UILabel*)makeScienceNameLabel:(UIView *)base withWidth:(int)width andHeight:(int)height andMargin:(int)margin{
     UILabel *plantScienceNameLabel = [[UILabel alloc]
-                                      initWithFrame:CGRectMake(plantIconView.frame.size.width + (margin*3),
-                                                            plantIconView.frame.origin.y+35,
-                                                            width - plantIconView.frame.size.width-(margin*4),
-                                                            12)];
+                                      initWithFrame:CGRectMake(base.frame.size.width + (margin*3),
+                                                               base.frame.origin.y+35,
+                                                               width - base.frame.size.width-(margin*4),
+                                                               12)];
     plantScienceNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    plantScienceNameLabel.layer.borderWidth = 0;
+    plantScienceNameLabel.layer.borderWidth = 1;
     plantScienceNameLabel.layer.cornerRadius = 0;
     plantScienceNameLabel.text = appGlobals.selectedPlant.plantScientificName;
     [plantScienceNameLabel setFont:[UIFont italicSystemFontOfSize:12]];
     plantScienceNameLabel.textColor = [UIColor blackColor];
-    [self.view addSubview:plantScienceNameLabel];
-    
+    return plantScienceNameLabel;
+}
+
+-(UILabel*)makeMaturityLabel:(UIView *)base withWidth:(int)width andHeight:(int)height andMargin:(int)margin{
     UILabel *plantMaturityLabel = [[UILabel alloc]
-                                   initWithFrame:CGRectMake(plantIconView.frame.size.width + (margin*3),
-                                                            plantIconView.frame.origin.y+50,
-                                                            width - plantIconView.frame.size.width-(margin*4),
+                                   initWithFrame:CGRectMake(base.frame.size.width + (margin*3),
+                                                            base.frame.origin.y+50,
+                                                            width - base.frame.size.width-(margin*4),
                                                             12)];
     plantMaturityLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    plantMaturityLabel.layer.borderWidth = 0;
+    plantMaturityLabel.layer.borderWidth = 1;
     plantMaturityLabel.layer.cornerRadius = 15;
     NSString *maturityStr = [NSString stringWithFormat:@"Matures in about %i days", appGlobals.selectedPlant.maturity];
     plantMaturityLabel.text = maturityStr;
     [plantMaturityLabel setFont:[UIFont italicSystemFontOfSize:12]];
     plantMaturityLabel.textColor = [UIColor blackColor];
-    [self.view addSubview:plantMaturityLabel];
-    
-    
-    
+    return plantMaturityLabel;
+}
+
+-(UITextView*)makePlantTextView:(UIView *)base withWidth:(int)width andHeight:(int)height{
     UITextView *plantDescriptionText = [[UITextView alloc]
                                         initWithFrame:CGRectMake(10,
-                                                                plantIconView.frame.size.height+30,
-                                                                width-20,
-                                                                height - (plantIconView.frame.size.height+90))];
-    plantDescriptionText.layer.borderWidth = 0;
+                                                                 base.frame.size.height+30,
+                                                                 width-20,
+                                                                 height - (base.frame.size.height+90))];
+    plantDescriptionText.layer.borderWidth = 1;
     plantDescriptionText.layer.borderColor = [UIColor lightGrayColor].CGColor;
     //plantDescriptionText.backgroundColor = [[UIColor greenColor]colorWithAlphaComponent:.05];
     plantDescriptionText.layer.cornerRadius = 15;
     [plantDescriptionText setFont:[UIFont systemFontOfSize:16]];
-    plantDescriptionText.text = [self makeDescriptionText];
+    plantDescriptionText.text = [self makeCriticalDatesText];
+    //plantDescriptionText.text = [self makeDescriptionText];
     plantDescriptionText.editable = NO;
-    [self.view addSubview:plantDescriptionText];
+    return plantDescriptionText;
 }
 
 -(UIImageView *) getIcon{
@@ -140,8 +147,31 @@ DBManager *dbManager;
     [toolBar enableSaveButton:NO];
     [toolBar enableIsoButton:NO];
 }
+-(NSString *)makeCriticalDatesText{
+    NSString *text;
+    NSDateFormatter *dateFormatter= [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MMM dd"];
+    NSDate *maturityDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.maturity];
+    maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
+    NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
+    text = [NSString stringWithFormat:@"%@ %@",plantingDate, maturityDate];
+    
+    return text;
+}
 
 -(NSString *)makeDescriptionText{
+    NSString *text = @"\r";
+    NSString *str = @"";
+    NSArray *json = appGlobals.selectedPlant.tipJsonArray;
+    
+    for(int i = 0; i<json.count; i++){
+        str = json[i];
+        if(str.length < 5)continue;
+        str = [str substringToIndex:[str length] - 2];
+        text = [NSString stringWithFormat:@"%@\r\u2609 %@ \r", text, str];
+    }
+    
+    /*
     NSString* text = [NSString stringWithFormat:@"\r\u2609 %@ %@ %@ %@ %@ %@ %@ %@ %@",
                       appGlobals.selectedPlant.tip0,
                       @"\r\r\u2609",
@@ -154,7 +184,7 @@ DBManager *dbManager;
                       appGlobals.selectedPlant.tip4
                       ];
 
-    
+    */
     return text;
 }
 

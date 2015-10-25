@@ -35,17 +35,11 @@ DBManager *dbManager;
     [dbManager addColumn:@"plants" : @"photo" : @"char(150)"];
     [dbManager addColumn:@"plants" : @"yield" : @"char"];
     [dbManager addColumn:@"plants" : @"iso_icon" : @"char"];
-    [dbManager addColumn:@"plants" : @"tip0" : @"char"];
-    [dbManager addColumn:@"plants" : @"tip1" : @"char"];
-    [dbManager addColumn:@"plants" : @"tip2" : @"char"];
-    [dbManager addColumn:@"plants" : @"tip3" : @"char"];
-    [dbManager addColumn:@"plants" : @"tip4" : @"char"];
-    [dbManager addColumn:@"plants" : @"tip5" : @"char"];
-    [dbManager addColumn:@"plants" : @"tip6" : @"char"];
     [dbManager addColumn:@"plants" : @"planting_delta" : @"int"];
     [dbManager addColumn:@"plants" : @"is_tall" : @"int"];
     [dbManager addColumn:@"plants" : @"uuid" : @"char"];
     [dbManager addColumn:@"plants" : @"square_feet" : @"int"];
+    [dbManager addColumn:@"plants" : @"tip_json" : @"char"];
     
     if([dbManager checkTableExists:@"plants"]){
         [dbManager getInitPlants];

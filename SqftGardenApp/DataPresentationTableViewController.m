@@ -77,7 +77,6 @@ CGFloat height;
     //[self.navigationController.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
     //[self.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
     //[self.navigationController.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
-
 }
 
 -(void)calculateDateBounds:(NSArray *)array{

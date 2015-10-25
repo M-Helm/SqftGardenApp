@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 //
 
-//THIS NEEDS TO BE REFACTORED INTO A PLANT MODEL CLASS AND A PLANT ICON VIEW CLASS
 
 #import "PlantIconView.h"
 #import "DBManager.h"
@@ -20,7 +19,6 @@ NSString * const PLANT_DEFAULT_ICON = @"ic_cereal_wheat_256.png";
 ApplicationGlobals *appGlobals;
 
 - (id)initWithFrame:(CGRect)frame withPlantUuid: (NSString *)plantUuid isIsometric:(bool)isIsometric{
-    //self.index = plantIndex;
     self.plantUuid = plantUuid;
     self.isIsometric = isIsometric;
     self = [super initWithFrame:frame];
@@ -57,48 +55,41 @@ ApplicationGlobals *appGlobals;
     DBManager *dbManager = [DBManager getSharedDBManager];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     
-    
     NSDictionary *json = [dbManager getPlantDataByUuid:self.plantUuid];
     
-    //NSLog(@"icon uuid = %@", self.plantUuid);
-    //self.iconResource = @"iso_generic_256.png";
     self.plantUuid = [json objectForKey:@"uuid"];
     self.plantName = [json objectForKey:@"name"];
-    self.iconResource = [json objectForKey:@"icon"];
-    self.photoResource = [json objectForKey:@"photo"];
-    NSString *str = [json objectForKey:@"maturity"];
-    NSString *population = [json objectForKey:@"population"];
-    self.population = population.intValue;
-    self.maturity = str.intValue;
     self.plantClass = [json objectForKey:@"class"];
     if(self.plantClass == nil)self.plantClass = self.plantName;
+    
+    self.iconResource = [json objectForKey:@"icon"];
+    self.photoResource = [json objectForKey:@"photo"];
     self.plantDescription = [json objectForKeyedSubscript:@"description"];
     self.plantScientificName = [json objectForKey:@"scientific_name"];
     self.plantYield = [json objectForKey:@"yield"];
     self.isoIcon =[json objectForKey:@"isoIcon"];
+    NSString *str = [json objectForKey:@"maturity"];
+    self.maturity = str.intValue;
+    NSString *population = [json objectForKey:@"population"];
+    self.population = population.intValue;
     NSString *tall = [json objectForKey:@"isTall"];
     self.isTall = tall.intValue;
     NSString *delta = [json objectForKey:@"plantingDelta"];
     self.plantingDelta = delta.intValue;
-    self.tip0 = [json objectForKey:@"tip0"];
-    self.tip1 = [json objectForKey:@"tip1"];
-    self.tip2 = [json objectForKey:@"tip2"];
-    self.tip3 = [json objectForKey:@"tip3"];
-    self.tip4 = [json objectForKey:@"tip4"];
-    self.tip5 = [json objectForKey:@"tip5"];
-    self.tip6 = [json objectForKey:@"tip6"];
-
+    
+    NSString *jsonString = [json objectForKey:@"tip_json"];
+    self.tipJsonArray = [jsonString componentsSeparatedByString:@"{"];
+    //NSStringEncoding  encoding;
+    //NSData * jsonData = [jsonString dataUsingEncoding:encoding];
+    //self.tipJson = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
+    
     if([self.iconResource isEqualToString:@"na"])self.iconResource = PLANT_DEFAULT_ICON;
-    //if(self.isIsometric)self.iconResource = @"";
-    
-    //self.iconResource = @"iso_generic_256px.png";
-    
     [self setLayoutGrid:population.intValue];
     [self updateLabel];
     [self setDefaultParameters];
 }
 
-- (void) setDefaultParameters{
+- (void) setDefaultParameters {
     self.color = [UIColor clearColor];
     self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -106,7 +97,7 @@ ApplicationGlobals *appGlobals;
     self.layer.cornerRadius = PLANT_ICON_DEFAULT_CORNER;
 }
 
-- (void) setLayoutGrid : (int) cellCount{
+- (void) setLayoutGrid : (int) cellCount {
     if(cellCount < 1)return;
     if(appGlobals.showPlantNumberTokens){
         [self setImageGrid:1 :1];
@@ -150,7 +141,7 @@ ApplicationGlobals *appGlobals;
     [self setImageGrid:1 :1];
 
 }
--(void) setImageGrid : (int) rowCount : (int) columnCount{
+- (void) setImageGrid : (int) rowCount : (int) columnCount {
     int rowNumber = 0;
     int columnNumber = 0;
     int cell = 0;
@@ -190,17 +181,17 @@ ApplicationGlobals *appGlobals;
         rowNumber++;
     }
 }
--(void)setViewAsIcon:(bool)isIcon{
+-(void) setViewAsIcon:(bool)isIcon {
     self.isIcon = isIcon;
-    for(UIView* subview in self.subviews){
+    for(UIView* subview in self.subviews) {
         if([subview class] == [UIImageView class])[subview removeFromSuperview];
     }
     self.population = 1;
     [self setImageGrid:1 :1];
     [self updateLabel];
 }
--(void)updateLabel{
-    for(UIView* subview in self.subviews){
+-(void) updateLabel {
+    for(UIView* subview in self.subviews) {
         if([subview class] == [UILabel class])[subview removeFromSuperview];
     }
     float height = self.bounds.size.height;
@@ -215,7 +206,7 @@ ApplicationGlobals *appGlobals;
     label.textAlignment = NSTextAlignmentCenter;
     [self addSubview:label];
 }
--(void)setNumberTokenImage{
+-(void) setNumberTokenImage {
     if(self.isIsometric)return;
     //if(self.population < 2)return;
     UIImage *icon = [UIImage imageNamed: @"asset_circle_token_512px.png"];

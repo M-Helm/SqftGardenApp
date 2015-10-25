@@ -36,6 +36,7 @@ float editStartX = 0;
 float editStartY = 0;
 
 
+
 //SelectPlantView *selectPlantView;
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
@@ -62,10 +63,8 @@ DBManager *dbManager;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
-    self.showTouches = NO;
-    //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
-    //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
-    //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    _showTouches = NO;
+    _doTrack = NO;
     [self setToolBarIsOpen:YES];
     [self setDatePickerIsOpen:NO];
     [self setIsoViewIsOpen:NO];
@@ -107,6 +106,15 @@ DBManager *dbManager;
     [self.currentGardenModel setRows:self.bedRowCount];
     [self.currentGardenModel setColumns:self.bedColumnCount];
     [self initViews];
+}
+
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if(_doTrack){
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        [tracker set:kGAIScreenName value:@"mainViewController"];
+        [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    }
 }
 
 
@@ -206,7 +214,7 @@ DBManager *dbManager;
     self.titleView.layer.borderWidth = 3;
     self.titleView.layer.borderColor = [color colorWithAlphaComponent:1].CGColor;
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(35,0, self.view.frame.size.width - 75, 18)];
-    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(35,18, self.view.frame.size.width - 75, (navBarHeight / 1.5)-18)];
+    UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(35,label.frame.origin.y+14, self.view.frame.size.width - 75, (navBarHeight / 1.5)-18)];
     //NSString *gardenName = appGlobals.globalGardenModel.name;
     NSString *nameStr = appGlobals.globalGardenModel.name;
     NSString *plantDate = @"Planting date not set";
@@ -386,6 +394,7 @@ DBManager *dbManager;
 }
 
 - (void) updatePlantBeds : (int)updatedCell : (NSString *)plantUuid{
+    if(plantUuid == nil)plantUuid = @"nil";
     [self.currentGardenModel setPlantUuidForCell:updatedCell :plantUuid];
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildClassSelectArray];

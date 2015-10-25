@@ -9,34 +9,30 @@
 #import <UIKit/UIKit.h>
 
 @interface PlantIconView : UIView
-- (id)initWithFrame:(CGRect)frame withPlantUuid: (NSString *)plantUuid isIsometric:(bool)isIsometric;
+@property (nonatomic) UIColor* color;
+@property (nonatomic) UIColor* fillColor;
 @property (nonatomic) NSString* plantUuid;
-@property (nonatomic, strong) UIColor* color;
-@property (nonatomic, strong) UIColor* fillColor;
-@property (nonatomic) int position;
 @property (nonatomic) NSString *plantName;
 @property (nonatomic) NSString *iconResource;
 @property (nonatomic) NSString *isoIcon;
 @property (nonatomic) NSString *photoResource;
 @property (nonatomic) NSString *plantYield;
-@property (nonatomic) int maturity;
-@property (nonatomic) int population;
-//@property (nonatomic) int plantId;
 @property (nonatomic) NSString *plantClass;
 @property (nonatomic) NSString *plantDescription;
 @property (nonatomic) NSString *plantScientificName;
+@property (nonatomic) NSArray *tipJsonArray;
+@property (nonatomic) int position;
+@property (nonatomic) int squareFeet;
+@property (nonatomic) int maturity;
+@property (nonatomic) int population;
+@property (nonatomic) int plantingDelta;
+
 @property (nonatomic) bool isIcon;
-@property (nonatomic) NSString *tip0;
-@property (nonatomic) NSString *tip1;
-@property (nonatomic) NSString *tip2;
-@property (nonatomic) NSString *tip3;
-@property (nonatomic) NSString *tip4;
-@property (nonatomic) NSString *tip5;
-@property (nonatomic) NSString *tip6;
 @property (nonatomic) bool isIsometric;
 @property (nonatomic) bool isTall;
-@property (nonatomic) int plantingDelta;
--(void)setViewAsIcon:(bool)isIcon;
+
+- (id)initWithFrame:(CGRect)frame withPlantUuid: (NSString *)plantUuid isIsometric:(bool)isIsometric;
+- (void) setViewAsIcon: (bool)isIcon;
 - (CGPoint) transformedTopLeft;
 - (CGPoint) transformedTopRight;
 - (CGPoint) transformedCenter;

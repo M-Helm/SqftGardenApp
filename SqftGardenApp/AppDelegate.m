@@ -21,16 +21,25 @@ DBManager *dbManager;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     dbManager = [DBManager getSharedDBManager];
+    bool doTrack = NO;
     
     if(![dbManager checkTableExists:@"plants"]){
         ApplicationSetup *appSetup = [[ApplicationSetup alloc] init];
         [appSetup createDB];
     }
-    //UIImage *backBtn = [UIImage imageNamed:@"ic_backbutton_128px.png"];
-    //[[UIBarButtonItem appearance] setBackButtonBackgroundImage:backBtn
-    //                                                  forState:UIControlStateNormal
-    //                                                barMetrics:UIBarMetricsDefault];
+    if(doTrack){
+        
+        // Configure tracker from GoogleService-Info.plist.
+        NSError *configureError;
+        [[GGLContext sharedInstance] configureWithError:&configureError];
+        NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
     
+        // Optional: configure GAI options.
+        GAI *gai = [GAI sharedInstance];
+        gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+        gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
+        
+    }
     return YES;
 }
 
