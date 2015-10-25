@@ -64,7 +64,7 @@ CGFloat height;
     height = self.view.frame.size.height;
     plantingDateAnchor = (SIDE_OFFSET + (abs(minDays) * daysPerPoint));
     if(plantingDateAnchor < 15)plantingDateAnchor = 15;
-    NSLog(@"date anchor offset = %f", plantingDateAnchor);
+    //NSLog(@"date anchor offset = %f", plantingDateAnchor);
     //UIView *plantingDateLine =
     //    [[UIView alloc]initWithFrame:CGRectMake(plantingDateAnchor, 80, 2, height-130)];
     //plantingDateLine.backgroundColor = [UIColor lightGrayColor];
@@ -92,8 +92,8 @@ CGFloat height;
         if(min > plant.plantingDelta)min = plant.plantingDelta;
         if(max < plant.maturity)max = plant.maturity;
     }
-    NSLog(@"MIN = %i", min);
-    NSLog(@"MAX = %i", max);
+    //NSLog(@"MIN = %i", min);
+    //NSLog(@"MAX = %i", max);
     //if(min < 0)min = 0;
     minDays = min;
     maxDays = max;

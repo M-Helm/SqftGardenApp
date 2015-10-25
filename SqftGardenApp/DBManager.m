@@ -134,7 +134,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             != SQLITE_OK)
         {
             isSuccess = NO;
-            NSLog(@"Failed to open/create database");
+            //NSLog(@"Failed to open/create database");
         }
         //sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -210,7 +210,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         }
     }
     sqlite3_close(database);
-    NSLog(@"failed to save message");
     return false;
 }
 
@@ -231,7 +230,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            //NSLog(@"bed saved to db");
             sqlite3_finalize(statement);
             sqlite3_close(database);
             return true;
@@ -243,14 +241,12 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         }
     }
     sqlite3_close(database);
-    NSLog(@"failed to save message");
     return false;
 }
 - (BOOL) deleteGardenWithId:(int)localId{
     BOOL success = NO;
     const char *dbpath = [databasePath UTF8String];
     
-    NSLog(@"DELETING RECORD # %i", localId);
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
         NSString *deleteSQL = [NSString stringWithFormat:@"delete from saves where local_id='%i'", localId];
@@ -309,8 +305,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         }
     }
     sqlite3_close(database);
-    NSLog(@"failed to save message");
-    //return false;
     return lastRow;
 }
 
@@ -344,7 +338,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
 }
 
 - (NSMutableArray *) getPlantUuidsForClass:(NSString *)class{
-    NSLog(@"msg sql outter class name: %@", class);
     NSMutableArray *list = [[NSMutableArray alloc] init];
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK){
@@ -365,7 +358,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         sqlite3_finalize(statement);
         sqlite3_close(database);
     }
-    NSLog(@"msg sql return list count: %lu",(unsigned long)list.count);
     return list;
 }
 
@@ -446,10 +438,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [plantData setObject:startInside forKey:@"start_inside"];
                 [plantData setObject:startInsideDelta forKey:@"start_inside_delta"];
                 [plantData setObject:transplantDelta forKey:@"transplant_delta"];
-                
 
-                //NSLog(@"PLANTING DELTA = %@",startInsideDelta);
-                //NSLog(@"UUID = %@",uuid);
             }
         }
         sqlite3_finalize(statement);
@@ -532,7 +521,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [plantData setObject:startInside forKey:@"start_inside"];
                 [plantData setObject:startInsideDelta forKey:@"start_inside_delta"];
                 [plantData setObject:transplantDelta forKey:@"transplant_delta"];
-                //NSLog(@"local_id = %@",local_id);
+
             }
         }
         sqlite3_finalize(statement);
@@ -556,7 +545,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 int sqlRows = sqlite3_column_int(statement, 0);
-                NSLog(@"SQLite Rows: %i", sqlRows);
                 NSString *saveName = [[NSString alloc] initWithUTF8String:
                                       (const char *) sqlite3_column_text(statement, 1)];
                 NSString *saveTS = [[NSString alloc] initWithUTF8String:
@@ -580,8 +568,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [dict setObject:uniqueId forKey:@"unique_id"];
                 [dict setObject:indexStr forKey:@"local_id"];
                 [dict setObject:plantingDate forKey:@"planting_date"];
-                NSLog(@"MODEL BY ID state %@, ts %@, uniqueID %@, plantingDate %@", saveState, saveTS, uniqueId, plantingDate);
-
             }
         }
         sqlite3_finalize(statement);
@@ -604,7 +590,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 int sqlRows = sqlite3_column_int(statement, 0);
-                NSLog(@"SQLite Rows: %i", sqlRows);
+
                 NSString *saveName = [[NSString alloc] initWithUTF8String:
                                       (const char *) sqlite3_column_text(statement, 1)];
                 NSString *saveTS = [[NSString alloc] initWithUTF8String:
@@ -627,9 +613,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                 [dict setObject:localId forKey:@"local_id"],
                 [dict setObject:plantingDate forKey:@"planting_date"];
                 [dict setObject:uuid forKey:@"unique_id"];
-                //NSLog(@"name %@, ts %@, uniqueID %@", saveName, saveTS, uniqueId);
-                NSLog(@"MODEL BY UUID: name %@, ts %@, uniqueID %@, plantingDate %@", saveName, saveTS, uuid, plantingDate);
-                
             }
         }
         sqlite3_finalize(statement);
@@ -768,16 +751,15 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         //const char *drop_stmt = "Drop Table matches";
         if (sqlite3_exec(database, drop_stmt, NULL, NULL, &errMsg)!= SQLITE_OK){
             NSString *msg = [NSString stringWithFormat:@"%s", errMsg];
-            NSLog(@"Failed to drop table: %@", msg);
+            //NSLog(@"Failed to drop table: %@", msg);
             sqlite3_close(database);
             return false;
         }else{
-            NSLog(@"dropped %@ table", tableName);
+            //NSLog(@"dropped %@ table", tableName);
             sqlite3_close(database);
             return true;
         }
     }
-    NSLog(@"Failed to DROP");
     return false;
 }
 

@@ -39,7 +39,7 @@
 "iso_icon": "iso_eggplant_512px.png",
 "planting_delta":-35,
 "is_tall":0,
-"start_seed":1,
+"start_seed":0,
 "start_inside":1,
 "start_inside_delta":-35,
 "transplant_delta":21,

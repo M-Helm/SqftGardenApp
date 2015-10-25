@@ -58,7 +58,6 @@ NSDate* selectedDate;
         NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:0];
         selectedDate = date;
     }
-    NSLog(@"New Date: %@", selectedDate);
     appGlobals.globalGardenModel.frostDate = selectedDate;
     [appGlobals.globalGardenModel saveModelWithOverWriteOption:YES];
     [UIView beginAnimations:@"MoveOut" context:nil];

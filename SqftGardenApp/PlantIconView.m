@@ -81,7 +81,7 @@ ApplicationGlobals *appGlobals;
     self.startInside = inside.intValue;
     NSString *insideDelta = [json objectForKey:@"start_inside_delta"];
     self.startInsideDelta = insideDelta.intValue;
-    NSString *transDelta = [json objectForKey:@"transplantDelta"];
+    NSString *transDelta = [json objectForKey:@"transplant_delta"];
     self.transplantDelta = transDelta.intValue;
     
     NSString *jsonString = [json objectForKey:@"tip_json"];

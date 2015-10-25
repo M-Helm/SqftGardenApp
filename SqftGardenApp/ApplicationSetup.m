@@ -61,7 +61,6 @@ DBManager *dbManager;
     }
     
     if([dbManager checkTableExists:@"saves"] == false){
-        NSLog(@"no saves table exists");
         [dbManager createTable:@"saves"];
         [dbManager addColumn:@"saves" : @"rows" : @"int"];
         [dbManager addColumn:@"saves" : @"columns" : @"int" ];

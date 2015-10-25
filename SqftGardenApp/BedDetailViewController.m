@@ -50,13 +50,14 @@ DBManager *dbManager;
     plantIconView.clipsToBounds = YES;
     [plantIconView addSubview:icon];
     plantIconView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    plantIconView.layer.borderWidth = 1;
+    plantIconView.layer.borderWidth = 0;
     plantIconView.layer.cornerRadius = 15;
     [self.view addSubview:plantIconView];
     [self.view addSubview:[self makeNameLabel:plantIconView withWidth:width andHeight:height andMargin:margin]];
     [self.view addSubview:[self makeScienceNameLabel:plantIconView withWidth:width andHeight:height andMargin:margin]];
     [self.view addSubview:[self makeMaturityLabel:plantIconView withWidth:width andHeight:height andMargin:margin]];
     [self.view addSubview:[self makePlantTextView:plantIconView withWidth:width andHeight:height]];
+    [self makeCriticalDatesBar:plantIconView withWidth:width andHeight:height];
 }
 -(UILabel*)makeNameLabel:(UIView *)base withWidth:(int)width andHeight:(int)height andMargin:(int)margin{
     UILabel *plantNameLabel = [[UILabel alloc]
@@ -65,7 +66,7 @@ DBManager *dbManager;
                                                         width - base.frame.size.width-(margin*4),
                                                         25)];
     plantNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    plantNameLabel.layer.borderWidth = 1;
+    plantNameLabel.layer.borderWidth = 0;
     plantNameLabel.layer.cornerRadius = 0;
     plantNameLabel.text = appGlobals.selectedPlant.plantName;
     [plantNameLabel setFont:[UIFont boldSystemFontOfSize:18]];
@@ -82,7 +83,7 @@ DBManager *dbManager;
                                                                width - base.frame.size.width-(margin*4),
                                                                12)];
     plantScienceNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    plantScienceNameLabel.layer.borderWidth = 1;
+    plantScienceNameLabel.layer.borderWidth = 0;
     plantScienceNameLabel.layer.cornerRadius = 0;
     plantScienceNameLabel.text = appGlobals.selectedPlant.plantScientificName;
     [plantScienceNameLabel setFont:[UIFont italicSystemFontOfSize:12]];
@@ -97,7 +98,7 @@ DBManager *dbManager;
                                                             width - base.frame.size.width-(margin*4),
                                                             12)];
     plantMaturityLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    plantMaturityLabel.layer.borderWidth = 1;
+    plantMaturityLabel.layer.borderWidth = 0;
     plantMaturityLabel.layer.cornerRadius = 15;
     NSString *maturityStr = [NSString stringWithFormat:@"Matures in about %i days", appGlobals.selectedPlant.maturity];
     plantMaturityLabel.text = maturityStr;
@@ -106,19 +107,52 @@ DBManager *dbManager;
     return plantMaturityLabel;
 }
 
+-(void)makeCriticalDatesBar:(UIView *)base withWidth:(int)width andHeight:(int)height{
+    UIView *criticalDateBar = [[UIView alloc]initWithFrame:CGRectMake(10,base.frame.size.height+30, width-20, 44)];
+    criticalDateBar.backgroundColor = [[UIColor lightGrayColor]colorWithAlphaComponent:.5];
+    
+    UIView *indoorsBar = [[UIView alloc]initWithFrame:CGRectMake(0,12,44,20)];
+    indoorsBar.layer.borderColor = [UIColor blueColor].CGColor;
+    indoorsBar.layer.borderWidth = 0;
+    indoorsBar.layer.cornerRadius = 20/2;
+    indoorsBar.backgroundColor = [UIColor whiteColor];
+    //[criticalDateBar addSubview:indoorsBar];
+    
+    UIView *harvestBar = [[UIView alloc]initWithFrame:CGRectMake(5,12,width-30,20)];
+    harvestBar.layer.borderColor = [UIColor orangeColor].CGColor;
+    harvestBar.layer.borderWidth = 0;
+    harvestBar.layer.cornerRadius = 20/2;
+    harvestBar.backgroundColor = [UIColor whiteColor];
+    [criticalDateBar addSubview:harvestBar];
+    
+    
+    UIView *growingBar = [[UIView alloc]initWithFrame:CGRectMake(30,12,64,20)];
+    growingBar.layer.borderColor = [UIColor greenColor].CGColor;
+    growingBar.layer.borderWidth = 0;
+    //growingBar.layer.cornerRadius = 20/2;
+    growingBar.backgroundColor = [UIColor whiteColor];
+    //[criticalDateBar addSubview:growingBar];
+    
+    
+    
+    
+    [self.view addSubview:criticalDateBar];
+    
+}
+
 -(UITextView*)makePlantTextView:(UIView *)base withWidth:(int)width andHeight:(int)height{
     UITextView *plantDescriptionText = [[UITextView alloc]
                                         initWithFrame:CGRectMake(10,
-                                                                 base.frame.size.height+30,
+                                                                 base.frame.size.height+74,
                                                                  width-20,
                                                                  height - (base.frame.size.height+90))];
-    plantDescriptionText.layer.borderWidth = 1;
+    plantDescriptionText.layer.borderWidth = 0;
     plantDescriptionText.layer.borderColor = [UIColor lightGrayColor].CGColor;
     //plantDescriptionText.backgroundColor = [[UIColor greenColor]colorWithAlphaComponent:.05];
     plantDescriptionText.layer.cornerRadius = 15;
     [plantDescriptionText setFont:[UIFont systemFontOfSize:16]];
-    plantDescriptionText.text = [self makeCriticalDatesText];
-    //plantDescriptionText.text = [self makeDescriptionText];
+
+    plantDescriptionText.text = [self makeDescriptionText];
     plantDescriptionText.editable = NO;
     return plantDescriptionText;
 }
@@ -151,24 +185,32 @@ DBManager *dbManager;
 -(NSString *)makeCriticalDatesText{
     NSString *text;
     NSDateFormatter *dateFormatter= [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MMM dd"];
+    [dateFormatter setDateFormat:@"MMMM dd"];
     NSDate *startIndoorsDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.startInsideDelta];
-    
+    NSDate *transplantDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.transplantDelta];
     NSDate *maturityDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.maturity];
     maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
     NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
     NSString *insideStr = [dateFormatter stringFromDate:startIndoorsDate];
+    NSString *transStr = [dateFormatter stringFromDate:transplantDate];
     NSString *maturityStr = [dateFormatter stringFromDate:maturityDate];
     NSString *plantingStr = [dateFormatter stringFromDate:plantingDate];
-    
-    
-    text = [NSString stringWithFormat:@"%i, start inside %@ \r planting date %@  \r harvest date %@",appGlobals.selectedPlant.startInsideDelta, insideStr, plantingStr, maturityStr];
+    if(appGlobals.selectedPlant.startInside && !appGlobals.selectedPlant.startSeed){
+        text = [NSString stringWithFormat:@" Start inside %@ \r Harden & Transplant %@  \r Harvest %@ \r",insideStr, transStr, maturityStr];
+    }
+    if(appGlobals.selectedPlant.startSeed && !appGlobals.selectedPlant.startInside){
+        text = [NSString stringWithFormat:@" Plant seeds %@ \r Harvest %@ \r",plantingStr, maturityStr];
+    }
+    if(appGlobals.selectedPlant.startSeed && appGlobals.selectedPlant.startInside){
+        text = [NSString stringWithFormat:@" Start inside %@ \r Alternate Plant seeds %@ \r Transplant from inside %@ \r Harvest %@ \r",insideStr, plantingStr, transStr, maturityStr];
+    }
     
     return text;
 }
 
 -(NSString *)makeDescriptionText{
-    NSString *text = @"\r";
+    NSString *text = [self makeCriticalDatesText];
+    //NSString *text = @"\r";
     NSString *str = @"";
     NSArray *json = appGlobals.selectedPlant.tipJsonArray;
     
