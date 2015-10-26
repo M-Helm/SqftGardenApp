@@ -198,7 +198,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
-            NSLog(@"plant saved to db with Delta property: %@", [msgJSON objectForKey:@"start_inside_delta"]);
             sqlite3_finalize(statement);
             sqlite3_close(database);
             return true;
@@ -544,7 +543,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             //NSLog(@"msg sql ok");
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                int sqlRows = sqlite3_column_int(statement, 0);
                 NSString *saveName = [[NSString alloc] initWithUTF8String:
                                       (const char *) sqlite3_column_text(statement, 1)];
                 NSString *saveTS = [[NSString alloc] initWithUTF8String:
@@ -589,8 +587,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             //NSLog(@"msg sql ok");
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                int sqlRows = sqlite3_column_int(statement, 0);
-
                 NSString *saveName = [[NSString alloc] initWithUTF8String:
                                       (const char *) sqlite3_column_text(statement, 1)];
                 NSString *saveTS = [[NSString alloc] initWithUTF8String:
@@ -750,12 +746,9 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         char *errMsg;
         //const char *drop_stmt = "Drop Table matches";
         if (sqlite3_exec(database, drop_stmt, NULL, NULL, &errMsg)!= SQLITE_OK){
-            NSString *msg = [NSString stringWithFormat:@"%s", errMsg];
-            //NSLog(@"Failed to drop table: %@", msg);
             sqlite3_close(database);
             return false;
         }else{
-            //NSLog(@"dropped %@ table", tableName);
             sqlite3_close(database);
             return true;
         }

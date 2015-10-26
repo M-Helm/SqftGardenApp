@@ -15,11 +15,11 @@
 #import "DBManager.h"
 
 @implementation BedDetailViewController
-//const int BED_DETAIL_LAYOUT_HEIGHT_BUFFER = 3;
-//const int BED_DETAIL_LAYOUT_WIDTH_BUFFER = -17;
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
-
+CGFloat pointsPerDay;
+CGFloat frostLineXCo;
+CGFloat maxDays;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,11 +32,31 @@ DBManager *dbManager;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     //NSLog(@"Cell ID: %i", appGlobals.selectedCell);
+    pointsPerDay = [self calculateDateBounds];
     [self initViewGrid];
+    
 }
 
 - (void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
+}
+
+-(CGFloat)calculateDateBounds{
+    int min = 0;
+    int max = 0;
+    CGFloat ptsPerDay;
+    min = abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.plantingDelta);
+    if(abs(appGlobals.selectedPlant.startInsideDelta) < 1)min=0;
+    if(abs(appGlobals.selectedPlant.plantingDelta) < 1)min = 0;
+    max = appGlobals.selectedPlant.maturity;
+    int days = max + abs(min);
+    NSLog(@"min %i max %i days %i", min, max, days);
+    ptsPerDay = (self.view.bounds.size.width -20) / days;
+    NSLog(@"days %i pts %f", days, ptsPerDay);
+    frostLineXCo = abs(min);
+    if(frostLineXCo < 1)frostLineXCo = appGlobals.selectedPlant.plantingDelta;
+    maxDays = days;
+    return ptsPerDay;
 }
 
 -(void)initViewGrid{
@@ -109,7 +129,11 @@ DBManager *dbManager;
 
 -(void)makeCriticalDatesBar:(UIView *)base withWidth:(int)width andHeight:(int)height{
     UIView *criticalDateBar = [[UIView alloc]initWithFrame:CGRectMake(10,base.frame.size.height+30, width-20, 44)];
-    criticalDateBar.backgroundColor = [[UIColor lightGrayColor]colorWithAlphaComponent:.5];
+    //criticalDateBar.backgroundColor = [[UIColor lightGrayColor]colorWithAlphaComponent:.5];
+    
+    NSDateFormatter *dateFormatter= [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MMM dd"];
+    
     
     UIView *indoorsBar = [[UIView alloc]initWithFrame:CGRectMake(0,12,44,20)];
     indoorsBar.layer.borderColor = [UIColor blueColor].CGColor;
@@ -123,21 +147,137 @@ DBManager *dbManager;
     harvestBar.layer.borderWidth = 0;
     harvestBar.layer.cornerRadius = 20/2;
     harvestBar.backgroundColor = [UIColor whiteColor];
-    [criticalDateBar addSubview:harvestBar];
+    harvestBar.clipsToBounds = YES;
+
     
     
     UIView *growingBar = [[UIView alloc]initWithFrame:CGRectMake(30,12,64,20)];
     growingBar.layer.borderColor = [UIColor greenColor].CGColor;
     growingBar.layer.borderWidth = 0;
     //growingBar.layer.cornerRadius = 20/2;
-    growingBar.backgroundColor = [UIColor whiteColor];
+    //growingBar.backgroundColor = [UIColor whiteColor];
     //[criticalDateBar addSubview:growingBar];
     
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.startPoint = CGPointMake(1,0);
+    gradient.endPoint = CGPointMake(0,0);
+    gradient.frame = harvestBar.bounds;
+    gradient.colors = [NSArray arrayWithObjects:
+                             (id)[UIColor greenColor].CGColor,
+                             (id)[UIColor greenColor].CGColor,
+                             (id)[UIColor greenColor].CGColor,
+                             (id)[UIColor whiteColor].CGColor,
+                             (id)[UIColor lightGrayColor].CGColor,
+                             nil];
+    [harvestBar.layer insertSublayer:gradient atIndex:0];
+    //harvestBar.alpha = .5;
     
+
+    NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
+    NSString *plantingStr = [NSString stringWithFormat:@"Plant: %@",[dateFormatter stringFromDate:plantingDate]];
+    NSDate *maturityDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.maturity];
+    maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
+    NSString *maturityStr = [NSString stringWithFormat:@"Harvest: %@",[dateFormatter stringFromDate:maturityDate]];
+    NSDate *startIndoorsDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.startInsideDelta];
+    NSString *insideStr = [NSString stringWithFormat:@"Start Inside:%@",[dateFormatter stringFromDate:startIndoorsDate]];
     
+    [criticalDateBar addSubview:harvestBar];
+    [criticalDateBar addSubview:[self makeInsideLabel:insideStr isUp:YES]];
+    [criticalDateBar addSubview:[self makePlantingLabel:plantingStr isUp:NO]];
+    [criticalDateBar addSubview:[self makeHarvestLabel:maturityStr isUp:YES]];
     
     [self.view addSubview:criticalDateBar];
+}
+-(UILabel *)makeInsideLabel:(NSString *)text isUp:(bool)up{
+    int upSpot = -3;
+    if(!up)upSpot = 31;
+    //int width = self.view.frame.size.width;
+    CGFloat xAnchor = 0;
+    if(abs(appGlobals.selectedPlant.startInsideDelta)<abs(appGlobals.selectedPlant.plantingDelta)){
+        int delta = abs(appGlobals.selectedPlant.plantingDelta) - abs(appGlobals.selectedPlant.startInsideDelta);
+        xAnchor = delta * pointsPerDay;
+    }
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(xAnchor,upSpot,80,16)];
+    label.layer.borderColor = [UIColor blackColor].CGColor;
+    label.layer.borderWidth = 1;
+    label.layer.cornerRadius = 7;
+    //plantingLabel.numberOfLines = 2;
+    label.backgroundColor = [UIColor clearColor];
+    [label setFont: [UIFont systemFontOfSize:9]];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    //label.clipsToBounds=YES;
+    label.text = text;
+
+    CAShapeLayer *indicatorLayer = [CAShapeLayer layer];
+    [indicatorLayer setPath:[[UIBezierPath bezierPathWithOvalInRect:CGRectMake(-2, 21, 11, 11)] CGPath]];
+    [indicatorLayer setStrokeColor:[[UIColor blackColor] CGColor]];
+    [indicatorLayer setLineWidth:2];
+    [indicatorLayer setFillColor:[[UIColor whiteColor] CGColor]];
+    [label.layer addSublayer:indicatorLayer];
+    if(!appGlobals.selectedPlant.startInside)label.alpha = 0;
     
+    return label;
+}
+
+-(UILabel *)makeHarvestLabel:(NSString *)text isUp:(bool)up{
+    if(pointsPerDay < 1)[self calculateDateBounds];
+    int upSpot = -5;
+    if(!up)upSpot = 31;
+    //int width = self.view.frame.size.width;
+    CGFloat xAnchor = maxDays*pointsPerDay;
+
+    //NSLog(@"xanchor harvest label %i * %f = %f", appGlobals.selectedPlant.maturity, pointsPerDay, xAnchor);
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(xAnchor-75,upSpot,80,16)];
+    label.layer.borderColor = [UIColor blackColor].CGColor;
+    label.layer.borderWidth = 1;
+    label.layer.cornerRadius = 7;
+    //plantingLabel.numberOfLines = 2;
+    label.backgroundColor = [UIColor clearColor];
+    [label setFont: [UIFont systemFontOfSize:9]];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    //label.clipsToBounds=YES;
+    label.text = text;
+    
+    CAShapeLayer *indicatorLayer = [CAShapeLayer layer];
+    [indicatorLayer setPath:[[UIBezierPath bezierPathWithOvalInRect:CGRectMake(55, 21, 11, 11)] CGPath]];
+    [indicatorLayer setStrokeColor:[[UIColor blackColor] CGColor]];
+    [indicatorLayer setLineWidth:2];
+    [indicatorLayer setFillColor:[[UIColor whiteColor] CGColor]];
+    [label.layer addSublayer:indicatorLayer];
+    
+    
+    
+    return label;
+}
+
+-(UILabel *)makePlantingLabel:(NSString *)text isUp:(bool)up{
+    int upSpot = 0;
+    if(!up)upSpot = 31;
+    CGFloat xAnchor = 0;
+    if(abs(appGlobals.selectedPlant.startInsideDelta)>abs(appGlobals.selectedPlant.plantingDelta)){
+        int delta = abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.plantingDelta);
+        xAnchor = delta * pointsPerDay;
+    }
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(xAnchor,upSpot,65,16)];
+    label.layer.borderColor = [UIColor blackColor].CGColor;
+    label.layer.borderWidth = 1;
+    label.layer.cornerRadius = 7;
+    //plantingLabel.numberOfLines = 2;
+    label.backgroundColor = [UIColor clearColor];
+    [label setFont: [UIFont systemFontOfSize:9]];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    //label.clipsToBounds=YES;
+    label.text = text;
+    
+    CAShapeLayer *indicatorLayer = [CAShapeLayer layer];
+    [indicatorLayer setPath:[[UIBezierPath bezierPathWithOvalInRect:CGRectMake(7, -13, 11, 11)] CGPath]];
+    [indicatorLayer setStrokeColor:[[UIColor blackColor] CGColor]];
+    [indicatorLayer setLineWidth:2];
+    [indicatorLayer setFillColor:[[UIColor whiteColor] CGColor]];
+    [label.layer addSublayer:indicatorLayer];
+    if(!appGlobals.selectedPlant.startSeed)label.alpha = 0;
+    
+    return label;
 }
 
 -(UITextView*)makePlantTextView:(UIView *)base withWidth:(int)width andHeight:(int)height{
@@ -187,14 +327,16 @@ DBManager *dbManager;
     NSDateFormatter *dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMMM dd"];
     NSDate *startIndoorsDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.startInsideDelta];
+    NSString *insideStr = [dateFormatter stringFromDate:startIndoorsDate];
     NSDate *transplantDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.transplantDelta];
     NSDate *maturityDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.maturity];
     maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
-    NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
-    NSString *insideStr = [dateFormatter stringFromDate:startIndoorsDate];
-    NSString *transStr = [dateFormatter stringFromDate:transplantDate];
     NSString *maturityStr = [dateFormatter stringFromDate:maturityDate];
+    NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
     NSString *plantingStr = [dateFormatter stringFromDate:plantingDate];
+    NSString *transStr = [dateFormatter stringFromDate:transplantDate];
+    
+
     if(appGlobals.selectedPlant.startInside && !appGlobals.selectedPlant.startSeed){
         text = [NSString stringWithFormat:@" Start inside %@ \r Harden & Transplant %@  \r Harvest %@ \r",insideStr, transStr, maturityStr];
     }
