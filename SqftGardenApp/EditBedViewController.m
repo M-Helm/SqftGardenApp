@@ -64,7 +64,6 @@ DBManager *dbManager;
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
     _showTouches = NO;
-    _doTrack = YES;
     [self setToolBarIsOpen:YES];
     [self setDatePickerIsOpen:NO];
     [self setIsoViewIsOpen:NO];
@@ -111,11 +110,10 @@ DBManager *dbManager;
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    if(_doTrack){
-        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-        [tracker set:kGAIScreenName value:@"mainViewController"];
-        [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-    }
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"mainViewController"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+
     for(UIView *subview in self.navigationController.view.subviews){
         if(subview.tag == 77){
             subview.alpha = 0;

@@ -6,6 +6,7 @@
 //  Copyright © 2015 Matthew Helm. All rights reserved.
 //
 #import <UIKit/UIKit.h>
+#import <Google/Analytics.h>
 
 @interface GrowToolBarView : UIToolbar
 

@@ -54,14 +54,9 @@ ApplicationGlobals *appGlobals;
     [self addSubview:self.saveIconView];
     [self addSubview:self.menuIconView];
     [self addSubview:self.backButtonIconView];
-    //if(self.dateSelected == NO){
-    //    if([viewController class] == [EditBedViewController class]){
-    //        EditBedViewController* vc = (EditBedViewController*)viewController;
-    //        if(vc.isoViewIsOpen)[self enableDateButton:NO];
-    //    }
-    //}
     
 }
+
 
 -(void)enableToolBar{
     if(self.toolBarIsEnabled)self.toolBarIsEnabled = NO;
@@ -373,6 +368,7 @@ ApplicationGlobals *appGlobals;
 - (void)handleBackButtonSingleTap:(UITapGestureRecognizer *)recognizer {
     if(!self.enableBackButton)return;
     [self clickAnimationIn:recognizer.view];
+
     //[viewController.navigationController popToRootViewControllerAnimated:YES];
 
     [viewController.navigationController popViewControllerAnimated:YES];
@@ -383,6 +379,10 @@ ApplicationGlobals *appGlobals;
 - (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
     if(!self.enableDateButton)return;
     [self clickAnimationIn:recognizer.view];
+    
+    //GA Tracking
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
     if(self.canOverrideDate){
         if([viewController class] == [DataPresentationTableViewController class]){
             DataPresentationTableViewController *dataVC = (DataPresentationTableViewController*)viewController;
@@ -397,8 +397,18 @@ ApplicationGlobals *appGlobals;
         NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
         if ([appGlobals.globalGardenModel.frostDate compare:compareDate] == NSOrderedAscending) {
             //no date selected
+            [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ToolBar"
+                                                                  action:@"Button"
+                                                                   label:@"SelectDate"
+                                                                   value:@1] build]];
         }else{
             //date selected go somewhere else...
+            //and track
+            [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ToolBar"
+                                                                  action:@"Button"
+                                                                   label:@"showData"
+                                                                   value:@1] build]];
+
             [viewController.navigationController performSegueWithIdentifier:@"showPresent" sender:self];
             return;
         }
@@ -429,6 +439,16 @@ ApplicationGlobals *appGlobals;
     if(!self.enableSaveButton)return;
     //if(appGlobals.isMenuDrawerOpen == YES)return;
     [self clickAnimationIn:recognizer.view];
+    
+    
+    //GA Tracking
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ToolBar"
+                                                          action:@"Button"
+                                                           label:@"Save"
+                                                           value:@1] build]];
+    
+    
     if([viewController class] == [EditBedViewController class]){
         EditBedViewController *editBedVC = (EditBedViewController*)viewController;
         bool success = [editBedVC.currentGardenModel saveModelWithOverWriteOption:YES];
@@ -443,8 +463,11 @@ ApplicationGlobals *appGlobals;
 
 - (void)handleIsoIconSingleTap:(UITapGestureRecognizer *)recognizer {
     if(!self.enableIsoButton)return;
-    //NSLog(@"handle iso singletap");
     [self clickAnimationIn:recognizer.view];
+    
+    //GA Tracking
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
     if([viewController class] == [EditBedViewController class]){
         EditBedViewController *editBedVC = (EditBedViewController*)viewController;
    
@@ -454,6 +477,12 @@ ApplicationGlobals *appGlobals;
             [self enableDateButton:YES];
             return;
         }
+        
+        //GA Tracking
+        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ToolBar"
+                                                              action:@"Button"
+                                                               label:@"showIso"
+                                                               value:@1] build]];
     
         [editBedVC setIsoViewIsOpen:YES];
         [editBedVC.selectPlantView setIsoViewIsOpen:YES];

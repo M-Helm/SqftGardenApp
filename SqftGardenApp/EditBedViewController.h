@@ -44,7 +44,6 @@
 @property(nonatomic) UIView *toolBarContainer;
 @property(nonatomic) UIImageView *touchIcon;
 
-@property(nonatomic) bool doTrack;
 
 
 - (void) updatePlantBeds : (int)updatedCell : (NSString *)plantUuid;
