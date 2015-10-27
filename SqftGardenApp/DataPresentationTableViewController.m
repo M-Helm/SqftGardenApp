@@ -97,7 +97,6 @@ CGFloat height;
     //if(min < 0)min = 0;
     minDays = min;
     maxDays = max;
-    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -110,8 +109,6 @@ CGFloat height;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PresentTableCell *cell;
-
-    
     NSString *mainLabelString = @"this is the main label";
     NSString *harvestDateString = @"this is the harvest date";
     NSString *plantingDateString = @"this is the planting date";

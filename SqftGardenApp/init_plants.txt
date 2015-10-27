@@ -147,7 +147,7 @@
 "uuid":"0076ee26-7a6d-11e5-8bcf-feff819cdc9f",
 "timestamp":0,
 "icon":"ic_leafy_flat_256px.png",
-"maturity":55,
+"maturity":75,
 "population":1,
 "class":"Leafy",
 "description": "",

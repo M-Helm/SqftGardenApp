@@ -149,9 +149,6 @@ DBManager *dbManager;
 }
 
 -(void)initViews{
-    
-    NSLog(@"init views");
-    
     //get rid of all old views.
     [self setIsoViewIsOpen:NO];
     [self.selectPlantView setIsoViewIsOpen:NO];
@@ -431,7 +428,7 @@ DBManager *dbManager;
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     //if(self.datePickerIsOpen)return;
-    NSLog(@"touches began");
+
     UITouch *touch = [[event allTouches] anyObject];
     if(self.showTouches){
         self.touchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,34,34)];
@@ -623,7 +620,6 @@ DBManager *dbManager;
 
 
 - (void)handleBedSingleTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"plant icon single tap");
     if(self.datePickerIsOpen)return;
     PlantIconView *bd = (PlantIconView*)recognizer.view;
     if(bd.plantUuid.length < 5){

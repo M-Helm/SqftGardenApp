@@ -57,7 +57,7 @@ ApplicationGlobals *appGlobals;
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"Touches Began in MENU VC");
+
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if([touch view] != nil){
@@ -66,7 +66,7 @@ ApplicationGlobals *appGlobals;
     if ([touchedView class] == [MenuViewController class]){
         //PlantIconView *plantView = (PlantIconView*)[touch view];
         
-        NSLog(@"Touches Began in MENU VC (INNER)");
+
         
         //AudioServicesPlaySystemSound(1104);
     }

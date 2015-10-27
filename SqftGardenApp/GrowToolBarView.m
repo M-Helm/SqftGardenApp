@@ -376,9 +376,7 @@ ApplicationGlobals *appGlobals;
     //[viewController.navigationController popToRootViewControllerAnimated:YES];
 
     [viewController.navigationController popViewControllerAnimated:YES];
-    
-    NSLog(@"back button pressed vc count %i", (int)[viewController.navigationController.viewControllers count]);
-    
+        
 }
                                    
 
