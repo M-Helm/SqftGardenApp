@@ -100,6 +100,7 @@ DBManager *dbManager;
         }
         return;
     }
+    
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildClassSelectArray];
@@ -114,6 +115,12 @@ DBManager *dbManager;
         id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
         [tracker set:kGAIScreenName value:@"mainViewController"];
         [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    }
+    for(UIView *subview in self.navigationController.view.subviews){
+        if(subview.tag == 77){
+            subview.alpha = 0;
+            [subview removeFromSuperview];
+        }
     }
 }
 

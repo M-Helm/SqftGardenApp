@@ -64,7 +64,6 @@ CGFloat height;
     height = self.view.frame.size.height;
     plantingDateAnchor = (SIDE_OFFSET + (abs(minDays) * daysPerPoint));
     if(plantingDateAnchor < 15)plantingDateAnchor = 15;
-    //NSLog(@"date anchor offset = %f", plantingDateAnchor);
     //UIView *plantingDateLine =
     //    [[UIView alloc]initWithFrame:CGRectMake(plantingDateAnchor, 80, 2, height-130)];
     //plantingDateLine.backgroundColor = [UIColor lightGrayColor];
@@ -77,6 +76,7 @@ CGFloat height;
     //[self.navigationController.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
     //[self.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
     //[self.navigationController.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
+    self.tableView.tableFooterView=nil;
 }
 
 -(void)calculateDateBounds:(NSArray *)array{
@@ -92,8 +92,6 @@ CGFloat height;
         if(min > plant.plantingDelta)min = plant.plantingDelta;
         if(max < plant.maturity)max = plant.maturity;
     }
-    //NSLog(@"MIN = %i", min);
-    //NSLog(@"MAX = %i", max);
     //if(min < 0)min = 0;
     minDays = min;
     maxDays = max;
@@ -125,7 +123,6 @@ CGFloat height;
     mainLabelString = plant.plantName;
     
     if(cell == nil){
-        //NSLog(@"value of bounds %i", boundsCalculated);
         cell = [[PresentTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         height = cell.contentView.frame.size.height;
         cell.mainLabel = [[UILabel alloc]initWithFrame:CGRectMake(15,0,125,20)];
@@ -255,9 +252,10 @@ CGFloat height;
     return NO;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-        appGlobals.selectedPlant = [plantArray objectAtIndex:(int)[indexPath row]];
     
-        [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
+    
+    appGlobals.selectedPlant = [plantArray objectAtIndex:(int)[indexPath row]];
+    [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
     return;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -271,10 +269,6 @@ CGFloat height;
         [self animatePlantViewforCell:tableCell forPlant:plant];
     }
 }
-
-
-
-
 
 
 - (void)animatePlantViewforCell:(PresentTableCell*)cell forPlant:(PlantIconView*)plant{
@@ -420,9 +414,7 @@ CGFloat height;
         NSString *cell = [NSString stringWithFormat:@"cell%i", i];
         NSString *plantStr = [dict objectForKey:cell];
         //int plant = plantStr.intValue;
-        if(plantStr.length < 5)continue;
-        //NSNumber *plantObj = [NSNumber numberWithInt:plant];
-        //NSLog(@"plantStr = %@", plantStr);
+        if(plantStr.length < 12)continue;
         if(array.count < 1){
             [array addObject:plantStr];
             continue;
@@ -443,7 +435,6 @@ CGFloat height;
     }
 
     NSArray *sorted = [self sortArray:plantArray ByKey:@"plantingDelta" Ascending:YES];
-    //NSLog(@"%@ Array = %i", sorted, (int)array.count);
     return sorted;
 }
 - (void)viewDidAppear:(BOOL)animated{
@@ -454,12 +445,16 @@ CGFloat height;
 
 -(void)makeToolbar{
     //added an extra 20 points here because the table view offsets that much
-    float toolBarYOrigin = self.view.frame.size.height-64;
+    float toolBarYOrigin = self.view.frame.size.height-44;
     
     GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,toolBarYOrigin,self.view.frame.size.width,44) andViewController:self];
     [toolBar setToolBarIsPinned:YES];
     toolBar.canOverrideDate = YES;
-    [self.view addSubview:toolBar];
+    
+    //using this to prevent the tool bar from scrolling with tableview. gonna tag it and remove on other vc
+    toolBar.tag = 77;
+    [self.navigationController.view addSubview:toolBar];
+    //[self.view addSubview:toolBar];
     [toolBar enableBackButton:YES];
     [toolBar enableMenuButton:NO];
     [toolBar enableDateButton:YES];
