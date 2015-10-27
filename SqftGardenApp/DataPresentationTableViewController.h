@@ -7,6 +7,7 @@
 //
 
 #import<UIKit/UIKit.h>
+#import <Google/Analytics.h>
 #import "DateSelectView.h"
 
 @interface DataPresentationTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>

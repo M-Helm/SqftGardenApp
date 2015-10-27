@@ -53,6 +53,13 @@ int localIdOfSelected;
 
 }
 
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"openBedViewController"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -88,7 +95,7 @@ int localIdOfSelected;
                         initWithFrame:CGRectMake(self.view.frame.size.width/2,0,150,20)];
         dateLabel.tag = 5;
         
-        deleteButton = [[DeleteButtonView alloc] initWithFrame:CGRectMake(self.view.frame.size.width -44, 11, 44, 44) withPositionIndex:0];
+        deleteButton = [[DeleteButtonView alloc] initWithFrame:CGRectMake(self.view.frame.size.width -44, 14, 44, 44) withPositionIndex:0];
         deleteButton.tag = 6;
         
         [cell.contentView addSubview:cellTextView];

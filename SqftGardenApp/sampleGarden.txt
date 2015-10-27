@@ -1,0 +1,10 @@
+[{
+"bedstate":"[0076ee26-7a6d-11e5-8bcf-feff819cdc9f,b4b9e284-7a69-11e5-8bcf-feff819cdc9f,fec3a76c-7a95-11e5-8bcf-feff819cdc9f,0076ee26-7a6d-11e5-8bcf-feff819cdc9f,f4f371fe-7a95-11e5-8bcf-feff819cdc9f,3f004e5e-7aa3-11e5-8bcf-feff819cdc9f,f5bc9978-7a98-11e5-8bcf-feff819cdc9f,f5bc9978-7a98-11e5-8bcf-feff819cdc9f,6ad3112e-7aa3-11e5-8bcf-feff819cdc9f]",
+"columns":3,
+"local_id":2,
+"name":"Sample",
+"planting_date":"2016-05-01",
+"rows":3,
+"timestamp":1445978829,
+"unique_id":"9D625AC9-2F9E-4F85-B869-D4D814B1CEDF",
+}]

@@ -28,7 +28,8 @@
 "uuid":"4fb11e82-7a66-11e5-8bcf-feff819cdc9f",
 "timestamp":0,
 "icon":"ic_eggplant2_flat_256px.png",
-"maturity":110, "population":1,
+"maturity":110,
+"population":1,
 "class": "Gourd",
 "description": "",
 "scientific_name": "Solanum melongena",
@@ -66,7 +67,7 @@
 "start_seed":1,
 "start_inside":1,
 "start_inside_delta":-35,
-"transplant_delta":0,
+"transplant_delta":-7,
 "square_feet":1
 },
 
@@ -114,7 +115,7 @@
 "start_seed":1,
 "start_inside":1,
 "start_inside_delta":-70,
-"transplant_delta":0,
+"transplant_delta":-35,
 "square_feet":1
 },
 

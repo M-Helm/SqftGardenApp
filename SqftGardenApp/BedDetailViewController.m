@@ -18,8 +18,13 @@
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
 CGFloat pointsPerDay;
-//CGFloat frostLineXCo;
+NSDate *frostDate;
 CGFloat maxDays;
+CGFloat insideAnchor;
+CGFloat plantingAnchor;
+CGFloat transplantAnchor;
+CGFloat harvest0Anchor;
+CGFloat harvest1Anchor;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,7 +36,8 @@ CGFloat maxDays;
     if((int)self.bedRowCount < 1)self.bedRowCount = 3;
     if((int)self.bedColumnCount < 1)self.bedColumnCount = 3;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
-    //NSLog(@"Cell ID: %i", appGlobals.selectedCell);
+
+    frostDate = [self checkFrostDate];
     pointsPerDay = [self calculateDateBounds];
     [self initViewGrid];
     
@@ -39,6 +45,13 @@ CGFloat maxDays;
 
 - (void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
+}
+
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        [tracker set:kGAIScreenName value:@"bedDetailViewController"];
+        [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 -(CGFloat)calculateDateBounds{
@@ -52,6 +65,30 @@ CGFloat maxDays;
     int days = max + abs(min);
     ptsPerDay = (self.view.bounds.size.width -20) / days;
     maxDays = days;
+
+    
+    plantingAnchor = 0;
+    if(abs(appGlobals.selectedPlant.startInsideDelta)>abs(appGlobals.selectedPlant.plantingDelta)){
+        int delta = abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.plantingDelta);
+        plantingAnchor = delta * pointsPerDay;
+    }
+    insideAnchor = 0;
+    if(abs(appGlobals.selectedPlant.startInsideDelta)<abs(appGlobals.selectedPlant.plantingDelta)){
+        int delta = abs(appGlobals.selectedPlant.plantingDelta) - abs(appGlobals.selectedPlant.startInsideDelta);
+        insideAnchor = delta * pointsPerDay;
+    }
+    
+    harvest0Anchor = maxDays*pointsPerDay;
+    
+    harvest1Anchor = (appGlobals.selectedPlant.maturity * pointsPerDay);
+    
+    transplantAnchor = 0;
+    CGFloat delta = (abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.transplantDelta));
+    transplantAnchor = delta*pointsPerDay;
+    
+
+    
+    
     return ptsPerDay;
 }
 
@@ -151,16 +188,17 @@ CGFloat maxDays;
     [timelineBar.layer insertSublayer:gradient atIndex:0];
     //harvestBar.alpha = .5;
     
-    NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
+    NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
     NSString *plantingStr = [NSString stringWithFormat:@"Plant:%@",[dateFormatter stringFromDate:plantingDate]];
-    NSDate *maturityDate0 = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.maturity];
+    
+    NSDate *maturityDate0 = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.maturity];
     maturityDate0 = [maturityDate0 dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
     NSDate *maturityDate1 = [maturityDate0 dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.transplantDelta];
-    NSDate *transDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.transplantDelta];
+    NSDate *transDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.transplantDelta];
     
     NSString *maturityStr0 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:maturityDate0]];
     NSString *maturityStr1 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:maturityDate1]];
-    NSDate *startIndoorsDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.startInsideDelta];
+    NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.startInsideDelta];
     NSString *insideStr = [NSString stringWithFormat:@"Start Inside:%@",[dateFormatter stringFromDate:startIndoorsDate]];
     NSString *transStr = [NSString stringWithFormat:@"Transplant:%@",[dateFormatter stringFromDate:transDate]];
     
@@ -184,8 +222,10 @@ CGFloat maxDays;
         int delta = abs(appGlobals.selectedPlant.plantingDelta) - abs(appGlobals.selectedPlant.startInsideDelta);
         xAnchor = delta * pointsPerDay;
     }
+
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor,upSpot,90,16)];
     label.text = text;
+    label.layer.borderColor = [UIColor blueColor].CGColor;
     
     CGPoint start = CGPointMake(12,16);
     if(!up)start = CGPointMake(12,0);
@@ -199,6 +239,7 @@ CGFloat maxDays;
 //    [label.layer addSublayer:line];
 //    [indicatorLayer setPath:[[UIBezierPath bezierPathWithOvalInRect:CGRectMake(7, -14, 11, 11)] CGPath]];
     CAShapeLayer *layer = [self makeIndicatorWithFrame:CGRectMake(7, (18-upSpot), 11, 11)];
+    [layer setStrokeColor:[[UIColor blueColor] CGColor]];
     [label.layer addSublayer: layer];
     
     if(!appGlobals.selectedPlant.startInside)label.alpha = 0;
@@ -209,6 +250,7 @@ CGFloat maxDays;
     int upSpot = -5;
     if(!up)upSpot = 31;
     CGFloat xAnchor = maxDays*pointsPerDay;
+
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor-75,upSpot,80,16)];
     label.text = text;
     
@@ -219,6 +261,8 @@ CGFloat maxDays;
     
     CAShapeLayer *layer = [self makeIndicatorWithFrame:CGRectMake(55, 18-upSpot, 11, 11)];
     [label.layer addSublayer: layer];
+    
+    if(!appGlobals.selectedPlant.startSeed)label.alpha = 0;
     return label;
 }
 
@@ -226,19 +270,26 @@ CGFloat maxDays;
     if(pointsPerDay < 1)[self calculateDateBounds];
     int upSpot = -5;
     if(!up)upSpot = 34;
-    CGFloat xAnchor = (maxDays - 10)*pointsPerDay;
+    CGFloat xAnchor = (appGlobals.selectedPlant.maturity * pointsPerDay);
+    if(appGlobals.selectedPlant.startSeed){
+        xAnchor = (abs(appGlobals.selectedPlant.maturity) * pointsPerDay);
+    }
+
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor-75,upSpot,80,16)];
     label.text = text;
+    label.layer.borderColor = [UIColor blueColor].CGColor;
     
-    CGPoint start = CGPointMake(12,0);
-    CGPoint end = CGPointMake(12,-10);
+    CGPoint start = CGPointMake(60,0);
+    CGPoint end = CGPointMake(60,-10);
     //CGPoint mid = CGPointMake(24,120);
     CAShapeLayer *line = [self makeLineFrom:start toPoint:end];
     //CAShapeLayer *path = [self makePathFrom:start toPoint:end withPathMidPoint:mid];
     [label.layer addSublayer:line];
     
-    CAShapeLayer *layer = [self makeIndicatorWithFrame:CGRectMake(7, 18-upSpot, 11, 11)];
+    CAShapeLayer *layer = [self makeIndicatorWithFrame:CGRectMake(55, 18-upSpot, 11, 11)];
+    [layer setStrokeColor:[[UIColor blueColor] CGColor]];
     [label.layer addSublayer: layer];
+    
     
     if(!appGlobals.selectedPlant.startInside)label.alpha = 0;
     return label;
@@ -251,8 +302,10 @@ CGFloat maxDays;
         int delta = abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.plantingDelta);
         xAnchor = delta * pointsPerDay;
     }
+    
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor,upSpot,65,16)];
     label.text = text;
+    label.layer.borderColor = [UIColor blackColor].CGColor;
 
     
     CGPoint start = CGPointMake(12,16);
@@ -286,8 +339,10 @@ CGFloat maxDays;
     if(!up)upSpot = 31;
     CGFloat delta = (abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.transplantDelta));
     CGFloat xAnchor = delta*pointsPerDay;
+
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor,upSpot,85,16)];
     label.text = text;
+    label.layer.borderColor = [UIColor blueColor].CGColor;
     
     CGPoint start = CGPointMake(12,16);
     CGPoint end = CGPointMake(12,40);
@@ -295,6 +350,7 @@ CGFloat maxDays;
     CAShapeLayer *line = [self makeLineFrom:start toPoint:end];
     [label.layer addSublayer:line];
     CAShapeLayer *layer = [self makeIndicatorWithFrame:CGRectMake(7, 18-upSpot, 11, 11)];
+    [layer setStrokeColor:[[UIColor blueColor] CGColor]];
     [label.layer addSublayer: layer];
     
     if(!appGlobals.selectedPlant.startInside)label.alpha=0;
@@ -314,11 +370,6 @@ CGFloat maxDays;
     [path1 stroke];
 
     return path1;
-}
-
--(BOOL)viewIntersectsWithAnotherView:(UIView*)firstView withView:(UIView*)secondView{
-    if(CGRectIntersectsRect(firstView.frame, secondView.frame))return YES;
-    return NO;
 }
 
 - (UILabel *)makeLabelWithFrame:(CGRect)frame{
@@ -414,13 +465,13 @@ CGFloat maxDays;
     NSString *text;
     NSDateFormatter *dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMMM dd"];
-    NSDate *startIndoorsDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.startInsideDelta];
+    NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.startInsideDelta];
     NSString *insideStr = [dateFormatter stringFromDate:startIndoorsDate];
-    NSDate *transplantDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.transplantDelta];
-    NSDate *maturityDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.maturity];
+    NSDate *transplantDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.transplantDelta];
+    NSDate *maturityDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.maturity];
     maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
     NSString *maturityStr = [dateFormatter stringFromDate:maturityDate];
-    NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
+    NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
     NSString *plantingStr = [dateFormatter stringFromDate:plantingDate];
     NSString *transStr = [dateFormatter stringFromDate:transplantDate];
     
@@ -452,6 +503,22 @@ CGFloat maxDays;
     }
     
     return text;
+}
+
+-(NSDate *)checkFrostDate{
+    NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
+    if([appGlobals.globalGardenModel.frostDate compare:compareDate] == NSOrderedAscending) {
+        //no date selected return may 1 next year as standard date
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        [comps setDay:1];
+        [comps setMonth:5];
+        [comps setYear:2016];
+        NSDate *date = [[NSCalendar currentCalendar] dateFromComponents:comps];
+        return date;
+    }else{
+        //a date is selected
+        return appGlobals.globalGardenModel.frostDate;
+    }
 }
 
 @end

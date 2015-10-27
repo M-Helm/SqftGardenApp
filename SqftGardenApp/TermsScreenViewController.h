@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIkit.h>
+#import <Google/Analytics.h>
 
 @interface TermsScreenViewController : UIViewController
 

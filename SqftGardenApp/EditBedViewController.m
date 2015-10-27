@@ -64,7 +64,7 @@ DBManager *dbManager;
     dbManager = [DBManager getSharedDBManager];
     appGlobals.selectedCell = -1;
     _showTouches = NO;
-    _doTrack = NO;
+    _doTrack = YES;
     [self setToolBarIsOpen:YES];
     [self setDatePickerIsOpen:NO];
     [self setIsoViewIsOpen:NO];

@@ -49,10 +49,15 @@ UIFont * launchButtonFont;
     [self makeAboutGardenButtonWithWidth:width withHeight:height withColor: color];
     [self makeOpenGardenButtonWithWidth:width withHeight:height withColor: color];
     [self makeNewGardenButtonWithWidth:width withHeight:height withColor: color];
-    
-
-
 }
+
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"launchViewController"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
 -(void)makeNewGardenButtonWithWidth:(float)width
                                 withHeight:(float) height
                                 withColor:(UIColor *)color{

@@ -79,6 +79,14 @@ CGFloat height;
     self.tableView.tableFooterView=nil;
 }
 
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"dataPresentViewController"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+
+}
+
 -(void)calculateDateBounds:(NSArray *)array{
     boundsCalculated = YES;
     int min = 0;

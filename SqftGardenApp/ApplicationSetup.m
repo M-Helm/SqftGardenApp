@@ -8,6 +8,7 @@
 
 #import "ApplicationSetup.h"
 #import "DBManager.h"
+#import "SqftGardenModel.h"
 
 @interface ApplicationSetup()
 
@@ -19,8 +20,8 @@ DBManager *dbManager;
 
 -(BOOL)createDB{
     dbManager = [DBManager getSharedDBManager];
-    //[dbManager dropTable:@"plants"];
-    //[dbManager dropTable:@"saves"];
+    [dbManager dropTable:@"plants"];
+    [dbManager dropTable:@"saves"];
     //[dbManager dropTable:@"plant_classes"];
     
     [dbManager createTable:@"plants"];
@@ -69,8 +70,23 @@ DBManager *dbManager;
         [dbManager addColumn:@"saves" : @"name" : @"char(140)"];
         [dbManager addColumn:@"saves" : @"unique_id" : @"char"];
         [dbManager addColumn:@"saves" : @"planting_date" : @"char"];
+        [self createSampleGarden];
     }
     return YES;
+}
+
+-(BOOL)createSampleGarden{
+    
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSString *filePath = [path stringByAppendingPathComponent:@"sampleGarden.txt"];
+    NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *e = nil;
+    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
+    NSDictionary *dict = [jsonArray objectAtIndex:0];
+    SqftGardenModel *model = [[SqftGardenModel alloc]initWithDict:dict];
+    [model saveModelWithOverWriteOption:YES];
+    return NO;
 }
 
 @end

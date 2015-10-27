@@ -66,6 +66,14 @@ UIColor *tabColor;
     saveBedJson = [dbManager getBedSaveList];
     
 }
+
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"saveBedViewController"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }

@@ -109,6 +109,13 @@ BOOL shouldContinueBlinking = NO;
     [self blinkAnimation:[bedArray objectAtIndex:0]];
 }
 
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"sizeNewBedViewController"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
 -(void)makeSizeLabel{
     float xCo = self.view.bounds.size.width;
     int yCo = (self.bedRowCount * [self bedDimension] * self.maxRowCount)+self.titleView.frame.size.height;

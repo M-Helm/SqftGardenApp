@@ -8,6 +8,7 @@
 
 
 #import <UIKit/UIKit.h>
+#import <Google/Analytics.h>
 #import "SqftGardenModel.h"
 
 @interface SaveGardenViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>

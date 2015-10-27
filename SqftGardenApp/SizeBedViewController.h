@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <Google/Analytics.h>
 #include <AudioToolbox/AudioToolbox.h>
 #import "SqftGardenModel.h"
 
