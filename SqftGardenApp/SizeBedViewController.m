@@ -121,7 +121,6 @@ BOOL shouldContinueBlinking = NO;
 }
 
 -(void)makeTitleView{
-    NSLog(@"makeTitle Sizer class : Height of Main Window = %f", self.view.frame.size.height);
     UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
     //float navBarHeight = self.navigationController.navigationBar.bounds.size.height *  1.5;
     self.titleView = [[UIView alloc] initWithFrame:CGRectMake(-15, 0, self.view.frame.size.width - 5, self.topOffset)];

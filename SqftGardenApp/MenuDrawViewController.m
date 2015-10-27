@@ -40,7 +40,7 @@ ApplicationGlobals* appGlobals;
     }
     if([segue.identifier isEqualToString:@"showMain"])
     {
-        NSLog(@"PREPARE CALLED....");
+        //do stuff?
     }
 }
 

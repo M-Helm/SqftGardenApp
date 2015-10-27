@@ -466,7 +466,6 @@ DBManager *dbManager;
     if(self.isoViewIsOpen)return;
     
     if ([touchedView class] == [PlantIconView class]){
-        NSLog(@"class = plantIconClass");
         PlantIconView *plantView = (PlantIconView*)[touch view];
         if(plantView.plantUuid.length < 5)return;
         CGPoint location = [touch locationInView:[self view]];

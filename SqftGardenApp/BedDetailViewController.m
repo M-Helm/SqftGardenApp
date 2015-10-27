@@ -369,8 +369,6 @@ CGFloat maxDays;
     return line;
 }
 
-
-
 -(UITextView*) makePlantTextView:(UIView *)base withWidth:(int)width andHeight:(int)height{
     UITextView *plantDescriptionText = [[UITextView alloc]
                                         initWithFrame:CGRectMake(10,
@@ -382,24 +380,23 @@ CGFloat maxDays;
     //plantDescriptionText.backgroundColor = [[UIColor greenColor]colorWithAlphaComponent:.05];
     plantDescriptionText.layer.cornerRadius = 15;
     [plantDescriptionText setFont:[UIFont systemFontOfSize:16]];
-
     plantDescriptionText.text = [self makeDescriptionText];
     plantDescriptionText.editable = NO;
     return plantDescriptionText;
 }
 
--(UIImageView *) getIcon{
+- (UIImageView *) getIcon{
     UIImage *icon = [UIImage imageNamed:appGlobals.selectedPlant.iconResource];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
     return imageView;
 }
-- (void)viewDidAppear:(BOOL)animated{
+- (void) viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     //have to call this here for the toolbar to work.
     [self makeToolbar];
 }
 
--(void)makeToolbar{
+- (void) makeToolbar{
     float toolBarYOrigin = self.view.frame.size.height-44;
     //if(!self.toolBarIsOpen)toolBarYOrigin = self.view.frame.size.height;
     
@@ -413,7 +410,7 @@ CGFloat maxDays;
     [toolBar enableIsoButton:NO];
 }
 
--(NSString *)makeCriticalDatesText{
+- (NSString *) makeCriticalDatesText{
     NSString *text;
     NSDateFormatter *dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMMM dd"];

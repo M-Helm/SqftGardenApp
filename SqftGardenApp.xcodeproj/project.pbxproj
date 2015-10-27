@@ -47,6 +47,7 @@
 		AD59D6851BA9ECDA00A0E5E2 /* cloth_test.png in Resources */ = {isa = PBXBuildFile; fileRef = AD59D6841BA9ECDA00A0E5E2 /* cloth_test.png */; };
 		AD59D6871BA9EE1400A0E5E2 /* growLogo_v002.png in Resources */ = {isa = PBXBuildFile; fileRef = AD59D6861BA9EE1400A0E5E2 /* growLogo_v002.png */; };
 		AD59D68A1BA9EF2D00A0E5E2 /* TermsScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD59D6891BA9EF2D00A0E5E2 /* TermsScreenViewController.m */; };
+		AD59EE7F1BDFD15600662842 /* growPrivacyPolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD59EE7E1BDFD15600662842 /* growPrivacyPolicy.txt */; settings = {ASSET_TAGS = (); }; };
 		AD71D4B21BA4A2A4005848AB /* ic_carrot_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD71D4B01BA4A2A4005848AB /* ic_carrot_flat_256px.png */; };
 		AD71D4B31BA4A2A4005848AB /* ic_cucumber_flat_256px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD71D4B11BA4A2A4005848AB /* ic_cucumber_flat_256px.png */; };
 		AD781D091BC88DA400D5C24B /* iso_polebean_1024x765px.png in Resources */ = {isa = PBXBuildFile; fileRef = AD781D081BC88DA400D5C24B /* iso_polebean_1024x765px.png */; settings = {ASSET_TAGS = (); }; };
@@ -181,6 +182,7 @@
 		AD59D6861BA9EE1400A0E5E2 /* growLogo_v002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = growLogo_v002.png; path = ../../../Documents/sqftGardenAssets/growLogo_v002.png; sourceTree = "<group>"; };
 		AD59D6881BA9EF1600A0E5E2 /* TermsScreenViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TermsScreenViewController.h; sourceTree = "<group>"; };
 		AD59D6891BA9EF2D00A0E5E2 /* TermsScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsScreenViewController.m; sourceTree = "<group>"; };
+		AD59EE7E1BDFD15600662842 /* growPrivacyPolicy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = growPrivacyPolicy.txt; path = ../../../Documents/growPrivacyPolicy.txt; sourceTree = "<group>"; };
 		AD71D4B01BA4A2A4005848AB /* ic_carrot_flat_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_carrot_flat_256px.png; path = ../../../Documents/sqftGardenAssets/ic_carrot_flat_256px.png; sourceTree = "<group>"; };
 		AD71D4B11BA4A2A4005848AB /* ic_cucumber_flat_256px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_cucumber_flat_256px.png; path = ../../../Documents/sqftGardenAssets/ic_cucumber_flat_256px.png; sourceTree = "<group>"; };
 		AD781D081BC88DA400D5C24B /* iso_polebean_1024x765px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iso_polebean_1024x765px.png; path = ../../../Documents/sqftGardenAssets/iso_polebean_1024x765px.png; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 		AD1A91B71AF434DA00DC0983 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD59EE7E1BDFD15600662842 /* growPrivacyPolicy.txt */,
 				AD90418A1BDAD8720081E8A7 /* iso_greenOnions_512px.png */,
 				ADBAE4D61BD9E771006C43C7 /* iso_spinach_512px.png */,
 				AD9041881BDAB67B0081E8A7 /* iso_chives_512px.png */,
@@ -640,6 +643,7 @@
 				AD3449681BA482F100E1DB4B /* ic_herb_flat_256px.png in Resources */,
 				AD5493AB1BB86CA30032292D /* iso_generic2_256px.png in Resources */,
 				ADC3720D1BA7730100FF994A /* photo_basil_512px.jpg in Resources */,
+				AD59EE7F1BDFD15600662842 /* growPrivacyPolicy.txt in Resources */,
 				ADE9BEC21BC9DAD300F9B061 /* iso_eggplant_512px.png in Resources */,
 				AD1A91F61AF43FA900DC0983 /* ic_burger_44.png in Resources */,
 				AD34496A1BA482F100E1DB4B /* ic_bean_flat_256px.png in Resources */,
@@ -883,7 +887,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "sga.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SqftGardenApp;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -898,7 +902,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "sga.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SqftGardenApp;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

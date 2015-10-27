@@ -27,7 +27,6 @@ static void *MyClassResultKey;
 }
 
 - (void) setLocalIndex:(NSNumber *)index{
-    NSLog(@"INDEX GIVEN = %i", (int)index);
     self.localId = index;
     objc_setAssociatedObject(self, &MyClassResultKey, index, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

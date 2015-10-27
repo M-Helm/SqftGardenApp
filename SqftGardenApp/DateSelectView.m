@@ -32,11 +32,12 @@ NSDate* selectedDate;
 }
 
 - (void)removeViews:(id)object {
-    if(selectedDate == nil)selectedDate = [[NSDate alloc]initWithTimeIntervalSince1970:0];
+    if(selectedDate == nil){
+        selectedDate = [self getInitialDate];
+    }
     for(UIView *subview in self.subviews){
         [subview removeFromSuperview];
     }
-
     
     if([viewController class] == [EditBedViewController class]){
         EditBedViewController *editVC = (EditBedViewController *)viewController;
@@ -47,6 +48,7 @@ NSDate* selectedDate;
     }
     if([viewController class] == [DataPresentationTableViewController class]){
         DataPresentationTableViewController *dataVC = (DataPresentationTableViewController *)viewController;
+        
         [dataVC setDatePickerIsOpen:NO];
         [dataVC.tableView reloadData];
     }
@@ -55,8 +57,7 @@ NSDate* selectedDate;
 
 - (void)dismissDatePicker:(id)sender {
     if(selectedDate == nil){
-        NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:0];
-        selectedDate = date;
+        selectedDate = [self getInitialDate];
     }
     appGlobals.globalGardenModel.frostDate = selectedDate;
     [appGlobals.globalGardenModel saveModelWithOverWriteOption:YES];
@@ -133,20 +134,18 @@ NSDate* selectedDate;
     [toolBar setItems:[NSArray arrayWithObjects:cancelButton, spacer, doneButton, nil]];
     [self addSubview:toolBar];
     [self addSubview:label];
-    
-    
-    //toolBar.frame = toolbarTargetFrame;
-    
-    //[UIView beginAnimations:@"MoveIn" context:nil];
-    //lightView.alpha = 0.5;
-    //[UIView commitAnimations];
+
 }
 - (NSDate *)getInitialDate{
     NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
     if([appGlobals.globalGardenModel.frostDate compare:compareDate] == NSOrderedAscending) {
-        //no date selected
-        int seconds = (24*60*60)*175;
-        return [[NSDate alloc]initWithTimeIntervalSinceNow:seconds];
+        //no date selected return may 1 next year as standard date
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        [comps setDay:1];
+        [comps setMonth:5];
+        [comps setYear:2016];
+        NSDate *date = [[NSCalendar currentCalendar] dateFromComponents:comps];
+        return date;
     }else{
         //a date is selected
         return appGlobals.globalGardenModel.frostDate;

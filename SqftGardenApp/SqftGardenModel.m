@@ -62,7 +62,6 @@ DBManager *dbManager;
     if(self.frostDate == nil){
         NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:0];
         self.frostDate = date;
-        NSLog(@"DATE ON MODEL = %@", date);
     }
 }
 
@@ -245,7 +244,6 @@ DBManager *dbManager;
     if(dbManager == nil){
         dbManager = [DBManager getSharedDBManager];
     }
-    NSLog(@"LOCAL ID = %i", self.localId);
     /*
     //check uuid against the other saved files
     NSArray *array = [dbManager getBedSaveList];

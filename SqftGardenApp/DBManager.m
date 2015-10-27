@@ -160,13 +160,12 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             return true;
         }
         else{
-            NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
+            //NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
             sqlite3_close(database);
             return false;
         }
     }
     sqlite3_close(database);
-    NSLog(@"failed to save message");
     return false;
 }
 
@@ -203,7 +202,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             return true;
         }
         else{
-            NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
+            //NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
             sqlite3_close(database);
             return false;
         }
@@ -234,7 +233,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             return true;
         }
         else{
-            NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
+            //NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
             sqlite3_close(database);
             return false;
         }
@@ -297,7 +296,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             return lastRow;
         }
         else{
-            NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
+            //NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
             sqlite3_close(database);
             lastRow = -1;
             return lastRow;
@@ -718,7 +717,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         }
         else
         {
-            NSLog( @"Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(database) );
+            //NSLog( @"Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(database) );
         }
         //NSLog(@"count %i", count);
         // Finalize and close database.

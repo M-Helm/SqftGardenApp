@@ -141,7 +141,6 @@ UIFont * launchButtonFont;
 
 - (void)handleNewSingleTap:(UITapGestureRecognizer *)recognizer{
     
-    NSLog(@"left btn click");
     UIView *btn = (UIView*)recognizer.view;
     CGRect fm = btn.frame;
     fm.origin.x += self.view.frame.size.width + launchButtonDiskSize + 50;
@@ -154,7 +153,6 @@ UIFont * launchButtonFont;
 }
 - (void)handleOpenSingleTap:(UITapGestureRecognizer *)recognizer{
     //CGPoint location = [recognizer locationInView:[recognizer.view superview]];
-    NSLog(@"right btn click");
     UIView *btn = (UIView*)recognizer.view;
     CGRect fm = btn.frame;
     fm.origin.x += self.view.frame.size.width + launchButtonDiskSize + 50;
@@ -169,7 +167,7 @@ UIFont * launchButtonFont;
 
 - (void)handleAboutSingleTap:(UITapGestureRecognizer *)recognizer{
     //CGPoint location = [recognizer locationInView:[recognizer.view superview]];
-    NSLog(@"right btn click");
+
     UIView *btn = (UIView*)recognizer.view;
     CGRect fm = btn.frame;
     fm.origin.x += self.view.frame.size.width + launchButtonDiskSize + 50;

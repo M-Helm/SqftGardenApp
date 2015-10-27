@@ -163,11 +163,10 @@ UIColor *tabColor;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"didSelectRow Called at index: %i", (int)[indexPath row]);
+    //NSLog(@"didSelectRow Called at index: %i", (int)[indexPath row]);
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     int i = (int)[indexPath row] - 1;
     if(saveBedJson.count > 0)json = saveBedJson[i];
-    NSLog(@"NAME: %@", [json objectForKey:@"name"]);
     NSString *name = [json objectForKey:@"name"];
     NSString *local_id = [json objectForKey:@"local_id"];
     //NSNumber *index = [NSNumber numberWithInt:local_id.intValue];
@@ -176,7 +175,6 @@ UIColor *tabColor;
     //create copy of global model
     NSDictionary *dict = [appGlobals.globalGardenModel compileSaveJson];
     self.tempModel = [[SqftGardenModel alloc]initWithDict:dict];
-    NSLog(@"temp model created");
     
     //grab index, uuid for global model before saving
     self.tempModel.localId = local_id.intValue;
@@ -223,8 +221,6 @@ UIColor *tabColor;
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
     [textView resignFirstResponder];
-    NSLog(@"DidEndEditing");
-    NSLog(@"TEXTVIEW TEXT: %@", textView.text);
     if(textView.text.length < 1){
         return;
     }
@@ -245,7 +241,7 @@ UIColor *tabColor;
     return YES;
 }
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView {
-    NSLog(@"Should Begin editing");
+
     return YES;
 }
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView
@@ -307,10 +303,10 @@ UIColor *tabColor;
     if (buttonIndex == 0) {
         self.view.alpha = 0.0;
         [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
-        NSLog(@"Btn0");
+
     }
     if (buttonIndex == 1) {
-        NSLog(@"Btn1");
+
         //grab index, uuid for global model before saving
         appGlobals.globalGardenModel = self.tempModel;
         
@@ -319,7 +315,7 @@ UIColor *tabColor;
         [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
     }
     if (buttonIndex == 2) {
-        NSLog(@"Btn2");
+
     }
 }
 - (void)handleCancelSingleTap:(UITapGestureRecognizer *)recognizer {

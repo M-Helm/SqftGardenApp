@@ -279,7 +279,6 @@ EditBedViewController *editBedVC;
     CGRect transformFrame = [editBedVC.isoView  convertRect:[view frame] fromView:nil];
     point.x = transformFrame.origin.x + (transformFrame.size.width/2);
     point.y = transformFrame.origin.y + (appGlobals.bedDimension/4);
-    NSLog(@"transform point x %f", point.x);
     return point;
 }
 
@@ -304,14 +303,11 @@ EditBedViewController *editBedVC;
         touchedView = [touch view];
         locationInBed = [touch locationInView:editBedVC.bedFrameView];
         if(self.isoViewIsOpen)locationInBed = [self convertPointToIso:touchedView];
-        NSLog(@"Location in Bed: %f", locationInBed.x);
     }
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *plantView = (PlantIconView*)touchedView;
         
         float endingDeltaY = fabs(viewStartY - touchedView.center.y);
-        
-        NSLog(@"TOUCHED DELTA = %f", endingDeltaY);
         if(fabs(endingDeltaY) < 55){
             touchedView.alpha = 1;
             CGPoint location;

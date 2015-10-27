@@ -175,7 +175,6 @@ int localIdOfSelected;
     //set the current bed json pkg
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     if(self.savedBedJson.count > [indexPath row] - 1)json = self.savedBedJson[[indexPath row] - 1];
-    NSLog(@"OpenVC Bed state = %@", [json objectForKey:@"bedstate"]);
     [appGlobals clearCurrentGardenModel];
     SqftGardenModel *model = [[SqftGardenModel alloc] initWithDict:json];
 
@@ -222,10 +221,10 @@ int localIdOfSelected;
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     // the user clicked OK
     if (buttonIndex == 0) {
-        //NSLog(@"Btn0");
+ 
     }
     if (buttonIndex == 1) {
-        //NSLog(@"Btn1");
+
         for(UIView *subview in self.tableView.visibleCells){
             [subview removeFromSuperview];
         }
@@ -234,7 +233,7 @@ int localIdOfSelected;
         [self.tableView reloadData];
     }
     if (buttonIndex == 2) {
-        //NSLog(@"Btn2");
+     
     }
 }
 
