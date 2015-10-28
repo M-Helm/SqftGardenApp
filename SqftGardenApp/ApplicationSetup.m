@@ -20,8 +20,8 @@ DBManager *dbManager;
 
 -(BOOL)createDB{
     dbManager = [DBManager getSharedDBManager];
-    [dbManager dropTable:@"plants"];
-    [dbManager dropTable:@"saves"];
+    //[dbManager dropTable:@"plants"];
+    //[dbManager dropTable:@"saves"];
     //[dbManager dropTable:@"plant_classes"];
     
     [dbManager createTable:@"plants"];
@@ -86,7 +86,7 @@ DBManager *dbManager;
     NSDictionary *dict = [jsonArray objectAtIndex:0];
     SqftGardenModel *model = [[SqftGardenModel alloc]initWithDict:dict];
     [model saveModelWithOverWriteOption:YES];
-    return NO;
+    return YES;
 }
 
 @end
