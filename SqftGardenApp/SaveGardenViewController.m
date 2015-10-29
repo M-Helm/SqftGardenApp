@@ -92,7 +92,6 @@ UIColor *tabColor;
     UILabel *border;
     UILabel *textLabel;
     UILabel *dateLabel;
-    NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     
     if(cell == nil){
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -153,11 +152,11 @@ UIColor *tabColor;
     [dateLabel setFont:[UIFont systemFontOfSize:11]];
     dateLabel.textAlignment = NSTextAlignmentCenter;
     
-
+    NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     int i = (int)[indexPath row] - 1;
     if(saveBedJson.count > 0)json = saveBedJson[i];
     else return cell;
-
+    
     NSString *name = [json objectForKey:@"name"];
     NSString *timestamp = [json objectForKey:@"timestamp"];
     NSNumber *startTime = [NSNumber numberWithInt:timestamp.intValue];

@@ -141,10 +141,6 @@ CGFloat height;
         cell.springView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
         cell.summerView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
         cell.autumnView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
-        //cell.layer.cornerRadius = 10;
-        //cell.layer.borderColor = [UIColor blackColor].CGColor;
-        //cell.layer.borderWidth = 0;
-        //cell.clipsToBounds = YES;
     }else{
         
     }
@@ -153,6 +149,7 @@ CGFloat height;
     cell.plantView.frame = adjustedFrame;
     cell.growingView.frame = CGRectMake(adjustedFrame.origin.x+10, 13,0, height -20);
     cell.harvestView.frame = CGRectMake(adjustedFrame.origin.x+(plant.maturity*daysPerPoint)+10, 13,0, height -20);
+    //cell.harvestView.layer.cornerRadius = 10;
     
     cell.mainLabel.frame = CGRectMake(self.view.frame.origin.x+80,
                                       cell.growingView.frame.origin.y,
@@ -166,6 +163,7 @@ CGFloat height;
                                       .5,
                                       (self.view.frame.size.width/2),
                                       height-1);
+
     //cell.summerView.frame = CGRectMake((self.view.frame.size.width/2)-5,
     //                         .5,
     //                        (self.view.frame.size.width/1.45)-((self.view.frame.size.width/1.45)*.5),
@@ -196,11 +194,6 @@ CGFloat height;
     cell.summerView.alpha = .5;
     
     
-    
-    
-    //cell.frostView.backgroundColor = frostColor;
-    //cell.frostView.alpha = .2;
-    
     cell.plantView.backgroundColor = plantingColor;
     cell.growingView.backgroundColor = growingColor;
     cell.harvestView.backgroundColor = harvestColor;
@@ -209,46 +202,39 @@ CGFloat height;
     cell.harvestView.alpha = .8;
     cell.mainLabel.text = mainLabelString;
     
-    
-    UILabel *plantingLabel = [[UILabel alloc]initWithFrame:CGRectMake(-10,-12,40,15)];
-    plantingLabel.layer.borderColor = [UIColor blackColor].CGColor;
-    plantingLabel.layer.borderWidth = 1;
-    plantingLabel.layer.cornerRadius = 5;
-    plantingLabel.backgroundColor = [UIColor whiteColor];
-    [plantingLabel setFont: [UIFont systemFontOfSize:9]];
-    [plantingLabel setTextAlignment:NSTextAlignmentCenter];
-    plantingLabel.clipsToBounds=YES;
+    UILabel *plantingLabel = [self makeCellLabelWithFrame:CGRectMake(-20,16,40,15)];
     plantingLabel.text = plantingDateString;
     [cell.plantView addSubview:plantingLabel];
     
-    UILabel *harvestLabel = [[UILabel alloc]initWithFrame:CGRectMake(-20,16,40,15)];
-    harvestLabel.layer.borderColor = [UIColor blackColor].CGColor;
-    harvestLabel.layer.borderWidth = 1;
-    harvestLabel.layer.cornerRadius = 5;
-    harvestLabel.backgroundColor = [UIColor whiteColor];
-    [harvestLabel setFont: [UIFont systemFontOfSize:9]];
-    [harvestLabel setTextAlignment:NSTextAlignmentCenter];
-    harvestLabel.clipsToBounds=YES;
+    UILabel *harvestLabel = [self makeCellLabelWithFrame:CGRectMake(-20,16,40,15)];
     harvestLabel.text = harvestDateString;
     [cell.harvestView addSubview:harvestLabel];
-    
-    
-    
-    //cell.harvestLabel.text = harvestDateString;
+
     [cell.mainLabel setFont: [UIFont systemFontOfSize:11]];
     cell.mainLabel.text = mainLabelString;
     //[cell.mainLabel setTextAlignment:NSTextAlignmentCenter];
     
     cell.harvestView.alpha = 0;
-    
     [cell.contentView addSubview:cell.frostView];
     [cell.contentView addSubview:cell.springView];
     [cell.contentView addSubview:cell.summerView];
     [cell.contentView addSubview:cell.growingView];
-    [cell.contentView addSubview:cell.plantView];
     [cell.contentView addSubview:cell.harvestView];
+    [cell.contentView addSubview:cell.plantView];
     [cell.contentView addSubview:cell.mainLabel];
     return cell;
+}
+
+- (UILabel *) makeCellLabelWithFrame:(CGRect)frame{
+    UILabel *label = [[UILabel alloc]initWithFrame:frame];
+    label.layer.borderColor = [UIColor blackColor].CGColor;
+    label.layer.borderWidth = 1;
+    label.layer.cornerRadius = 5;
+    label.backgroundColor = [UIColor whiteColor];
+    [label setFont: [UIFont systemFontOfSize:9]];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    label.clipsToBounds=YES;
+    return label;
 }
 
 
@@ -260,8 +246,6 @@ CGFloat height;
     return NO;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
     appGlobals.selectedPlant = [plantArray objectAtIndex:(int)[indexPath row]];
     [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
     return;
@@ -277,7 +261,6 @@ CGFloat height;
         [self animatePlantViewforCell:tableCell forPlant:plant];
     }
 }
-
 
 - (void)animatePlantViewforCell:(PresentTableCell*)cell forPlant:(PlantIconView*)plant{
     CGRect frame = CGRectMake(cell.plantView.frame.origin.x,
@@ -330,7 +313,9 @@ CGFloat height;
                                                              frame.size.height);
                      }
                      completion:^(BOOL finished) {
-                         if(finished)return;
+                         if(finished){
+                             return;
+                         }
                      }];
 }
 

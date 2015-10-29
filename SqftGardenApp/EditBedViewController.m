@@ -110,7 +110,7 @@ DBManager *dbManager;
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    NSLog(@"should be tracking");
+    //NSLog(@"should be tracking");
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"mainViewController"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
