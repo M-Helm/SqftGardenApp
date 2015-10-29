@@ -595,8 +595,9 @@ DBManager *dbManager;
     self.datePickerView = [[DateSelectView alloc] init];
     self.datePickerView.userInteractionEnabled = YES;
     [self.datePickerView createDatePicker:self];
+    CGRect fm = CGRectMake((self.view.frame.size.width-315)/2, self.view.frame.origin.y+80, 300, 44+216);
 
-    CGRect fm = CGRectMake(self.bedFrameView.frame.origin.x, self.bedFrameView.frame.origin.y, self.bedFrameView.frame.size.width, 44+216);
+    //CGRect fm = CGRectMake(self.bedFrameView.frame.origin.x, self.bedFrameView.frame.origin.y, self.bedFrameView.frame.size.width, 44+216);
     self.datePickerView.frame = fm;
     
     self.datePickerView.alpha = 1.0f;

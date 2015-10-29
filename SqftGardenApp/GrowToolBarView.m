@@ -380,7 +380,7 @@ ApplicationGlobals *appGlobals;
     if(!self.enableDateButton)return;
     [self clickAnimationIn:recognizer.view];
     
-    //GA Tracking
+    //GA Tracking setup
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     
     if(self.canOverrideDate){
@@ -397,6 +397,7 @@ ApplicationGlobals *appGlobals;
         NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
         if ([appGlobals.globalGardenModel.frostDate compare:compareDate] == NSOrderedAscending) {
             //no date selected
+            //but track the coming date select
             [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ToolBar"
                                                                   action:@"Button"
                                                                    label:@"SelectDate"

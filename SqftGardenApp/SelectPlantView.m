@@ -299,11 +299,9 @@ EditBedViewController *editBedVC;
                          }];
     }
     CGPoint locationInBed;
-    if([touch view] != nil){
-        touchedView = [touch view];
-        locationInBed = [touch locationInView:editBedVC.bedFrameView];
-        if(self.isoViewIsOpen)locationInBed = [self convertPointToIso:touchedView];
-    }
+    touchedView = [touch view];
+    locationInBed = [touch locationInView:editBedVC.bedFrameView];
+    if(self.isoViewIsOpen)locationInBed = [self convertPointToIso:touchedView];
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *plantView = (PlantIconView*)touchedView;
         

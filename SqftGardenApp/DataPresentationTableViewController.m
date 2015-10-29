@@ -202,7 +202,7 @@ CGFloat height;
     cell.harvestView.alpha = .8;
     cell.mainLabel.text = mainLabelString;
     
-    UILabel *plantingLabel = [self makeCellLabelWithFrame:CGRectMake(-20,16,40,15)];
+    UILabel *plantingLabel = [self makeCellLabelWithFrame:CGRectMake(0,16,40,15)];
     plantingLabel.text = plantingDateString;
     [cell.plantView addSubview:plantingLabel];
     
@@ -298,6 +298,7 @@ CGFloat height;
                          if(finished)[self animateHarvestViewforCell:cell forPlant:plant];
                      }];
 }
+
 - (void)animateHarvestViewforCell:(PresentTableCell*)cell forPlant:(PlantIconView*)plant{
     CGRect frame = CGRectMake(cell.harvestView.frame.origin.x,
                               cell.harvestView.frame.origin.y,

@@ -139,6 +139,7 @@ BOOL shouldContinueBlinking = NO;
     NSString *nameStr = appGlobals.globalGardenModel.name;
     if(nameStr.length < 1)nameStr = @"New Garden";
     if([nameStr isEqualToString:@"autoSave"])nameStr = @"Unnamed Garden";
+    [appGlobals.globalGardenModel setName:nameStr];
     NSString *gardenName = @"Select a Size For Your New Bed Plan";
     label.text = gardenName;
     [label setFont:[UIFont boldSystemFontOfSize:14]];
@@ -234,8 +235,8 @@ BOOL shouldContinueBlinking = NO;
         self.touchIcon.center = [touch locationInView:self.view];
     }
     
-    float bedSizeAdjuster = [self bedDimension]/2;
-    bedSizeAdjuster = 0;
+    //float bedSizeAdjuster = [self bedDimension]/2;
+    float bedSizeAdjuster = 0;
     
     
     float xCoUpperLimit = self.bedFrameView.frame.size.width - bedSizeAdjuster;
