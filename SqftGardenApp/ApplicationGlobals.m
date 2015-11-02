@@ -9,8 +9,6 @@
 #import "ApplicationGlobals.h"
 
 
-
-
 @interface ApplicationGlobals()
 
 @end

@@ -130,6 +130,7 @@ EditBedViewController *editBedVC;
     editBedVC.selectMessageLabel.text = @"Select A Class Of Plants";
     int frameDimension = appGlobals.bedDimension - 5;
     int rowCount = [dbManager getTableRowCount:@"plant_classes"];
+    NSLog(@"class count = %i", rowCount);
     for(int i=0; i<rowCount; i++){
         ClassIconView *classIcon = [[ClassIconView alloc]
                                     initWithFrame:CGRectMake(6 + (frameDimension*i), 2, frameDimension,frameDimension) : i+1];

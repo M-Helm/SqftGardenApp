@@ -47,23 +47,17 @@ NSString * const DEFAULT_ICON = @"ic_cereal_wheat_256.png";
     if([self.iconResource isEqualToString:@"na"])self.iconResource = DEFAULT_ICON;
     NSString *str = [json objectForKey:@"maturity"];
     self.maturity = str.intValue;
-    //self.plantClass = [json objectForKey:@"class"];
-    //if(self.plantClass == nil)self.plantClass = self.plantName;
-    
     float height = self.bounds.size.height;
     float width = self.bounds.size.width;
     
     UIImage *icon = [UIImage imageNamed: self.iconResource];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-    //self.layer.borderWidth = 0;
     imageView.frame = CGRectMake(5,
                                  5,
                                  self.bounds.size.width -10,
                                  self.bounds.size.height -10);
-    //self.index = i+1;
     [self addSubview:imageView];
     
-    //UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,height-6,width,9)];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,height-10,width,12)];
     [label setFont:[UIFont boldSystemFontOfSize:11]];
     label.backgroundColor = [UIColor clearColor];

@@ -17,7 +17,5 @@
 @property (nonatomic) NSString *iconResource;
 @property (nonatomic) int maturity;
 @property (nonatomic) int population;
-//@property (nonatomic) int classId;
-//@property (nonatomic) NSString *plantClass;
 
 @end

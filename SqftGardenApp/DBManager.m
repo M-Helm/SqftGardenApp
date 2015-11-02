@@ -32,8 +32,10 @@ NSString* const initClassListName = @"init_plant_classes.txt";
 + (id)getSharedDBManager {
     static DBManager *sharedDBManager = nil;
     @synchronized(self) {
-        if (sharedDBManager == nil)
+        if (sharedDBManager == nil){
             sharedDBManager = [[self alloc] init];
+            //NSLog(@"alloc shared DBManager");
+        }
     }
     return sharedDBManager;
 }
@@ -48,7 +50,10 @@ NSString* const initClassListName = @"init_plant_classes.txt";
     NSError *e = nil;
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
     //check if data exists in table and return the array w/o saving if so.
-    if([self getTableRowCount:@"plants"] > 1)return jsonArray;
+    if([self getTableRowCount:@"plants"] > 1){
+        NSLog(@"return without adding plants");
+        return jsonArray;
+    }
     int i = 0;
     while (i < [jsonArray count]){
         NSMutableDictionary *json = [jsonArray objectAtIndex:i];
@@ -413,8 +418,6 @@ NSString* const initClassListName = @"init_plant_classes.txt";
                                      (const char *) sqlite3_column_text(statement, 20)];
                 
 
-
-
                 [plantData setObject:local_id forKey:@"plant_id"];
                 [plantData setObject:plantName forKey:@"name"];
                 [plantData setObject:timestamp forKey:@"timestamp"];
@@ -679,6 +682,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         {
             //NSLog(@"msg sql ok");
             exists = true;
+            //NSLog(@"Return True on table %@", tableName);
             /*
             if(sqlite3_step(statement) > 0){
                 NSLog(@"step > 0 %i", sqlite3_step(statement));

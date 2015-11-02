@@ -64,18 +64,11 @@ CGFloat height;
     height = self.view.frame.size.height;
     plantingDateAnchor = (SIDE_OFFSET + (abs(minDays) * daysPerPoint));
     if(plantingDateAnchor < 15)plantingDateAnchor = 15;
-    //UIView *plantingDateLine =
-    //    [[UIView alloc]initWithFrame:CGRectMake(plantingDateAnchor, 80, 2, height-130)];
-    //plantingDateLine.backgroundColor = [UIColor lightGrayColor];
-    //[self.view addSubview:plantingDateLine];
     
     self.tableView.separatorColor = [UIColor clearColor];
     [self makeToolbar];
     [[UIApplication sharedApplication]
         setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:NO];
-    //[self.navigationController.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
-    //[self.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
-    //[self.navigationController.view setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
     self.tableView.tableFooterView=nil;
 }
 
@@ -164,11 +157,6 @@ CGFloat height;
                                       (self.view.frame.size.width/2),
                                       height-1);
 
-    //cell.summerView.frame = CGRectMake((self.view.frame.size.width/2)-5,
-    //                         .5,
-    //                        (self.view.frame.size.width/1.45)-((self.view.frame.size.width/1.45)*.5),
-    //                         height-1);
-    
     //temp size for summer to just push it off screen
     cell.summerView.frame = CGRectMake((self.view.frame.size.width/2)-5,
                                        .5, self.view.frame.size.width, height-1);
@@ -254,13 +242,17 @@ CGFloat height;
     PresentTableCell *tableCell;
     if([cell class] == [PresentTableCell class]){
         tableCell = (PresentTableCell*)cell;
-        //NSNumber *plantId = plantArray[(int)[indexPath row]];
-        //PlantIconView *plant = [[PlantIconView alloc]
-        //                        initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantId.intValue isIsometric:NO];
         PlantIconView *plant = [plantArray objectAtIndex:[indexPath row]];
         [self animatePlantViewforCell:tableCell forPlant:plant];
     }
 }
+
+- (CAShapeLayer *) roundCornersMask: (CGRect)frame{
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.path = [UIBezierPath bezierPathWithRoundedRect: frame byRoundingCorners: UIRectCornerTopRight | UIRectCornerBottomRight cornerRadii: (CGSize){1.0, 1.0}].CGPath;
+    return maskLayer;
+}
+
 
 - (void)animatePlantViewforCell:(PresentTableCell*)cell forPlant:(PlantIconView*)plant{
     CGRect frame = CGRectMake(cell.plantView.frame.origin.x,
@@ -310,11 +302,12 @@ CGFloat height;
                          cell.harvestView.alpha = 1;
                          cell.harvestView.frame = CGRectMake(frame.origin.x,
                                                              frame.origin.y,
-                                                             20,
+                                                             30,
                                                              frame.size.height);
                      }
                      completion:^(BOOL finished) {
                          if(finished){
+                             //cell.harvestView.layer.mask = [self roundCornersMask:cell.harvestView.frame];
                              return;
                          }
                      }];
@@ -339,18 +332,6 @@ CGFloat height;
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 50)];
     UILabel *labelView = [[UILabel alloc] initWithFrame:CGRectMake((headerView.frame.size.width/2)-75, 0, 150, 50)];
-    //add cancel button
-    /*
-    PlantIconView *cancelBtn = [[PlantIconView alloc]
-                                initWithFrame:CGRectMake(self.view.frame.size.width - 55, 1, 44,44) withPlantId: -1 isIsometric:NO];
-    cancelBtn.userInteractionEnabled = YES;
-    UITapGestureRecognizer *singleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleCancelSingleTap:)];
-    [cancelBtn addGestureRecognizer:singleFingerTap];
-     [headerView addSubview:cancelBtn];
-    */
-    
     [headerView addSubview:labelView];
     labelView.text = @"Timeline";
     labelView.textAlignment = NSTextAlignmentCenter;
@@ -466,8 +447,6 @@ CGFloat height;
     sortedPlants = [array sortedArrayUsingDescriptors:sortDescriptors];
     return sortedPlants;
     //[self.tableView reloadData];
-    
-    
 }
 
 

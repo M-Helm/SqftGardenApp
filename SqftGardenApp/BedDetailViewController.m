@@ -20,11 +20,11 @@ DBManager *dbManager;
 CGFloat pointsPerDay;
 NSDate *frostDate;
 CGFloat maxDays;
-CGFloat insideAnchor;
-CGFloat plantingAnchor;
-CGFloat transplantAnchor;
-CGFloat harvest0Anchor;
-CGFloat harvest1Anchor;
+//CGFloat insideAnchor;
+//CGFloat plantingAnchor;
+//CGFloat transplantAnchor;
+//CGFloat harvest0Anchor;
+//CGFloat harvest1Anchor;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -65,29 +65,25 @@ CGFloat harvest1Anchor;
     int days = max + abs(min);
     ptsPerDay = (self.view.bounds.size.width -20) / days;
     maxDays = days;
-
     
-    plantingAnchor = 0;
-    if(abs(appGlobals.selectedPlant.startInsideDelta)>abs(appGlobals.selectedPlant.plantingDelta)){
-        int delta = abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.plantingDelta);
-        plantingAnchor = delta * pointsPerDay;
-    }
-    insideAnchor = 0;
-    if(abs(appGlobals.selectedPlant.startInsideDelta)<abs(appGlobals.selectedPlant.plantingDelta)){
-        int delta = abs(appGlobals.selectedPlant.plantingDelta) - abs(appGlobals.selectedPlant.startInsideDelta);
-        insideAnchor = delta * pointsPerDay;
-    }
+    //plantingAnchor = 0;
+    //if(abs(appGlobals.selectedPlant.startInsideDelta)>abs(appGlobals.selectedPlant.plantingDelta)){
+    //    int delta = abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.plantingDelta);
+    //    plantingAnchor = delta * pointsPerDay;
+    //}
+    //insideAnchor = 0;
+    //if(abs(appGlobals.selectedPlant.startInsideDelta)<abs(appGlobals.selectedPlant.plantingDelta)){
+    //    int delta = abs(appGlobals.selectedPlant.plantingDelta) - abs(appGlobals.selectedPlant.startInsideDelta);
+    //    insideAnchor = delta * pointsPerDay;
+    //}
     
-    harvest0Anchor = maxDays*pointsPerDay;
+    //harvest0Anchor = maxDays*pointsPerDay;
     
-    harvest1Anchor = (appGlobals.selectedPlant.maturity * pointsPerDay);
+    //harvest1Anchor = (appGlobals.selectedPlant.maturity * pointsPerDay);
     
-    transplantAnchor = 0;
-    CGFloat delta = (abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.transplantDelta));
-    transplantAnchor = delta*pointsPerDay;
-    
-
-    
+    //transplantAnchor = 0;
+    //CGFloat delta = (abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.transplantDelta));
+    //transplantAnchor = delta*pointsPerDay;
     
     return ptsPerDay;
 }
@@ -203,7 +199,14 @@ CGFloat harvest1Anchor;
     NSString *transStr = [NSString stringWithFormat:@"Transplant:%@",[dateFormatter stringFromDate:transDate]];
     
     [criticalDateBar addSubview:timelineBar];
+    
+
+
+    
     [criticalDateBar addSubview:[self makeHarvestLabel1:maturityStr1 isUp:NO]];
+    
+    
+    
     
     [criticalDateBar addSubview:[self makeInsideLabel:insideStr isUp:NO]];
     [criticalDateBar addSubview:[self makeTransplantLabel:transStr isUp:YES]];
@@ -211,7 +214,6 @@ CGFloat harvest1Anchor;
         [criticalDateBar addSubview:[self makePlantingLabel:plantingStr isUp:YES]];
     else [criticalDateBar addSubview:[self makePlantingLabel:plantingStr isUp:NO]];
     [criticalDateBar addSubview:[self makeHarvestLabel0:maturityStr0 isUp:YES]];
-    
     [self.view addSubview:criticalDateBar];
 }
 -(UILabel *)makeInsideLabel:(NSString *)text isUp:(bool)up{
@@ -443,14 +445,12 @@ CGFloat harvest1Anchor;
 }
 - (void) viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    //have to call this here for the toolbar to work.
+    //have to call this here for the toolbar to work. Else the other views toolbar persits.
     [self makeToolbar];
 }
 
 - (void) makeToolbar{
     float toolBarYOrigin = self.view.frame.size.height-44;
-    //if(!self.toolBarIsOpen)toolBarYOrigin = self.view.frame.size.height;
-    
     GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,toolBarYOrigin,self.view.frame.size.width,44) andViewController:self];
     [toolBar setToolBarIsPinned:YES];
     [self.view addSubview:toolBar];
@@ -503,6 +503,17 @@ CGFloat harvest1Anchor;
     }
     
     return text;
+}
+
+-(void)animateView:(UIView *)animView toFrame:(CGRect)frame{
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         animView.frame = frame;
+                     }
+                     completion:^(BOOL finished) {
+                         
+                     }];
+    return;
 }
 
 -(NSDate *)checkFrostDate{
