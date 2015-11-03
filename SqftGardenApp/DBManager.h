@@ -35,4 +35,7 @@
 - (NSMutableDictionary *) getGardenByUniqueId : (NSString *) uuid;
 - (NSMutableArray *) getPlantUuidsForClass:(NSString *)class;
 
+@property(nonatomic) int bedRowCount;
+@property(nonatomic) NSString *plantListName;
+
 @end

@@ -83,6 +83,8 @@ ApplicationGlobals *appGlobals;
     self.startInsideDelta = insideDelta.intValue;
     NSString *transDelta = [json objectForKey:@"transplant_delta"];
     self.transplantDelta = transDelta.intValue;
+    NSString *sqFeet = [json objectForKey:@"square_feet"];
+    self.squareFeet = sqFeet.intValue;
     
     NSString *jsonString = [json objectForKey:@"tip_json"];
     self.tipJsonArray = [jsonString componentsSeparatedByString:@"{"];

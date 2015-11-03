@@ -18,22 +18,25 @@
 
 @interface DBManager()
 
+
+
 @end
+
+@implementation DBManager
 
 //static DBManager *sharedDBManager = nil;
 static sqlite3 *database = nil;
 static sqlite3_stmt *statement = nil;
 static NSString *appName = @"sqftGardenApp";
-NSString* const initPlantListName = @"init_plants.txt";
-NSString* const initClassListName = @"init_plant_classes.txt";
+NSString* initClassListName = @"init_plant_classes.txt";
 
-@implementation DBManager
 
 + (id)getSharedDBManager {
     static DBManager *sharedDBManager = nil;
     @synchronized(self) {
         if (sharedDBManager == nil){
             sharedDBManager = [[self alloc] init];
+            sharedDBManager.plantListName = @"init_plants.txt";
             //NSLog(@"alloc shared DBManager");
         }
     }
@@ -43,17 +46,11 @@ NSString* const initClassListName = @"init_plant_classes.txt";
 -(NSArray*)getInitPlants{
     //[self createTable:@"plants"];
     NSString *path = [[NSBundle mainBundle] bundlePath];
-    NSString *filePath = [path stringByAppendingPathComponent:initPlantListName];
+    NSString *filePath = [path stringByAppendingPathComponent:self.plantListName];
     NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-    
     NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
     NSError *e = nil;
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
-    //check if data exists in table and return the array w/o saving if so.
-    if([self getTableRowCount:@"plants"] > 1){
-        NSLog(@"return without adding plants");
-        return jsonArray;
-    }
     int i = 0;
     while (i < [jsonArray count]){
         NSMutableDictionary *json = [jsonArray objectAtIndex:i];
@@ -108,9 +105,10 @@ NSString* const initClassListName = @"init_plant_classes.txt";
             != SQLITE_OK)
         {
             isSuccess = NO;
+            NSLog(@"Add Column Error = %s", errMsg);
 
         }
-        //sqlite3_finalize(statement);
+        //NSLog(@"addColumn %@ isSuccess %i", columnName, isSuccess);
         sqlite3_close(database);
         return  isSuccess;
     }
@@ -118,6 +116,7 @@ NSString* const initClassListName = @"init_plant_classes.txt";
 }
 
 -(BOOL)createTable:(NSString *)tableName{
+    //NSLog(@"create Table %@", tableName);
     NSString *docsDir;
     NSArray *dirPaths;
     // Get the documents directory
@@ -136,14 +135,13 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         NSString *sql_str = [NSString stringWithFormat:@"create table if not exists %@ (local_id integer primary key autoincrement)", tableName];
         const char *sql_stmt = [sql_str UTF8String];
         if (sqlite3_exec(database, sql_stmt, NULL, NULL, &errMsg)
-            != SQLITE_OK)
-        {
+            != SQLITE_OK){
             isSuccess = NO;
-            //NSLog(@"Failed to open/create database");
+            NSLog(@"Failed to open/create database, %s", errMsg);
         }
         //sqlite3_finalize(statement);
         sqlite3_close(database);
-        return  isSuccess;
+        //return  isSuccess;
     }
     return isSuccess;
 }
@@ -175,6 +173,13 @@ NSString* const initClassListName = @"init_plant_classes.txt";
 }
 
 - (BOOL) savePlantData:(NSDictionary *)msgJSON{
+    //check plant uniqueness
+    NSDictionary *plantFromDB = [self getPlantDataByUuid:[msgJSON objectForKey:@"uuid"]];
+    if([plantFromDB objectForKey:@"local_id"] == nil){
+        NSLog(@"plant exists");
+        return NO;
+    }
+    
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
@@ -204,10 +209,11 @@ NSString* const initClassListName = @"init_plant_classes.txt";
         if (sqlite3_step(statement) == SQLITE_DONE){
             sqlite3_finalize(statement);
             sqlite3_close(database);
+            NSLog(@"plant saved name %@", [msgJSON objectForKey:@"name"]);
             return true;
         }
         else{
-            //NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
+            NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
             sqlite3_close(database);
             return false;
         }

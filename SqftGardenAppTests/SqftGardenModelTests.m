@@ -59,6 +59,11 @@
     XCTAssertEqualObjects([self.dict objectForKey:@"bedstate"], self.model.bedStateArrayString);
 }
 
+- (void) testPlantUniqueOnAddPlant{
+    //build this
+    XCTAssert:YES;
+}
+
 
 
 @end

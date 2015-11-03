@@ -24,6 +24,7 @@
     bool doTrack = NO;
 
     ApplicationSetup *appSetup = [[ApplicationSetup alloc] init];
+    [appSetup setupApplication];
     [appSetup createDB];
     
     

@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ApplicationSetup : NSObject
--(BOOL) createDB;
+- (BOOL) setupApplication;
+- (BOOL) createDB;
 
 @end

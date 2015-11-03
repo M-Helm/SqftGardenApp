@@ -18,6 +18,13 @@
 
 DBManager *dbManager;
 
+-(BOOL)setupApplication{
+    NSLog(@"plants exists %i rowCount %i", [dbManager checkTableExists:@"plants"], [dbManager getTableRowCount:@"plants"]);
+    
+    
+    return YES;
+}
+
 -(BOOL)createDB{
     //NSLog(@"createDB");
     dbManager = [DBManager getSharedDBManager];
@@ -48,12 +55,24 @@ DBManager *dbManager;
         [dbManager addColumn:@"plants" : @"start_inside" : @"int"];
         [dbManager addColumn:@"plants" : @"start_inside_delta" : @"int"];
         [dbManager addColumn:@"plants" : @"transplant_delta" : @"int"];
+        NSLog(@"plants exists %i rowCount %i", [dbManager checkTableExists:@"plants"], [dbManager getTableRowCount:@"plants"]);
     //new columns since version 1.0.0
     }
     
     if([dbManager checkTableExists:@"plants"]){
-        NSLog(@"init plants");
-        [dbManager getInitPlants];
+        //NSLog(@"init plants");
+        int plantCount = [dbManager getTableRowCount:@"plants"];
+        NSString *path = [[NSBundle mainBundle] bundlePath];
+        NSString *filePath = [path stringByAppendingPathComponent:dbManager.plantListName];
+        NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+        NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *e = nil;
+        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
+        NSLog(@"plants in db %i plants in initList %i",plantCount, jsonArray.count);
+        if(plantCount < jsonArray.count){
+            [dbManager getInitPlants];
+            NSLog(@"init plants");
+        }
     }
     
     if([dbManager checkTableExists:@"plant_classes"] == false){
