@@ -339,6 +339,13 @@ EditBedViewController *editBedVC;
 
         yCo = locationInBed.y;
         xCo = locationInBed.x;
+        //test if we're multi sqft and adjust xCo and yCo if so
+        if(plantView.squareFeet > 1){
+            xCo = locationInBed.x - ((appGlobals.bedDimension -5) /2);
+            yCo = locationInBed.y - ((appGlobals.bedDimension -5) /2);
+        }
+        
+        
         //NSLog(@"XCordinate: %f  screenWidth: %f", xCo, self.mainView.frame.size.width);
         //NSLog(@"YCordinate: %f  TouchCoord: %f screenHeight: %f", yCo, touchedView.center.y, self.mainView.frame.size.height);
         int i = 0;

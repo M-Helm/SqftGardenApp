@@ -556,6 +556,12 @@ DBManager *dbManager;
         float xCo = plantView.center.x;
         float yCo = plantView.center.y;
         
+        //test if we're multi sqft and set xCo and yCo if so
+        if(plantView.squareFeet > 1){
+            xCo = plantView.frame.origin.x + ((appGlobals.bedDimension -5) /2);
+            yCo = plantView.frame.origin.y + ((appGlobals.bedDimension -5) /2);
+        }
+        
         float yLowerLimit = self.bedFrameView.center.y + self.bedFrameView.frame.size.height / 3;
         float yUpperLimit = 0;
         
