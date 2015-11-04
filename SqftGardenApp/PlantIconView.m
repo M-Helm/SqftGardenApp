@@ -196,11 +196,14 @@ ApplicationGlobals *appGlobals;
                                    iconSize-(padding*2),
                                    iconSize-(padding*2));
             }
-            
-            
             imageView.frame = frame;
             if(self.isIsometric)imageView.alpha = 0.0;
             [self addSubview:imageView];
+            if(self.squareFeet > 1){
+                [self updateLabel];
+                [self setNumberTokenImage];
+            }
+            
             columnNumber++;
             cell++;
         }
@@ -221,8 +224,8 @@ ApplicationGlobals *appGlobals;
     for(UIView* subview in self.subviews) {
         if([subview class] == [UILabel class])[subview removeFromSuperview];
     }
-    float height = self.bounds.size.height;
-    float width = self.bounds.size.width;
+    float height = self.frame.size.height;
+    float width = self.frame.size.width;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 11, width, 11)];
     [label setFont:[UIFont boldSystemFontOfSize:10]];
     label.textColor = [UIColor blackColor];
@@ -234,6 +237,13 @@ ApplicationGlobals *appGlobals;
     [self addSubview:label];
 }
 -(void) setNumberTokenImage {
+    
+    //frame = CGRectMake(padding + self.frame.size.width/2 - ((appGlobals.bedDimension -5) /2),
+    //                   padding + self.frame.size.height/2 - ((appGlobals.bedDimension -5) /2),
+    //                   iconSize-(padding*2),
+    //                   iconSize-(padding*2));
+    
+    
     if(self.isIsometric)return;
     //if(self.population < 2)return;
     UIImage *icon = [UIImage imageNamed: @"asset_circle_token_512px.png"];
@@ -241,8 +251,18 @@ ApplicationGlobals *appGlobals;
     float iconDimension = self.frame.size.width / 3.5;
     
     imageView.frame = CGRectMake(self.frame.size.width - iconDimension - 3,(iconDimension/4)+3,iconDimension,iconDimension);
+    if(self.squareFeet > 1){
+        CGRect frame = CGRectMake(((self.frame.size.width - (iconDimension/2) - 3)*.70),((iconDimension/2))*2,(iconDimension/2),(iconDimension/2));
+        imageView.frame = frame;
+    }
+    
+    
     [self addSubview:imageView];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((iconDimension - 12)/2,(iconDimension - 12)/2,12,12)];
+    if(self.squareFeet > 1){
+        CGRect frame = CGRectMake(((iconDimension /2) - 12)/2,((iconDimension /2)- 12)/2,12,12);
+        label.frame = frame;
+    }
     NSString *str = [NSString stringWithFormat:@"%i", self.population];
     label.text = str;
     label.textAlignment = NSTextAlignmentCenter;

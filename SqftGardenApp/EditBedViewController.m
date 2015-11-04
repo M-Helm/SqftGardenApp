@@ -257,6 +257,7 @@ DBManager *dbManager;
 -(void)makeBedFrameView{
     //remove self if exists
     if(self.bedFrameView != nil)[self.bedFrameView removeFromSuperview];
+    //init
     self.bedFrameView = [[UIView alloc]
                          initWithFrame:[self calculateBedFrame]];
     //add my array of beds
@@ -369,16 +370,25 @@ DBManager *dbManager;
             //NSLog(@"plantUUID in build = %@", plantUuid);
             //int plantId = [self.currentGardenModel getPlantIdForCell:cell];
             float padding = [self calculateBedViewHorizontalPadding];
-            PlantIconView *bed = [[PlantIconView alloc]
+            PlantIconView *plantView = [[PlantIconView alloc]
                                   initWithFrame:CGRectMake(padding + (bedDimension*columnNumber),
                                                            (bedDimension*rowNumber)+1,
                                                            bedDimension,
                                                            bedDimension)
                                                             withPlantUuid: plantUuid
                                                             isIsometric:NO];
-            bed.layer.borderWidth = 1;
-            bed.position = cell;
-            [bedArray addObject:bed];
+            //test if multi-sqft and adjust frame if so
+            if(plantView.squareFeet > 1){
+                CGRect frame = CGRectMake(plantView.frame.origin.x,
+                                          plantView.frame.origin.y,
+                                          (appGlobals.bedDimension -5)*(plantView.squareFeet /2),
+                                          (appGlobals.bedDimension -5)*(plantView.squareFeet /2));
+                plantView.frame = frame;
+                [plantView setImageGrid:1 :1];
+            }
+            plantView.layer.borderWidth = 1;
+            plantView.position = cell;
+            [bedArray addObject:plantView];
             //if(i==0)self.bedViewAnchor = bed.frame.origin;
             columnNumber++;
             cell++;
@@ -386,6 +396,30 @@ DBManager *dbManager;
         columnNumber = 0;
         rowNumber++;
     }
+    //iterate thru the array, if multi-sqft plants, null out adjacent cells
+    int i = 0;
+    NSArray *tempArray = [[NSArray alloc]initWithArray:bedArray];
+    for(PlantIconView *plantView in tempArray){
+        plantView.position = i;
+        if(plantView.squareFeet > 1){
+            PlantIconView *nullPlant0 = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantUuid:@"0" isIsometric:NO];
+            PlantIconView *nullPlant1 = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantUuid:@"0" isIsometric:NO];
+            PlantIconView *nullPlant2 = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantUuid:@"0" isIsometric:NO];
+            [bedArray replaceObjectAtIndex:i+1 withObject:nullPlant0];
+            [self.currentGardenModel setPlantUuidForCell:i+1 :@"0"];
+            if(i < (tempArray.count-self.currentGardenModel.columns)){
+                [bedArray replaceObjectAtIndex:i+self.currentGardenModel.columns withObject:nullPlant1];
+                [bedArray replaceObjectAtIndex:i+1+self.currentGardenModel.columns withObject:nullPlant2];
+                
+                //update our model too
+                [self.currentGardenModel setPlantUuidForCell:i+self.currentGardenModel.columns :@"0"];
+                [self.currentGardenModel setPlantUuidForCell:i+1+self.currentGardenModel.columns :@"0"];
+            }
+        }
+        NSLog(@"Count %i",i);
+        i++;
+    }
+
     return bedArray;
 }
 
@@ -403,7 +437,7 @@ DBManager *dbManager;
     self.selectPlantArray = [self buildClassSelectArray];
     [self.currentGardenModel autoSaveModel];
     [appGlobals setCurrentGardenModel:self.currentGardenModel];
-    //[self.currentGardenModel showModelInfo];
+    [self.currentGardenModel showModelInfo];
     [self initViews];
     //[self makeBedFrameView];
 }
@@ -583,6 +617,7 @@ DBManager *dbManager;
                 leastSquare = deltaSquare;
                 targetCell = i;
             }
+            NSLog(@"target cell: %i", i);
             i++;
         }
         //if we're far from a bedview just return
@@ -593,8 +628,10 @@ DBManager *dbManager;
             return;
         }
         if(self.touchIcon != nil)[self.touchIcon removeFromSuperview];
+        //NSLog(@"target cell: %i", targetCell);
         [self updatePlantBeds: targetCell :plantView.plantUuid];
         //AudioServicesPlaySystemSound(1104);
+        
     }
 }
 
