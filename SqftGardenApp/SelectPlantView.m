@@ -262,8 +262,8 @@ EditBedViewController *editBedVC;
     if([touch view] != nil){
         touchedView = [touch view];
     }
+    //if we're on an icon move it with the touch
     if ([touchedView class] == [PlantIconView class] || [touchedView class] == [ClassIconView class]){
-        
         self.scrollEnabled = NO;
         CGPoint location = [touch locationInView:editBedVC.bedFrameView];
         location.x = location.x - startX;
@@ -272,6 +272,24 @@ EditBedViewController *editBedVC;
         touchedView.alpha = .5;
     }
     self.scrollEnabled = YES;
+    //check to see if we need to give it a multi-sqft frame
+    if([touchedView class] == [PlantIconView class]){
+        PlantIconView *plant = (PlantIconView*)touchedView;
+        if(plant.squareFeet > 1){
+            //check frame size
+            if(plant.frame.size.width > appGlobals.bedDimension - 5)return;
+            //update frame size
+            CGRect frame = CGRectMake(plant.frame.origin.x,
+                                      plant.frame.origin.y,
+                                      (appGlobals.bedDimension -5)*(plant.squareFeet /2),
+                                      (appGlobals.bedDimension -5)*(plant.squareFeet /2));
+            plant.frame = frame;
+            plant.layer.borderColor = [UIColor blackColor].CGColor;
+            plant.layer.borderWidth = 2;
+            //redraw the icon in the new frame
+            [plant setImageGrid:1 :1];
+        }
+    }
 }
 
 -(CGPoint) convertPointToIso: (UIView*)view{

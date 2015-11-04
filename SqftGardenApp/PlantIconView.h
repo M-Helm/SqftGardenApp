@@ -37,6 +37,7 @@
 
 - (id)initWithFrame:(CGRect)frame withPlantUuid: (NSString *)plantUuid isIsometric:(bool)isIsometric;
 - (void) setViewAsIcon: (bool)isIcon;
+- (void) setImageGrid : (int) rowCount : (int) columnCount;
 - (CGPoint) transformedTopLeft;
 - (CGPoint) transformedTopRight;
 - (CGPoint) transformedCenter;

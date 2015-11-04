@@ -495,15 +495,34 @@ DBManager *dbManager;
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *plantView = (PlantIconView*)[touch view];
         if(plantView.plantUuid.length < 5)return;
-        touchedView.hidden=FALSE;
-        touchedView.layer.borderWidth = 0;
+        plantView.hidden=FALSE;
+        if(plantView.squareFeet < 2)plantView.layer.borderWidth = 0;
         [self.view bringSubviewToFront:touchedView];
         [self.bedFrameView bringSubviewToFront:touchedView];
         CGPoint location = [touch locationInView:[self view]];
         location.x = location.x - editStartX;
         location.y = location.y - editStartY;
         touchedView.center = location;
+        
+        
+        //check to see if we need to give it a multi-sqft frame
+        if(plantView.squareFeet > 1){
+            //check frame size
+            if(plantView.frame.size.width > appGlobals.bedDimension - 5)return;
+            //update frame size
+            CGRect frame = CGRectMake(plantView.frame.origin.x,
+                                      plantView.frame.origin.y,
+                                      (appGlobals.bedDimension -5)*(plantView.squareFeet /2),
+                                      (appGlobals.bedDimension -5)*(plantView.squareFeet /2));
+            plantView.frame = frame;
+            plantView.layer.borderColor = [UIColor blackColor].CGColor;
+            plantView.layer.borderWidth = 2;
+            //redraw the icon in the new frame
+            [plantView setImageGrid:1 :1];
+        }
     }
+
+    
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{

@@ -151,36 +151,54 @@ ApplicationGlobals *appGlobals;
 
 }
 - (void) setImageGrid : (int) rowCount : (int) columnCount {
+    //remove old subviews
+    for(UIView *subview in self.subviews){
+        [subview removeFromSuperview];
+    }
+    
     int rowNumber = 0;
     int columnNumber = 0;
     int cell = 0;
     int cellCount = rowCount * columnCount;
+    float iconOffset = self.bounds.size.width / (cellCount / columnCount);
     float iconSize = self.bounds.size.width / (cellCount / columnCount);
+    //reset size if we're more than 1 sqft
+    if(self.squareFeet > 1)iconSize = appGlobals.bedDimension-5;
     float padding = PLANT_ICON_PADDING / (rowCount);
     float xFrameAdjuster = 0;
     float yFrameAdjuster = 0;
     float centerAdjuster = 0;
     if(cellCount == 2){
-        iconSize = self.bounds.size.width / 2;
-        yFrameAdjuster = (self.frame.size.width / 2)-(iconSize / 2);
+        iconOffset = self.bounds.size.width / 2;
+        yFrameAdjuster = (self.frame.size.width / 2)-(iconOffset / 2);
     }
     if(cellCount == 6){
-        centerAdjuster = iconSize / 2;
-        xFrameAdjuster = (self.frame.size.height / 4)-(iconSize / 2);
+        centerAdjuster = iconOffset / 2;
+        xFrameAdjuster = (self.frame.size.height / 4)-(iconOffset / 2);
         
     }
     if(cellCount == 8){
-        xFrameAdjuster = (self.frame.size.height / 4) - (iconSize / 2);
-        centerAdjuster = iconSize;
+        xFrameAdjuster = (self.frame.size.height / 4) - (iconOffset / 2);
+        centerAdjuster = iconOffset;
     }
     for(int i=0; i<rowCount; i++){
         while(columnNumber < columnCount){
             UIImage *icon = [UIImage imageNamed: self.iconResource];
             UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-            imageView.frame = CGRectMake(padding + (iconSize * columnNumber) + xFrameAdjuster + (columnNumber * centerAdjuster),
-                                         padding + (iconSize * rowNumber) + yFrameAdjuster,
+            CGRect frame = CGRectMake(padding + (iconOffset * columnNumber) + xFrameAdjuster + (columnNumber * centerAdjuster),
+                                         padding + (iconOffset * rowNumber) + yFrameAdjuster,
                                          iconSize-(padding * 2),
                                          iconSize-(padding * 2));
+            //change origins if we're mutli sqft
+            if(self.squareFeet > 1){
+                frame = CGRectMake(padding + self.frame.size.width/2 - ((appGlobals.bedDimension -5) /2),
+                                   padding + self.frame.size.height/2 - ((appGlobals.bedDimension -5) /2),
+                                   iconSize-(padding*2),
+                                   iconSize-(padding*2));
+            }
+            
+            
+            imageView.frame = frame;
             if(self.isIsometric)imageView.alpha = 0.0;
             [self addSubview:imageView];
             columnNumber++;
