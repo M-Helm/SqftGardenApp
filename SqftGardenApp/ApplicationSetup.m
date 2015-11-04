@@ -19,21 +19,22 @@
 DBManager *dbManager;
 
 -(BOOL)setupApplication{
+    dbManager = [DBManager getSharedDBManager];
+    //[dbManager dropTable:@"plants"];
+    //[dbManager dropTable:@"saves"];
+    //[dbManager dropTable:@"plant_classes"];
     NSLog(@"plants exists %i rowCount %i", [dbManager checkTableExists:@"plants"], [dbManager getTableRowCount:@"plants"]);
-    
+    [self createDB];
     
     return YES;
 }
 
 -(BOOL)createDB{
-    //NSLog(@"createDB");
-    dbManager = [DBManager getSharedDBManager];
-    //[dbManager dropTable:@"plants"];
-    //[dbManager dropTable:@"saves"];
-    //[dbManager dropTable:@"plant_classes"];
+
+    //for some reason the app doesn't 'see' the db until we do a create
+    //if not exists. hate it, but it's working for now...
     
     if(![dbManager checkTableExists:@"plants"]){
-        //NSLog(@"Create plants %i", [dbManager checkTableExists:@"plants"]);
         [dbManager createTable:@"plants"];
         [dbManager addColumn:@"plants" : @"name" : @"char(50)"];
         [dbManager addColumn:@"plants" : @"timestamp" : @"int"];
@@ -55,13 +56,13 @@ DBManager *dbManager;
         [dbManager addColumn:@"plants" : @"start_inside" : @"int"];
         [dbManager addColumn:@"plants" : @"start_inside_delta" : @"int"];
         [dbManager addColumn:@"plants" : @"transplant_delta" : @"int"];
-        NSLog(@"plants exists %i rowCount %i", [dbManager checkTableExists:@"plants"], [dbManager getTableRowCount:@"plants"]);
     //new columns since version 1.0.0
     }
     
     if([dbManager checkTableExists:@"plants"]){
-        //NSLog(@"init plants");
         int plantCount = [dbManager getTableRowCount:@"plants"];
+        
+        //load the init plant list into an array
         NSString *path = [[NSBundle mainBundle] bundlePath];
         NSString *filePath = [path stringByAppendingPathComponent:dbManager.plantListName];
         NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
@@ -69,6 +70,8 @@ DBManager *dbManager;
         NSError *e = nil;
         NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
         NSLog(@"plants in db %i plants in initList %i",plantCount, jsonArray.count);
+        
+        //if we have more plants in the array, load the new list into the db
         if(plantCount < jsonArray.count){
             [dbManager getInitPlants];
             NSLog(@"init plants");

@@ -6,7 +6,6 @@
 //
 
 #import "AppDelegate.h"
-//#import "DBManager.h"
 #import "ApplicationSetup.h"
 
 @interface AppDelegate ()
@@ -15,18 +14,16 @@
 
 @implementation AppDelegate
 
-//DBManager *dbManager;
+
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    //dbManager = [DBManager getSharedDBManager];
+
     bool doTrack = NO;
 
     ApplicationSetup *appSetup = [[ApplicationSetup alloc] init];
     [appSetup setupApplication];
-    [appSetup createDB];
-    
     
     if(doTrack){
         // Configure tracker from GoogleService-Info.plist.

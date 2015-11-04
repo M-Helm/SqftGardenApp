@@ -6,13 +6,6 @@
 //  Copyright (c) 2015 Matthew Helm. All rights reserved.
 //
 
-//
-//  DBManager.m
-//  howhimi
-//
-//  Created by Matthew Helm on 4/11/15.
-//  Copyright (c) 2015 Matthew Helm. All rights reserved.
-//
 
 #import "DBManager.h"
 
