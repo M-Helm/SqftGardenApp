@@ -69,10 +69,10 @@ DBManager *dbManager;
         NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
         NSError *e = nil;
         NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
-        NSLog(@"plants in db %i plants in initList %i",plantCount, jsonArray.count);
+        NSLog(@"plants in db %i plants in initList %i",plantCount, (int)jsonArray.count);
         
         //if we have more plants in the array, load the new list into the db
-        if(plantCount < jsonArray.count){
+        if(plantCount < (int)jsonArray.count){
             [dbManager getInitPlants];
             NSLog(@"init plants");
         }

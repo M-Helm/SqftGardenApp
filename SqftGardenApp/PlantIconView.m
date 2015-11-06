@@ -199,7 +199,7 @@ ApplicationGlobals *appGlobals;
             imageView.frame = frame;
             if(self.isIsometric)imageView.alpha = 0.0;
             [self addSubview:imageView];
-            if(self.squareFeet > 1){
+            if(self.squareFeet > 1 && self.isIcon == NO){
                 [self updateLabel];
                 [self setNumberTokenImage];
             }
@@ -227,6 +227,10 @@ ApplicationGlobals *appGlobals;
     float height = self.frame.size.height;
     float width = self.frame.size.width;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, height - 11, width, 11)];
+    if(self.squareFeet > 1 && self.isIcon == NO){
+        CGRect frame = CGRectMake(0,height-(appGlobals.bedDimension * .5), width, 11);
+        label.frame = frame;
+    }
     [label setFont:[UIFont boldSystemFontOfSize:10]];
     label.textColor = [UIColor blackColor];
     if(self.population > 3)label.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];

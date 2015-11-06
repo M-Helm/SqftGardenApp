@@ -407,7 +407,7 @@ DBManager *dbManager;
             PlantIconView *nullPlant2 = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantUuid:@"0" isIsometric:NO];
             [bedArray replaceObjectAtIndex:i+1 withObject:nullPlant0];
             [self.currentGardenModel setPlantUuidForCell:i+1 :@"0"];
-            if(i < (tempArray.count-self.currentGardenModel.columns)){
+            if(i+1 < (tempArray.count-self.currentGardenModel.columns)){
                 [bedArray replaceObjectAtIndex:i+self.currentGardenModel.columns withObject:nullPlant1];
                 [bedArray replaceObjectAtIndex:i+1+self.currentGardenModel.columns withObject:nullPlant2];
                 
@@ -416,7 +416,6 @@ DBManager *dbManager;
                 [self.currentGardenModel setPlantUuidForCell:i+1+self.currentGardenModel.columns :@"0"];
             }
         }
-        NSLog(@"Count %i",i);
         i++;
     }
 
@@ -437,7 +436,7 @@ DBManager *dbManager;
     self.selectPlantArray = [self buildClassSelectArray];
     [self.currentGardenModel autoSaveModel];
     [appGlobals setCurrentGardenModel:self.currentGardenModel];
-    [self.currentGardenModel showModelInfo];
+    //[self.currentGardenModel showModelInfo];
     [self initViews];
     //[self makeBedFrameView];
 }
@@ -617,18 +616,29 @@ DBManager *dbManager;
                 leastSquare = deltaSquare;
                 targetCell = i;
             }
-            NSLog(@"target cell: %i", i);
             i++;
         }
         //if we're far from a bedview just return
-        //NSLog(@"squares reports at D: %f , LOS: %f", deltaSquare, leastSquare);
         if(leastSquare > (appGlobals.bedDimension * appGlobals.bedDimension)*2){
             touchedView.alpha = 0;
             [touchedView removeFromSuperview];
             return;
         }
         if(self.touchIcon != nil)[self.touchIcon removeFromSuperview];
-        //NSLog(@"target cell: %i", targetCell);
+        
+        if(plantView.squareFeet > 1){
+            //and kick out if we'll draw part out of bounds
+            //right hand column
+            if((targetCell+1) % self.currentGardenModel.columns == 0){
+                [touchedView removeFromSuperview];
+                return;
+            }
+            //last row
+            if((targetCell) > (self.currentGardenModel.rows * (self.currentGardenModel.columns-1)-2)){
+                [touchedView removeFromSuperview];
+                return;
+            }
+        }
         [self updatePlantBeds: targetCell :plantView.plantUuid];
         //AudioServicesPlaySystemSound(1104);
         

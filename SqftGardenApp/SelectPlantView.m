@@ -367,8 +367,6 @@ EditBedViewController *editBedVC;
             }
             i++;
         }
-        //NSLog(@"squares reports at D: %f , LOS: %f", deltaSquare, leastSquare);
-        //NSLog(@"return value is %i",(appGlobals.bedDimension * appGlobals.bedDimension)*2);
         //if we're far from a bedview just return
         if(leastSquare > (appGlobals.bedDimension * appGlobals.bedDimension)*2){
             touchedView.alpha = 1;
@@ -378,6 +376,24 @@ EditBedViewController *editBedVC;
             touchedView.center = location;
             return;
         }
+        
+        if(plantView.squareFeet > 1){
+            //and kick out if we'll draw part out of bounds
+            //right hand column
+            if((targetCell+1) % editBedVC.currentGardenModel.columns == 0){
+                [touchedView removeFromSuperview];
+                [editBedVC initViews];
+                return;
+            }
+            //last row
+            if((targetCell) > (editBedVC.currentGardenModel.rows * (editBedVC.currentGardenModel.columns-1)-2)){
+                [touchedView removeFromSuperview];
+                [editBedVC initViews];
+                return;
+            }
+        }
+        
+        
         
         [editBedVC updatePlantBeds:targetCell:plantView.plantUuid];
         AudioServicesPlaySystemSound(1105);
