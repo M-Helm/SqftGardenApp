@@ -392,7 +392,12 @@ EditBedViewController *editBedVC;
                 return;
             }
         }
-        
+        //GA Tracking setup
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Plants"
+                                                              action:@"Select"
+                                                               label:plantView.plantName
+                                                               value:@1] build]];
         
         
         [editBedVC updatePlantBeds:targetCell:plantView.plantUuid];
