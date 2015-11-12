@@ -194,7 +194,7 @@ CGFloat height;
     plantingLabel.text = plantingDateString;
     [cell.plantView addSubview:plantingLabel];
     
-    UILabel *harvestLabel = [self makeCellLabelWithFrame:CGRectMake(-20,16,40,15)];
+    UILabel *harvestLabel = [self makeCellLabelWithFrame:CGRectMake(-10,-8,40,15)];
     harvestLabel.text = harvestDateString;
     [cell.harvestView addSubview:harvestLabel];
 

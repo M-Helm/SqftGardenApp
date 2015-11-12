@@ -162,6 +162,11 @@ EditBedViewController *editBedVC;
         point.x = transformFrame.origin.x;
         point.y = transformFrame.origin.y - (bedDimension/6);
     }
+    if(plant.squareFeet > 1){
+        point.x = transformFrame.origin.x + bedDimension;
+        point.y = transformFrame.origin.y - (bedDimension/6);
+    }
+    
     UIImage *icon = [UIImage imageNamed: plant.isoIcon];
     
     CGRect frame = CGRectMake(0,0,bedDimension*1.75,bedDimension*1.75);

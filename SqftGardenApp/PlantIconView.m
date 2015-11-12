@@ -196,8 +196,13 @@ ApplicationGlobals *appGlobals;
                                    iconSize-(padding*2),
                                    iconSize-(padding*2));
             }
+            //extra steps if we're iso
+            if(self.isIsometric){
+                imageView.alpha = 0.0;
+            }
+            
+            
             imageView.frame = frame;
-            if(self.isIsometric)imageView.alpha = 0.0;
             [self addSubview:imageView];
             if(self.squareFeet > 1 && self.isIcon == NO){
                 [self updateLabel];
