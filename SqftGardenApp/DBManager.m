@@ -168,7 +168,7 @@ NSString* initClassListName = @"init_plant_classes.txt";
 - (BOOL) savePlantData:(NSDictionary *)msgJSON{
     //check plant uniqueness
     NSDictionary *plantFromDB = [self getPlantDataByUuid:[msgJSON objectForKey:@"uuid"]];
-    if([plantFromDB objectForKey:@"local_id"] == nil){
+    if([plantFromDB objectForKey:@"local_id"] != nil){
         NSLog(@"plant exists");
         return NO;
     }
