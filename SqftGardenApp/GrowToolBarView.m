@@ -12,6 +12,7 @@
 #import "ApplicationGlobals.h"
 
 
+
 @interface GrowToolBarView()
 
 @end
@@ -377,21 +378,7 @@ ApplicationGlobals *appGlobals;
         
 }
 
-- (void)requestHardinessZone{
-    
-    
-    
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:@"http://growsquared.net/zones/geo/-10400/3900"]];
-    [request setHTTPMethod:@"GET"];
-    
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *requestReply = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        NSLog(@"requestReply: %@", requestReply);
-    }] resume];
-}
+
                                    
 
 - (void)handleDateIconSingleTap:(UITapGestureRecognizer *)recognizer {
@@ -400,11 +387,7 @@ ApplicationGlobals *appGlobals;
     
     //GA Tracking setup
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    
-    self.locationManager = [[GrowLocationManager alloc]init];
-    [self.locationManager getCurrentLocation];
-    [self requestHardinessZone];
-    
+        
     if(self.canOverrideDate){
         if([viewController class] == [DataPresentationTableViewController class]){
             DataPresentationTableViewController *dataVC = (DataPresentationTableViewController*)viewController;
