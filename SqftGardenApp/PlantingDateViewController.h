@@ -12,4 +12,5 @@
 
 @interface PlantingDateViewController : UIViewController <CLLocationManagerDelegate>
 @property (nonatomic) UILabel *zoneView;
+@property (nonatomic) NSArray *zoneArray;
 @end

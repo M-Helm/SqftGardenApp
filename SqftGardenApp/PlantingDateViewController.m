@@ -20,6 +20,7 @@ CLLocationManager *locationManager;
 -(void)viewDidLoad{
     [super viewDidLoad];
     locationManager = [[CLLocationManager alloc] init];
+    [self buildZoneArray];
     [self makeZoneView];
     [self makeToolbar];
     [self getCurrentLocation];
@@ -38,15 +39,18 @@ CLLocationManager *locationManager;
     [self requestHardinessZone:newLocation success:^(NSDictionary *responseDict){
         dispatch_async(dispatch_get_main_queue(), ^{
             // do the UI stuff here
-            NSString *zoneStr = [NSString stringWithFormat:@"Zone: %@",[responseDict objectForKey:@"data"]];
+            NSString *zone = [responseDict objectForKey:@"data"];
+            if(zone.length > 5)zone = @"Not Found";
+            NSString *zoneStr = [NSString stringWithFormat:@"Detected Zone: %@ Last Frost: %@",zone, [self getFrostDates:zone]];
             self.zoneView.text = zoneStr;
         });
         
     }failure:^(NSError *error) {
         // error handling here ...
+        NSString *zoneStr = [NSString stringWithFormat:@"Detected Zone: Not Found"];
+        self.zoneView.text = zoneStr;
     }];
-    
-    
+
     [locationManager stopUpdatingLocation];
     
 }
@@ -104,7 +108,7 @@ CLLocationManager *locationManager;
 }
 
 -(void)makeZoneView{
-    self.zoneView = [[UILabel alloc]initWithFrame:CGRectMake(45,105,100,44)];
+    self.zoneView = [[UILabel alloc]initWithFrame:CGRectMake(10,105,self.view.frame.size.width-20,44)];
     self.zoneView.textColor = [UIColor blackColor];
     self.zoneView.text = @"test";
     [self.view addSubview:self.zoneView];
@@ -127,6 +131,29 @@ CLLocationManager *locationManager;
     [toolBar enableSaveButton:NO];
     [toolBar enableIsoButton:NO];
     [toolBar enableDateOverride:NO];
+}
+
+-(NSArray *)buildZoneArray{
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSString *filePath = [path stringByAppendingPathComponent:@"frost_dates.txt"];
+    NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *e = nil;
+    self.zoneArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
+    return self.zoneArray;
+}
+
+-(NSString *)getFrostDates: (NSString *)zone{
+    NSString *frostDate = @"Not Found";
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
+    for(int i = 0; i<self.zoneArray.count;i++){
+        dict = [self.zoneArray objectAtIndex:i];
+        if([zone isEqualToString:[dict objectForKey:@"zone"]]){
+            frostDate = [dict objectForKey:@"last_frost"];
+        }
+    }
+    
+    return frostDate;
 }
 
 @end
