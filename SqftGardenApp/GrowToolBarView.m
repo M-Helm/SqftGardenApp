@@ -117,9 +117,9 @@ ApplicationGlobals *appGlobals;
     [self.dateIconView removeFromSuperview];
     self.dateIconView = [self makeDateIcon];
     [self addSubview:self.dateIconView];
-    self.dateIconView.alpha = 1;
-    //if(self.enableSaveButton)self.saveIconView.alpha = 1;
-    //else self.saveIconView.alpha = .3;
+    //self.dateIconView.alpha = 1;
+    if(self.canOverrideDate)self.dateIconView.alpha = 1;
+    else self.dateIconView.alpha = .3;
 }
 
 -(void) showToolBar{

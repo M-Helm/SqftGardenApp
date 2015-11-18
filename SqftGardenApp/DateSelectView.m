@@ -20,7 +20,7 @@
 UIViewController *viewController;
 ApplicationGlobals *appGlobals;
 NSDate* selectedDate;
-CLLocationManager *locationManager;
+
 
 
 - (void)changeDate:(UIDatePicker *)sender {
@@ -88,9 +88,6 @@ CLLocationManager *locationManager;
     self.userInteractionEnabled = YES;
     viewController = sender;
     appGlobals = [ApplicationGlobals getSharedGlobals];
-    locationManager = [[CLLocationManager alloc] init];
-    
-    [self getCurrentLocation];
     
     if ([self viewWithTag:9]) {
         return;
@@ -155,61 +152,6 @@ CLLocationManager *locationManager;
     }
 }
 
-- (BOOL)locationServicesAvailable{
-    return [CLLocationManager locationServicesEnabled];
-}
-
-- (CLLocation *) getCurrentLocation {
-    NSLog(@"start updating location");
-    [locationManager requestWhenInUseAuthorization];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
-    [locationManager startUpdatingLocation];
-    CLLocation *location = locationManager.location;
-    NSLog(@"location %f %f", location.coordinate.latitude, location.coordinate.longitude);
-    return location;
-}
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    NSLog(@"didFailWithError: %@", error);
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    NSLog(@"didUpdateToLocation: %@", newLocation);
-    //CLLocation *currentLocation = newLocation;
-    [self requestHardinessZone:newLocation];
-    [locationManager stopUpdatingLocation];
-    
-}
-
-- (void)requestHardinessZone:(CLLocation *)location{
-    
-    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-    [numberFormatter setMaximumFractionDigits:0];
-
-    CGFloat lon = location.coordinate.longitude;
-    lon *= 100;
-    
-    CGFloat lat = location.coordinate.latitude;
-    lat *= 100;
-    
-    NSNumber *longitude = [NSNumber numberWithFloat:lon];
-    NSNumber *latitude = [NSNumber numberWithFloat:lat];
-    
-    NSString *url = [NSString stringWithFormat:@"http://growsquared.net/zones/geo/%@/%@",[numberFormatter stringFromNumber:longitude], [numberFormatter stringFromNumber:latitude]];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"GET"];
-    
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *requestReply = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        NSLog(@"requestReply: %@", requestReply);
-    }] resume];
-}
 
 
 @end

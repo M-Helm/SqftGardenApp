@@ -9,6 +9,7 @@
 #import "ClassIconView.h"
 #import "ApplicationGlobals.h"
 #import "DBManager.h"
+#import "PlantingDateViewController.h"
 
 
 
@@ -21,19 +22,13 @@
 @end
 
 @implementation EditBedViewController
-//const int BED_LAYOUT_HEIGHT_BUFFER = 3;
-//const int BED_LAYOUT_WIDTH_BUFFER = -17;
-//const float BED_LAYOUT_WIDTH_RATIO = 1.0;
+
 const float BED_LAYOUT_HEIGHT_RATIO = .60;
-//const float SELECT_LAYOUT_WIDTH_RATIO = 1.0;
-//const float SELECT_LAYOUT_HEIGHT_RATIO = .20;
 const int BED_LAYOUT_MINIMUM_DIMENSION = 55;
 const int BED_LAYOUT_MAXIMUM_DIMENSION = 110;
-
-//NSString * const ROW_KEY = @"rows";
-//NSString * const COLUMN_KEY = @"columns";
 float editStartX = 0;
 float editStartY = 0;
+
 
 
 
@@ -62,6 +57,7 @@ DBManager *dbManager;
     [super viewDidLoad];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
+    
     appGlobals.selectedCell = -1;
     _showTouches = NO;
     [self setToolBarIsOpen:YES];
@@ -646,7 +642,12 @@ DBManager *dbManager;
 }
 
 -(void) showDatePickerView{
-
+    
+    if(true){
+        [self.navigationController performSegueWithIdentifier:@"showPlantDate" sender:self];
+        return;
+    }
+    
     if(self.datePickerIsOpen){
         [self setDatePickerIsOpen:NO];
         [self.selectPlantView setDatePickerIsOpen:NO];
@@ -774,6 +775,10 @@ DBManager *dbManager;
                          }
                      }];
 }
+
+
+
+
 
 
 @end

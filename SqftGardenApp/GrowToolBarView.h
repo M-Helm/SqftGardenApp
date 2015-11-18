@@ -7,7 +7,8 @@
 //
 #import <UIKit/UIKit.h>
 #import <Google/Analytics.h>
-#import "GrowLocationManager.h"
+
+
 
 @interface GrowToolBarView : UIToolbar
 
@@ -28,7 +29,6 @@
 @property(nonatomic) UIView *isoIconView;
 @property(nonatomic) UIView *menuIconView;
 @property(nonatomic) UIView *backButtonIconView;
-@property(nonatomic) GrowLocationManager *locationManager;
 @property(nonatomic) int toolBarTag;
 @property(nonatomic) bool toolBarIsPinned;
 @property(nonatomic) bool toolBarIsEnabled;

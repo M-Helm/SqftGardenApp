@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Google/Analytics.h>
+
 #import "SqftGardenModel.h"
 #import "SelectPlantView.h"
 #import "DateSelectView.h"
@@ -14,7 +15,7 @@
 #import "GrowToolBarView.h"
 
 
-@interface EditBedViewController : UIViewController
+@interface EditBedViewController : UIViewController 
 @property(nonatomic) SqftGardenModel *currentGardenModel;
 @property(nonatomic) DateSelectView *datePickerView;
 @property(nonatomic) SelectPlantView *selectPlantView;

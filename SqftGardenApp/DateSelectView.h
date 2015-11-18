@@ -7,9 +7,9 @@
 //
 
 #import<UIKit/UIKit.h>
-#import <CoreLocation/CoreLocation.h>
 
-@interface DateSelectView : UIView <CLLocationManagerDelegate>
+
+@interface DateSelectView : UIView 
 
 - (void)createDatePicker:(id)sender ;
 
