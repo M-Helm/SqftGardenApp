@@ -216,6 +216,7 @@ ApplicationGlobals *appGlobals;
 }
 - (void)handleAcceptSingleTap:(UITapGestureRecognizer *)recognizer {
     NSLog(@"handle accept tap");
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)handleFrostSingleTap:(UITapGestureRecognizer *)recognizer {
     NSLog(@"handle frost tap");
