@@ -20,6 +20,8 @@
 @property(nonatomic) NSString *uniqueId;
 @property(nonatomic) NSDate *frostDate;
 @property(nonatomic) NSString *zone;
+@property(nonatomic) BOOL userOverrodeZone;
+@property(nonatomic) BOOL userOverrodeFrostDate;
 
 - (id) initWithDict:(NSDictionary*)dict;
 - (void) clearCurrentBedState;

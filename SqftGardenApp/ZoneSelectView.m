@@ -26,7 +26,7 @@ NSString *selectedZone;
     self.userInteractionEnabled = YES;
     viewController = sender;
     appGlobals = [ApplicationGlobals getSharedGlobals];
-    if(appGlobals.globalGardenModel.zone != nil)selectedZone=appGlobals.globalGardenModel.zone;
+    //if(appGlobals.globalGardenModel.zone != nil)selectedZone=appGlobals.globalGardenModel.zone;
     
     UIPickerView *pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 0, 300, 216)];
     //pickerView.backgroundColor = [UIColor lightGrayColor];

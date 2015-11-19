@@ -35,14 +35,18 @@ DBManager *dbManager;
         NSNumber *dColumns = [NSNumber numberWithInt:(int)[[dict valueForKey:@"columns"] integerValue]];
         NSString *ts = [dict valueForKey:@"timestamp"];
         NSString *localID = [dict valueForKey:@"local_id"];
-        self.bedStateArrayString = [dict valueForKey:@"bedstate"];
+        self.bedStateArrayString = [dict objectForKey:@"bedstate"];
         [self compileBedStateDictFromString:self.bedStateArrayString];
-        self.name = [dict valueForKey:@"name"];
+        self.name = [dict objectForKey:@"name"];
         self.uniqueId = [dict valueForKey:@"unique_id"];
-        NSString *dateString = [dict valueForKey:@"planting_date"];
+        NSString *dateString = [dict objectForKey:@"planting_date"];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         self.frostDate = [dateFormatter dateFromString:dateString];
+        self.zone = [dict objectForKey:@"zone"];
+        if(self.zone == nil)self.zone = @"";
+        self.userOverrodeFrostDate = [dict valueForKey:@"frost_override"];
+        self.userOverrodeZone = [dict valueForKey:@"zone_override"];
         self.timestamp = ts.intValue;
         self.localId = localID.intValue;
         self.columns = dColumns.intValue;
@@ -50,6 +54,7 @@ DBManager *dbManager;
         if(self.columns < 1)self.columns = 3;
         if(self.rows < 1)self.rows = 3;
         if(self.localId < 2)self.localId = 1;
+
     }
     [self commonInit];
     return self;
@@ -195,6 +200,8 @@ DBManager *dbManager;
     NSString *name = self.name;
     NSNumber *rows = [NSNumber numberWithInt: self.rows];
     NSNumber *columns = [NSNumber numberWithInt: self.columns];
+    NSNumber *zoneOverride = [NSNumber numberWithBool:self.userOverrodeZone];
+    NSNumber *frostOverride = [NSNumber numberWithBool:self.userOverrodeFrostDate];
     NSString *localIdStr = [NSString stringWithFormat:@"%i", self.localId];
     NSString *autoStr = @"autoSave";
     if(self.localId < 1){
@@ -232,6 +239,10 @@ DBManager *dbManager;
     [json setObject:name forKey:@"name"];
     [json setObject:self.uniqueId forKey:@"unique_id"];
     [json setObject:dateString forKey:@"planting_date"];
+    [json setObject:self.zone forKey:@"zone"];
+    [json setObject:zoneOverride forKey:@"zone_override"];
+    [json setObject:frostOverride forKey:@"frost_override"];
+
     
     //compile an array for the bedstate
     NSString *tempArrayStr = [self getBedStateArrayString];
