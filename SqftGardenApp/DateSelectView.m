@@ -11,6 +11,7 @@
 #import "EditBedViewController.h"
 #import "ApplicationGlobals.h"
 #import "DataPresentationTableViewController.h"
+#import "PlantingDateViewController.h"
 
 @interface DateSelectView()
 
@@ -49,9 +50,13 @@ NSDate* selectedDate;
     }
     if([viewController class] == [DataPresentationTableViewController class]){
         DataPresentationTableViewController *dataVC = (DataPresentationTableViewController *)viewController;
-        
         [dataVC setDatePickerIsOpen:NO];
         [dataVC.tableView reloadData];
+    }
+    if([viewController class] == [PlantingDateViewController class]){
+        PlantingDateViewController *dateVC = (PlantingDateViewController *)viewController;
+        //[dateVC setDatePickerIsOpen:NO];
+        [dateVC showDatePickerView];
     }
     [self removeFromSuperview];
 }

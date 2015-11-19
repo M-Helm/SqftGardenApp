@@ -19,6 +19,7 @@
 @property(nonatomic) int localId;
 @property(nonatomic) NSString *uniqueId;
 @property(nonatomic) NSDate *frostDate;
+@property(nonatomic) NSString *zone;
 
 - (id) initWithDict:(NSDictionary*)dict;
 - (void) clearCurrentBedState;

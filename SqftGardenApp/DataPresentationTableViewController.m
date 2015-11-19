@@ -346,6 +346,10 @@ CGFloat height;
     return;
 }
 -(void) showDatePickerView{
+    if(true){
+        [self.navigationController performSegueWithIdentifier:@"showPlantDate" sender:self];
+        return;
+    }
     
     if(self.datePickerIsOpen){
         [self setDatePickerIsOpen:NO];
