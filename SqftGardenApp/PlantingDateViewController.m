@@ -224,6 +224,7 @@ ApplicationGlobals *appGlobals;
 }
 - (void)handleZoneSingleTap:(UITapGestureRecognizer *)recognizer {
     NSLog(@"handle zone tap");
+    [self showZonePickerView];
 }
 
 -(void)makeToolbar{
@@ -287,6 +288,51 @@ ApplicationGlobals *appGlobals;
     }
     return NO;
 }
+-(void) showZonePickerView{
+    
+    if(self.zonePickerIsOpen){
+        [self setZonePickerIsOpen:NO];
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.datePickerView.alpha = .0f;
+                             self.zonePickerView.alpha = .0f;
+                             self.frostButton.alpha = 1.0f;
+                             self.zoneButton.alpha = 1.0f;
+                             self.acceptButton.alpha = 1.0f;
+                             self.zoneView.alpha = 1.0f;
+                             self.frostView.alpha = 1.0f;
+                         }
+                         completion:^(BOOL finished) {
+                             //[self initViews];
+
+                         }];
+        return;
+    }
+    [self setZonePickerIsOpen:YES];
+    self.zonePickerView = [[ZoneSelectView alloc] init];
+    self.zonePickerView.userInteractionEnabled = YES;
+    [self.zonePickerView createZonePicker:self];
+    CGRect fm = CGRectMake(10, 80, 300, 216);
+    
+    //CGRect fm = CGRectMake(self.bedFrameView.frame.origin.x, self.bedFrameView.frame.origin.y, self.bedFrameView.frame.size.width, 44+216);
+    self.zonePickerView.frame = fm;
+    
+    self.zonePickerView.alpha = 1.0f;
+    [self.view addSubview:self.zonePickerView];
+    
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.datePickerView.alpha = 1.0f;
+                         self.datePickerView.alpha = 0.0f;
+                         self.frostButton.alpha = .0f;
+                         self.zoneButton.alpha = .0f;
+                         self.acceptButton.alpha = .0f;
+                         self.zoneView.alpha = .0f;
+                         self.frostView.alpha = .0f;
+                     }
+                     completion:^(BOOL finished) {
+                     }];
+}
 
 -(void) showDatePickerView{
     
@@ -295,6 +341,7 @@ ApplicationGlobals *appGlobals;
         [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              self.datePickerView.alpha = .0f;
+                             self.zonePickerView.alpha = .0f;
                              self.frostButton.alpha = 1.0f;
                              self.zoneButton.alpha = 1.0f;
                              self.acceptButton.alpha = 1.0f;
@@ -330,6 +377,7 @@ ApplicationGlobals *appGlobals;
                          self.acceptButton.alpha = .0f;
                          self.zoneView.alpha = .0f;
                          self.frostView.alpha = .0f;
+                         self.zonePickerView.alpha = .0f;
                      }
                      completion:^(BOOL finished) {
                      }];

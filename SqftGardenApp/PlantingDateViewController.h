@@ -10,6 +10,7 @@
 #import <Google/Analytics.h>
 #import <CoreLocation/CoreLocation.h>
 #import "DateSelectView.h"
+#import "ZoneSelectView.h"
 
 @interface PlantingDateViewController : UIViewController <CLLocationManagerDelegate>
 @property (nonatomic) UILabel *zoneView;
@@ -19,7 +20,10 @@
 @property (nonatomic) UILabel *acceptButton;
 @property (nonatomic) NSArray *zoneArray;
 @property (nonatomic) BOOL datePickerIsOpen;
-@property(nonatomic) DateSelectView *datePickerView;
+@property (nonatomic) BOOL zonePickerIsOpen;
+@property (nonatomic) DateSelectView *datePickerView;
+@property (nonatomic) ZoneSelectView *zonePickerView;
 
 -(void) showDatePickerView;
+-(void) showZonePickerView;
 @end

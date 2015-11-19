@@ -11,6 +11,7 @@
 
 @interface ZoneSelectView : UIView <UIPickerViewDelegate, UIPickerViewDataSource>
 
+@property(nonatomic) NSArray *zoneArray;
 - (void)createZonePicker:(id)sender;
 
 @end
