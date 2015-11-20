@@ -23,9 +23,6 @@ ApplicationGlobals *appGlobals;
     [super viewDidLoad];
     locationManager = [[CLLocationManager alloc] init];
     appGlobals = [ApplicationGlobals getSharedGlobals];
-    NSLog(@"model zone: %@", appGlobals.globalGardenModel.zone);
-    
-    
     self.datePickerIsOpen = NO;
     [self buildZoneArray];
     [self initViews];
@@ -33,23 +30,23 @@ ApplicationGlobals *appGlobals;
 }
 - (void)initViews{
     for(UIView *subview in self.view.subviews)[subview removeFromSuperview];
+    //self.view.backgroundColor = [UIColor clearColor];
     [self makeFrostView];
     [self makeFrostButton];
     [self makeZoneView];
-    if(appGlobals.globalGardenModel.userOverrodeZone)[self makeZoneOverride];
     [self makeZoneButton];
     [self makeAcceptButton];
     [self makeToolbar];
+    [self setLabelsForLocation:nil];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-    NSLog(@"didFailWithError: %@", error);
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    NSLog(@"didUpdateToLocation: %@", newLocation);
-    
-    [self requestHardinessZone:newLocation success:^(NSDictionary *responseDict){
+- (void)setLabelsForLocation:(CLLocation *)location{
+    if(location == nil){
+        self.zoneView.text = @"Zone: Getting...";
+        self.frostView.text = @"Last Frost: Getting...";
+        return;
+    }
+    [self requestHardinessZone:location success:^(NSDictionary *responseDict){
         dispatch_async(dispatch_get_main_queue(), ^{
             // do the UI stuff here
             NSString *zone = [responseDict objectForKey:@"data"];
@@ -87,7 +84,14 @@ ApplicationGlobals *appGlobals;
         NSString *zoneStr = [NSString stringWithFormat:@"Detected Zone: Not Found"];
         self.zoneView.text = zoneStr;
     }];
+}
 
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    NSLog(@"didFailWithError: %@", error);
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    [self setLabelsForLocation:newLocation];
     [locationManager stopUpdatingLocation];
     
 }
@@ -117,13 +121,10 @@ ApplicationGlobals *appGlobals;
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString *requestReply = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
         requestReply = [requestReply stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-        NSLog(@"requestReply: %@", requestReply);
-        
         NSMutableDictionary *dictionary = [[NSMutableDictionary alloc]init];
         
         if (completionHandler) {
             [dictionary setObject:requestReply forKey:@"data"];
-            NSLog(@"block response zone data request: %@", dictionary);
             completionHandler(dictionary);
         }
     }] resume];
@@ -134,12 +135,12 @@ ApplicationGlobals *appGlobals;
 }
 
 - (CLLocation *) getCurrentLocation {
-    NSLog(@"start updating location");
     [locationManager requestWhenInUseAuthorization];
     locationManager.delegate = self;
     locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
     [locationManager startUpdatingLocation];
     CLLocation *location = locationManager.location;
+    [self setLabelsForLocation:location];
     NSLog(@"location %f %f", location.coordinate.latitude, location.coordinate.longitude);
     return location;
 }
@@ -154,33 +155,12 @@ ApplicationGlobals *appGlobals;
     self.zoneView.layer.borderWidth = 0;
     [self.zoneView setFont:[UIFont boldSystemFontOfSize:15]];
     self.zoneView.textAlignment = NSTextAlignmentCenter;
-    if(appGlobals.globalGardenModel.userOverrodeZone){
-        NSDictionary* attributes = @{
-                                     NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleSingle]
-                                     };
-        NSAttributedString* attrText = [[NSAttributedString alloc] initWithString:@"Zone: Getting..." attributes:attributes];
-        NSString *str = [NSString stringWithFormat:@"%@", attrText];
-        self.zoneView.text = str;
-    }else{
-        self.zoneView.text = @"Zone: Getting...";
-    }
-    
     [self.view addSubview:self.zoneView];
 }
--(void)makeZoneOverride{
-    self.zoneOverride = [[UILabel alloc]initWithFrame:CGRectMake(10,
-                                                             55,
-                                                             ((self.view.frame.size.width/2) - 20),
-                                                             44)];
-    self.zoneOverride.textColor = [UIColor blackColor];
-    self.zoneOverride.layer.borderColor =[UIColor blackColor].CGColor;
-    self.zoneOverride.layer.borderWidth = 0;
-    [self.zoneOverride setFont:[UIFont boldSystemFontOfSize:15]];
-    self.zoneOverride.textAlignment = NSTextAlignmentCenter;
-    self.zoneView.text = @"Zone: Getting...";
-    [self.view addSubview:self.zoneOverride];
-}
+
 -(void)makeZoneButton{
+    //ba905e
+    UIColor *color = [appGlobals colorFromHexString: @"#ba905e"];
     self.zoneButton = [[UILabel alloc] initWithFrame:CGRectMake(10,
                                                               149,
                                                               (self.view.frame.size.width/2) - 20,
@@ -188,6 +168,7 @@ ApplicationGlobals *appGlobals;
     self.zoneButton.text = @"Change Zone";
     self.zoneButton.layer.borderWidth = 1;
     self.zoneButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.zoneButton.layer.backgroundColor = [color colorWithAlphaComponent:.5f].CGColor;
     self.zoneButton.layer.cornerRadius = 10;
     self.zoneButton.textAlignment = NSTextAlignmentCenter;
     [self.zoneButton setFont:[UIFont systemFontOfSize:15]];
@@ -210,12 +191,11 @@ ApplicationGlobals *appGlobals;
     self.frostView.layer.borderWidth = 0;
     [self.frostView setFont:[UIFont boldSystemFontOfSize:15]];
     self.frostView.textAlignment = NSTextAlignmentCenter;
-    self.frostView.text = @"Last Frost: Retrieving...";
-    self.frostView.text = @"Last Frost: Getting...";
-
     [self.view addSubview:self.frostView];
 }
 -(void)makeFrostButton{
+    //009fa9
+    UIColor *color = [appGlobals colorFromHexString: @"#009fa9"];
     self.frostButton = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2),
                                                                 149,
                                                                 (self.view.frame.size.width/2) - 20,
@@ -223,6 +203,7 @@ ApplicationGlobals *appGlobals;
     self.frostButton.text = @"Change Date";
     self.frostButton.layer.borderWidth = 1;
     self.frostButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.frostButton.layer.backgroundColor = [color colorWithAlphaComponent:.5f].CGColor;
     self.frostButton.layer.cornerRadius = 10;
     self.frostButton.textAlignment = NSTextAlignmentCenter;
     [self.frostButton setFont:[UIFont systemFontOfSize:15]];
@@ -234,13 +215,15 @@ ApplicationGlobals *appGlobals;
     self.frostButton.userInteractionEnabled = YES;
 }
 -(void)makeAcceptButton{
+    UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
     self.acceptButton = [[UILabel alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2)- ((self.view.frame.size.width/2) - 20)/2,
                                                                  263,
                                                                  (self.view.frame.size.width/2) - 20,
                                                                  (self.view.frame.size.width/2) - 20)];
     self.acceptButton.text = @"Looks Good";
     self.acceptButton.layer.borderWidth = 1;
-    self.acceptButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.acceptButton.layer.borderColor = [color colorWithAlphaComponent:1].CGColor;
+    self.acceptButton.layer.backgroundColor = [color colorWithAlphaComponent:.45f].CGColor;
     self.acceptButton.layer.cornerRadius = self.acceptButton.frame.size.width/2;
     self.acceptButton.textAlignment = NSTextAlignmentCenter;
     [self.acceptButton setFont:[UIFont boldSystemFontOfSize:18]];
@@ -252,22 +235,18 @@ ApplicationGlobals *appGlobals;
     self.acceptButton.userInteractionEnabled = YES;
 }
 - (void)handleAcceptSingleTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"handle accept tap");
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)handleFrostSingleTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"handle frost tap");
     [self showDatePickerView];
 }
 - (void)handleZoneSingleTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"handle zone tap");
     [self showZonePickerView];
 }
 
 -(void)makeToolbar{
-    //added an extra 20 points here because the table view offsets that much
+    NSLog(@"make toolbar");
     float toolBarYOrigin = self.view.frame.size.height-44;
-    
     GrowToolBarView *toolBar = [[GrowToolBarView alloc] initWithFrame:CGRectMake(0,toolBarYOrigin,self.view.frame.size.width,44) andViewController:self];
     [toolBar setToolBarIsPinned:YES];
     toolBar.canOverrideDate = NO;
@@ -309,7 +288,6 @@ ApplicationGlobals *appGlobals;
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"MMM d, yyyy"];
     NSDate *date = [dateFormat dateFromString:dateStr];
-    NSLog(@"string: %@ date: %@", dateStr, date);
     return date;
 }
 

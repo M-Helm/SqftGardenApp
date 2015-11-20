@@ -339,7 +339,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KvY-U8-Lt9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1904" y="-2183"/>
+            <point key="canvasLocation" x="1648" y="-2143"/>
         </scene>
         <!--Bed Detail View Controller-->
         <scene sceneID="urq-99-lm0">
@@ -431,10 +431,10 @@
             </objects>
             <point key="canvasLocation" x="845" y="-48"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Save Bed Navigation Controller-->
         <scene sceneID="8xN-n5-ay4">
             <objects>
-                <navigationController id="1wW-Rb-cmB" sceneMemberID="viewController">
+                <navigationController id="1wW-Rb-cmB" customClass="SaveBedNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dp5-Ep-quS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -520,12 +520,12 @@
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8FU-dm-mdp"/>
-        <segue reference="4wv-5b-sBp"/>
+        <segue reference="FoM-PL-rQF"/>
         <segue reference="yjf-UC-sHO"/>
-        <segue reference="pdV-Ao-Gn0"/>
-        <segue reference="9Nd-1O-DIL"/>
-        <segue reference="rcr-6R-xSl"/>
-        <segue reference="Khg-Bx-xGs"/>
+        <segue reference="QB4-Vf-Rim"/>
+        <segue reference="HtM-B4-joc"/>
+        <segue reference="UQe-le-rtr"/>
+        <segue reference="EvJ-aS-uKc"/>
+        <segue reference="uw5-Cn-Htv"/>
     </inferredMetricsTieBreakers>
 </document>
