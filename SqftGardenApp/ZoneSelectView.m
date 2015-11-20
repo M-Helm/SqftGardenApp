@@ -61,6 +61,8 @@ NSString *selectedZone;
 - (void) dismissZonePicker:(id)sender{
     if(selectedZone == nil)selectedZone = @"5a";
     appGlobals.globalGardenModel.zone = selectedZone;
+    appGlobals.globalGardenModel.userOverrodeZone = YES;
+    //[appGlobals.globalGardenModel saveModelWithOverWriteOption:YES];
     NSLog(@"zone on dismiss: %@", selectedZone);
     [self removeView];
 }

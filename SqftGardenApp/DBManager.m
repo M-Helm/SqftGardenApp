@@ -216,10 +216,12 @@ NSString* initClassListName = @"init_plant_classes.txt";
 }
 
 - (BOOL) overwriteSavedGarden:(NSDictionary *)msgJSON{
+    NSLog(@"DB Manager save: %@",[msgJSON objectForKey:@"zone"]);
+    
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT or REPLACE into saves (local_id, rows, columns, bedstate, timestamp, name, unique_id, planting_date) values(\"%@\", \"%@\",\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT or REPLACE into saves (local_id, rows, columns, bedstate, timestamp, name, unique_id, planting_date, zone, override_zone, override_frost) values(\"%@\", \"%@\",\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                             [msgJSON objectForKey:@"local_id"],
                             [msgJSON objectForKey:@"rows"],
                             [msgJSON objectForKey:@"columns"],
@@ -227,8 +229,11 @@ NSString* initClassListName = @"init_plant_classes.txt";
                             [msgJSON objectForKey:@"timestamp"],
                             [msgJSON objectForKey:@"name"],
                             [msgJSON objectForKey:@"unique_id"],
-                            [msgJSON objectForKey:@"planting_date"]];
-                               
+                            [msgJSON objectForKey:@"planting_date"],
+                            [msgJSON objectForKey:@"zone"],
+                            [msgJSON objectForKey:@"override_zone"],
+                            [msgJSON objectForKey:@"override_frost"]];
+        
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE){
@@ -237,7 +242,7 @@ NSString* initClassListName = @"init_plant_classes.txt";
             return true;
         }
         else{
-            //NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
+            NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
             sqlite3_close(database);
             return false;
         }
@@ -278,14 +283,17 @@ NSString* initClassListName = @"init_plant_classes.txt";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"INSERT or REPLACE into saves (rows, columns, bedstate, timestamp, name, unique_id, planting_date) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"INSERT or REPLACE into saves (rows, columns, bedstate, timestamp, name, unique_id, planting_date, zone, override_zone, override_frost) values(\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
                                [msgJSON objectForKey:@"rows"],
                                [msgJSON objectForKey:@"columns"],
                                [msgJSON objectForKey:@"bedstate"],
                                [msgJSON objectForKey:@"timestamp"],
                                [msgJSON objectForKey:@"name"],
                                [msgJSON objectForKey:@"unique_id"],
-                               [msgJSON objectForKey:@"planting_date"]];
+                               [msgJSON objectForKey:@"planting_date"],
+                               [msgJSON objectForKey:@"zone"],
+                               [msgJSON objectForKey:@"override_zone"],
+                               [msgJSON objectForKey:@"override_frost"]];
         
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
@@ -530,8 +538,8 @@ NSString* initClassListName = @"init_plant_classes.txt";
     return plantData;
 }
 
-
 - (NSMutableDictionary *) getGardenByLocalId : (int) index{
+    NSLog(@"get garden by id");
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     const char *dbpath = [databasePath UTF8String];
     NSString *tableName = @"saves";
@@ -581,7 +589,7 @@ NSString* initClassListName = @"init_plant_classes.txt";
     NSString *tableName = @"saves";
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT timestamp, name, bedstate, rows, columns, local_id, planting_date FROM %@ WHERE unique_id = %@", tableName, uuid];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT timestamp, name, bedstate, rows, columns, local_id, planting_date, zone, override_zone, override_frost FROM %@ WHERE unique_id = %@", tableName, uuid];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
@@ -602,6 +610,12 @@ NSString* initClassListName = @"init_plant_classes.txt";
                                       (const char *) sqlite3_column_text(statement, 5)];
                 NSString *plantingDate = [[NSString alloc] initWithUTF8String:
                                           (const char *) sqlite3_column_text(statement, 6)];
+                NSString *zone = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 7)];
+                NSString *override_zone = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 8)];
+                NSString *override_frost = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 9)];
                 [dict setObject:saveName forKey:@"name"];
                 [dict setObject:saveTS forKey:@"timestamp"];
                 [dict setObject:saveState forKey:@"bedstate"],
@@ -610,6 +624,11 @@ NSString* initClassListName = @"init_plant_classes.txt";
                 [dict setObject:localId forKey:@"local_id"],
                 [dict setObject:plantingDate forKey:@"planting_date"];
                 [dict setObject:uuid forKey:@"unique_id"];
+                [dict setObject:zone forKey:@"zone"];
+                [dict setObject:override_zone forKey:@"override_zone"];
+                [dict setObject:override_frost forKey:@"override_frost"];
+                NSLog(@"DB Manager open: %@", zone);
+
             }
         }
         sqlite3_finalize(statement);
@@ -627,7 +646,7 @@ NSString* initClassListName = @"init_plant_classes.txt";
     NSMutableArray *returnJson = [[NSMutableArray alloc]init];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT local_id, timestamp, name, bedstate, rows, columns, unique_id, planting_date FROM %@", tableName];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT local_id, timestamp, name, bedstate, rows, columns, unique_id, planting_date, zone, override_zone, override_frost FROM %@", tableName];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
@@ -652,14 +671,25 @@ NSString* initClassListName = @"init_plant_classes.txt";
                                      (const char *) sqlite3_column_text(statement, 6)];
                 NSString *planting_date = [[NSString alloc] initWithUTF8String:
                                       (const char *) sqlite3_column_text(statement, 7)];
+                NSString *zone = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 8)];
+                NSString *override_zone = [[NSString alloc] initWithUTF8String:
+                                           (const char *) sqlite3_column_text(statement, 9)];
+                NSString *override_frost = [[NSString alloc] initWithUTF8String:
+                                            (const char *) sqlite3_column_text(statement, 10)];
                 [json setObject:saveName forKey:@"name"];
                 [json setObject:saveTS forKey:@"timestamp"];
                 [json setObject:saveId forKey:@"local_id"];
-                [json setObject:saveState forKey:@"bedstate"],
-                [json setObject:rows forKey:@"rows"],
-                [json setObject:columns forKey:@"columns"],
-                [json setObject:uniqueId forKey:@"unique_id"],
-                [json setObject:planting_date forKey:@"planting_date"],
+                [json setObject:saveState forKey:@"bedstate"];
+                [json setObject:rows forKey:@"rows"];
+                [json setObject:columns forKey:@"columns"];
+                [json setObject:uniqueId forKey:@"unique_id"];
+                [json setObject:planting_date forKey:@"planting_date"];
+                [json setObject:zone forKey:@"zone"];
+                [json setObject:override_zone forKey:@"override_zone"];
+                [json setObject:override_frost forKey:@"override_frost"];
+                NSLog(@"DB Manager open: %@", saveName);
+                
                 [returnJson addObject:json];
                 //NSLog(@"json data: %@ %@ %@", saveId, saveName, saveTS);
             }

@@ -15,6 +15,8 @@
 @interface PlantingDateViewController : UIViewController <CLLocationManagerDelegate>
 @property (nonatomic) UILabel *zoneView;
 @property (nonatomic) UILabel *frostView;
+@property (nonatomic) UILabel *zoneOverride;
+@property (nonatomic) UILabel *frostOverride;
 @property (nonatomic) UILabel *zoneButton;
 @property (nonatomic) UILabel *frostButton;
 @property (nonatomic) UILabel *acceptButton;

@@ -34,7 +34,7 @@ int localIdOfSelected;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
-    
+    self.savedBedJson = [dbManager getBedSaveList];
     tabColor = [appGlobals colorFromHexString: @"#74aa4a"];
     
     self.tableView.separatorColor = [UIColor clearColor];
@@ -65,7 +65,6 @@ int localIdOfSelected;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    self.savedBedJson = [dbManager getBedSaveList];
     int i = (int)self.savedBedJson.count + 1;
     if(i<2)i=1;
     return i;

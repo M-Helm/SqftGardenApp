@@ -23,16 +23,25 @@ ApplicationGlobals *appGlobals;
     [super viewDidLoad];
     locationManager = [[CLLocationManager alloc] init];
     appGlobals = [ApplicationGlobals getSharedGlobals];
+    NSLog(@"model zone: %@", appGlobals.globalGardenModel.zone);
+    
+    
     self.datePickerIsOpen = NO;
     [self buildZoneArray];
+    [self initViews];
+    [self getCurrentLocation];
+}
+- (void)initViews{
+    for(UIView *subview in self.view.subviews)[subview removeFromSuperview];
     [self makeFrostView];
     [self makeFrostButton];
     [self makeZoneView];
+    if(appGlobals.globalGardenModel.userOverrodeZone)[self makeZoneOverride];
     [self makeZoneButton];
     [self makeAcceptButton];
     [self makeToolbar];
-    [self getCurrentLocation];
 }
+
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
     NSLog(@"didFailWithError: %@", error);
 }
@@ -51,12 +60,17 @@ ApplicationGlobals *appGlobals;
                 return;
             }
             NSString *zoneStr = [NSString stringWithFormat:@"Detected Zone: %@",zone];
+            if(appGlobals.globalGardenModel.zone.length > 1){
+                zoneStr = [NSString stringWithFormat:@"Current Zone: %@", appGlobals.globalGardenModel.zone];
+            }
+            else appGlobals.globalGardenModel.zone = zone;
+            
+            self.zoneView.text = zoneStr;
+            
+            
             NSString *frostDate = [self getFrostDates:zone];
             frostDate = [frostDate substringToIndex:6];
             NSString *frostStr = [NSString stringWithFormat:@"Frost Date: %@", frostDate];
-            self.zoneView.text = zoneStr;
-             appGlobals.globalGardenModel.zone = zone;
-            
             if(![self isModelDateSet]){
                 self.frostView.text = frostStr;
                 appGlobals.globalGardenModel.frostDate = [self parseDate:[self getFrostDates:zone]];
@@ -140,8 +154,31 @@ ApplicationGlobals *appGlobals;
     self.zoneView.layer.borderWidth = 0;
     [self.zoneView setFont:[UIFont boldSystemFontOfSize:15]];
     self.zoneView.textAlignment = NSTextAlignmentCenter;
-    self.zoneView.text = @"Zone: Getting...";
+    if(appGlobals.globalGardenModel.userOverrodeZone){
+        NSDictionary* attributes = @{
+                                     NSStrikethroughStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleSingle]
+                                     };
+        NSAttributedString* attrText = [[NSAttributedString alloc] initWithString:@"Zone: Getting..." attributes:attributes];
+        NSString *str = [NSString stringWithFormat:@"%@", attrText];
+        self.zoneView.text = str;
+    }else{
+        self.zoneView.text = @"Zone: Getting...";
+    }
+    
     [self.view addSubview:self.zoneView];
+}
+-(void)makeZoneOverride{
+    self.zoneOverride = [[UILabel alloc]initWithFrame:CGRectMake(10,
+                                                             55,
+                                                             ((self.view.frame.size.width/2) - 20),
+                                                             44)];
+    self.zoneOverride.textColor = [UIColor blackColor];
+    self.zoneOverride.layer.borderColor =[UIColor blackColor].CGColor;
+    self.zoneOverride.layer.borderWidth = 0;
+    [self.zoneOverride setFont:[UIFont boldSystemFontOfSize:15]];
+    self.zoneOverride.textAlignment = NSTextAlignmentCenter;
+    self.zoneView.text = @"Zone: Getting...";
+    [self.view addSubview:self.zoneOverride];
 }
 -(void)makeZoneButton{
     self.zoneButton = [[UILabel alloc] initWithFrame:CGRectMake(10,
@@ -303,8 +340,13 @@ ApplicationGlobals *appGlobals;
                              self.frostView.alpha = 1.0f;
                          }
                          completion:^(BOOL finished) {
-                             //[self initViews];
-
+                             [self initViews];
+                             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                             [dateFormatter setDateFormat:@"MMM dd"];
+                             NSString *frostStr = [NSString stringWithFormat:@"Frost Date: %@",[dateFormatter stringFromDate: appGlobals.globalGardenModel.frostDate]];
+                             self.frostView.text = frostStr;
+                             NSString *zoneStr = [NSString stringWithFormat:@"Selected Zone: %@",appGlobals.globalGardenModel.zone];
+                             self.zoneView.text = zoneStr;
                          }];
         return;
     }
@@ -349,11 +391,14 @@ ApplicationGlobals *appGlobals;
                              self.frostView.alpha = 1.0f;
                          }
                          completion:^(BOOL finished) {
-                             //[self initViews];
+                             [self initViews];
                              NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                              [dateFormatter setDateFormat:@"MMM dd"];
                              NSString *frostStr = [NSString stringWithFormat:@"Frost Date: %@",[dateFormatter stringFromDate: appGlobals.globalGardenModel.frostDate]];
                              self.frostView.text = frostStr;
+                             NSString *zoneStr = [NSString stringWithFormat:@"Detected Zone: %@",appGlobals.globalGardenModel.zone];
+                             if(appGlobals.globalGardenModel.userOverrodeZone)zoneStr = [NSString stringWithFormat:@"Selected Zone: %@",appGlobals.globalGardenModel.zone];
+                             self.zoneView.text = zoneStr;
                          }];
         return;
     }

@@ -432,11 +432,14 @@ ApplicationGlobals *appGlobals;
     if([viewController class] == [EditBedViewController class]){
         EditBedViewController *editBedVC = (EditBedViewController*)viewController;
         bool success = [editBedVC.currentGardenModel saveModelWithOverWriteOption:YES];
-        //NSLog(@"save icon tapped %i", success);
+        NSLog(@"save icon tapped %i", success);
         if(success){
             [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
+        }
+        else{
             //[editBedVC showWriteSuccessAlertForFile:editBedVC.currentGardenModel.name atIndex:editBedVC.currentGardenModel.localId];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"notifyButtonPressed" object:self];
         }
     }
 }

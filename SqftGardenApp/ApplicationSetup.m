@@ -88,6 +88,9 @@ DBManager *dbManager;
         [dbManager addColumn:@"plant_classes" : @"population" : @"int"];
     }
     
+
+    
+    
     if([dbManager checkTableExists:@"plant_classes"]){
         [dbManager getInitPlantClasses];
     }
@@ -102,8 +105,16 @@ DBManager *dbManager;
         [dbManager addColumn:@"saves" : @"name" : @"char(140)"];
         [dbManager addColumn:@"saves" : @"unique_id" : @"char"];
         [dbManager addColumn:@"saves" : @"planting_date" : @"char"];
+        
+        //new cols for ver 1.1.1
+        [dbManager addColumn:@"saves" : @"zone" : @"char"];
+        [dbManager addColumn:@"saves" : @"override_zone" : @"int"];
+        [dbManager addColumn:@"saves" : @"override_frost" : @"int"];
+        
         [self createSampleGarden];
     }
+    NSLog(@"saves count: %i", [dbManager getTableRowCount:@"saves"]);
+    
     return YES;
 }
 
