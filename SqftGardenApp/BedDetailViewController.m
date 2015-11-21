@@ -199,15 +199,10 @@ CGFloat maxDays;
     NSString *transStr = [NSString stringWithFormat:@"Transplant:%@",[dateFormatter stringFromDate:transDate]];
     
     [criticalDateBar addSubview:timelineBar];
-    
-
 
     
     [criticalDateBar addSubview:[self makeHarvestLabel1:maturityStr1 isUp:NO]];
-    
-    
-    
-    
+
     [criticalDateBar addSubview:[self makeInsideLabel:insideStr isUp:NO]];
     [criticalDateBar addSubview:[self makeTransplantLabel:transStr isUp:YES]];
     if(appGlobals.selectedPlant.startInside)

@@ -10,6 +10,7 @@
 #import "PlantingDateViewController.h"
 #import "GrowToolBarView.h"
 #import "ApplicationGlobals.h"
+#import "TimelineView.h"
 
 @interface PlantingDateViewController()
 
@@ -31,6 +32,7 @@ ApplicationGlobals *appGlobals;
 - (void)initViews{
     for(UIView *subview in self.view.subviews)[subview removeFromSuperview];
     //self.view.backgroundColor = [UIColor clearColor];
+    [self makeBackView];
     [self makeFrostView];
     [self makeFrostButton];
     [self makeZoneView];
@@ -38,6 +40,14 @@ ApplicationGlobals *appGlobals;
     [self makeAcceptButton];
     [self makeToolbar];
     [self setLabelsForLocation:nil];
+    
+    [self maketTimeline];
+}
+
+-(void)maketTimeline{
+    UIView *timeline = [[TimelineView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height-88,320,44) withPlantUuid:0 pointsPerDay:2];
+    //timeline.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:timeline];
 }
 
 - (void)setLabelsForLocation:(CLLocation *)location{
@@ -145,6 +155,17 @@ ApplicationGlobals *appGlobals;
     return location;
 }
 
+-(void)makeBackView{
+    self.backView = [[UIView alloc]initWithFrame:CGRectMake(10,
+                                                            44,
+                                                            self.view.frame.size.width-20,
+                                                            self.view.frame.size.height-132)];
+    self.backView.layer.borderWidth = 1;
+    self.backView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.backView.layer.cornerRadius = 15;
+    [self.view addSubview:self.backView];
+}
+
 -(void)makeZoneView{
     self.zoneView = [[UILabel alloc]initWithFrame:CGRectMake(10,
                                                              105,
@@ -161,7 +182,7 @@ ApplicationGlobals *appGlobals;
 -(void)makeZoneButton{
     //ba905e
     UIColor *color = [appGlobals colorFromHexString: @"#ba905e"];
-    self.zoneButton = [[UILabel alloc] initWithFrame:CGRectMake(10,
+    self.zoneButton = [[UILabel alloc] initWithFrame:CGRectMake(15,
                                                               149,
                                                               (self.view.frame.size.width/2) - 20,
                                                               44)];
@@ -182,7 +203,7 @@ ApplicationGlobals *appGlobals;
 
 
 -(void)makeFrostView{
-    self.frostView = [[UILabel alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2),
+    self.frostView = [[UILabel alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2)+5,
                                                               105,
                                                               ((self.view.frame.size.width/2) - 20),
                                                               44)];
@@ -196,7 +217,7 @@ ApplicationGlobals *appGlobals;
 -(void)makeFrostButton{
     //009fa9
     UIColor *color = [appGlobals colorFromHexString: @"#009fa9"];
-    self.frostButton = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2),
+    self.frostButton = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)+5,
                                                                 149,
                                                                 (self.view.frame.size.width/2) - 20,
                                                                 44)];
@@ -243,6 +264,8 @@ ApplicationGlobals *appGlobals;
 - (void)handleZoneSingleTap:(UITapGestureRecognizer *)recognizer {
     [self showZonePickerView];
 }
+
+
 
 -(void)makeToolbar{
     NSLog(@"make toolbar");

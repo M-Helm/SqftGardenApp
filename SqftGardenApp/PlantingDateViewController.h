@@ -13,6 +13,7 @@
 #import "ZoneSelectView.h"
 
 @interface PlantingDateViewController : UIViewController <CLLocationManagerDelegate>
+@property (nonatomic) UIView *backView;
 @property (nonatomic) UILabel *zoneView;
 @property (nonatomic) UILabel *frostView;
 @property (nonatomic) UILabel *zoneOverride;
