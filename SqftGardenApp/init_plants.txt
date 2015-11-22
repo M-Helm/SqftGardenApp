@@ -52,7 +52,7 @@
 "uuid":"b4b9e284-7a69-11e5-8bcf-feff819cdc9f",
 "timestamp":0,
 "icon":"ic_herb2_flat_256px.png",
-"maturity":55,
+"maturity":65,
 "population":4,
 "class": "Herb",
 "description": "",
@@ -66,7 +66,7 @@
 "is_tall":0,
 "start_seed":1,
 "start_inside":1,
-"start_inside_delta":-35,
+"start_inside_delta":-25,
 "transplant_delta":-7,
 "square_feet":1
 },

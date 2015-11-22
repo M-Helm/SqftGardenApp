@@ -71,8 +71,9 @@ DBManager *dbManager;
         NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
         NSLog(@"plants in db %i plants in initList %i",plantCount, (int)jsonArray.count);
         
-        //if we have more plants in the array, load the new list into the db
+        //if we have more plants in the array, drop the old table and load the new list into the db
         if(plantCount < (int)jsonArray.count){
+            [dbManager dropTable:@"plants"];
             [dbManager getInitPlants];
             NSLog(@"init plants");
         }

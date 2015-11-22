@@ -10,10 +10,10 @@
 #import "DBManager.h"
 #import "ApplicationGlobals.h"
 #import "PresentTableCell.h"
-//#import "SqftGardenModel.h"
 #import "PlantIconView.h"
 #import "GrowToolBarView.h"
 #import "PlantingDateViewController.h"
+#import "TimelineView.h"
 
 
 
@@ -39,6 +39,7 @@ UIColor *summerColor;
 bool boundsCalculated;
 int maxDays;
 int minDays;
+CGFloat pointsPerDay;
 CGFloat width;
 CGFloat daysPerPoint;
 CGFloat height;
@@ -49,6 +50,7 @@ CGFloat height;
     appGlobals = [ApplicationGlobals getSharedGlobals];
     plantArray = [[NSArray alloc]
                   initWithArray: [self buildPlantArrayFromModel:appGlobals.globalGardenModel]];
+    //pointsPerDay = [self calculateDateBounds];
     dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM dd"];
     [self makeHeader];
@@ -81,6 +83,21 @@ CGFloat height;
 
 }
 
+/*
+-(CGFloat)calculateDateBounds{
+    int min = 0;
+    int max = 0;
+    CGFloat ptsPerDay;
+    min = abs(appGlobals.selectedPlant.model.startInsideDelta) - abs(appGlobals.selectedPlant.model.plantingDelta);
+    if(abs(appGlobals.selectedPlant.model.startInsideDelta) < 1)min=0;
+    if(abs(appGlobals.selectedPlant.model.plantingDelta) < 1)min = 0;
+    max = appGlobals.selectedPlant.model.maturity;
+    int days = max + abs(min);
+    ptsPerDay = (self.view.bounds.size.width -20) / days;
+    maxDays = days;
+    return ptsPerDay;
+}
+*/
 -(void)calculateDateBounds:(NSArray *)array{
     boundsCalculated = YES;
     int min = 0;
@@ -97,6 +114,8 @@ CGFloat height;
     //if(min < 0)min = 0;
     minDays = min;
     maxDays = max;
+    int days = max + abs(min);
+    pointsPerDay = (self.view.bounds.size.width -20) / days;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -201,7 +220,7 @@ CGFloat height;
 
     [cell.mainLabel setFont: [UIFont systemFontOfSize:11]];
     cell.mainLabel.text = mainLabelString;
-    //[cell.mainLabel setTextAlignment:NSTextAlignmentCenter];
+    [cell.mainLabel setTextAlignment:NSTextAlignmentCenter];
     
     cell.harvestView.alpha = 0;
     [cell.contentView addSubview:cell.frostView];
@@ -211,7 +230,18 @@ CGFloat height;
     [cell.contentView addSubview:cell.harvestView];
     [cell.contentView addSubview:cell.plantView];
     [cell.contentView addSubview:cell.mainLabel];
+    //UIView *timeline = [self makeTimelineForPlant:plant.model];
+    //[cell.contentView addSubview:timeline];
+    
     return cell;
+}
+
+-(UIView *)makeTimelineForPlant:(PlantModel *)plant{
+    NSLog(@"timeline uuid %@",plant.plantUuid);
+    UIView *timeline = [[TimelineView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,44) withPlantUuid:plant.plantUuid pointsPerDay:pointsPerDay maxDays:maxDays];
+    //plant.maturity*daysPerPoint
+    //timeline.backgroundColor = [UIColor lightGrayColor];
+    return timeline;
 }
 
 - (UILabel *) makeCellLabelWithFrame:(CGRect)frame{
@@ -246,6 +276,10 @@ CGFloat height;
         PlantIconView *plant = [plantArray objectAtIndex:[indexPath row]];
         [self animatePlantViewforCell:tableCell forPlant:plant];
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 44;
 }
 
 - (CAShapeLayer *) roundCornersMask: (CGRect)frame{
@@ -414,7 +448,7 @@ CGFloat height;
         [plantArray addObject:plant];
     }
 
-    NSArray *sorted = [self sortArray:plantArray ByKey:@"plantingDelta" Ascending:YES];
+    NSArray *sorted = [self sortArray:plantArray ByKey:@"model.plantingDelta" Ascending:YES];
     return sorted;
 }
 - (void)viewDidAppear:(BOOL)animated{
@@ -424,6 +458,10 @@ CGFloat height;
 }
 
 -(void)makeToolbar{
+    for(UIView *subview in self.navigationController.view.subviews){
+        if([subview class] == [GrowToolBarView class])[subview removeFromSuperview];
+    }
+    
     //added an extra 20 points here because the table view offsets that much
     float toolBarYOrigin = self.view.frame.size.height-44;
     

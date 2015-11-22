@@ -10,7 +10,7 @@
 #import "PlantingDateViewController.h"
 #import "GrowToolBarView.h"
 #import "ApplicationGlobals.h"
-#import "TimelineView.h"
+
 
 @interface PlantingDateViewController()
 
@@ -41,13 +41,7 @@ ApplicationGlobals *appGlobals;
     [self makeToolbar];
     [self setLabelsForLocation:nil];
     
-    [self maketTimeline];
-}
 
--(void)maketTimeline{
-    UIView *timeline = [[TimelineView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height-88,320,44) withPlantUuid:0 pointsPerDay:2];
-    //timeline.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:timeline];
 }
 
 - (void)setLabelsForLocation:(CLLocation *)location{

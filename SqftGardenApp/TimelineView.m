@@ -8,6 +8,7 @@
 
 #import "TimelineView.h"
 #import "ApplicationGlobals.h"
+#import "PlantModel.h"
 
 @interface TimelineView()
 
@@ -17,19 +18,23 @@
 
 ApplicationGlobals *appGlobals;
 NSDate *frostDate;
+PlantModel *plant;
 
 
-- (id)initWithFrame:(CGRect)frame withPlantUuid: (NSString *)plantUuid pointsPerDay: (CGFloat)pointsPerDay{
+- (id)initWithFrame:(CGRect)frame withPlantUuid: (NSString *)plantUuid pointsPerDay: (CGFloat)pointsPerDay maxDays:(int)max{
     self = [super initWithFrame:frame];
     appGlobals = [ApplicationGlobals getSharedGlobals];
+    plant = [[PlantModel alloc]initWithUUID:plantUuid];
     self.pointsPerDay = pointsPerDay;
+    self.maxDays = max;
     //get the frost date here
-    frostDate = [NSDate dateWithTimeIntervalSinceNow:0];
-    [self makeCriticalDatesBar:self withWidth:self.frame.size.width andHeight:self.frame.size.height];
+    frostDate = appGlobals.globalGardenModel.frostDate;
+
+    [self makeCriticalDatesBar:self.frame.size.width andHeight:self.frame.size.height];
     return self;
 }
 
--(void)makeCriticalDatesBar:(UIView *)base withWidth:(int)width andHeight:(int)height{
+-(void)makeCriticalDatesBar:(int)width andHeight:(int)height{
     UIView *criticalDateBar = [[UIView alloc]initWithFrame:CGRectMake(0,0, width, 44)];
     //UIColor *plantingColor = [appGlobals colorFromHexString:@"#ba9060"];
     UIColor *growingColor = [appGlobals colorFromHexString:@"#74aa4a"];
@@ -56,17 +61,17 @@ NSDate *frostDate;
     [timelineBar.layer insertSublayer:gradient atIndex:0];
     //harvestBar.alpha = .5;
     
-    NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
+    NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
     NSString *plantingStr = [NSString stringWithFormat:@"Plant:%@",[dateFormatter stringFromDate:plantingDate]];
     
-    NSDate *maturityDate0 = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.maturity];
-    maturityDate0 = [maturityDate0 dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
-    NSDate *maturityDate1 = [maturityDate0 dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.transplantDelta];
-    NSDate *transDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.transplantDelta];
+    NSDate *maturityDate0 = [frostDate dateByAddingTimeInterval:60*60*24*plant.maturity];
+    maturityDate0 = [maturityDate0 dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
+    NSDate *maturityDate1 = [maturityDate0 dateByAddingTimeInterval:60*60*24*plant.transplantDelta];
+    NSDate *transDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.transplantDelta];
     
     NSString *maturityStr0 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:maturityDate0]];
     NSString *maturityStr1 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:maturityDate1]];
-    NSDate *startIndoorsDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.startInsideDelta];
+    NSDate *startIndoorsDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.startInsideDelta];
     NSString *insideStr = [NSString stringWithFormat:@"Start Inside:%@",[dateFormatter stringFromDate:startIndoorsDate]];
     NSString *transStr = [NSString stringWithFormat:@"Transplant:%@",[dateFormatter stringFromDate:transDate]];
     
@@ -75,7 +80,7 @@ NSDate *frostDate;
     
     [criticalDateBar addSubview:[self makeInsideLabel:insideStr isUp:NO]];
     [criticalDateBar addSubview:[self makeTransplantLabel:transStr isUp:YES]];
-    if(appGlobals.selectedPlant.model.startInside)
+    if(plant.startInside)
         [criticalDateBar addSubview:[self makePlantingLabel:plantingStr isUp:YES]];
     else [criticalDateBar addSubview:[self makePlantingLabel:plantingStr isUp:NO]];
     [criticalDateBar addSubview:[self makeHarvestLabel0:maturityStr0 isUp:YES]];
@@ -86,8 +91,8 @@ NSDate *frostDate;
     int upSpot = -3;
     if(!up)upSpot = 34;
     CGFloat xAnchor = 0;
-    if(abs(appGlobals.selectedPlant.model.startInsideDelta)<abs(appGlobals.selectedPlant.model.plantingDelta)){
-        int delta = abs(appGlobals.selectedPlant.model.plantingDelta) - abs(appGlobals.selectedPlant.model.startInsideDelta);
+    if(abs(plant.startInsideDelta)<abs(plant.plantingDelta)){
+        int delta = abs(plant.plantingDelta) - abs(plant.startInsideDelta);
         xAnchor = delta * self.pointsPerDay;
     }
     
@@ -110,7 +115,7 @@ NSDate *frostDate;
     [layer setStrokeColor:[[UIColor blueColor] CGColor]];
     [label.layer addSublayer: layer];
     
-    if(!appGlobals.selectedPlant.model.startInside)label.alpha = 0;
+    if(!plant.startInside)label.alpha = 0;
     return label;
 }
 -(UILabel *)makeHarvestLabel0:(NSString *)text isUp:(bool)up{
@@ -130,7 +135,7 @@ NSDate *frostDate;
     CAShapeLayer *layer = [self makeIndicatorWithFrame:CGRectMake(55, 18-upSpot, 11, 11)];
     [label.layer addSublayer: layer];
     
-    if(!appGlobals.selectedPlant.model.startSeed)label.alpha = 0;
+    if(!plant.startSeed)label.alpha = 0;
     return label;
 }
 
@@ -138,9 +143,9 @@ NSDate *frostDate;
     //if(self.pointsPerDay < 1)[self calculateDateBounds];
     int upSpot = -5;
     if(!up)upSpot = 34;
-    CGFloat xAnchor = (appGlobals.selectedPlant.model.maturity * self.pointsPerDay);
-    if(appGlobals.selectedPlant.model.startSeed){
-        xAnchor = (abs(appGlobals.selectedPlant.model.maturity) * self.pointsPerDay);
+    CGFloat xAnchor = (plant.maturity * self.pointsPerDay);
+    if(plant.startSeed){
+        xAnchor = (abs(plant.maturity) * self.pointsPerDay);
     }
     
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor-75,upSpot,80,16)];
@@ -159,7 +164,7 @@ NSDate *frostDate;
     [label.layer addSublayer: layer];
     
     
-    if(!appGlobals.selectedPlant.model.startInside)label.alpha = 0;
+    if(!plant.startInside)label.alpha = 0;
     return label;
 }
 
@@ -167,8 +172,8 @@ NSDate *frostDate;
     int upSpot = -3;
     if(!up)upSpot = 34;
     CGFloat xAnchor = 0;
-    if(abs(appGlobals.selectedPlant.model.startInsideDelta)>abs(appGlobals.selectedPlant.model.plantingDelta)){
-        int delta = abs(appGlobals.selectedPlant.model.startInsideDelta) - abs(appGlobals.selectedPlant.model.plantingDelta);
+    if(abs(plant.startInsideDelta)>abs(plant.plantingDelta)){
+        int delta = abs(plant.startInsideDelta) - abs(plant.plantingDelta);
         xAnchor = delta * self.pointsPerDay;
     }
     
@@ -198,14 +203,14 @@ NSDate *frostDate;
     CAShapeLayer *layer = [self makeIndicatorWithFrame:CGRectMake(7, 18-upSpot, 11, 11)];
     [label.layer addSublayer: layer];
     
-    if(!appGlobals.selectedPlant.model.startSeed)label.alpha = 0;
+    if(!plant.startSeed)label.alpha = 0;
     return label;
 }
 
 -(UILabel *)makeTransplantLabel:(NSString *)text isUp:(bool)up{
     int upSpot = -21;
     if(!up)upSpot = 31;
-    CGFloat delta = (abs(appGlobals.selectedPlant.model.startInsideDelta) - abs(appGlobals.selectedPlant.model.transplantDelta));
+    CGFloat delta = (abs(plant.startInsideDelta) - abs(plant.transplantDelta));
     CGFloat xAnchor = delta*self.pointsPerDay;
     
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor,upSpot,85,16)];
@@ -221,7 +226,7 @@ NSDate *frostDate;
     [layer setStrokeColor:[[UIColor blueColor] CGColor]];
     [label.layer addSublayer: layer];
     
-    if(!appGlobals.selectedPlant.model.startInside)label.alpha=0;
+    if(!plant.startInside)label.alpha=0;
     return label;
 }
 
@@ -271,6 +276,22 @@ NSDate *frostDate;
     line.fillColor = [UIColor blackColor].CGColor;
     [[self layer] addSublayer:line];
     return line;
+}
+
+
+- (UIBezierPath *)drawBezierPathFrom:(CGPoint)point1 to:(CGPoint)point2{
+    
+    CGPoint controlPoint1 = CGPointMake(point1.x+50, point1.y + 15);
+    CGPoint controlPoint2 = CGPointMake(point2.x-50, point2.y - 25);
+    
+    UIBezierPath *path1 = [UIBezierPath bezierPath];
+    
+    [path1 setLineWidth:1.0];
+    [path1 moveToPoint:point1];
+    [path1 addCurveToPoint:point2 controlPoint1:controlPoint1 controlPoint2:controlPoint2];
+    [path1 stroke];
+    
+    return path1;
 }
 
 @end

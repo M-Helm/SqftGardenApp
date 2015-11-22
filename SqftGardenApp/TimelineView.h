@@ -13,6 +13,6 @@
 @property(nonatomic)CGFloat pointsPerDay;
 @property(nonatomic)int maxDays;
 
-- (id)initWithFrame:(CGRect)frame withPlantUuid: (NSString *)plantUuid pointsPerDay: (CGFloat)pointsPerDay;
+- (id)initWithFrame:(CGRect)frame withPlantUuid: (NSString *)plantUuid pointsPerDay: (CGFloat)pointsPerDay maxDays:(int)max;
 
 @end

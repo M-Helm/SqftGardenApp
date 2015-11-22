@@ -183,6 +183,10 @@ DBManager *dbManager;
 
 -(GrowToolBarView *)makeToolbar{
     
+    for(UIView *subview in self.navigationController.view.subviews){
+        if([subview class] == [GrowToolBarView class])[subview removeFromSuperview];
+    }
+    
     float toolBarYOrigin = self.view.frame.size.height-44;
     if(!self.toolBarIsOpen)toolBarYOrigin = self.view.frame.size.height;
     
