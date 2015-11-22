@@ -374,16 +374,16 @@ DBManager *dbManager;
                                                             withPlantUuid: plantUuid
                                                             isIsometric:NO];
             //test if multi-sqft and adjust frame if so
-            if(plantView.squareFeet > 1){
+            if(plantView.model.squareFeet > 1){
                 CGRect frame = CGRectMake(plantView.frame.origin.x,
                                           plantView.frame.origin.y,
-                                          (appGlobals.bedDimension -5)*(plantView.squareFeet /2),
-                                          (appGlobals.bedDimension -5)*(plantView.squareFeet /2));
+                                          (appGlobals.bedDimension -5)*(plantView.model.squareFeet /2),
+                                          (appGlobals.bedDimension -5)*(plantView.model.squareFeet /2));
                 plantView.frame = frame;
                 [plantView setImageGrid:1 :1];
             }
             plantView.layer.borderWidth = 1;
-            plantView.position = cell;
+            plantView.model.position = cell;
             [bedArray addObject:plantView];
             //if(i==0)self.bedViewAnchor = bed.frame.origin;
             columnNumber++;
@@ -396,8 +396,8 @@ DBManager *dbManager;
     int i = 0;
     NSArray *tempArray = [[NSArray alloc]initWithArray:bedArray];
     for(PlantIconView *plantView in tempArray){
-        plantView.position = i;
-        if(plantView.squareFeet > 1){
+        plantView.model.position = i;
+        if(plantView.model.squareFeet > 1){
             PlantIconView *nullPlant0 = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantUuid:@"0" isIsometric:NO];
             PlantIconView *nullPlant1 = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantUuid:@"0" isIsometric:NO];
             PlantIconView *nullPlant2 = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantUuid:@"0" isIsometric:NO];
@@ -525,7 +525,7 @@ DBManager *dbManager;
         PlantIconView *plantView = (PlantIconView*)[touch view];
         if(plantView.plantUuid.length < 5)return;
         plantView.hidden=FALSE;
-        if(plantView.squareFeet < 2)plantView.layer.borderWidth = 0;
+        if(plantView.model.squareFeet < 2)plantView.layer.borderWidth = 0;
         [self.view bringSubviewToFront:touchedView];
         [self.bedFrameView bringSubviewToFront:touchedView];
         CGPoint location = [touch locationInView:[self view]];
@@ -535,14 +535,14 @@ DBManager *dbManager;
         
         
         //check to see if we need to give it a multi-sqft frame
-        if(plantView.squareFeet > 1){
+        if(plantView.model.squareFeet > 1){
             //check frame size
             if(plantView.frame.size.width > appGlobals.bedDimension - 5)return;
             //update frame size
             CGRect frame = CGRectMake(plantView.frame.origin.x,
                                       plantView.frame.origin.y,
-                                      (appGlobals.bedDimension -5)*(plantView.squareFeet /2),
-                                      (appGlobals.bedDimension -5)*(plantView.squareFeet /2));
+                                      (appGlobals.bedDimension -5)*(plantView.model.squareFeet /2),
+                                      (appGlobals.bedDimension -5)*(plantView.model.squareFeet /2));
             plantView.frame = frame;
             plantView.layer.borderColor = [UIColor blackColor].CGColor;
             plantView.layer.borderWidth = 2;
@@ -580,13 +580,13 @@ DBManager *dbManager;
     if ([touchedView class] == [PlantIconView class]){
         PlantIconView *plantView = (PlantIconView*)touchedView;
         //remove the bed from it's old spot
-        [self updatePlantBeds: plantView.position : @"0"];
+        [self updatePlantBeds: plantView.model.position : @"0"];
         
         float xCo = plantView.center.x;
         float yCo = plantView.center.y;
         
         //test if we're multi sqft and set xCo and yCo if so
-        if(plantView.squareFeet > 1){
+        if(plantView.model.squareFeet > 1){
             xCo = plantView.frame.origin.x + ((appGlobals.bedDimension -5) /2);
             yCo = plantView.frame.origin.y + ((appGlobals.bedDimension -5) /2);
         }
@@ -622,7 +622,7 @@ DBManager *dbManager;
         }
         if(self.touchIcon != nil)[self.touchIcon removeFromSuperview];
         
-        if(plantView.squareFeet > 1){
+        if(plantView.model.squareFeet > 1){
             //and kick out if we'll draw part out of bounds
             //right hand column
             if((targetCell+1) % self.currentGardenModel.columns == 0){
@@ -712,7 +712,7 @@ DBManager *dbManager;
     }
     recognizer.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
     appGlobals.selectedPlant = bd;
-    appGlobals.selectedCell = bd.position;
+    appGlobals.selectedCell = bd.model.position;
     [self calculatePlantDropPosition:bd];
     [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
 }

@@ -91,8 +91,8 @@ CGFloat height;
         //plantIndex = array[i];
         //plant = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantIndex.intValue isIsometric:NO];
         plant = array[i];
-        if(min > plant.plantingDelta)min = plant.plantingDelta;
-        if(max < plant.maturity)max = plant.maturity;
+        if(min > plant.model.plantingDelta)min = plant.model.plantingDelta;
+        if(max < plant.model.maturity)max = plant.model.maturity;
     }
     //if(min < 0)min = 0;
     minDays = min;
@@ -113,16 +113,16 @@ CGFloat height;
     NSString *harvestDateString = @"this is the harvest date";
     NSString *plantingDateString = @"this is the planting date";
     PlantIconView *plant = [plantArray objectAtIndex:[indexPath row]];
-    NSDate *maturityDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.maturity];
-    maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
-    NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
+    NSDate *maturityDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.model.maturity];
+    maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*plant.model.plantingDelta];
+    NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.model.plantingDelta];
     harvestDateString = [dateFormatter stringFromDate:maturityDate];
     harvestDateString = [NSString stringWithFormat:@"%@", harvestDateString];
     
     plantingDateString = [dateFormatter stringFromDate:plantingDate];
     plantingDateString = [NSString stringWithFormat:@"%@", plantingDateString];
     
-    mainLabelString = plant.plantName;
+    mainLabelString = plant.model.plantName;
     
     if(cell == nil){
         cell = [[PresentTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
@@ -139,10 +139,10 @@ CGFloat height;
         
     }
 
-    CGRect adjustedFrame = CGRectMake(plantingDateAnchor + (plant.plantingDelta * daysPerPoint), 13, 0, height - 20);
+    CGRect adjustedFrame = CGRectMake(plantingDateAnchor + (plant.model.plantingDelta * daysPerPoint), 13, 0, height - 20);
     cell.plantView.frame = adjustedFrame;
     cell.growingView.frame = CGRectMake(adjustedFrame.origin.x+10, 13,0, height -20);
-    cell.harvestView.frame = CGRectMake(adjustedFrame.origin.x+(plant.maturity*daysPerPoint)+10, 13,0, height -20);
+    cell.harvestView.frame = CGRectMake(adjustedFrame.origin.x+(plant.model.maturity*daysPerPoint)+10, 13,0, height -20);
     //cell.harvestView.layer.cornerRadius = 10;
     
     cell.mainLabel.frame = CGRectMake(self.view.frame.origin.x+80,
@@ -277,11 +277,11 @@ CGFloat height;
                               cell.growingView.frame.origin.y,
                               0,
                               cell.growingView.frame.size.height);
-    CGFloat duration = (plant.maturity*daysPerPoint)/120;
+    CGFloat duration = (plant.model.maturity*daysPerPoint)/120;
     
     [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         cell.growingView.frame = CGRectMake(frame.origin.x,frame.origin.y,(plant.maturity*daysPerPoint),frame.size.height);
+                         cell.growingView.frame = CGRectMake(frame.origin.x,frame.origin.y,(plant.model.maturity*daysPerPoint),frame.size.height);
                          cell.mainLabel.frame = CGRectMake(cell.growingView.frame.origin.x + 15,
                                                            cell.growingView.frame.origin.y,
                                                            cell.growingView.frame.size.width,

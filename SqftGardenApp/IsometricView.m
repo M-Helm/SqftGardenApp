@@ -158,19 +158,19 @@ EditBedViewController *editBedVC;
     CGPoint point;
     point.x = transformFrame.origin.x + (transformFrame.size.width/2);
     point.y = transformFrame.origin.y + (bedDimension/4);
-    if(plant.isTall){
+    if(plant.model.isTall){
         point.x = transformFrame.origin.x;
         point.y = transformFrame.origin.y - (bedDimension/6);
     }
-    if(plant.squareFeet > 1){
+    if(plant.model.squareFeet > 1){
         point.x = transformFrame.origin.x + bedDimension;
         point.y = transformFrame.origin.y - (bedDimension/6);
     }
     
-    UIImage *icon = [UIImage imageNamed: plant.isoIcon];
+    UIImage *icon = [UIImage imageNamed: plant.model.isoIcon];
     
     CGRect frame = CGRectMake(0,0,bedDimension*1.75,bedDimension*1.75);
-    if(plant.isTall) frame = CGRectMake(0,0,frame.size.width * 2, frame.size.height * 1.5);
+    if(plant.model.isTall) frame = CGRectMake(0,0,frame.size.width * 2, frame.size.height * 1.5);
     UIImageView *iconView = [[UIImageView alloc] initWithImage:icon];
     iconView.tag = 4;
     iconView.frame = frame;
@@ -281,7 +281,7 @@ EditBedViewController *editBedVC;
                                                            bedDimension)
                                   withPlantUuid:plantUuid isIsometric:YES];
             bed.layer.borderWidth = 1;
-            bed.position = cell;
+            bed.model.position = cell;
             [bedArray addObject:bed];
             columnNumber++;
             cell++;

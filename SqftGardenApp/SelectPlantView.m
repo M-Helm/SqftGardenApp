@@ -115,7 +115,7 @@ EditBedViewController *editBedVC;
        // UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
         plantIcon.layer.borderWidth = 0;
 
-        plantIcon.position = i+1;
+        plantIcon.model.position = i+1;
         //[plantIcon addSubview:imageView];
         [selectArray addObject:plantIcon];
         editBedVC.selectMessageLabel.text = @"Drag a plant to a square";
@@ -275,14 +275,14 @@ EditBedViewController *editBedVC;
     //check to see if we need to give it a multi-sqft frame
     if([touchedView class] == [PlantIconView class]){
         PlantIconView *plant = (PlantIconView*)touchedView;
-        if(plant.squareFeet > 1){
+        if(plant.model.squareFeet > 1){
             //check frame size
             if(plant.frame.size.width > appGlobals.bedDimension - 5)return;
             //update frame size
             CGRect frame = CGRectMake(plant.frame.origin.x,
                                       plant.frame.origin.y,
-                                      (appGlobals.bedDimension -5)*(plant.squareFeet /2),
-                                      (appGlobals.bedDimension -5)*(plant.squareFeet /2));
+                                      (appGlobals.bedDimension -5)*(plant.model.squareFeet /2),
+                                      (appGlobals.bedDimension -5)*(plant.model.squareFeet /2));
             plant.frame = frame;
             plant.layer.borderColor = [UIColor blackColor].CGColor;
             plant.layer.borderWidth = 2;
@@ -340,7 +340,7 @@ EditBedViewController *editBedVC;
         yCo = locationInBed.y;
         xCo = locationInBed.x;
         //test if we're multi sqft and adjust xCo and yCo if so
-        if(plantView.squareFeet > 1){
+        if(plantView.model.squareFeet > 1){
             xCo = locationInBed.x - ((appGlobals.bedDimension -5) /2);
             yCo = locationInBed.y - ((appGlobals.bedDimension -5) /2);
         }
@@ -377,7 +377,7 @@ EditBedViewController *editBedVC;
             return;
         }
         
-        if(plantView.squareFeet > 1){
+        if(plantView.model.squareFeet > 1){
             //and kick out if we'll draw part out of bounds
             //right hand column
             if((targetCell+1) % editBedVC.currentGardenModel.columns == 0){
@@ -396,7 +396,7 @@ EditBedViewController *editBedVC;
         id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
         [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Plants"
                                                               action:@"Select"
-                                                               label:plantView.plantName
+                                                               label:plantView.model.plantName
                                                                value:@1] build]];
         
         

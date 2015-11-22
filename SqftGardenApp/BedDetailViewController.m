@@ -58,31 +58,31 @@ CGFloat maxDays;
     int min = 0;
     int max = 0;
     CGFloat ptsPerDay;
-    min = abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.plantingDelta);
-    if(abs(appGlobals.selectedPlant.startInsideDelta) < 1)min=0;
-    if(abs(appGlobals.selectedPlant.plantingDelta) < 1)min = 0;
-    max = appGlobals.selectedPlant.maturity;
+    min = abs(appGlobals.selectedPlant.model.startInsideDelta) - abs(appGlobals.selectedPlant.model.plantingDelta);
+    if(abs(appGlobals.selectedPlant.model.startInsideDelta) < 1)min=0;
+    if(abs(appGlobals.selectedPlant.model.plantingDelta) < 1)min = 0;
+    max = appGlobals.selectedPlant.model.maturity;
     int days = max + abs(min);
     ptsPerDay = (self.view.bounds.size.width -20) / days;
     maxDays = days;
     
     //plantingAnchor = 0;
-    //if(abs(appGlobals.selectedPlant.startInsideDelta)>abs(appGlobals.selectedPlant.plantingDelta)){
-    //    int delta = abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.plantingDelta);
+    //if(abs(appGlobals.selectedPlant.model.startInsideDelta)>abs(appGlobals.selectedPlant.model.plantingDelta)){
+    //    int delta = abs(appGlobals.selectedPlant.model.startInsideDelta) - abs(appGlobals.selectedPlant.model.plantingDelta);
     //    plantingAnchor = delta * pointsPerDay;
     //}
     //insideAnchor = 0;
-    //if(abs(appGlobals.selectedPlant.startInsideDelta)<abs(appGlobals.selectedPlant.plantingDelta)){
-    //    int delta = abs(appGlobals.selectedPlant.plantingDelta) - abs(appGlobals.selectedPlant.startInsideDelta);
+    //if(abs(appGlobals.selectedPlant.model.startInsideDelta)<abs(appGlobals.selectedPlant.model.plantingDelta)){
+    //    int delta = abs(appGlobals.selectedPlant.model.plantingDelta) - abs(appGlobals.selectedPlant.model.startInsideDelta);
     //    insideAnchor = delta * pointsPerDay;
     //}
     
     //harvest0Anchor = maxDays*pointsPerDay;
     
-    //harvest1Anchor = (appGlobals.selectedPlant.maturity * pointsPerDay);
+    //harvest1Anchor = (appGlobals.selectedPlant.model.maturity * pointsPerDay);
     
     //transplantAnchor = 0;
-    //CGFloat delta = (abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.transplantDelta));
+    //CGFloat delta = (abs(appGlobals.selectedPlant.model.startInsideDelta) - abs(appGlobals.selectedPlant.model.transplantDelta));
     //transplantAnchor = delta*pointsPerDay;
     
     return ptsPerDay;
@@ -118,7 +118,7 @@ CGFloat maxDays;
     plantNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
     plantNameLabel.layer.borderWidth = 0;
     plantNameLabel.layer.cornerRadius = 0;
-    plantNameLabel.text = appGlobals.selectedPlant.plantName;
+    plantNameLabel.text = appGlobals.selectedPlant.model.plantName;
     [plantNameLabel setFont:[UIFont boldSystemFontOfSize:18]];
     plantNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
     plantNameLabel.layer.borderWidth = 0;
@@ -135,7 +135,7 @@ CGFloat maxDays;
     plantScienceNameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
     plantScienceNameLabel.layer.borderWidth = 0;
     plantScienceNameLabel.layer.cornerRadius = 0;
-    plantScienceNameLabel.text = appGlobals.selectedPlant.plantScientificName;
+    plantScienceNameLabel.text = appGlobals.selectedPlant.model.plantScientificName;
     [plantScienceNameLabel setFont:[UIFont italicSystemFontOfSize:12]];
     plantScienceNameLabel.textColor = [UIColor blackColor];
     return plantScienceNameLabel;
@@ -150,7 +150,7 @@ CGFloat maxDays;
     plantMaturityLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
     plantMaturityLabel.layer.borderWidth = 0;
     plantMaturityLabel.layer.cornerRadius = 15;
-    NSString *maturityStr = [NSString stringWithFormat:@"Matures in about %i days", appGlobals.selectedPlant.maturity];
+    NSString *maturityStr = [NSString stringWithFormat:@"Matures in about %i days", appGlobals.selectedPlant.model.maturity];
     plantMaturityLabel.text = maturityStr;
     [plantMaturityLabel setFont:[UIFont italicSystemFontOfSize:12]];
     plantMaturityLabel.textColor = [UIColor blackColor];
@@ -184,17 +184,17 @@ CGFloat maxDays;
     [timelineBar.layer insertSublayer:gradient atIndex:0];
     //harvestBar.alpha = .5;
     
-    NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
+    NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
     NSString *plantingStr = [NSString stringWithFormat:@"Plant:%@",[dateFormatter stringFromDate:plantingDate]];
     
-    NSDate *maturityDate0 = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.maturity];
-    maturityDate0 = [maturityDate0 dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
-    NSDate *maturityDate1 = [maturityDate0 dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.transplantDelta];
-    NSDate *transDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.transplantDelta];
+    NSDate *maturityDate0 = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.maturity];
+    maturityDate0 = [maturityDate0 dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
+    NSDate *maturityDate1 = [maturityDate0 dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.transplantDelta];
+    NSDate *transDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.transplantDelta];
     
     NSString *maturityStr0 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:maturityDate0]];
     NSString *maturityStr1 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:maturityDate1]];
-    NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.startInsideDelta];
+    NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.startInsideDelta];
     NSString *insideStr = [NSString stringWithFormat:@"Start Inside:%@",[dateFormatter stringFromDate:startIndoorsDate]];
     NSString *transStr = [NSString stringWithFormat:@"Transplant:%@",[dateFormatter stringFromDate:transDate]];
     
@@ -205,7 +205,7 @@ CGFloat maxDays;
 
     [criticalDateBar addSubview:[self makeInsideLabel:insideStr isUp:NO]];
     [criticalDateBar addSubview:[self makeTransplantLabel:transStr isUp:YES]];
-    if(appGlobals.selectedPlant.startInside)
+    if(appGlobals.selectedPlant.model.startInside)
         [criticalDateBar addSubview:[self makePlantingLabel:plantingStr isUp:YES]];
     else [criticalDateBar addSubview:[self makePlantingLabel:plantingStr isUp:NO]];
     [criticalDateBar addSubview:[self makeHarvestLabel0:maturityStr0 isUp:YES]];
@@ -215,8 +215,8 @@ CGFloat maxDays;
     int upSpot = -3;
     if(!up)upSpot = 34;
     CGFloat xAnchor = 0;
-    if(abs(appGlobals.selectedPlant.startInsideDelta)<abs(appGlobals.selectedPlant.plantingDelta)){
-        int delta = abs(appGlobals.selectedPlant.plantingDelta) - abs(appGlobals.selectedPlant.startInsideDelta);
+    if(abs(appGlobals.selectedPlant.model.startInsideDelta)<abs(appGlobals.selectedPlant.model.plantingDelta)){
+        int delta = abs(appGlobals.selectedPlant.model.plantingDelta) - abs(appGlobals.selectedPlant.model.startInsideDelta);
         xAnchor = delta * pointsPerDay;
     }
 
@@ -239,7 +239,7 @@ CGFloat maxDays;
     [layer setStrokeColor:[[UIColor blueColor] CGColor]];
     [label.layer addSublayer: layer];
     
-    if(!appGlobals.selectedPlant.startInside)label.alpha = 0;
+    if(!appGlobals.selectedPlant.model.startInside)label.alpha = 0;
     return label;
 }
 -(UILabel *)makeHarvestLabel0:(NSString *)text isUp:(bool)up{
@@ -259,7 +259,7 @@ CGFloat maxDays;
     CAShapeLayer *layer = [self makeIndicatorWithFrame:CGRectMake(55, 18-upSpot, 11, 11)];
     [label.layer addSublayer: layer];
     
-    if(!appGlobals.selectedPlant.startSeed)label.alpha = 0;
+    if(!appGlobals.selectedPlant.model.startSeed)label.alpha = 0;
     return label;
 }
 
@@ -267,9 +267,9 @@ CGFloat maxDays;
     if(pointsPerDay < 1)[self calculateDateBounds];
     int upSpot = -5;
     if(!up)upSpot = 34;
-    CGFloat xAnchor = (appGlobals.selectedPlant.maturity * pointsPerDay);
-    if(appGlobals.selectedPlant.startSeed){
-        xAnchor = (abs(appGlobals.selectedPlant.maturity) * pointsPerDay);
+    CGFloat xAnchor = (appGlobals.selectedPlant.model.maturity * pointsPerDay);
+    if(appGlobals.selectedPlant.model.startSeed){
+        xAnchor = (abs(appGlobals.selectedPlant.model.maturity) * pointsPerDay);
     }
 
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor-75,upSpot,80,16)];
@@ -288,15 +288,15 @@ CGFloat maxDays;
     [label.layer addSublayer: layer];
     
     
-    if(!appGlobals.selectedPlant.startInside)label.alpha = 0;
+    if(!appGlobals.selectedPlant.model.startInside)label.alpha = 0;
     return label;
 }
 -(UILabel *) makePlantingLabel:(NSString *)text isUp:(bool)up{
     int upSpot = -3;
     if(!up)upSpot = 34;
     CGFloat xAnchor = 0;
-    if(abs(appGlobals.selectedPlant.startInsideDelta)>abs(appGlobals.selectedPlant.plantingDelta)){
-        int delta = abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.plantingDelta);
+    if(abs(appGlobals.selectedPlant.model.startInsideDelta)>abs(appGlobals.selectedPlant.model.plantingDelta)){
+        int delta = abs(appGlobals.selectedPlant.model.startInsideDelta) - abs(appGlobals.selectedPlant.model.plantingDelta);
         xAnchor = delta * pointsPerDay;
     }
     
@@ -326,7 +326,7 @@ CGFloat maxDays;
     CAShapeLayer *layer = [self makeIndicatorWithFrame:CGRectMake(7, 18-upSpot, 11, 11)];
     [label.layer addSublayer: layer];
     
-    if(!appGlobals.selectedPlant.startSeed)label.alpha = 0;
+    if(!appGlobals.selectedPlant.model.startSeed)label.alpha = 0;
     return label;
 }
 
@@ -334,7 +334,7 @@ CGFloat maxDays;
     if(pointsPerDay < 1)[self calculateDateBounds];
     int upSpot = -21;
     if(!up)upSpot = 31;
-    CGFloat delta = (abs(appGlobals.selectedPlant.startInsideDelta) - abs(appGlobals.selectedPlant.transplantDelta));
+    CGFloat delta = (abs(appGlobals.selectedPlant.model.startInsideDelta) - abs(appGlobals.selectedPlant.model.transplantDelta));
     CGFloat xAnchor = delta*pointsPerDay;
 
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor,upSpot,85,16)];
@@ -350,7 +350,7 @@ CGFloat maxDays;
     [layer setStrokeColor:[[UIColor blueColor] CGColor]];
     [label.layer addSublayer: layer];
     
-    if(!appGlobals.selectedPlant.startInside)label.alpha=0;
+    if(!appGlobals.selectedPlant.model.startInside)label.alpha=0;
     return label;
 }
 
@@ -434,7 +434,7 @@ CGFloat maxDays;
 }
 
 - (UIImageView *) getIcon{
-    UIImage *icon = [UIImage imageNamed:appGlobals.selectedPlant.iconResource];
+    UIImage *icon = [UIImage imageNamed:appGlobals.selectedPlant.model.iconResource];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
     return imageView;
 }
@@ -460,25 +460,25 @@ CGFloat maxDays;
     NSString *text;
     NSDateFormatter *dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMMM dd"];
-    NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.startInsideDelta];
+    NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.startInsideDelta];
     NSString *insideStr = [dateFormatter stringFromDate:startIndoorsDate];
-    NSDate *transplantDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.transplantDelta];
-    NSDate *maturityDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.maturity];
-    maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
+    NSDate *transplantDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.transplantDelta];
+    NSDate *maturityDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.maturity];
+    maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
     NSString *maturityStr = [dateFormatter stringFromDate:maturityDate];
-    NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.plantingDelta];
+    NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
     NSString *plantingStr = [dateFormatter stringFromDate:plantingDate];
     NSString *transStr = [dateFormatter stringFromDate:transplantDate];
     
 
-    if(appGlobals.selectedPlant.startInside && !appGlobals.selectedPlant.startSeed){
-        text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Start inside %@ \r\u2055 Harden & Transplant %@  \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.population,insideStr, transStr, maturityStr];
+    if(appGlobals.selectedPlant.model.startInside && !appGlobals.selectedPlant.model.startSeed){
+        text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Start inside %@ \r\u2055 Harden & Transplant %@  \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.model.population,insideStr, transStr, maturityStr];
     }
-    if(appGlobals.selectedPlant.startSeed && !appGlobals.selectedPlant.startInside){
-        text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Plant seeds %@ \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.population,plantingStr, maturityStr];
+    if(appGlobals.selectedPlant.model.startSeed && !appGlobals.selectedPlant.model.startInside){
+        text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Plant seeds %@ \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.model.population,plantingStr, maturityStr];
     }
-    if(appGlobals.selectedPlant.startSeed && appGlobals.selectedPlant.startInside){
-        text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Start inside %@ \r\u2055 Alternate Plant seeds %@ \r\u2055 Transplant from inside %@ \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.population,insideStr, plantingStr, transStr, maturityStr];
+    if(appGlobals.selectedPlant.model.startSeed && appGlobals.selectedPlant.model.startInside){
+        text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Start inside %@ \r\u2055 Alternate Plant seeds %@ \r\u2055 Transplant from inside %@ \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.model.population,insideStr, plantingStr, transStr, maturityStr];
     }
     
     return text;
@@ -488,7 +488,7 @@ CGFloat maxDays;
     NSString *text = [self makeCriticalDatesText];
     //NSString *text = @"\r";
     NSString *str = @"";
-    NSArray *json = appGlobals.selectedPlant.tipJsonArray;
+    NSArray *json = appGlobals.selectedPlant.model.tipJsonArray;
     
     for(int i = 0; i<json.count; i++){
         str = json[i];

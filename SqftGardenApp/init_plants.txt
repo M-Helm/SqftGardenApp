@@ -357,6 +357,30 @@
 "start_inside_delta":0,
 "transplant_delta":0,
 "square_feet":4
+},
+
+{
+"name":"Cancel",
+"uuid":"cancel",
+"timestamp":0,
+"icon":"ic_cancel_256px.png",
+"maturity":0,
+"population":1,
+"class": "",
+"description": "",
+"scientific_name": "",
+"photo": "null",
+"yield": "null",
+"zone": "-1",
+"tip_json":"[]",
+"iso_icon": "ic_cancel_256px.png",
+"planting_delta":0,
+"is_tall":0,
+"start_seed":0,
+"start_inside":0,
+"start_inside_delta":0,
+"transplant_delta":0,
+"square_feet":0
 }
 
 ]

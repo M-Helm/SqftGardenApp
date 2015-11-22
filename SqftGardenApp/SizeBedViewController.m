@@ -182,7 +182,7 @@ BOOL shouldContinueBlinking = NO;
             PlantIconView *bed = [[PlantIconView alloc] initWithFrame:CGRectMake(1 + (bedDimension*rowNumber),(bedDimension*columnNumber)+1, bedDimension, bedDimension) withPlantUuid:nil isIsometric:NO];
             
             
-            bed.position = cell;
+            bed.model.position = cell;
             bed.layer.borderWidth = 3;
             [bedArray addObject:bed];
             columnNumber++;
