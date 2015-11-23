@@ -34,30 +34,7 @@ DBManager *dbManager;
     //for some reason the app doesn't 'see' the db until we do a create
     //if not exists. hate it, but it's working for now...
     
-    if(![dbManager checkTableExists:@"plants"]){
-        [dbManager createTable:@"plants"];
-        [dbManager addColumn:@"plants" : @"name" : @"char(50)"];
-        [dbManager addColumn:@"plants" : @"timestamp" : @"int"];
-        [dbManager addColumn:@"plants" : @"icon" : @"char(150)"];
-        [dbManager addColumn:@"plants" : @"maturity" : @"int"];
-        [dbManager addColumn:@"plants" : @"population" : @"int"];
-        [dbManager addColumn:@"plants" : @"class" : @"char(50)"];
-        [dbManager addColumn:@"plants" : @"description" : @"char"];
-        [dbManager addColumn:@"plants" : @"scientific_name" : @"char"];
-        [dbManager addColumn:@"plants" : @"photo" : @"char(150)"];
-        [dbManager addColumn:@"plants" : @"yield" : @"char"];
-        [dbManager addColumn:@"plants" : @"iso_icon" : @"char"];
-        [dbManager addColumn:@"plants" : @"planting_delta" : @"int"];
-        [dbManager addColumn:@"plants" : @"is_tall" : @"int"];
-        [dbManager addColumn:@"plants" : @"uuid" : @"char"];
-        [dbManager addColumn:@"plants" : @"square_feet" : @"int"];
-        [dbManager addColumn:@"plants" : @"tip_json" : @"char"];
-        [dbManager addColumn:@"plants" : @"start_seed" : @"int"];
-        [dbManager addColumn:@"plants" : @"start_inside" : @"int"];
-        [dbManager addColumn:@"plants" : @"start_inside_delta" : @"int"];
-        [dbManager addColumn:@"plants" : @"transplant_delta" : @"int"];
-    //new columns since version 1.0.0
-    }
+    [self makePlantsTable];
     
     if([dbManager checkTableExists:@"plants"]){
         int plantCount = [dbManager getTableRowCount:@"plants"];
@@ -74,6 +51,7 @@ DBManager *dbManager;
         //if we have more plants in the array, drop the old table and load the new list into the db
         if(plantCount < (int)jsonArray.count){
             [dbManager dropTable:@"plants"];
+            [self makePlantsTable];
             [dbManager getInitPlants];
             NSLog(@"init plants");
         }
@@ -115,6 +93,37 @@ DBManager *dbManager;
         [self createSampleGarden];
     }
     NSLog(@"saves count: %i", [dbManager getTableRowCount:@"saves"]);
+    
+    return YES;
+}
+
+-(BOOL)makePlantsTable{
+    
+    if(![dbManager checkTableExists:@"plants"]){
+        [dbManager createTable:@"plants"];
+        [dbManager addColumn:@"plants" : @"name" : @"char(50)"];
+        [dbManager addColumn:@"plants" : @"timestamp" : @"int"];
+        [dbManager addColumn:@"plants" : @"icon" : @"char(150)"];
+        [dbManager addColumn:@"plants" : @"maturity" : @"int"];
+        [dbManager addColumn:@"plants" : @"population" : @"int"];
+        [dbManager addColumn:@"plants" : @"class" : @"char(50)"];
+        [dbManager addColumn:@"plants" : @"description" : @"char"];
+        [dbManager addColumn:@"plants" : @"scientific_name" : @"char"];
+        [dbManager addColumn:@"plants" : @"photo" : @"char(150)"];
+        [dbManager addColumn:@"plants" : @"yield" : @"char"];
+        [dbManager addColumn:@"plants" : @"iso_icon" : @"char"];
+        [dbManager addColumn:@"plants" : @"planting_delta" : @"int"];
+        [dbManager addColumn:@"plants" : @"is_tall" : @"int"];
+        [dbManager addColumn:@"plants" : @"uuid" : @"char"];
+        [dbManager addColumn:@"plants" : @"square_feet" : @"int"];
+        [dbManager addColumn:@"plants" : @"tip_json" : @"char"];
+        [dbManager addColumn:@"plants" : @"start_seed" : @"int"];
+        [dbManager addColumn:@"plants" : @"start_inside" : @"int"];
+        [dbManager addColumn:@"plants" : @"start_inside_delta" : @"int"];
+        [dbManager addColumn:@"plants" : @"transplant_delta" : @"int"];
+        //new columns since version 1.0.0
+    }
+    
     
     return YES;
 }

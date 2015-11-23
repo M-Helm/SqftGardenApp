@@ -24,6 +24,7 @@
 @property (nonatomic) NSArray *zoneArray;
 @property (nonatomic) BOOL datePickerIsOpen;
 @property (nonatomic) BOOL zonePickerIsOpen;
+@property (nonatomic) BOOL hasShownFailAlert;
 @property (nonatomic) DateSelectView *datePickerView;
 @property (nonatomic) ZoneSelectView *zonePickerView;
 

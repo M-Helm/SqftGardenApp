@@ -20,11 +20,13 @@
 CLLocationManager *locationManager;
 ApplicationGlobals *appGlobals;
 
+
 -(void)viewDidLoad{
     [super viewDidLoad];
     locationManager = [[CLLocationManager alloc] init];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     self.datePickerIsOpen = NO;
+    self.hasShownFailAlert = NO;
     [self buildZoneArray];
     [self initViews];
     [self getCurrentLocation];
@@ -82,6 +84,9 @@ ApplicationGlobals *appGlobals;
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                 [dateFormatter setDateFormat:@"MMM dd"];
                 frostStr = [NSString stringWithFormat:@"Frost Date: %@",[dateFormatter stringFromDate: appGlobals.globalGardenModel.frostDate]];
+                if([appGlobals.globalGardenModel.zone isEqualToString:@"11a"] || [appGlobals.globalGardenModel.zone isEqualToString:@"11b"]){
+                    frostStr = [NSString stringWithFormat:@"Date: %@",[dateFormatter stringFromDate: appGlobals.globalGardenModel.frostDate]];
+                }
                 self.frostView.text = frostStr;
             }
         });
@@ -95,6 +100,18 @@ ApplicationGlobals *appGlobals;
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
     NSLog(@"didFailWithError: %@", error);
+    if(!self.hasShownFailAlert)[self showAlertForLocationFail];
+}
+
+- (void) showAlertForLocationFail{
+    NSString *alertStr = [NSString stringWithFormat:@"Hmm... not able to get a location, but you can still set your zone and planting/frost date on this screen."];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:appGlobals.appTitle
+                                                    message: alertStr
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles: nil];
+    [alert show];
+    self.hasShownFailAlert = YES;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
@@ -348,6 +365,9 @@ ApplicationGlobals *appGlobals;
                              NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                              [dateFormatter setDateFormat:@"MMM dd"];
                              NSString *frostStr = [NSString stringWithFormat:@"Frost Date: %@",[dateFormatter stringFromDate: appGlobals.globalGardenModel.frostDate]];
+                             if([appGlobals.globalGardenModel.zone isEqualToString:@"11a"] || [appGlobals.globalGardenModel.zone isEqualToString:@"11b"]){
+                                 frostStr = [NSString stringWithFormat:@"Date: %@",[dateFormatter stringFromDate: appGlobals.globalGardenModel.frostDate]];
+                             }
                              self.frostView.text = frostStr;
                              NSString *zoneStr = [NSString stringWithFormat:@"Selected Zone: %@",appGlobals.globalGardenModel.zone];
                              self.zoneView.text = zoneStr;
@@ -399,6 +419,9 @@ ApplicationGlobals *appGlobals;
                              NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                              [dateFormatter setDateFormat:@"MMM dd"];
                              NSString *frostStr = [NSString stringWithFormat:@"Frost Date: %@",[dateFormatter stringFromDate: appGlobals.globalGardenModel.frostDate]];
+                             if([appGlobals.globalGardenModel.zone isEqualToString:@"11a"] || [appGlobals.globalGardenModel.zone isEqualToString:@"11b"]){
+                                 frostStr = [NSString stringWithFormat:@"Date: %@",[dateFormatter stringFromDate: appGlobals.globalGardenModel.frostDate]];
+                             }
                              self.frostView.text = frostStr;
                              NSString *zoneStr = [NSString stringWithFormat:@"Detected Zone: %@",appGlobals.globalGardenModel.zone];
                              if(appGlobals.globalGardenModel.userOverrodeZone)zoneStr = [NSString stringWithFormat:@"Selected Zone: %@",appGlobals.globalGardenModel.zone];
