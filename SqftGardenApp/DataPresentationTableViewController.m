@@ -31,6 +31,7 @@ CGFloat plantingDateAnchor;
 static NSString *CellIdentifier = @"CellIdentifier";
 NSArray *plantArray;
 NSDateFormatter *dateFormatter;
+NSDate *initialDate;
 UIColor *plantingColor;
 UIColor *growingColor;
 UIColor *harvestColor;
@@ -51,6 +52,11 @@ CGFloat height;
     plantArray = [[NSArray alloc]
                   initWithArray: [self buildPlantArrayFromModel:appGlobals.globalGardenModel]];
     //pointsPerDay = [self calculateDateBounds];
+    initialDate = appGlobals.globalGardenModel.frostDate;
+    [self initViews];
+}
+
+- (void) initViews{
     dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM dd"];
     [self makeHeader];
@@ -71,8 +77,9 @@ CGFloat height;
     self.tableView.separatorColor = [UIColor clearColor];
     [self makeToolbar];
     [[UIApplication sharedApplication]
-        setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:NO];
+     setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:NO];
     self.tableView.tableFooterView=nil;
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -80,7 +87,11 @@ CGFloat height;
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"dataPresentViewController"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-
+    if(initialDate != appGlobals.globalGardenModel.frostDate){
+        [self initViews];
+        [self.tableView reloadData];
+        initialDate = appGlobals.globalGardenModel.frostDate;
+    }
 }
 
 /*

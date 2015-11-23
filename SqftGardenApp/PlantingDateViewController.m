@@ -70,8 +70,11 @@ ApplicationGlobals *appGlobals;
             
             
             NSString *frostDate = [self getFrostDates:zone];
-            frostDate = [frostDate substringToIndex:6];
+            if(frostDate.length < 6)frostDate = @"NA";
+            else frostDate = [frostDate substringToIndex:6];
             NSString *frostStr = [NSString stringWithFormat:@"Frost Date: %@", frostDate];
+            
+            
             if(![self isModelDateSet]){
                 self.frostView.text = frostStr;
                 appGlobals.globalGardenModel.frostDate = [self parseDate:[self getFrostDates:zone]];
@@ -302,6 +305,12 @@ ApplicationGlobals *appGlobals;
 }
 
 -(NSDate *)parseDate: (NSString *)dateStr{
+    //handle frost free zones here by assigning a date 45 days out
+    if([dateStr isEqualToString:@"NA"] || dateStr.length < 6){
+        NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:(45*24*60*60)];
+        return date;
+    }
+    //else set the date as normal
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"MMM d, yyyy"];
     NSDate *date = [dateFormat dateFromString:dateStr];
