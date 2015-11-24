@@ -791,8 +791,8 @@ DBManager *dbManager;
     self.bedFrameView.layer.borderWidth = 0;
     if(self.isoViewIsOpen){
         self.isoView.backgroundColor = [UIColor whiteColor];
-        UIGraphicsBeginImageContextWithOptions(self.isoView.bounds.size, YES, 0.0f);
-        [self.isoView drawViewHierarchyInRect:self.isoView.bounds afterScreenUpdates:YES];
+        UIGraphicsBeginImageContextWithOptions(self.view.frame.size, YES, 0.0f);
+        [self.isoView drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         return image;
@@ -817,7 +817,16 @@ DBManager *dbManager;
 - (void) makeShareButton{
     [self.shareButton removeFromSuperview];
     UIImageView *imageBtn = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-44,25,44,44)];
+    
+    
     UIImage *icon = [UIImage imageNamed:@"ic_facebook_128px.png"];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,33,44,11)];
+
+    [label setFont:[UIFont systemFontOfSize:10]];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    label.text = @"Share";
+    //[imageBtn addSubview:label];
+    
     [imageBtn setImage:icon];
     imageBtn.backgroundColor = [UIColor clearColor];
     UITapGestureRecognizer *singleFingerTap =
@@ -839,6 +848,7 @@ DBManager *dbManager;
     photo.image = image;
     photo.userGenerated = YES;
     FBSDKSharePhotoContent *content = [[FBSDKSharePhotoContent alloc] init];
+    
     content.photos = @[photo];
     //content.contentURL = [NSURL URLWithString:@"https://itunes.apple.com/us/app/growsquared/id1053329069?ls=1&mt=8"];
     [FBSDKShareDialog showFromViewController:self
