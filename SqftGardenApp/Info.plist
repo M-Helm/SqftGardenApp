@@ -37,9 +37,6 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
@@ -54,11 +51,53 @@
 				<key>NSTemporaryExceptionMinimumTLSVersion</key>
 				<string>TLSv1.1</string>
 			</dict>
+            <key>facebook.com</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSExceptionRequiresForwardSecrecy</key>
+                <false/>
+            </dict>
+            <key>fbcdn.net</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSExceptionRequiresForwardSecrecy</key>
+                <false/>
+            </dict>
+            <key>akamaihd.net</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSExceptionRequiresForwardSecrecy</key>
+                <false/>
+            </dict>
 		</dict>
 	</dict>
+    
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location can be used to automatically get your gardening zone. You can set this manually too.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Location can be used to automatically get your gardening zone. You can set this manually too.</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb1513950775570201</string>
+            </array>
+        </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>1513950775570201</string>
+    <key>FacebookDisplayName</key>
+    <string>GrowSquared</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbauth</string>
+        <string>fbauth2</string>
+        <string>fbapi20150629</string>
+        <string>fbshareextension</string>
+    </array>
 </dict>
 </plist>

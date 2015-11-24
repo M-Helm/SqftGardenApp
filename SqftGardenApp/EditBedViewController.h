@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Google/Analytics.h>
-
+#import <FBSDKShareKit/FBSDKShareKit.h>
 #import "SqftGardenModel.h"
 #import "SelectPlantView.h"
 #import "DateSelectView.h"
@@ -15,7 +15,7 @@
 #import "GrowToolBarView.h"
 
 
-@interface EditBedViewController : UIViewController 
+@interface EditBedViewController : UIViewController <FBSDKSharingDelegate>
 @property(nonatomic) SqftGardenModel *currentGardenModel;
 @property(nonatomic) DateSelectView *datePickerView;
 @property(nonatomic) SelectPlantView *selectPlantView;
@@ -44,6 +44,7 @@
 
 @property(nonatomic) UIView *toolBarContainer;
 @property(nonatomic) UIImageView *touchIcon;
+@property(nonatomic) UIImageView *shareButton;
 
 
 
@@ -56,6 +57,7 @@
 - (void) showDatePickerView;
 - (void) hideSelectView;
 - (void) showSelectView;
+- (void) makeShareButton;
 
 @end
 

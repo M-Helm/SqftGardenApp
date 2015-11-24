@@ -14,13 +14,14 @@
 
 @implementation AppDelegate
 
+bool doTrack = NO;
 
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
-    bool doTrack = NO;
+
 
     ApplicationSetup *appSetup = [[ApplicationSetup alloc] init];
     [appSetup setupApplication];
@@ -35,8 +36,13 @@
         GAI *gai = [GAI sharedInstance];
         gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
         gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
+
     }
+    
+    [[FBSDKApplicationDelegate sharedInstance] application:application
+                             didFinishLaunchingWithOptions:launchOptions];
     return YES;
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -55,10 +61,25 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    if(doTrack){
+        [FBSDKAppEvents activateApp];        
+    }
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
+}
+
 
 @end

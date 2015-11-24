@@ -499,7 +499,7 @@ ApplicationGlobals *appGlobals;
         //bool success = [self.currentGardenModel saveModelWithOverWriteOption:YES];
         [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
         //NSLog(@"iso icon tapped");
-        editBedVC.isoView = [[IsometricView alloc]initWithFrame:CGRectMake(0,0,viewController.view.frame.size.width, viewController.view.frame.size.height - 44) andEditBedVC:viewController];
+        editBedVC.isoView = [[IsometricView alloc]initWithFrame:CGRectMake(0,0,viewController.view.frame.size.width, viewController.view.frame.size.height - 88) andEditBedVC:viewController];
         editBedVC.isoView.alpha = 1;
         //editBedVC.isoView.backgroundColor = [UIColor lightGrayColor];
         editBedVC.bedFrameView.alpha = 0.0;
@@ -507,6 +507,7 @@ ApplicationGlobals *appGlobals;
         //editBedVC.selectMessageView.alpha = .25;
         [editBedVC hideSelectView];
         [editBedVC.view addSubview:editBedVC.isoView];
+        [editBedVC makeShareButton];
     }
 }
 

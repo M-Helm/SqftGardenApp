@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 #import <Google/Analytics.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

@@ -106,6 +106,9 @@ DBManager *dbManager;
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    //turn bedframe clear
+    self.bedFrameView.backgroundColor = [UIColor clearColor];
+    
     //NSLog(@"should be tracking");
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"mainViewController"];
@@ -178,6 +181,7 @@ DBManager *dbManager;
     [self makeBedFrameView];
     [self makeSelectMessageView: width : height];
     [self makeSelectView: width : height];
+    [self makeShareButton];
 
 }
 
@@ -248,9 +252,9 @@ DBManager *dbManager;
     label.backgroundColor = [UIColor clearColor];
     label2.backgroundColor = [UIColor clearColor];
 
-    
     [self.titleView addSubview:label];
     [self.titleView addSubview:label2];
+    
     [self.view addSubview: self.titleView];
 
 }
@@ -260,6 +264,7 @@ DBManager *dbManager;
     //init
     self.bedFrameView = [[UIView alloc]
                          initWithFrame:[self calculateBedFrame]];
+    self.bedFrameView.backgroundColor = [UIColor clearColor];
     //add my array of beds
     for(int i = 0; i<self.bedViewArray.count;i++){
         [self.bedFrameView addSubview:[self.bedViewArray objectAtIndex:i]];
@@ -780,6 +785,77 @@ DBManager *dbManager;
                      }];
 }
 
+- (UIImage *)takeScreenshot {
+    //add a white background for the shot
+    self.bedFrameView.backgroundColor = [UIColor whiteColor];
+    self.bedFrameView.layer.borderWidth = 0;
+    if(self.isoViewIsOpen){
+        self.isoView.backgroundColor = [UIColor whiteColor];
+        UIGraphicsBeginImageContextWithOptions(self.isoView.bounds.size, YES, 0.0f);
+        [self.isoView drawViewHierarchyInRect:self.isoView.bounds afterScreenUpdates:YES];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return image;
+    }
+    
+    UIGraphicsBeginImageContextWithOptions(self.bedFrameView.bounds.size, YES, 0.0f);
+    [self.bedFrameView drawViewHierarchyInRect:self.bedFrameView.bounds afterScreenUpdates:YES];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+- (BOOL)shareLinkOnFB {
+    
+    FBSDKShareLinkContent *content = [[FBSDKShareLinkContent alloc] init];
+    content.contentURL = [NSURL URLWithString:@"https://itunes.apple.com/us/app/growsquared/id1053329069?ls=1&mt=8"];
+    
+    return YES;
+}
+
+
+- (void) makeShareButton{
+    [self.shareButton removeFromSuperview];
+    UIImageView *imageBtn = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-44,25,44,44)];
+    UIImage *icon = [UIImage imageNamed:@"ic_facebook_128px.png"];
+    [imageBtn setImage:icon];
+    imageBtn.backgroundColor = [UIColor clearColor];
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleFBButtonSingleTap:)];
+    [imageBtn addGestureRecognizer:singleFingerTap];
+    imageBtn.userInteractionEnabled = YES;
+    self.shareButton = imageBtn;
+    [self.view addSubview:self.shareButton];
+}
+
+
+
+- (void)handleFBButtonSingleTap:(UITapGestureRecognizer *)recognizer {
+    
+    FBSDKSharePhoto *photo = [[FBSDKSharePhoto alloc] init];
+    //UIImage *image = [UIImage imageNamed:@"iso_spinach_512px.png"];
+    UIImage *image = [self takeScreenshot];
+    photo.image = image;
+    photo.userGenerated = YES;
+    FBSDKSharePhotoContent *content = [[FBSDKSharePhotoContent alloc] init];
+    content.photos = @[photo];
+    //content.contentURL = [NSURL URLWithString:@"https://itunes.apple.com/us/app/growsquared/id1053329069?ls=1&mt=8"];
+    [FBSDKShareDialog showFromViewController:self
+                                 withContent:content
+                                    delegate:nil];
+    
+    //FBSDKShareDialog *dialog = [[FBSDKShareDialog alloc] init];
+    //dialog.fromViewController = self;
+    //dialog.shareContent = content;
+    //dialog.mode = FBSDKShareDialogModeNative; // if you don't set this before canShow call, canShow would always return YES
+    //if (![dialog canShow]) {
+        // fallback presentation when there is no FB app
+    //    dialog.mode = FBSDKShareDialogModeFeedBrowser;
+    //}
+    //[dialog show];
+
+}
 
 
 

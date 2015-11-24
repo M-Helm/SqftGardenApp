@@ -52,6 +52,7 @@ DBManager *dbManager;
         if(plantCount < (int)jsonArray.count){
             [dbManager dropTable:@"plants"];
             [self makePlantsTable];
+            
             [dbManager getInitPlants];
             NSLog(@"init plants");
         }

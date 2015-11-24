@@ -176,43 +176,14 @@ EditBedViewController *editBedVC;
     }
     if(self.datePickerIsOpen)return;
     UITouch *touch = [[event allTouches] anyObject];
-
-    if(self.showTouches){
-        self.touchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,34,34)];
-        UIImage *icon = [UIImage imageNamed:@"asset_circle_token_512px.png"];
-        self.touchIcon.image = icon;
-        self.touchIcon.center = [touch locationInView:self];
-        self.touchIcon.alpha = .8;
-        [self addSubview:self.touchIcon];
-        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.touchIcon.alpha = .5;
-                         }
-                         completion:^(BOOL finished) {
-                             //do stuff
-                         }];
-    }
     
     UIView *touchedView;
     if([touch view] != nil){
         touchedView = [touch view];
     }
     if ([touchedView class] == [ClassIconView class]){
-        if(self.showTouches){
-            [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
-                             animations:^{
-                                 self.touchIcon.alpha = 0;
-                             }
-                             completion:^(BOOL finished) {
-                                    //[self.touchIcon removeFromSuperview];
-                                    [self setPlantSelect:touchedView];
-                                    return;
-                             }];
-        }
-        else{
-            [self setPlantSelect:touchedView];
-            return;
-        }
+        [self setPlantSelect:touchedView];
+        return;
     }
     
     if ([touchedView class] == [PlantIconView class]){
