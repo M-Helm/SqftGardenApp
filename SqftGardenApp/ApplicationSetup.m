@@ -23,7 +23,10 @@ DBManager *dbManager;
     //[dbManager dropTable:@"plants"];
     //[dbManager dropTable:@"saves"];
     //[dbManager dropTable:@"plant_classes"];
+    //[dbManager dropTable:@"version"];
     NSLog(@"plants exists %i rowCount %i", [dbManager checkTableExists:@"plants"], [dbManager getTableRowCount:@"plants"]);
+    NSString *version = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    NSLog(@"check version: %@", version);
     [self createDB];
     
     return YES;
@@ -57,7 +60,28 @@ DBManager *dbManager;
             NSLog(@"init plants");
         }
     }
+    [self makeSavesTable];
+    [self makeClassesTable];
+    [self moveSavedGardens];
+    [self makeVersionTable];
     
+    return YES;
+}
+-(BOOL)makeVersionTable{
+    NSString *version = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    if([dbManager checkTableExists:@"version"] == false){
+        [dbManager createTable:@"version"];
+        [dbManager addColumn:@"version" :@"app_version" : @"char"];
+    }
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
+    [dict setObject:@"1" forKey:@"id"];
+    [dict setObject:version forKey:@"app_version"];
+    [dbManager insertVersion:dict];
+    NSLog(@"version table ct: %i",[dbManager getTableRowCount:@"version"]);
+    return YES;
+}
+
+-(BOOL)makeClassesTable{
     if([dbManager checkTableExists:@"plant_classes"] == false){
         NSLog(@"Create classes");
         [dbManager createTable:@"plant_classes"];
@@ -67,14 +91,13 @@ DBManager *dbManager;
         [dbManager addColumn:@"plant_classes" : @"maturity" : @"int"];
         [dbManager addColumn:@"plant_classes" : @"population" : @"int"];
     }
-    
-
-    
-    
-    if([dbManager checkTableExists:@"plant_classes"]){
+    if([dbManager checkTableExists:@"plant_classes"] && [dbManager getTableRowCount:@"plant_classes"] < 2){
         [dbManager getInitPlantClasses];
     }
-    
+    return YES;
+}
+
+-(BOOL)makeSavesTable{
     if([dbManager checkTableExists:@"saves"] == false){
         NSLog(@"create saves");
         [dbManager createTable:@"saves"];
@@ -124,8 +147,6 @@ DBManager *dbManager;
         [dbManager addColumn:@"plants" : @"transplant_delta" : @"int"];
         //new columns since version 1.0.0
     }
-    
-    
     return YES;
 }
 
@@ -140,6 +161,21 @@ DBManager *dbManager;
     NSDictionary *dict = [jsonArray objectAtIndex:0];
     SqftGardenModel *model = [[SqftGardenModel alloc]initWithDict:dict];
     [model saveModelWithOverWriteOption:YES];
+    return YES;
+}
+
+-(BOOL)moveSavedGardens{
+    //get all the saves
+    NSArray *savesJson = [dbManager getBedSaveList];
+    //drop the table
+    [dbManager dropTable:@"saves"];
+    //make a new table with the right columns
+    [self makeSavesTable];
+    //run through the array and re-save everything
+    for(NSDictionary *dict in savesJson){
+        SqftGardenModel *model = [[SqftGardenModel alloc]initWithDict:dict];
+        [model saveModelWithOverWriteOption:YES];
+    }
     return YES;
 }
 

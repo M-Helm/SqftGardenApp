@@ -21,6 +21,7 @@
 - (BOOL) dropTable:(NSString*)table;
 - (BOOL) savePlantData:(NSDictionary *)msgJSON;
 - (BOOL) addColumn:(NSString *)tableName : (NSString *)columnName : (NSString *) columnType;
+- (BOOL) insertVersion:(NSDictionary *)msgJSON;
 - (int) getTableRowCount:(NSString *)tableName;
 - (NSArray*) getInitPlants;
 - (NSArray*) getInitPlantClasses;

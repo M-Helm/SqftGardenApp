@@ -164,6 +164,29 @@ NSString* initClassListName = @"init_plant_classes.txt";
     sqlite3_close(database);
     return false;
 }
+- (BOOL) insertVersion:(NSDictionary *)msgJSON{
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into version (rowid, app_version) values(\"%@\", \"%@\")",
+                               [msgJSON objectForKey:@"id"],
+                               [msgJSON objectForKey:@"app_version"]];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE){
+            sqlite3_finalize(statement);
+            sqlite3_close(database);
+            return true;
+        }
+        else{
+            NSLog(@"Error while inserting data. '%s'", sqlite3_errmsg(database));
+            sqlite3_close(database);
+            return false;
+        }
+    }
+    sqlite3_close(database);
+    return false;
+}
 
 - (BOOL) savePlantData:(NSDictionary *)msgJSON{
     //check plant uniqueness

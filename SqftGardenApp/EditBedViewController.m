@@ -790,6 +790,7 @@ DBManager *dbManager;
     self.bedFrameView.backgroundColor = [UIColor whiteColor];
     self.bedFrameView.layer.borderWidth = 0;
     if(self.isoViewIsOpen){
+        //[self.isoView addSubview:[self makePromoLabel]];
         self.isoView.backgroundColor = [UIColor whiteColor];
         UIGraphicsBeginImageContextWithOptions(self.view.frame.size, YES, 0.0f);
         [self.isoView drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
@@ -838,37 +839,48 @@ DBManager *dbManager;
     [self.view addSubview:self.shareButton];
 }
 
-
-
 - (void)handleFBButtonSingleTap:(UITapGestureRecognizer *)recognizer {
-    
     FBSDKSharePhoto *photo = [[FBSDKSharePhoto alloc] init];
-    //UIImage *image = [UIImage imageNamed:@"iso_spinach_512px.png"];
     UIImage *image = [self takeScreenshot];
     photo.image = image;
     photo.userGenerated = YES;
+    //photo.caption = @"http://growsquared.net";
     FBSDKSharePhotoContent *content = [[FBSDKSharePhotoContent alloc] init];
-    
     content.photos = @[photo];
-    //content.contentURL = [NSURL URLWithString:@"https://itunes.apple.com/us/app/growsquared/id1053329069?ls=1&mt=8"];
     [FBSDKShareDialog showFromViewController:self
                                  withContent:content
                                     delegate:nil];
-    
-    //FBSDKShareDialog *dialog = [[FBSDKShareDialog alloc] init];
-    //dialog.fromViewController = self;
-    //dialog.shareContent = content;
-    //dialog.mode = FBSDKShareDialogModeNative; // if you don't set this before canShow call, canShow would always return YES
-    //if (![dialog canShow]) {
-        // fallback presentation when there is no FB app
-    //    dialog.mode = FBSDKShareDialogModeFeedBrowser;
-    //}
-    //[dialog show];
-
 }
 
+-(UIView *)makePromoLabel{
+    UIView *promo = [[UIView alloc]initWithFrame:CGRectMake(self.isoView.frame.origin.x,0,200,44)];
+    //UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
+    //promo.backgroundColor = [color colorWithAlphaComponent:0.45];
+    promo.backgroundColor = [UIColor clearColor];
+    //promo.layer.borderWidth = 3;
+    promo.layer.cornerRadius = 15;
+    //promo.layer.borderColor = color.CGColor;
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10,10,180,24)];
+    [label setFont: [UIFont systemFontOfSize:12]];
+    label.text = @"GrowSquared.net";
+    label.textAlignment = NSTextAlignmentCenter;
+    [promo addSubview:label];
+    return promo;
+}
 
+#pragma mark delegate methods
 
+- (void)sharer:(id<FBSDKSharing>)sharer didCompleteWithResults :(NSDictionary*)results {
+    NSLog(@"FB: SHARE RESULTS=%@\n",[results debugDescription]);
+}
+
+- (void)sharer:(id<FBSDKSharing>)sharer didFailWithError:(NSError *)error {
+    NSLog(@"FB: ERROR=%@\n",[error debugDescription]);
+}
+
+- (void)sharerDidCancel:(id<FBSDKSharing>)sharer {
+    NSLog(@"FB: CANCELED SHARER=%@\n",[sharer debugDescription]);
+}
 
 
 @end
