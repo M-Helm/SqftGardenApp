@@ -11,6 +11,6 @@
 
 @interface ApplicationSetup : NSObject
 - (BOOL) setupApplication;
-- (BOOL) createDB;
+- (BOOL) initializeDB;
 
 @end

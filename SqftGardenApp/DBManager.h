@@ -35,6 +35,7 @@
 - (BOOL) deleteGardenWithId:(int)localId;
 - (NSMutableDictionary *) getGardenByUniqueId : (NSString *) uuid;
 - (NSMutableArray *) getPlantUuidsForClass:(NSString *)class;
+- (NSMutableDictionary *) getAppVersion;
 
 @property(nonatomic) int bedRowCount;
 @property(nonatomic) NSString *plantListName;

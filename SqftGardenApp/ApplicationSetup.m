@@ -27,18 +27,27 @@ DBManager *dbManager;
     NSLog(@"plants exists %i rowCount %i", [dbManager checkTableExists:@"plants"], [dbManager getTableRowCount:@"plants"]);
     NSString *version = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
     NSLog(@"check version: %@", version);
-    [self createDB];
+    [self initializeDB];
     
     return YES;
 }
 
--(BOOL)createDB{
+-(BOOL)initializeDB{
 
     //for some reason the app doesn't 'see' the db until we do a create
     //if not exists. hate it, but it's working for now...
     
     [self makePlantsTable];
+    [self updatePlants];
+
+    [self makeSavesTable];
+    [self makeClassesTable];
+    //[self moveSavedGardens];
+    [self makeVersionTable];
     
+    return YES;
+}
+-(BOOL)updatePlants{
     if([dbManager checkTableExists:@"plants"]){
         int plantCount = [dbManager getTableRowCount:@"plants"];
         
@@ -60,11 +69,6 @@ DBManager *dbManager;
             NSLog(@"init plants");
         }
     }
-    [self makeSavesTable];
-    [self makeClassesTable];
-    [self moveSavedGardens];
-    [self makeVersionTable];
-    
     return YES;
 }
 -(BOOL)makeVersionTable{
@@ -73,12 +77,37 @@ DBManager *dbManager;
         [dbManager createTable:@"version"];
         [dbManager addColumn:@"version" :@"app_version" : @"char"];
     }
+    else{
+        NSDictionary *versionDict = [dbManager getAppVersion];
+        NSLog(@"app version from db: %@", [versionDict objectForKey:@"version"]);
+        //check versions and return if same
+       
+        if([@"version0" isEqualToString:[versionDict objectForKey:@"version"]])return YES;
+        
+        //move saves table
+        [self moveSavedGardens];
+        //update plants
+        [dbManager dropTable:@"plants"];
+        [self makePlantsTable];
+        [self updatePlants];
+        //update classes
+        [dbManager dropTable:@"plant_classes"];
+        [self makeClassesTable];
+    }
+    //update or create record for app version in db
     NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
     [dict setObject:@"1" forKey:@"id"];
     [dict setObject:version forKey:@"app_version"];
     [dbManager insertVersion:dict];
     NSLog(@"version table ct: %i",[dbManager getTableRowCount:@"version"]);
+    NSDictionary *versionDict0 = [dbManager getAppVersion];
+    NSLog(@"new app version from db: %@", [versionDict0 objectForKey:@"version"]);
+    
     return YES;
+}
+
+-(BOOL)checkAppVersion{
+    return true;
 }
 
 -(BOOL)makeClassesTable{
@@ -122,9 +151,10 @@ DBManager *dbManager;
 }
 
 -(BOOL)makePlantsTable{
-    
+    NSLog(@"makePlantsTable");
     if(![dbManager checkTableExists:@"plants"]){
         [dbManager createTable:@"plants"];
+        NSLog(@"makePlantsTable -- 1");
         [dbManager addColumn:@"plants" : @"name" : @"char(50)"];
         [dbManager addColumn:@"plants" : @"timestamp" : @"int"];
         [dbManager addColumn:@"plants" : @"icon" : @"char(150)"];
@@ -165,6 +195,7 @@ DBManager *dbManager;
 }
 
 -(BOOL)moveSavedGardens{
+    NSLog(@"moving saves");
     //get all the saves
     NSArray *savesJson = [dbManager getBedSaveList];
     //drop the table

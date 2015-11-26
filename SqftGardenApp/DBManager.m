@@ -168,7 +168,7 @@ NSString* initClassListName = @"init_plant_classes.txt";
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into version (rowid, app_version) values(\"%@\", \"%@\")",
+        NSString *insertSQL = [NSString stringWithFormat:@"insert or replace into version (rowid, app_version) values(\"%@\", \"%@\")",
                                [msgJSON objectForKey:@"id"],
                                [msgJSON objectForKey:@"app_version"]];
         const char *insert_stmt = [insertSQL UTF8String];
@@ -186,6 +186,31 @@ NSString* initClassListName = @"init_plant_classes.txt";
     }
     sqlite3_close(database);
     return false;
+}
+- (NSMutableDictionary *) getAppVersion {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    const char *dbpath = [databasePath UTF8String];
+    NSString *tableName = @"version";
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT app_version FROM %@", tableName];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            //NSLog(@"msg sql ok");
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                NSString *version = [[NSString alloc] initWithUTF8String:
+                                      (const char *) sqlite3_column_text(statement, 0)];
+
+                [dict setObject:version forKey:@"version"];
+                
+            }
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    }
+    return dict;
 }
 
 - (BOOL) savePlantData:(NSDictionary *)msgJSON{
