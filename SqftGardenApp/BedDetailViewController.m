@@ -98,7 +98,7 @@ CGFloat maxDays;
 
 
 -(void)makeTimeline{
-    UIView *timeline = [[TimelineView alloc]initWithFrame:CGRectMake(10,115,320,44) withPlantUuid:appGlobals.selectedPlant.model.plantUuid pointsPerDay:pointsPerDay maxDays:maxDays];
+    UIView *timeline = [[TimelineView alloc]initWithFrame:CGRectMake(10,115,self.view.frame.size.width,44) withPlantUuid:appGlobals.selectedPlant.model.plantUuid pointsPerDay:pointsPerDay maxDays:maxDays];
     //timeline.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:timeline];
 }

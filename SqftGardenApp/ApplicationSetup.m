@@ -82,7 +82,7 @@ DBManager *dbManager;
         NSLog(@"app version from db: %@", [versionDict objectForKey:@"version"]);
         //check versions and return if same
        
-        if([@"version0" isEqualToString:[versionDict objectForKey:@"version"]])return YES;
+        if([@"1" isEqualToString:[versionDict objectForKey:@"version"]])return YES;
         
         //move saves table
         [self moveSavedGardens];

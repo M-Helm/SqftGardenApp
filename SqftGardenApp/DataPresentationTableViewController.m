@@ -241,6 +241,7 @@ CGFloat height;
     [cell.contentView addSubview:cell.harvestView];
     [cell.contentView addSubview:cell.plantView];
     [cell.contentView addSubview:cell.mainLabel];
+    //cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     //UIView *timeline = [self makeTimelineForPlant:plant.model];
     //[cell.contentView addSubview:timeline];

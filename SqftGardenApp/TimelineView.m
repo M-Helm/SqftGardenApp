@@ -28,7 +28,7 @@ PlantModel *plant;
     self.pointsPerDay = pointsPerDay;
     self.maxDays = max;
     //get the frost date here
-    frostDate = appGlobals.globalGardenModel.frostDate;
+    frostDate = [self checkFrostDate];
 
     [self makeCriticalDatesBar:self.frame.size.width andHeight:self.frame.size.height];
     return self;
@@ -71,7 +71,7 @@ PlantModel *plant;
     
     NSString *maturityStr0 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:maturityDate0]];
     NSString *maturityStr1 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:maturityDate1]];
-    NSDate *startIndoorsDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.startInsideDelta];
+    NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.startInsideDelta];
     NSString *insideStr = [NSString stringWithFormat:@"Start Inside:%@",[dateFormatter stringFromDate:startIndoorsDate]];
     NSString *transStr = [NSString stringWithFormat:@"Transplant:%@",[dateFormatter stringFromDate:transDate]];
     
@@ -292,6 +292,23 @@ PlantModel *plant;
     [path1 stroke];
     
     return path1;
+}
+
+
+-(NSDate *)checkFrostDate{
+    NSDate *compareDate = [[NSDate alloc]initWithTimeIntervalSince1970:2000];
+    if([appGlobals.globalGardenModel.frostDate compare:compareDate] == NSOrderedAscending) {
+        //no date selected return may 1 next year as standard date
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        [comps setDay:1];
+        [comps setMonth:5];
+        [comps setYear:2016];
+        NSDate *date = [[NSCalendar currentCalendar] dateFromComponents:comps];
+        return date;
+    }else{
+        //a date is selected
+        return appGlobals.globalGardenModel.frostDate;
+    }
 }
 
 @end
