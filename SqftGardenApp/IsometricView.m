@@ -281,6 +281,17 @@ EditBedViewController *editBedVC;
                                                            bedDimension)
                                   withPlantUuid:plantUuid isIsometric:YES];
             bed.layer.borderWidth = 1;
+            if(bed.model.squareFeet > 1){
+                //CGRect frame = CGRectMake(padding + (bedDimension*columnNumber),
+                //                          (bedDimension*rowNumber)+1,
+                //                          bedDimension * (bed.model.squareFeet/2),
+                //                          bedDimension * (bed.model.squareFeet/2));
+                //bed.frame = frame;
+                //bed.layer.borderWidth = 3;
+                //bed.backgroundColor = [UIColor whiteColor];
+            }
+            
+            
             bed.model.position = cell;
             [bedArray addObject:bed];
             columnNumber++;

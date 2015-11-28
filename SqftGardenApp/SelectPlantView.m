@@ -356,6 +356,16 @@ EditBedViewController *editBedVC;
                 [editBedVC initViews];
                 return;
             }
+            //special case for width == 2
+            if(editBedVC.currentGardenModel.columns > 1 || editBedVC.currentGardenModel.columns < 3){
+                NSLog(@"columns == %i", editBedVC.currentGardenModel.columns);
+                //last row
+                if((targetCell) < (editBedVC.currentGardenModel.rows * editBedVC.currentGardenModel.columns - 3)){
+                    [editBedVC updatePlantBeds:targetCell:plantView.plantUuid];
+                    AudioServicesPlaySystemSound(1105);
+                    return;
+                }
+            }
             //last row
             if((targetCell) > (editBedVC.currentGardenModel.rows * (editBedVC.currentGardenModel.columns-1)-2)){
                 [touchedView removeFromSuperview];

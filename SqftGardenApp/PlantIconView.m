@@ -13,7 +13,7 @@
 
 
 @implementation PlantIconView
-const int PLANT_ICON_DEFAULT_BORDER = 0;
+const int PLANT_ICON_DEFAULT_BORDER = 1;
 const int PLANT_ICON_DEFAULT_CORNER = 10;
 const int PLANT_ICON_PADDING = 7;
 
@@ -77,6 +77,7 @@ ApplicationGlobals *appGlobals;
     self.fillColor = [self.color colorWithAlphaComponent:0.25];
     self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.layer.borderWidth = PLANT_ICON_DEFAULT_BORDER;
+    //if(self.model.isTall)self.layer.borderWidth = 0;
     self.layer.cornerRadius = PLANT_ICON_DEFAULT_CORNER;
 }
 

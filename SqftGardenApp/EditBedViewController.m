@@ -391,7 +391,7 @@ DBManager *dbManager;
                 plantView.frame = frame;
                 [plantView setImageGrid:1 :1];
             }
-            plantView.layer.borderWidth = 1;
+            //plantView.layer.borderWidth = 2;
             plantView.model.position = cell;
             [bedArray addObject:plantView];
             //if(i==0)self.bedViewAnchor = bed.frame.origin;
@@ -638,6 +638,14 @@ DBManager *dbManager;
                 [touchedView removeFromSuperview];
                 return;
             }
+            //special case for width == 2
+            if(self.currentGardenModel.columns > 1 || self.currentGardenModel.columns < 3){
+                //last row
+                if((targetCell) < (self.currentGardenModel.rows * self.currentGardenModel.columns - 3)){
+                    [self updatePlantBeds:targetCell:plantView.plantUuid];
+                    return;
+                }
+            }
             //last row
             if((targetCell) > (self.currentGardenModel.rows * (self.currentGardenModel.columns-1)-2)){
                 [touchedView removeFromSuperview];
@@ -786,9 +794,9 @@ DBManager *dbManager;
 }
 
 - (UIImage *)takeScreenshot {
-    //add a white background for the shot
-    self.bedFrameView.backgroundColor = [UIColor whiteColor];
+    //add white background for the shot
     self.bedFrameView.layer.borderWidth = 0;
+    self.bedFrameView.backgroundColor = [UIColor whiteColor];
     if(self.isoViewIsOpen){
         //[self.isoView addSubview:[self makePromoLabel]];
         self.isoView.backgroundColor = [UIColor whiteColor];
@@ -798,7 +806,6 @@ DBManager *dbManager;
         UIGraphicsEndImageContext();
         return image;
     }
-    
     UIGraphicsBeginImageContextWithOptions(self.bedFrameView.bounds.size, YES, 0.0f);
     [self.bedFrameView drawViewHierarchyInRect:self.bedFrameView.bounds afterScreenUpdates:YES];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
