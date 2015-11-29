@@ -124,15 +124,16 @@ CGFloat height;
     NSString *mainLabelString = @"";
     NSString *harvestDateString = @"";
     NSString *plantingDateString = @"";
+    NSString *startInsideDateString = @"";
     PlantIconView *plant = [plantArray objectAtIndex:[indexPath row]];
     NSDate *maturityDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.model.maturity];
     maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*plant.model.plantingDelta];
     NSDate *plantingDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.model.plantingDelta];
+    NSDate *startInsideDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.model.startInsideDelta];
     harvestDateString = [dateFormatter stringFromDate:maturityDate];
-    harvestDateString = [NSString stringWithFormat:@"%@", harvestDateString];
-    
+    //harvestDateString = [NSString stringWithFormat:@"%@", harvestDateString];
     plantingDateString = [dateFormatter stringFromDate:plantingDate];
-    
+    startInsideDateString = [dateFormatter stringFromDate:startInsideDate];
     mainLabelString = plant.model.plantName;
     
     if(cell == nil){
@@ -205,12 +206,18 @@ CGFloat height;
     
     if(plant.model.startInside){
         NSLog(@"planting anchor: %f startInside: %f", plantingDateAnchor, (plantingDateAnchor + (plant.model.startInsideDelta * daysPerPoint)));
-        cell.startInsideView = [[UILabel alloc]initWithFrame:CGRectMake((plantingDateAnchor + (plant.model.startInsideDelta * daysPerPoint)),
+        cell.startInsideView = [[UILabel alloc]initWithFrame:CGRectMake((3+plantingDateAnchor + (plant.model.startInsideDelta * daysPerPoint)),
                                                                         13,
-                                                                        (fabs)(plant.model.startInsideDelta * daysPerPoint)-(fabs)(plant.model.plantingDelta * daysPerPoint),
+                                                                        (fabs)(plant.model.startInsideDelta * daysPerPoint)-(fabs)(plant.model.plantingDelta * daysPerPoint)-3,
                                                                         height - 20)];
-        cell.startInsideView.backgroundColor = [plantingColor colorWithAlphaComponent:0.45];
+        cell.startInsideView.backgroundColor = [frostColor colorWithAlphaComponent:0.25];
+        UILabel *startInsideLabel = [self makeCellLabelWithFrame:CGRectMake(0,3,40,15)];
+        startInsideLabel.text = startInsideDateString;
+        //startInsideLabel.backgroundColor = [frostColor colorWithAlphaComponent:0.25];
+        [cell.startInsideView addSubview:startInsideLabel];
         [cell.contentView addSubview:cell.startInsideView];
+        [cell.startInsideView.layer addSublayer:[self makeDashedBorderForView:cell.startInsideView]];
+        [cell.startInsideView addSubview:startInsideLabel];
     }
     
     [cell.contentView addSubview:cell.growingView];
@@ -224,6 +231,16 @@ CGFloat height;
     
     
     return cell;
+}
+
+-(CAShapeLayer *)makeDashedBorderForView:(UIView *)view{
+    CAShapeLayer *border = [CAShapeLayer layer];
+    border.strokeColor = [UIColor colorWithRed:67/255.0f green:37/255.0f blue:83/255.0f alpha:1].CGColor;
+    border.fillColor = nil;
+    border.lineDashPattern = @[@4, @2];
+    border.path = [UIBezierPath bezierPathWithRect:view.bounds].CGPath;
+    border.frame = view.bounds;
+    return border;
 }
 
 -(CAGradientLayer *)makeFrostLayerForCell:(PresentTableCell *)cell{
