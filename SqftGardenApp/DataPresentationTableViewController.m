@@ -94,35 +94,16 @@ CGFloat height;
     }
 }
 
-/*
--(CGFloat)calculateDateBounds{
-    int min = 0;
-    int max = 0;
-    CGFloat ptsPerDay;
-    min = abs(appGlobals.selectedPlant.model.startInsideDelta) - abs(appGlobals.selectedPlant.model.plantingDelta);
-    if(abs(appGlobals.selectedPlant.model.startInsideDelta) < 1)min=0;
-    if(abs(appGlobals.selectedPlant.model.plantingDelta) < 1)min = 0;
-    max = appGlobals.selectedPlant.model.maturity;
-    int days = max + abs(min);
-    ptsPerDay = (self.view.bounds.size.width -20) / days;
-    maxDays = days;
-    return ptsPerDay;
-}
-*/
 -(void)calculateDateBounds:(NSArray *)array{
     boundsCalculated = YES;
     int min = 0;
     int max = 0;
     PlantIconView *plant;
-    //NSNumber *plantIndex = [NSNumber numberWithInt:0];
     for(int i = 0; i < array.count; i++){
-        //plantIndex = array[i];
-        //plant = [[PlantIconView alloc]initWithFrame:CGRectMake(0,0,0,0) withPlantId:plantIndex.intValue isIsometric:NO];
         plant = array[i];
         if(min > plant.model.plantingDelta)min = plant.model.plantingDelta;
         if(max < plant.model.maturity)max = plant.model.maturity;
     }
-    //if(min < 0)min = 0;
     minDays = min;
     maxDays = max;
     int days = max + abs(min);
@@ -139,9 +120,9 @@ CGFloat height;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PresentTableCell *cell;
-    NSString *mainLabelString = @"this is the main label";
-    NSString *harvestDateString = @"this is the harvest date";
-    NSString *plantingDateString = @"this is the planting date";
+    NSString *mainLabelString = @"";
+    NSString *harvestDateString = @"";
+    NSString *plantingDateString = @"";
     PlantIconView *plant = [plantArray objectAtIndex:[indexPath row]];
     NSDate *maturityDate = [appGlobals.globalGardenModel.frostDate dateByAddingTimeInterval:60*60*24*plant.model.maturity];
     maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*plant.model.plantingDelta];
@@ -150,7 +131,6 @@ CGFloat height;
     harvestDateString = [NSString stringWithFormat:@"%@", harvestDateString];
     
     plantingDateString = [dateFormatter stringFromDate:plantingDate];
-    plantingDateString = [NSString stringWithFormat:@"%@", plantingDateString];
     
     mainLabelString = plant.model.plantName;
     
@@ -165,15 +145,13 @@ CGFloat height;
         cell.springView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
         cell.summerView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
         cell.autumnView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
-    }else{
-        
     }
 
     CGRect adjustedFrame = CGRectMake(plantingDateAnchor + (plant.model.plantingDelta * daysPerPoint), 13, 0, height - 20);
     cell.plantView.frame = adjustedFrame;
     cell.growingView.frame = CGRectMake(adjustedFrame.origin.x+10, 13,0, height -20);
     cell.harvestView.frame = CGRectMake(adjustedFrame.origin.x+(plant.model.maturity*daysPerPoint)+10, 13,0, height -20);
-    //cell.harvestView.layer.cornerRadius = 10;
+
     
     cell.mainLabel.frame = CGRectMake(self.view.frame.origin.x+80,
                                       cell.growingView.frame.origin.y,
@@ -193,25 +171,11 @@ CGFloat height;
                                        .5, self.view.frame.size.width, height-1);
     cell.summerView.backgroundColor = summerColor;
     
-    CAGradientLayer *frostGradient = [CAGradientLayer layer];
-    frostGradient.startPoint = CGPointMake(0,0);
-    frostGradient.endPoint = CGPointMake(1,0);
-    frostGradient.frame = cell.frostView.bounds;
-    frostGradient.colors = [NSArray arrayWithObjects:
-                            (id)[frostColor CGColor], (id)[[UIColor whiteColor] CGColor], nil];
-    [cell.frostView.layer insertSublayer:frostGradient atIndex:0];
-    
-    
-    CAGradientLayer *springGradient = [CAGradientLayer layer];
-    springGradient.startPoint = CGPointMake(1,0);
-    springGradient.endPoint = CGPointMake(0,0);
-    springGradient.frame = cell.springView.bounds;
-    springGradient.colors = [NSArray arrayWithObjects:
-                             (id)[summerColor CGColor], (id)[UIColor whiteColor], nil];
-    [cell.springView.layer insertSublayer:springGradient atIndex:0];
+
+    [cell.frostView.layer insertSublayer:[self makeFrostLayerForCell:cell] atIndex:0];
+    [cell.springView.layer insertSublayer:[self makeSpringLayerForCell:cell] atIndex:0];
     cell.springView.alpha = .5;
     cell.summerView.alpha = .5;
-    
     
     cell.plantView.backgroundColor = plantingColor;
     cell.growingView.backgroundColor = growingColor;
@@ -245,8 +209,26 @@ CGFloat height;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     //UIView *timeline = [self makeTimelineForPlant:plant.model];
     //[cell.contentView addSubview:timeline];
-    
     return cell;
+}
+
+-(CAGradientLayer *)makeFrostLayerForCell:(PresentTableCell *)cell{
+    CAGradientLayer *frostGradient = [CAGradientLayer layer];
+    frostGradient.startPoint = CGPointMake(0,0);
+    frostGradient.endPoint = CGPointMake(1,0);
+    frostGradient.frame = cell.frostView.bounds;
+    frostGradient.colors = [NSArray arrayWithObjects:
+                            (id)[frostColor CGColor], (id)[[UIColor whiteColor] CGColor], nil];
+    return frostGradient;
+}
+-(CAGradientLayer *)makeSpringLayerForCell:(PresentTableCell *)cell{
+    CAGradientLayer *springGradient = [CAGradientLayer layer];
+    springGradient.startPoint = CGPointMake(1,0);
+    springGradient.endPoint = CGPointMake(0,0);
+    springGradient.frame = cell.springView.bounds;
+    springGradient.colors = [NSArray arrayWithObjects:
+                             (id)[summerColor CGColor], (id)[UIColor whiteColor], nil];
+    return springGradient;
 }
 
 -(UIView *)makeTimelineForPlant:(PlantModel *)plant{
@@ -277,7 +259,7 @@ CGFloat height;
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {    
     appGlobals.selectedPlant = [plantArray objectAtIndex:(int)[indexPath row]];
     [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
     return;
