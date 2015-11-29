@@ -102,6 +102,7 @@ CGFloat height;
     for(int i = 0; i < array.count; i++){
         plant = array[i];
         if(min > plant.model.plantingDelta)min = plant.model.plantingDelta;
+        if(min > plant.model.startInsideDelta)min = plant.model.startInsideDelta;
         if(max < plant.model.maturity)max = plant.model.maturity;
     }
     minDays = min;
@@ -146,8 +147,8 @@ CGFloat height;
         cell.summerView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
         cell.autumnView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
     }
-
     CGRect adjustedFrame = CGRectMake(plantingDateAnchor + (plant.model.plantingDelta * daysPerPoint), 13, 0, height - 20);
+
     cell.plantView.frame = adjustedFrame;
     cell.growingView.frame = CGRectMake(adjustedFrame.origin.x+10, 13,0, height -20);
     cell.harvestView.frame = CGRectMake(adjustedFrame.origin.x+(plant.model.maturity*daysPerPoint)+10, 13,0, height -20);
@@ -201,6 +202,17 @@ CGFloat height;
     [cell.contentView addSubview:cell.frostView];
     [cell.contentView addSubview:cell.springView];
     [cell.contentView addSubview:cell.summerView];
+    
+    if(plant.model.startInside){
+        NSLog(@"planting anchor: %f startInside: %f", plantingDateAnchor, (plantingDateAnchor + (plant.model.startInsideDelta * daysPerPoint)));
+        cell.startInsideView = [[UILabel alloc]initWithFrame:CGRectMake((plantingDateAnchor + (plant.model.startInsideDelta * daysPerPoint)),
+                                                                        13,
+                                                                        (fabs)(plant.model.startInsideDelta * daysPerPoint)-(fabs)(plant.model.plantingDelta * daysPerPoint),
+                                                                        height - 20)];
+        cell.startInsideView.backgroundColor = [plantingColor colorWithAlphaComponent:0.45];
+        [cell.contentView addSubview:cell.startInsideView];
+    }
+    
     [cell.contentView addSubview:cell.growingView];
     [cell.contentView addSubview:cell.harvestView];
     [cell.contentView addSubview:cell.plantView];
@@ -209,6 +221,8 @@ CGFloat height;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     //UIView *timeline = [self makeTimelineForPlant:plant.model];
     //[cell.contentView addSubview:timeline];
+    
+    
     return cell;
 }
 
@@ -259,7 +273,7 @@ CGFloat height;
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     appGlobals.selectedPlant = [plantArray objectAtIndex:(int)[indexPath row]];
     [self.navigationController performSegueWithIdentifier:@"showBedDetail" sender:self];
     return;
