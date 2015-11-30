@@ -76,14 +76,14 @@ PlantModel *plant;
     NSString *transStr = [NSString stringWithFormat:@"Transplant:%@",[dateFormatter stringFromDate:transDate]];
     
     [criticalDateBar addSubview:timelineBar];
-    [criticalDateBar addSubview:[self makeHarvestLabel1:maturityStr1 isUp:NO]];
+    [criticalDateBar addSubview:[self makeHarvestTransplantsLabel:maturityStr1 isUp:NO]];
     
     [criticalDateBar addSubview:[self makeInsideLabel:insideStr isUp:NO]];
     [criticalDateBar addSubview:[self makeTransplantLabel:transStr isUp:YES]];
     if(plant.startInside)
         [criticalDateBar addSubview:[self makePlantingLabel:plantingStr isUp:YES]];
     else [criticalDateBar addSubview:[self makePlantingLabel:plantingStr isUp:NO]];
-    [criticalDateBar addSubview:[self makeHarvestLabel0:maturityStr0 isUp:YES]];
+    [criticalDateBar addSubview:[self makeHarvestFromSeedLabel:maturityStr0 isUp:YES]];
     [self addSubview:criticalDateBar];
 }
 
@@ -118,7 +118,7 @@ PlantModel *plant;
     if(!plant.startInside)label.alpha = 0;
     return label;
 }
--(UILabel *)makeHarvestLabel0:(NSString *)text isUp:(bool)up{
+-(UILabel *)makeHarvestFromSeedLabel:(NSString *)text isUp:(bool)up{
     //if(self.pointsPerDay < 1)[self calculateDateBounds];
     int upSpot = -5;
     if(!up)upSpot = 31;
@@ -139,13 +139,16 @@ PlantModel *plant;
     return label;
 }
 
--(UILabel *)makeHarvestLabel1:(NSString *)text isUp:(bool)up{
+-(UILabel *)makeHarvestTransplantsLabel:(NSString *)text isUp:(bool)up{
     //if(self.pointsPerDay < 1)[self calculateDateBounds];
     int upSpot = -5;
     if(!up)upSpot = 34;
-    CGFloat xAnchor = (plant.maturity * self.pointsPerDay);
+    CGFloat xAnchor = (self.maxDays * self.pointsPerDay);
     if(plant.startSeed){
         xAnchor = (abs(plant.maturity) * self.pointsPerDay);
+    }
+    if(!plant.startSeed && plant.startInside){
+        
     }
     
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor-75,upSpot,80,16)];
@@ -154,9 +157,9 @@ PlantModel *plant;
     
     CGPoint start = CGPointMake(60,0);
     CGPoint end = CGPointMake(60,-10);
-    //CGPoint mid = CGPointMake(24,120);
+
     CAShapeLayer *line = [self makeLineFrom:start toPoint:end];
-    //CAShapeLayer *path = [self makePathFrom:start toPoint:end withPathMidPoint:mid];
+
     [label.layer addSublayer:line];
     
     CAShapeLayer *layer = [self makeIndicatorWithFrame:CGRectMake(55, 18-upSpot, 11, 11)];

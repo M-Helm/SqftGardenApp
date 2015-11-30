@@ -62,11 +62,15 @@ CGFloat maxDays;
     int min = 0;
     int max = 0;
     CGFloat ptsPerDay;
-    min = abs(appGlobals.selectedPlant.model.startInsideDelta) - abs(appGlobals.selectedPlant.model.plantingDelta);
-    if(abs(appGlobals.selectedPlant.model.startInsideDelta) < 1)min=0;
-    if(abs(appGlobals.selectedPlant.model.plantingDelta) < 1)min = 0;
+    //min = abs(appGlobals.selectedPlant.model.startInsideDelta) - abs(appGlobals.selectedPlant.model.plantingDelta);
+    //if(abs(appGlobals.selectedPlant.model.startInsideDelta) < 1)min=0;
+    //if(abs(appGlobals.selectedPlant.model.plantingDelta) < 1)min = 0;
+    min = appGlobals.selectedPlant.model.plantingDelta;
+    if(appGlobals.selectedPlant.model.startInside)min = appGlobals.selectedPlant.model.startInsideDelta;
+    
     max = appGlobals.selectedPlant.model.maturity;
-    int days = max + abs(min);
+    int days = abs(max - min);
+    //NSLog(@"days: %i", days);
     ptsPerDay = (self.view.bounds.size.width -20) / days;
     maxDays = days;
     return ptsPerDay;
@@ -201,6 +205,7 @@ CGFloat maxDays;
     NSDate *transplantDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.transplantDelta];
     NSDate *maturityDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.maturity];
     maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
+    
     NSString *maturityStr = [dateFormatter stringFromDate:maturityDate];
     NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
     NSString *plantingStr = [dateFormatter stringFromDate:plantingDate];

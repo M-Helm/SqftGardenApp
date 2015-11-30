@@ -6,5 +6,6 @@
 "planting_date":"2016-05-01",
 "rows":3,
 "timestamp":1445978829,
+"zone":"5a",
 "unique_id":"9D625AC9-2F9E-4F85-B869-D4D814B1CEDF",
 }]

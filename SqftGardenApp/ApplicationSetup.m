@@ -80,8 +80,8 @@ DBManager *dbManager;
     else{
         NSDictionary *versionDict = [dbManager getAppVersion];
         NSLog(@"app version from db: %@", [versionDict objectForKey:@"version"]);
-        //check versions and return if same
-       
+        
+        //check versions and return if same and returns if true
         if([@"1" isEqualToString:[versionDict objectForKey:@"version"]])return YES;
         
         //move saves table
@@ -102,7 +102,6 @@ DBManager *dbManager;
     NSLog(@"version table ct: %i",[dbManager getTableRowCount:@"version"]);
     NSDictionary *versionDict0 = [dbManager getAppVersion];
     NSLog(@"new app version from db: %@", [versionDict0 objectForKey:@"version"]);
-    
     return YES;
 }
 
