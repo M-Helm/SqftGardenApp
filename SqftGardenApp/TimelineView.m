@@ -17,8 +17,13 @@
 @implementation TimelineView
 
 ApplicationGlobals *appGlobals;
-NSDate *frostDate;
 PlantModel *plant;
+NSDate *frostDate;
+NSDate *startInsideDate;
+NSDate *transplantDate;
+NSDate *plantingDate;
+NSDate *harvestFromPlantingDate;
+NSDate *harvestFromTransplantDate;
 
 
 - (id)initWithFrame:(CGRect)frame withPlantUuid: (NSString *)plantUuid pointsPerDay: (CGFloat)pointsPerDay maxDays:(int)max{
@@ -29,9 +34,18 @@ PlantModel *plant;
     self.maxDays = max;
     //get the frost date here
     frostDate = [self checkFrostDate];
-
+    [self setDates];
     [self makeCriticalDatesBar:self.frame.size.width andHeight:self.frame.size.height];
     return self;
+}
+
+- (void)setDates{
+    int transplantRecoveryTime = 60*60*24*10;
+    startInsideDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.startInsideDelta];
+    plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
+    transplantDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.transplantDelta];
+    harvestFromPlantingDate = [plantingDate dateByAddingTimeInterval:60*60*24*plant.maturity];
+    harvestFromTransplantDate = [startInsideDate dateByAddingTimeInterval:(60*60*24*plant.maturity + transplantRecoveryTime)];
 }
 
 -(void)makeCriticalDatesBar:(int)width andHeight:(int)height{
@@ -60,20 +74,18 @@ PlantModel *plant;
                        nil];
     [timelineBar.layer insertSublayer:gradient atIndex:0];
     //harvestBar.alpha = .5;
-    
-    NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
     NSString *plantingStr = [NSString stringWithFormat:@"Plant:%@",[dateFormatter stringFromDate:plantingDate]];
+    //NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
+    //NSDate *maturityDate0 = [frostDate dateByAddingTimeInterval:60*60*24*plant.maturity];
+    //maturityDate0 = [maturityDate0 dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
+    //NSDate *maturityDate1 = [harvestFromPlantingDate dateByAddingTimeInterval:60*60*24*plant.transplantDelta];
+    //NSDate *transDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.transplantDelta];
+    //NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.startInsideDelta];
     
-    NSDate *maturityDate0 = [frostDate dateByAddingTimeInterval:60*60*24*plant.maturity];
-    maturityDate0 = [maturityDate0 dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
-    NSDate *maturityDate1 = [maturityDate0 dateByAddingTimeInterval:60*60*24*plant.transplantDelta];
-    NSDate *transDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.transplantDelta];
-    
-    NSString *maturityStr0 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:maturityDate0]];
-    NSString *maturityStr1 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:maturityDate1]];
-    NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.startInsideDelta];
-    NSString *insideStr = [NSString stringWithFormat:@"Start Inside:%@",[dateFormatter stringFromDate:startIndoorsDate]];
-    NSString *transStr = [NSString stringWithFormat:@"Transplant:%@",[dateFormatter stringFromDate:transDate]];
+    NSString *maturityStr0 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:harvestFromPlantingDate]];
+    NSString *maturityStr1 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:harvestFromTransplantDate]];
+    NSString *insideStr = [NSString stringWithFormat:@"Start Inside:%@",[dateFormatter stringFromDate:startInsideDate]];
+    NSString *transStr = [NSString stringWithFormat:@"Transplant:%@",[dateFormatter stringFromDate:transplantDate]];
     
     [criticalDateBar addSubview:timelineBar];
     [criticalDateBar addSubview:[self makeHarvestTransplantsLabel:maturityStr1 isUp:NO]];

@@ -18,20 +18,23 @@
 @implementation BedDetailViewController
 ApplicationGlobals *appGlobals;
 DBManager *dbManager;
+PlantModel *plant;
 CGFloat pointsPerDay;
 NSDate *frostDate;
 CGFloat maxDays;
-//CGFloat insideAnchor;
-//CGFloat plantingAnchor;
-//CGFloat transplantAnchor;
-//CGFloat harvest0Anchor;
-//CGFloat harvest1Anchor;
+NSDate *frostDate;
+NSDate *startInsideDate;
+NSDate *transplantDate;
+NSDate *plantingDate;
+NSDate *harvestFromPlantingDate;
+NSDate *harvestFromTransplantDate;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     appGlobals = [ApplicationGlobals getSharedGlobals];
     dbManager = [DBManager getSharedDBManager];
+    plant = appGlobals.selectedPlant.model;
     //setup views
     //self.navigationItem.title = appGlobals.appTitle;
     self.navigationController.navigationItem.backBarButtonItem.title = @"Back";
@@ -40,9 +43,19 @@ CGFloat maxDays;
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
 
     frostDate = [self checkFrostDate];
+    [self setDates];
     pointsPerDay = [self calculateDateBounds];
     [self initViewGrid];
     
+}
+
+- (void)setDates{
+    int transplantRecoveryTime = 60*60*24*10;
+    startInsideDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.startInsideDelta];
+    plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
+    transplantDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.transplantDelta];
+    harvestFromPlantingDate = [plantingDate dateByAddingTimeInterval:60*60*24*plant.maturity];
+    harvestFromTransplantDate = [startInsideDate dateByAddingTimeInterval:(60*60*24*plant.maturity + transplantRecoveryTime)];
 }
 
 - (void)viewDidLayoutSubviews{
@@ -200,14 +213,14 @@ CGFloat maxDays;
     NSString *text;
     NSDateFormatter *dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMMM dd"];
-    NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.startInsideDelta];
-    NSString *insideStr = [dateFormatter stringFromDate:startIndoorsDate];
-    NSDate *transplantDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.transplantDelta];
-    NSDate *maturityDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.maturity];
-    maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
+    //NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.startInsideDelta];
+    NSString *insideStr = [dateFormatter stringFromDate:startInsideDate];
+    //NSDate *transplantDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.transplantDelta];
+    //NSDate *maturityDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.maturity];
+    //maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
     
-    NSString *maturityStr = [dateFormatter stringFromDate:maturityDate];
-    NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
+    NSString *maturityStr = [dateFormatter stringFromDate:harvestFromPlantingDate];
+    //NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
     NSString *plantingStr = [dateFormatter stringFromDate:plantingDate];
     NSString *transStr = [dateFormatter stringFromDate:transplantDate];
     
