@@ -232,7 +232,7 @@ NSDate *harvestFromTransplantDate;
         text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Plant seeds %@ \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.model.population,plantingStr, maturityStr];
     }
     if(appGlobals.selectedPlant.model.startSeed && appGlobals.selectedPlant.model.startInside){
-        text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Start inside %@ \r\u2055 Alternate Plant seeds %@ \r\u2055 Transplant from inside %@ \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.model.population,insideStr, plantingStr, transStr, maturityStr];
+        text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Start inside %@ \r\u2055 Alternate plant seeds %@ \r\u2055 Transplant from inside %@ \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.model.population,insideStr, plantingStr, transStr, maturityStr];
     }
     
     return text;

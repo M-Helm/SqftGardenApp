@@ -45,8 +45,7 @@ CGFloat pointsPerDay;
 CGFloat width;
 CGFloat daysPerPoint;
 CGFloat height;
-NSString *transplantDateString;
-NSString *harvestFromTransplantDateString;
+
 
 
 - (void)viewDidLoad {
@@ -130,8 +129,6 @@ NSString *harvestFromTransplantDateString;
     NSString *harvestDateString = [dateFormatter stringFromDate:[dates objectForKey:@"harvestFromPlantingDate"]];
     NSString *plantingDateString = [dateFormatter stringFromDate:[dates objectForKey:@"plantingDate"]];
     NSString *startInsideDateString = [dateFormatter stringFromDate:[dates objectForKey:@"startInsideDate"]];
-    transplantDateString = [dateFormatter stringFromDate:[dates objectForKey:@"transplantDate"]];
-    harvestFromTransplantDateString = [dateFormatter stringFromDate:[dates objectForKey:@"harvestFromTransplantDate"]];
     NSString *mainLabelString = plant.model.plantName;
     
     if(cell == nil){
@@ -145,6 +142,10 @@ NSString *harvestFromTransplantDateString;
         cell.springView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
         cell.summerView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
         cell.autumnView = [[UIView alloc]initWithFrame:CGRectMake(0,0,0,0)];
+        if(plant.model.startInside) {
+            cell.startInsideDate = [dates objectForKey:@"harvestFromTransplantDate"];
+            cell.transplantDate = [dates objectForKey:@"transplantDate"];
+        }
     }
     CGRect adjustedFrame = CGRectMake(plantingDateAnchor + (plant.model.plantingDelta * daysPerPoint), 13, 0, height - 20);
     cell.plantView.frame = adjustedFrame;
@@ -207,13 +208,13 @@ NSString *harvestFromTransplantDateString;
         UILabel *startInsideLabel = [self makeCellLabelWithFrame:CGRectMake(0,3,40,15)];
         startInsideLabel.text = startInsideDateString;
         
-        UILabel *harvestFromTransplantLabel = [self makeCellLabelWithFrame:CGRectMake(0,3,40,15)];
-        harvestFromTransplantLabel.text = harvestFromTransplantDateString;
         //startInsideLabel.backgroundColor = [frostColor colorWithAlphaComponent:0.25];
         [cell.startInsideView addSubview:startInsideLabel];
         [cell.contentView addSubview:cell.startInsideView];
         [cell.startInsideView.layer addSublayer:[self makeDashedBorderForView:cell.startInsideView]];
         [cell.startInsideView addSubview:startInsideLabel];
+        cell.harvestFromTransplantDate = [dates objectForKey:@"harvestFromTransplantDate"];
+        cell.transplantDate = [dates objectForKey:@"transplantDate"];
         
     }
     [cell.contentView addSubview:cell.growingView];
@@ -386,7 +387,6 @@ NSString *harvestFromTransplantDateString;
         for(UIView *subview in self.navigationController.navigationBar.subviews){
             //tag 6 is set in the editView VC singletap method for the dataselect icon view
             if(subview.tag == 6) subview.alpha = 1;
-            
         }
     }
 }
@@ -522,15 +522,26 @@ NSString *harvestFromTransplantDateString;
     //[self.tableView reloadData];
 }
 
-- (void)setTransplantLabelsForCell:(UITableViewCell *)cell forPlant:(PlantModel *)plant{
+- (void)setTransplantLabelsForCell:(PresentTableCell *)cell forPlant:(PlantModel *)plant{
+    NSString *transplantDateString = [dateFormatter stringFromDate: cell.transplantDate];
+    NSString *harvestFromTransplantDateString = [dateFormatter stringFromDate: cell.harvestFromTransplantDate];
     UILabel *transplantLabel = [self makeCellLabelWithFrame:
                                 CGRectMake((plantingDateAnchor + (plant.transplantDelta*daysPerPoint)),
-                                           13,
+                                           8,
                                            40,
                                            15)];
     transplantLabel.text = transplantDateString;
     transplantLabel.backgroundColor = [plantingColor colorWithAlphaComponent:.25];
     [cell.contentView addSubview:transplantLabel];
+    
+    UILabel *harvestFromTransplantLabel = [self makeCellLabelWithFrame:
+                                           CGRectMake((plantingDateAnchor + (10 + plant.maturity + plant.transplantDelta*daysPerPoint)),
+                                                      30,
+                                                      40,
+                                                      15)];
+    harvestFromTransplantLabel.text = harvestFromTransplantDateString;
+    harvestFromTransplantLabel.backgroundColor = [harvestColor colorWithAlphaComponent:.25];
+    [cell.contentView addSubview: harvestFromTransplantLabel];
 }
 
 

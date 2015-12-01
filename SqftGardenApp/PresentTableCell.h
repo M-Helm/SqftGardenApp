@@ -21,7 +21,11 @@
 @property(nonatomic) UIView* summerView;
 @property(nonatomic) UIView* autumnView;
 @property(nonatomic) UIImageView* icon;
-
+@property(nonatomic) NSDate *startInsideDate;
+@property(nonatomic) NSDate *transplantDate;
+@property(nonatomic) NSDate *plantingDate;
+@property(nonatomic) NSDate *harvestFromPlantingDate;
+@property(nonatomic) NSDate *harvestFromTransplantDate;
 
 
 @end
