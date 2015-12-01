@@ -157,7 +157,7 @@ NSDate *harvestFromTransplantDate;
     if(!up)upSpot = 34;
     CGFloat xAnchor = (self.maxDays * self.pointsPerDay);
     if(plant.startSeed){
-        xAnchor = (abs(plant.maturity) * self.pointsPerDay);
+        xAnchor = (abs(plant.maturity + 10) * self.pointsPerDay);
     }
     if(!plant.startSeed && plant.startInside){
         

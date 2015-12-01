@@ -42,8 +42,6 @@ ApplicationGlobals *appGlobals;
     [self makeAcceptButton];
     [self makeToolbar];
     [self setLabelsForLocation:nil];
-    
-
 }
 
 - (void)setLabelsForLocation:(CLLocation *)location{
