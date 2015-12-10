@@ -156,8 +156,9 @@ CGFloat height;
     cell.plantView.frame = adjustedFrame;
     if(!plant.model.startSeed)cell.plantView.frame = CGRectMake(0,0,0,0);
     cell.growingView.frame = CGRectMake(adjustedFrame.origin.x+10, 13,0, height -20);
-    if(!plant.model.startSeed && plant.model.transplantDelta > 0){
-        cell.growingView.frame = CGRectMake(adjustedFrame.origin.x + (plant.model.transplantDelta * daysPerPoint), 13,0, height -20);
+    if(!plant.model.startSeed){
+        CGFloat originX = (3+ frostDateAnchor + (plant.model.startInsideDelta * daysPerPoint) + (fabs)(plant.model.startInsideDelta * daysPerPoint)-(fabs)(plant.model.plantingDelta * daysPerPoint) + (plant.model.transplantDelta * daysPerPoint));
+        cell.growingView.frame = CGRectMake(originX, 13,0, height -20);
     }
     cell.harvestView.frame = CGRectMake(adjustedFrame.origin.x+(plant.model.maturity*daysPerPoint)+10, 13,0, height -20);
     if(!plant.model.startSeed){
@@ -212,12 +213,17 @@ CGFloat height;
     [cell.contentView addSubview:cell.frostView];
     [cell.contentView addSubview:cell.springView];
     [cell.contentView addSubview:cell.summerView];
+    [cell.contentView addSubview:cell.growingView];
+    [cell.contentView addSubview:cell.harvestView];
+    [cell.contentView addSubview:cell.plantView];
+    [cell.contentView addSubview:cell.mainLabel];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if(plant.model.startInside){
         
         cell.startInsideView = [[UILabel alloc]initWithFrame:
                                 CGRectMake((3+ frostDateAnchor + (plant.model.startInsideDelta * daysPerPoint)),
                                            13,
-                                           (fabs)(plant.model.startInsideDelta * daysPerPoint)-(fabs)(plant.model.plantingDelta * daysPerPoint)-3,
+                                           (fabs)(plant.model.startInsideDelta * daysPerPoint)+(plant.model.transplantDelta * daysPerPoint)-3,
                                            height - 20)];
         if(!plant.model.startSeed){
             cell.startInsideView.frame = CGRectMake((3+ frostDateAnchor + (plant.model.startInsideDelta * daysPerPoint)),
@@ -227,17 +233,13 @@ CGFloat height;
         }
         
         cell.startInsideView.backgroundColor = [frostColor colorWithAlphaComponent:0.25];
+        cell.startInsideView.alpha = .7;
         [cell.contentView addSubview:cell.startInsideView];
         [cell.startInsideView.layer addSublayer:[self makeDashedBorderForView:cell.startInsideView]];
         cell.harvestFromTransplantDate = [dates objectForKey:@"harvestFromTransplantDate"];
         cell.transplantDate = [dates objectForKey:@"transplantDate"];
         cell.startInsideDate = [dates objectForKey:@"startInsideDate"];
     }
-    [cell.contentView addSubview:cell.growingView];
-    [cell.contentView addSubview:cell.harvestView];
-    [cell.contentView addSubview:cell.plantView];
-    [cell.contentView addSubview:cell.mainLabel];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -345,6 +347,7 @@ CGFloat height;
     [UIView animateWithDuration:0.35 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          cell.plantView.frame = CGRectMake(frame.origin.x,frame.origin.y,10,frame.size.height);
+                         //cell.startInsideView.alpha = .95;
                      }
                      completion:^(BOOL finished) {
                          if(finished)[self animateGrowViewforCell:cell forPlant:plant];
@@ -361,10 +364,10 @@ CGFloat height;
     [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          
-                         if(!plant.model.startSeed && plant.model.transplantDelta > 0){
+                         if(!plant.model.startSeed){
                             cell.growingView.frame = CGRectMake(frame.origin.x,
                                                                 frame.origin.y,
-                                                                ((plant.model.maturity + plant.model.startInsideDelta)*daysPerPoint),
+                                                                ((25 + plant.model.maturity + plant.model.startInsideDelta)*daysPerPoint),
                                                                 frame.size.height);
                             
                          }
