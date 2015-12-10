@@ -160,6 +160,10 @@ CGFloat height;
         cell.growingView.frame = CGRectMake(adjustedFrame.origin.x + (plant.model.transplantDelta * daysPerPoint), 13,0, height -20);
     }
     cell.harvestView.frame = CGRectMake(adjustedFrame.origin.x+(plant.model.maturity*daysPerPoint)+10, 13,0, height -20);
+    if(!plant.model.startSeed){
+        cell.harvestView.frame = CGRectMake(frostDateAnchor + (plant.model.startInsideDelta * daysPerPoint)+((10+plant.model.maturity)*daysPerPoint)+15, 13,0, height -20);
+    }
+    
     cell.mainLabel.frame = CGRectMake(self.view.frame.origin.x+80,
                                       cell.growingView.frame.origin.y,
                                       cell.growingView.frame.size.width,
@@ -181,8 +185,9 @@ CGFloat height;
     //gradients
     [cell.frostView.layer insertSublayer:[self makeFrostLayerForCell:cell] atIndex:0];
     [cell.springView.layer insertSublayer:[self makeSpringLayerForCell:cell] atIndex:0];
-    cell.springView.alpha = .5;
-    cell.summerView.alpha = .5;
+    cell.frostView.alpha = .3;
+    cell.springView.alpha = .3;
+    cell.summerView.alpha = .3;
     
     cell.plantView.backgroundColor = plantingColor;
     cell.growingView.backgroundColor = growingColor;
@@ -204,9 +209,9 @@ CGFloat height;
     cell.mainLabel.text = mainLabelString;
     [cell.mainLabel setTextAlignment:NSTextAlignmentCenter];
 
-    //[cell.contentView addSubview:cell.frostView];
-    //[cell.contentView addSubview:cell.springView];
-    //[cell.contentView addSubview:cell.summerView];
+    [cell.contentView addSubview:cell.frostView];
+    [cell.contentView addSubview:cell.springView];
+    [cell.contentView addSubview:cell.summerView];
     if(plant.model.startInside){
         
         cell.startInsideView = [[UILabel alloc]initWithFrame:
@@ -355,11 +360,16 @@ CGFloat height;
     
     [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         cell.growingView.frame = CGRectMake(frame.origin.x,frame.origin.y,(plant.model.maturity*daysPerPoint),frame.size.height);
+                         
                          if(!plant.model.startSeed && plant.model.transplantDelta > 0){
-                                        cell.growingView.frame = CGRectMake(frame.origin.x,
-                                        frame.origin.y,((plant.model.maturity - plant.model.transplantDelta)*daysPerPoint),
-                                        frame.size.height);
+                            cell.growingView.frame = CGRectMake(frame.origin.x,
+                                                                frame.origin.y,
+                                                                ((plant.model.maturity + plant.model.startInsideDelta)*daysPerPoint),
+                                                                frame.size.height);
+                            
+                         }
+                         else{
+                             cell.growingView.frame = CGRectMake(frame.origin.x,frame.origin.y,(plant.model.maturity*daysPerPoint),frame.size.height);
                          }
                          cell.mainLabel.frame = CGRectMake(cell.growingView.frame.origin.x + 15,
                                                            cell.growingView.frame.origin.y,
