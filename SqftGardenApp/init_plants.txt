@@ -38,7 +38,7 @@
 "zone": "0511",
 "tip_json":"[{Eggplant prefers rich, well-drained and somewhat sandy soil.},{It's best to start eggplant indoors since it takes so long too mature and you may not have enough time to get to harvest before fall. Start the plants inside about 7 weeks before the last frost. Transplants are ready when they have 6 or more leaves.},{Plant seedlings in the garden 3 weeks after the last frost.},{Water eggplant deeply but infrequently. They'll need about 1 to 2 inches of water per week.},{Harvest eggplants when they've grown to full size and have a smooth, glossy skin.}]",
 "iso_icon": "iso_eggplant_512px.png",
-"planting_delta":-35,
+"planting_delta":0,
 "is_tall":0,
 "start_seed":0,
 "start_inside":1,

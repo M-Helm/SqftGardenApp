@@ -27,7 +27,8 @@
 DBManager *dbManager;
 ApplicationGlobals *appGlobals;
 const int SIDE_OFFSET = 5;
-CGFloat plantingDateAnchor;
+//CGFloat plantingDateAnchor;
+CGFloat frostDateAnchor;
 
 static NSString *CellIdentifier = @"CellIdentifier";
 NSArray *plantArray;
@@ -74,8 +75,11 @@ CGFloat height;
     width = self.view.frame.size.width;
     daysPerPoint = ((width-20) / (15 + maxDays + abs(minDays)));
     height = self.view.frame.size.height;
-    plantingDateAnchor = (SIDE_OFFSET + (abs(minDays) * daysPerPoint));
-    if(plantingDateAnchor < 15)plantingDateAnchor = 15;
+    
+    //plantingDateAnchor = (SIDE_OFFSET + (abs(minDays) * daysPerPoint));
+    //if(plantingDateAnchor < 15)plantingDateAnchor = 15;
+    NSLog(@"min days: %i", minDays);
+    frostDateAnchor = fabs(minDays * daysPerPoint);
     
     self.tableView.separatorColor = [UIColor clearColor];
     [self makeToolbar];
@@ -128,7 +132,7 @@ CGFloat height;
     NSDictionary *dates = [self makeModelDates:plant.model];
     NSString *harvestDateString = [dateFormatter stringFromDate:[dates objectForKey:@"harvestFromPlantingDate"]];
     NSString *plantingDateString = [dateFormatter stringFromDate:[dates objectForKey:@"plantingDate"]];
-    NSString *startInsideDateString = [dateFormatter stringFromDate:[dates objectForKey:@"startInsideDate"]];
+    
     NSString *mainLabelString = plant.model.plantName;
     
     if(cell == nil){
@@ -147,9 +151,14 @@ CGFloat height;
             cell.transplantDate = [dates objectForKey:@"transplantDate"];
         }
     }
-    CGRect adjustedFrame = CGRectMake(plantingDateAnchor + (plant.model.plantingDelta * daysPerPoint), 13, 0, height - 20);
+    CGRect adjustedFrame = CGRectMake(frostDateAnchor + (plant.model.plantingDelta * daysPerPoint), 13, 0, height - 20);
+    if(!plant.model.startSeed)adjustedFrame = CGRectMake(frostDateAnchor, 13, 0, height - 20);
     cell.plantView.frame = adjustedFrame;
+    if(!plant.model.startSeed)cell.plantView.frame = CGRectMake(0,0,0,0);
     cell.growingView.frame = CGRectMake(adjustedFrame.origin.x+10, 13,0, height -20);
+    if(!plant.model.startSeed && plant.model.transplantDelta > 0){
+        cell.growingView.frame = CGRectMake(adjustedFrame.origin.x + (plant.model.transplantDelta * daysPerPoint), 13,0, height -20);
+    }
     cell.harvestView.frame = CGRectMake(adjustedFrame.origin.x+(plant.model.maturity*daysPerPoint)+10, 13,0, height -20);
     cell.mainLabel.frame = CGRectMake(self.view.frame.origin.x+80,
                                       cell.growingView.frame.origin.y,
@@ -157,7 +166,7 @@ CGFloat height;
                                       cell.growingView.frame.size.height);
     cell.frostView.frame = CGRectMake(self.view.frame.origin.x + 5,
                                       0.5,
-                                      plantingDateAnchor-5,
+                                      frostDateAnchor-5,
                                       height-1);
     cell.springView.frame = CGRectMake(-5,
                                       .5,
@@ -185,37 +194,39 @@ CGFloat height;
     
     UILabel *plantingLabel = [self makeCellLabelWithFrame:CGRectMake(0,16,40,15)];
     plantingLabel.text = plantingDateString;
-    [cell.plantView addSubview:plantingLabel];
+    if(plant.model.startSeed)[cell.plantView addSubview:plantingLabel];
 
     UILabel *harvestLabel = [self makeCellLabelWithFrame:CGRectMake(-10,-8,40,15)];
     harvestLabel.text = harvestDateString;
-    [cell.harvestView addSubview:harvestLabel];
+    if(plant.model.startSeed)[cell.harvestView addSubview:harvestLabel];
 
     [cell.mainLabel setFont: [UIFont systemFontOfSize:11]];
     cell.mainLabel.text = mainLabelString;
     [cell.mainLabel setTextAlignment:NSTextAlignmentCenter];
 
-    [cell.contentView addSubview:cell.frostView];
-    [cell.contentView addSubview:cell.springView];
-    [cell.contentView addSubview:cell.summerView];
+    //[cell.contentView addSubview:cell.frostView];
+    //[cell.contentView addSubview:cell.springView];
+    //[cell.contentView addSubview:cell.summerView];
     if(plant.model.startInside){
-        cell.startInsideView = [[UILabel alloc]initWithFrame:
-                                CGRectMake((3+plantingDateAnchor + (plant.model.startInsideDelta * daysPerPoint)),
-                                            13,
-                                            (fabs)(plant.model.startInsideDelta * daysPerPoint)-(fabs)(plant.model.plantingDelta * daysPerPoint)-3,
-                                            height - 20)];
-        cell.startInsideView.backgroundColor = [frostColor colorWithAlphaComponent:0.25];
-        UILabel *startInsideLabel = [self makeCellLabelWithFrame:CGRectMake(0,3,40,15)];
-        startInsideLabel.text = startInsideDateString;
         
-        //startInsideLabel.backgroundColor = [frostColor colorWithAlphaComponent:0.25];
-        [cell.startInsideView addSubview:startInsideLabel];
+        cell.startInsideView = [[UILabel alloc]initWithFrame:
+                                CGRectMake((3+ frostDateAnchor + (plant.model.startInsideDelta * daysPerPoint)),
+                                           13,
+                                           (fabs)(plant.model.startInsideDelta * daysPerPoint)-(fabs)(plant.model.plantingDelta * daysPerPoint)-3,
+                                           height - 20)];
+        if(!plant.model.startSeed){
+            cell.startInsideView.frame = CGRectMake((3+ frostDateAnchor + (plant.model.startInsideDelta * daysPerPoint)),
+                                                    13,
+                                                    (fabs)(plant.model.startInsideDelta * daysPerPoint)-(fabs)(plant.model.plantingDelta * daysPerPoint) + (plant.model.transplantDelta * daysPerPoint),
+                                                    height - 20);
+        }
+        
+        cell.startInsideView.backgroundColor = [frostColor colorWithAlphaComponent:0.25];
         [cell.contentView addSubview:cell.startInsideView];
         [cell.startInsideView.layer addSublayer:[self makeDashedBorderForView:cell.startInsideView]];
-        [cell.startInsideView addSubview:startInsideLabel];
         cell.harvestFromTransplantDate = [dates objectForKey:@"harvestFromTransplantDate"];
         cell.transplantDate = [dates objectForKey:@"transplantDate"];
-        
+        cell.startInsideDate = [dates objectForKey:@"startInsideDate"];
     }
     [cell.contentView addSubview:cell.growingView];
     [cell.contentView addSubview:cell.harvestView];
@@ -335,8 +346,6 @@ CGFloat height;
                      }];
 }
 
-
-
 - (void)animateGrowViewforCell:(PresentTableCell*)cell forPlant:(PlantIconView*)plant{
     CGRect frame = CGRectMake(cell.growingView.frame.origin.x,
                               cell.growingView.frame.origin.y,
@@ -347,6 +356,11 @@ CGFloat height;
     [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          cell.growingView.frame = CGRectMake(frame.origin.x,frame.origin.y,(plant.model.maturity*daysPerPoint),frame.size.height);
+                         if(!plant.model.startSeed && plant.model.transplantDelta > 0){
+                                        cell.growingView.frame = CGRectMake(frame.origin.x,
+                                        frame.origin.y,((plant.model.maturity - plant.model.transplantDelta)*daysPerPoint),
+                                        frame.size.height);
+                         }
                          cell.mainLabel.frame = CGRectMake(cell.growingView.frame.origin.x + 15,
                                                            cell.growingView.frame.origin.y,
                                                            cell.growingView.frame.size.width,
@@ -366,7 +380,7 @@ CGFloat height;
     [UIView animateWithDuration:0.30 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          cell.harvestView.alpha = 1;
-                         cell.harvestView.frame = CGRectMake(frame.origin.x,
+                         cell.harvestView.frame = CGRectMake(frame.origin.x - 10,
                                                              frame.origin.y,
                                                              30,
                                                              frame.size.height);
@@ -526,8 +540,8 @@ CGFloat height;
     NSString *transplantDateString = [dateFormatter stringFromDate: cell.transplantDate];
     NSString *harvestFromTransplantDateString = [dateFormatter stringFromDate: cell.harvestFromTransplantDate];
     UILabel *transplantLabel = [self makeCellLabelWithFrame:
-                                CGRectMake((plantingDateAnchor + (plant.transplantDelta*daysPerPoint)),
-                                           8,
+                                CGRectMake((frostDateAnchor + (plant.transplantDelta*daysPerPoint)),
+                                           1,
                                            40,
                                            15)];
     transplantLabel.text = transplantDateString;
@@ -535,10 +549,16 @@ CGFloat height;
     [cell.contentView addSubview:transplantLabel];
     
     UILabel *harvestFromTransplantLabel = [self makeCellLabelWithFrame:
-                                           CGRectMake((plantingDateAnchor + (10 + plant.maturity + plant.transplantDelta*daysPerPoint)),
+                                           CGRectMake(frostDateAnchor + (plant.startInsideDelta * daysPerPoint) + (10 + plant.maturity * daysPerPoint),
                                                       30,
                                                       40,
                                                       15)];
+    
+    UILabel *startInsideLabel = [self makeCellLabelWithFrame:CGRectMake(0,3,40,15)];
+    NSString *startInsideDateString = [dateFormatter stringFromDate:cell.startInsideDate];;
+    startInsideLabel.text = startInsideDateString;
+    [cell.startInsideView addSubview:startInsideLabel];
+    
     harvestFromTransplantLabel.text = harvestFromTransplantDateString;
     harvestFromTransplantLabel.backgroundColor = [harvestColor colorWithAlphaComponent:.25];
     [cell.contentView addSubview: harvestFromTransplantLabel];
