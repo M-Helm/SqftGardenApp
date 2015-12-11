@@ -63,13 +63,14 @@ CGFloat height;
 - (void) initViews{
     dateFormatter= [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM dd"];
-    [self makeHeader];
-    [self calculateDateBounds:plantArray];
     plantingColor = [appGlobals colorFromHexString:@"#ba9060"];
     growingColor = [appGlobals colorFromHexString:@"#74aa4a"];
     harvestColor = [appGlobals colorFromHexString:@"#f9a239"];
     frostColor = [appGlobals colorFromHexString:@"#77ccd1"];
     summerColor = [appGlobals colorFromHexString:@"#f6c32c"];
+    
+    [self makeHeader];
+    [self calculateDateBounds:plantArray];
     
     
     width = self.view.frame.size.width;
@@ -200,10 +201,12 @@ CGFloat height;
     
     UILabel *plantingLabel = [self makeCellLabelWithFrame:CGRectMake(0,16,40,15)];
     plantingLabel.text = plantingDateString;
+    plantingLabel.backgroundColor = plantingColor;
     if(plant.model.startSeed)[cell.plantView addSubview:plantingLabel];
 
     UILabel *harvestLabel = [self makeCellLabelWithFrame:CGRectMake(-10,-8,40,15)];
     harvestLabel.text = harvestDateString;
+    harvestLabel.backgroundColor = harvestColor;
     if(plant.model.startSeed)[cell.harvestView addSubview:harvestLabel];
 
     [cell.mainLabel setFont: [UIFont systemFontOfSize:11]];
@@ -215,7 +218,6 @@ CGFloat height;
     [cell.contentView addSubview:cell.summerView];
     [cell.contentView addSubview:cell.growingView];
     [cell.contentView addSubview:cell.harvestView];
-    [cell.contentView addSubview:cell.plantView];
     [cell.contentView addSubview:cell.mainLabel];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if(plant.model.startInside){
@@ -240,6 +242,7 @@ CGFloat height;
         cell.transplantDate = [dates objectForKey:@"transplantDate"];
         cell.startInsideDate = [dates objectForKey:@"startInsideDate"];
     }
+    [cell.contentView addSubview:cell.plantView];
     return cell;
 }
 
@@ -419,6 +422,8 @@ CGFloat height;
 }
 
 - (void) makeHeader{
+    //UIColor *startInsideColor = [appGlobals colorFromHexString:@"#77ccd1"];
+    
     float width = self.view.frame.size.width;
     //float height = self.view.frame.size.height;
     
@@ -429,6 +434,26 @@ CGFloat height;
     labelView.textAlignment = NSTextAlignmentCenter;
     [labelView setFont:[UIFont boldSystemFontOfSize:18]];
     headerView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    
+    UILabel *startInsideKey = [self makeCellLabelWithFrame:CGRectMake(15,headerView.frame.size.height - 16,60,15)];
+    startInsideKey.backgroundColor = frostColor;
+    startInsideKey.text = @"Start Inside";
+    [headerView addSubview:startInsideKey];
+    
+    UILabel *plantingLabelKey = [self makeCellLabelWithFrame:CGRectMake(80,headerView.frame.size.height - 16,60,15)];
+    plantingLabelKey.backgroundColor = plantingColor;
+    plantingLabelKey.text = @"Plant Seed";
+    [headerView addSubview: plantingLabelKey];
+    
+    UILabel *transplantLabelKey = [self makeCellLabelWithFrame:CGRectMake(145,headerView.frame.size.height - 16,60,15)];
+    transplantLabelKey.backgroundColor = [plantingColor colorWithAlphaComponent:.5];
+    transplantLabelKey.text = @"Transplant";
+    [headerView addSubview:transplantLabelKey];
+    
+    UILabel *harvestKey = [self makeCellLabelWithFrame:CGRectMake(210,headerView.frame.size.height - 16,60,15)];
+    harvestKey.backgroundColor = harvestColor;
+    harvestKey.text  = @"Harvest";
+    [headerView addSubview:harvestKey];
     
     self.tableView.tableHeaderView = headerView;
 }
@@ -566,14 +591,16 @@ CGFloat height;
                                                       30,
                                                       40,
                                                       15)];
+    harvestFromTransplantLabel.backgroundColor = harvestColor;
     
     UILabel *startInsideLabel = [self makeCellLabelWithFrame:CGRectMake(0,3,40,15)];
     NSString *startInsideDateString = [dateFormatter stringFromDate:cell.startInsideDate];;
     startInsideLabel.text = startInsideDateString;
+    startInsideLabel.backgroundColor = frostColor;
     [cell.startInsideView addSubview:startInsideLabel];
     
     harvestFromTransplantLabel.text = harvestFromTransplantDateString;
-    harvestFromTransplantLabel.backgroundColor = [harvestColor colorWithAlphaComponent:.25];
+    harvestFromTransplantLabel.backgroundColor = [harvestColor colorWithAlphaComponent:.75];
     [cell.contentView addSubview: harvestFromTransplantLabel];
 }
 
