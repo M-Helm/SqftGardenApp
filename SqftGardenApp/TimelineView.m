@@ -75,12 +75,6 @@ NSDate *harvestFromTransplantDate;
     [timelineBar.layer insertSublayer:gradient atIndex:0];
     //harvestBar.alpha = .5;
     NSString *plantingStr = [NSString stringWithFormat:@"Plant:%@",[dateFormatter stringFromDate:plantingDate]];
-    //NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
-    //NSDate *maturityDate0 = [frostDate dateByAddingTimeInterval:60*60*24*plant.maturity];
-    //maturityDate0 = [maturityDate0 dateByAddingTimeInterval:60*60*24*plant.plantingDelta];
-    //NSDate *maturityDate1 = [harvestFromPlantingDate dateByAddingTimeInterval:60*60*24*plant.transplantDelta];
-    //NSDate *transDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.transplantDelta];
-    //NSDate *startIndoorsDate = [frostDate dateByAddingTimeInterval:60*60*24*plant.startInsideDelta];
     
     NSString *maturityStr0 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:harvestFromPlantingDate]];
     NSString *maturityStr1 = [NSString stringWithFormat:@"Harvest:%@",[dateFormatter stringFromDate:harvestFromTransplantDate]];
@@ -157,10 +151,10 @@ NSDate *harvestFromTransplantDate;
     if(!up)upSpot = 34;
     CGFloat xAnchor = (self.maxDays * self.pointsPerDay);
     if(plant.startSeed){
-        xAnchor = (abs(plant.maturity + 10) * self.pointsPerDay);
+        xAnchor = ((abs(plant.transplantDelta) + plant.maturity + 10) * self.pointsPerDay);
     }
-    if(!plant.startSeed && plant.startInside){
-        
+    if(!plant.startSeed){
+        xAnchor = self.maxDays*self.pointsPerDay;
     }
     
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor-75,upSpot,80,16)];
@@ -225,7 +219,7 @@ NSDate *harvestFromTransplantDate;
 -(UILabel *)makeTransplantLabel:(NSString *)text isUp:(bool)up{
     int upSpot = -21;
     if(!up)upSpot = 31;
-    CGFloat delta = (abs(plant.startInsideDelta) - abs(plant.transplantDelta));
+    CGFloat delta = (abs(plant.startInsideDelta) + plant.transplantDelta);
     CGFloat xAnchor = delta*self.pointsPerDay;
     
     UILabel *label = [self makeLabelWithFrame:CGRectMake(xAnchor,upSpot,85,16)];
