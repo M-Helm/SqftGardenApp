@@ -278,6 +278,7 @@ EditBedViewController *editBedVC;
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;
     if ([touchedView class] == [ClassIconView class])return;
+    /*
     if(self.showTouches){
         self.touchIcon.center = [touch locationInView:self];
         [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
@@ -288,6 +289,7 @@ EditBedViewController *editBedVC;
                              [self.touchIcon removeFromSuperview];
                          }];
     }
+    */
     CGPoint locationInBed;
     touchedView = [touch view];
     locationInBed = [touch locationInView:editBedVC.bedFrameView];

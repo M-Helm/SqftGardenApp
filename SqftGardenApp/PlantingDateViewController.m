@@ -54,6 +54,7 @@ ApplicationGlobals *appGlobals;
         dispatch_async(dispatch_get_main_queue(), ^{
             // do the UI stuff here
             NSString *zone = [responseDict objectForKey:@"data"];
+            NSLog(@"returned data from api");
             if(zone.length > 5){
                 zone = @"Not Found";
                 self.zoneView.text = @"Detected Zone: NA";
@@ -67,7 +68,6 @@ ApplicationGlobals *appGlobals;
             else appGlobals.globalGardenModel.zone = zone;
             
             self.zoneView.text = zoneStr;
-            
             
             NSString *frostDate = [self getFrostDates:zone];
             if(frostDate.length < 6)frostDate = @"NA";
@@ -113,8 +113,12 @@ ApplicationGlobals *appGlobals;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    [self setLabelsForLocation:newLocation];
-    [locationManager stopUpdatingLocation];
+    double lat = newLocation.coordinate.latitude;
+    double lon = newLocation.coordinate.longitude;
+    if(lat != 0.0 && lon != 0.0){
+        [self setLabelsForLocation:newLocation];
+        [locationManager stopUpdatingLocation];
+    }
     
 }
 
@@ -250,7 +254,7 @@ ApplicationGlobals *appGlobals;
 -(void)makeAcceptButton{
     UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
     self.acceptButton = [[UILabel alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2)- ((self.view.frame.size.width/2) - 20)/2,
-                                                                 263,
+                                                                 243,
                                                                  (self.view.frame.size.width/2) - 20,
                                                                  (self.view.frame.size.width/2) - 20)];
     self.acceptButton.text = @"Looks Good";

@@ -698,7 +698,7 @@ NSString* initClassListName = @"init_plant_classes.txt";
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            //NSLog(@"msg sql ok");
+            NSLog(@"msg sql ok");
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 //int sqlRows = sqlite3_column_int(statement, 0);
@@ -719,12 +719,26 @@ NSString* initClassListName = @"init_plant_classes.txt";
                                      (const char *) sqlite3_column_text(statement, 6)];
                 NSString *planting_date = [[NSString alloc] initWithUTF8String:
                                       (const char *) sqlite3_column_text(statement, 7)];
-                NSString *zone = [[NSString alloc] initWithUTF8String:
-                                  (const char *) sqlite3_column_text(statement, 8)];
-                NSString *override_zone = [[NSString alloc] initWithUTF8String:
-                                           (const char *) sqlite3_column_text(statement, 9)];
-                NSString *override_frost = [[NSString alloc] initWithUTF8String:
-                                            (const char *) sqlite3_column_text(statement, 10)];
+                NSString *zone = @"";
+                NSString *override_zone = @"0";
+                NSString *override_frost = @"0";
+                
+                char *tmp = (char *)sqlite3_column_text(statement, 8);
+                if(tmp != NULL){
+                    zone = [[NSString alloc] initWithUTF8String:
+                                              (const char *) sqlite3_column_text(statement, 8)];
+                }
+                tmp = (char *)sqlite3_column_text(statement, 9);
+                if(tmp != NULL){
+                    override_zone = [[NSString alloc] initWithUTF8String:
+                                    (const char *) sqlite3_column_text(statement, 9)];
+                }
+                tmp = (char*) sqlite3_column_text(statement, 10);
+                if(tmp != NULL){
+                    override_frost = [[NSString alloc] initWithUTF8String:
+                                        (const char *) sqlite3_column_text(statement, 10)];
+                }
+
                 [json setObject:saveName forKey:@"name"];
                 [json setObject:saveTS forKey:@"timestamp"];
                 [json setObject:saveId forKey:@"local_id"];
@@ -739,7 +753,7 @@ NSString* initClassListName = @"init_plant_classes.txt";
                 NSLog(@"DB Manager open: %@", saveName);
                 
                 [returnJson addObject:json];
-                //NSLog(@"json data: %@ %@ %@", saveId, saveName, saveTS);
+                NSLog(@"json data: %@ %@ %@", saveId, saveName, saveTS);
             }
         }
         sqlite3_finalize(statement);

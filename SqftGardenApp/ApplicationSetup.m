@@ -76,13 +76,15 @@ DBManager *dbManager;
     if([dbManager checkTableExists:@"version"] == false){
         [dbManager createTable:@"version"];
         [dbManager addColumn:@"version" :@"app_version" : @"char"];
+        //move saves table
+        [self moveSavedGardens];
     }
     else{
         NSDictionary *versionDict = [dbManager getAppVersion];
-        NSLog(@"app version from db: %@", [versionDict objectForKey:@"version"]);
+        NSLog(@"app version from db: %@ version from app: %@", [versionDict objectForKey:@"version"], version);
         
         //check versions and return if same and returns if true
-        if([@"1" isEqualToString:[versionDict objectForKey:@"version"]])return YES;
+        if([version isEqualToString:[versionDict objectForKey:@"version"]])return YES;
         
         //move saves table
         [self moveSavedGardens];
@@ -106,7 +108,10 @@ DBManager *dbManager;
 }
 
 -(BOOL)checkAppVersion{
-    return true;
+    NSString *version = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    NSDictionary *dbVersionDict = [dbManager getAppVersion];
+    if([version isEqualToString:[dbVersionDict objectForKey:@"version"]])return true;
+    return false;
 }
 
 -(BOOL)makeClassesTable{
@@ -195,15 +200,24 @@ DBManager *dbManager;
 
 -(BOOL)moveSavedGardens{
     NSLog(@"moving saves");
+    //add new columns to avoid sql errors
+    //new cols for ver 1.1.1
+    [dbManager addColumn:@"saves" : @"zone" : @"char"];
+    [dbManager addColumn:@"saves" : @"override_zone" : @"int"];
+    [dbManager addColumn:@"saves" : @"override_frost" : @"int"];
+    
+    
     //get all the saves
     NSArray *savesJson = [dbManager getBedSaveList];
     //drop the table
     [dbManager dropTable:@"saves"];
     //make a new table with the right columns
     [self makeSavesTable];
+    
     //run through the array and re-save everything
     for(NSDictionary *dict in savesJson){
         SqftGardenModel *model = [[SqftGardenModel alloc]initWithDict:dict];
+        NSLog(@"saving model named: %@", model.name);
         [model saveModelWithOverWriteOption:YES];
     }
     return YES;

@@ -826,7 +826,6 @@ DBManager *dbManager;
     [self.shareButton removeFromSuperview];
     UIImageView *imageBtn = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-44,25,44,44)];
     
-    
     UIImage *icon = [UIImage imageNamed:@"ic_facebook_128px.png"];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0,33,44,11)];
 
@@ -847,6 +846,13 @@ DBManager *dbManager;
 }
 
 - (void)handleFBButtonSingleTap:(UITapGestureRecognizer *)recognizer {
+    //GA Tracking setup
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"fbShare"
+                                                          action:@"Select"
+                                                           label:@"shareBtnPress"
+                                                           value:@1] build]];
+    
     FBSDKSharePhoto *photo = [[FBSDKSharePhoto alloc] init];
     UIImage *image = [self takeScreenshot];
     photo.image = image;
