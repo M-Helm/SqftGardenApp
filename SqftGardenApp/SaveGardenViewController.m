@@ -251,12 +251,10 @@ UIColor *tabColor;
 
     return YES;
 }
--(BOOL)textViewShouldEndEditing:(UITextView *)textView
-{
+-(BOOL)textViewShouldEndEditing:(UITextView *)textView {
     [textView resignFirstResponder];
     
-    if ([textView.superview.superview isKindOfClass:[UITableViewCell class]])
-    {
+    if ([textView.superview.superview isKindOfClass:[UITableViewCell class]]){
         UITableViewCell *cell = (UITableViewCell*)textView.superview.superview;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         
@@ -265,8 +263,7 @@ UIColor *tabColor;
     
     return YES;
 }
-- (void) viewDidAppear:(BOOL)animated
-{
+- (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (self.tableView.contentSize.height > self.tableView.frame.size.height)
     {

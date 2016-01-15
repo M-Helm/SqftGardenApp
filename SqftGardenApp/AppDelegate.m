@@ -14,7 +14,7 @@
 
 @implementation AppDelegate
 
-bool doTrack = YES;
+bool doTrack = NO;
 
 
 

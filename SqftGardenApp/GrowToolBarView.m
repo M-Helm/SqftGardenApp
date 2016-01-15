@@ -448,8 +448,6 @@ ApplicationGlobals *appGlobals;
     if(!self.enableSaveButton)return;
     //if(appGlobals.isMenuDrawerOpen == YES)return;
     [self clickAnimationIn:recognizer.view];
-    
-    
     //GA Tracking
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ToolBar"
@@ -460,8 +458,14 @@ ApplicationGlobals *appGlobals;
     
     if([viewController class] == [EditBedViewController class]){
         EditBedViewController *editBedVC = (EditBedViewController*)viewController;
+        
+        if([editBedVC.currentGardenModel.name isEqualToString:@"autoSave"]){
+            [editBedVC.navigationController performSegueWithIdentifier:@"showSave" sender:editBedVC];
+            return;
+        }
+        
+        
         bool success = [editBedVC.currentGardenModel saveModelWithOverWriteOption:YES];
-        //NSLog(@"save icon tapped %i", success);
         if(success){
             [editBedVC showWriteSuccessAlertForFile:editBedVC.currentGardenModel.name atIndex:editBedVC.currentGardenModel.localId];
             [appGlobals setGlobalGardenModel:editBedVC.currentGardenModel];
