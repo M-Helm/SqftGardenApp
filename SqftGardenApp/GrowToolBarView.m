@@ -426,6 +426,7 @@ ApplicationGlobals *appGlobals;
     }
     
 }
+
 - (void)handleMenuIconSingleTap:(UITapGestureRecognizer *)recognizer {
     if(!self.enableMenuButton)return;
     [self clickAnimationIn:recognizer.view];
