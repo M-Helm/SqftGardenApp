@@ -456,15 +456,17 @@ ApplicationGlobals *appGlobals;
                                                            label:@"Save"
                                                            value:@1] build]];
     
-    
     if([viewController class] == [EditBedViewController class]){
         EditBedViewController *editBedVC = (EditBedViewController*)viewController;
-        
+        NSLog(@"name of garden: %@", editBedVC.currentGardenModel.name);
         if([editBedVC.currentGardenModel.name isEqualToString:@"autoSave"]){
             [editBedVC.navigationController performSegueWithIdentifier:@"showSave" sender:editBedVC];
             return;
         }
-        
+        if(editBedVC.currentGardenModel.name == nil){
+            [editBedVC.navigationController performSegueWithIdentifier:@"showSave" sender:editBedVC];
+            return;
+        }
         
         bool success = [editBedVC.currentGardenModel saveModelWithOverWriteOption:YES];
         if(success){
