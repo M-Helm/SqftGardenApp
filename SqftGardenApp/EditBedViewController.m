@@ -798,7 +798,7 @@ DBManager *dbManager;
     self.bedFrameView.layer.borderWidth = 0;
     self.bedFrameView.backgroundColor = [UIColor whiteColor];
     if(self.isoViewIsOpen){
-        //[self.isoView addSubview:[self makePromoLabel]];
+        [self.isoView addSubview:[self makePromoLabel]];
         self.isoView.backgroundColor = [UIColor whiteColor];
         UIGraphicsBeginImageContextWithOptions(self.view.frame.size, YES, 0.0f);
         [self.isoView drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
@@ -866,16 +866,17 @@ DBManager *dbManager;
 }
 
 -(UIView *)makePromoLabel{
-    UIView *promo = [[UIView alloc]initWithFrame:CGRectMake(self.isoView.frame.origin.x,0,200,44)];
+    UIView *promo = [[UIView alloc]initWithFrame:CGRectMake(0,self.isoView.bounds.size.height-24,200,24)];
     //UIColor *color = [appGlobals colorFromHexString: @"#74aa4a"];
     //promo.backgroundColor = [color colorWithAlphaComponent:0.45];
     promo.backgroundColor = [UIColor clearColor];
     //promo.layer.borderWidth = 3;
     promo.layer.cornerRadius = 15;
     //promo.layer.borderColor = color.CGColor;
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10,10,180,24)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0,0,200,24)];
+    label.textColor = [UIColor lightGrayColor];
     [label setFont: [UIFont systemFontOfSize:12]];
-    label.text = @"GrowSquared.net";
+    label.text = @"growsquared.net";
     label.textAlignment = NSTextAlignmentCenter;
     [promo addSubview:label];
     return promo;
