@@ -155,6 +155,7 @@ UIColor *tabColor;
     
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     int i = (int)[indexPath row] - 1;
+    //if(i < 0)i = 0;
     if(saveBedJson.count > 0)json = saveBedJson[i];
     else return cell;
     
