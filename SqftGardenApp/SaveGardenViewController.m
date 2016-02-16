@@ -10,22 +10,17 @@
 #import "DBManager.h"
 #import "ApplicationGlobals.h"
 #import "UITextView+FileProperties.h"
-//#import "SqftGardenModel.h"
 
 @interface SaveGardenViewController()
 
 @end
 
-@implementation SaveGardenViewController
-
-static NSString *CellIdentifier = @"CellIdentifier";
-ApplicationGlobals *appGlobals;
-DBManager *dbManager;
-NSMutableArray *saveBedJson;
-UIColor *tabColor;
-
-
-
+@implementation SaveGardenViewController{
+    ApplicationGlobals *appGlobals;
+    DBManager *dbManager;
+    NSMutableArray *saveBedJson;
+    UIColor *tabColor;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -63,8 +58,11 @@ UIColor *tabColor;
     headerView.layer.backgroundColor = [UIColor whiteColor].CGColor;
 
     self.tableView.tableHeaderView = headerView;
-    //self.tableView.tableFooterView = self.saveTextView;
+
     saveBedJson = [dbManager getBedSaveList];
+    if(saveBedJson == nil){
+        saveBedJson = [[NSMutableArray alloc]init];
+    }
     
 }
 
@@ -87,7 +85,7 @@ UIColor *tabColor;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+ 
     UITableViewCell *cell;
     UITextView *label;
     UILabel *border;
@@ -95,7 +93,7 @@ UIColor *tabColor;
     UILabel *dateLabel;
     
     if(cell == nil){
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"CellIdentifier"];
         label = [[UITextView alloc]
                  initWithFrame:CGRectMake(20,0,160,cell.frame.size.height)];
         label.tag = 3;
