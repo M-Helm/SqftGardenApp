@@ -417,6 +417,7 @@
                         <segue destination="ekc-8v-hIp" kind="show" identifier="showResize" id="UQe-le-rtr"/>
                         <segue destination="Hos-Uk-Wnj" kind="show" identifier="showPresent" id="EvJ-aS-uKc"/>
                         <segue destination="PWN-dY-HHO" kind="show" identifier="showPlantDate" id="uw5-Cn-Htv"/>
+                        <segue destination="bab-t0-0Vu" kind="show" identifier="showSave" id="4gn-S9-4RL"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MbM-9M-ApT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -487,13 +488,13 @@
         <image name="ic_burger_44.png" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="EvJ-aS-uKc"/>
-        <segue reference="dot-48-WdL"/>
-        <segue reference="QB4-Vf-Rim"/>
         <segue reference="yjf-UC-sHO"/>
-        <segue reference="HtM-B4-joc"/>
         <segue reference="uw5-Cn-Htv"/>
+        <segue reference="4gn-S9-4RL"/>
         <segue reference="FoM-PL-rQF"/>
+        <segue reference="EvJ-aS-uKc"/>
+        <segue reference="HtM-B4-joc"/>
         <segue reference="UQe-le-rtr"/>
+        <segue reference="QB4-Vf-Rim"/>
     </inferredMetricsTieBreakers>
 </document>
