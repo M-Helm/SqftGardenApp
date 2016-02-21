@@ -9,7 +9,7 @@
 #import "SaveGardenViewController.h"
 #import "DBManager.h"
 #import "ApplicationGlobals.h"
-#import "UITextView+FileProperties.h"
+
 
 @interface SaveGardenViewController()
 
@@ -31,8 +31,6 @@
     
     self.tableView.separatorColor = [UIColor clearColor];
     [self.tableView setDelegate:self];
-
-
     
     float width = self.view.frame.size.width;
     //float height = self.view.frame.size.height;
@@ -63,7 +61,6 @@
     if(saveBedJson == nil){
         saveBedJson = [[NSMutableArray alloc]init];
     }
-    
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -79,8 +76,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     int i = (int)saveBedJson.count + 1;
-    //NSLog(@"cell count %i",i);
-    //if(i<2)i=2;
     return i;
 }
 
@@ -121,8 +116,8 @@
     
     if([indexPath row] == 0){
         [[cell.contentView viewWithTag:5]removeFromSuperview];
-        NSNumber *index = [NSNumber numberWithInt:0];
-        [label setLocalIndex:index];
+        //NSNumber *index = [NSNumber numberWithInt:0];
+        //[label setLocalIndex:index];
         [label setFont:[UIFont boldSystemFontOfSize:14]];
         [label setDelegate: (id <UITextViewDelegate>) self];
         [label setText:@"*New File"];
@@ -136,9 +131,10 @@
         [label setAutocorrectionType:UITextAutocorrectionTypeNo];
         return cell;
     }
-
+    
     [textLabel setFont:[UIFont boldSystemFontOfSize:14]];
-    textLabel.userInteractionEnabled = YES;
+    textLabel.userInteractionEnabled = NO;
+    label.userInteractionEnabled = NO;
 
     CGRect fm = CGRectMake(20,4,self.view.frame.size.width, cell.frame.size.height);
     border.frame = fm;
@@ -200,29 +196,12 @@
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
+    //Only cell at index 0 should have it's label set to allow user interaction
     //NSLog(@"Begin editing");
     if(appGlobals.globalGardenModel == nil){
         [self showNullModelAlert];
     }
-    
-    NSString *fileName = @"";
-    int index = [[textView localId]intValue];
-    if(index < 1){
-        textView.text = @"";
-    }else{
-        textView.tintColor = [UIColor clearColor];
-        textView.hidden = NO;
-        [textView resignFirstResponder];
-        for(int i = 0;i<saveBedJson.count;i++){
-            NSDictionary *dict = saveBedJson[i];
-            NSString *tempIndex = [dict objectForKey:@"local_id"];
-            if([[textView localId]intValue] == tempIndex.intValue){
-                fileName = [dict objectForKey:@"name"];
-                break;
-            }
-        }
-        //[self showOverwriteAlertForFile: fileName atIndex: index];
-    }
+    textView.text = @"";
 }
 
 

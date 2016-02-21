@@ -9,7 +9,6 @@
 #import "OpenBedViewController.h"
 #import "DBManager.h"
 #import "ApplicationGlobals.h"
-#import "UITextView+FileProperties.h"
 #import "DeleteButtonView.h"
 #import "SqftGardenModel.h"
 
