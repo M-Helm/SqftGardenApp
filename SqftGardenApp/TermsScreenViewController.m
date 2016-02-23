@@ -8,7 +8,7 @@
 
 #import "TermsScreenViewController.h"
 
-#define URLEMail @"mailto:info@growsquared.net?subject=title&body=content"
+#define URLEMail @"mailto:info@growsquared.net?subject=Feedback"
 
 @interface TermsScreenViewController()
 
@@ -39,11 +39,11 @@
     [emailLabel addGestureRecognizer:singleFingerTapOpen];
     [self.view addSubview:emailLabel];
     
-    
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15,navBarHeight + 30,width-30, 20)];
     titleLabel.text = @"GrowSquared Privacy Policy";
     [self.view addSubview:titleLabel];
-    UITextView *legalStuff = [[UITextView alloc] initWithFrame:CGRectMake(15,navBarHeight + 21, width - 30, height - navBarHeight - 21)];
+    
+    UITextView *legalStuff = [[UITextView alloc] initWithFrame:CGRectMake(15,navBarHeight + 31, width - 30, height - navBarHeight - 21)];
     legalStuff.text = @"Long bunch of text goes here.";
     legalStuff.editable = NO;
     
@@ -53,9 +53,7 @@
     
     NSString *myText = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     legalStuff.text  = myText;
-    
     [self.view addSubview:legalStuff];
-    
 }
 
 -(void) handleEmailSingleTap{
@@ -68,7 +66,6 @@
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"termsViewController"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-    
 }
 
 @end

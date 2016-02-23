@@ -40,7 +40,7 @@ UIFont * launchButtonFont;
     //UIColor *bkColor = [[UIColor whiteColor]colorWithAlphaComponent:.5];
     //self.view.backgroundColor = bkColor;
     
-    UIImage *logo = [UIImage imageNamed:@"grow_logo_1200x550px.png"];
+    UIImage *logo = [UIImage imageNamed:@"growlogo_2_1200x400px.png"];
     UIImageView *logoBox = [[UIImageView alloc]initWithImage: logo];
     logoBox.frame = CGRectMake(5,25,width-10,width/3 - 5);
     [self.view addSubview:logoBox];
@@ -193,7 +193,7 @@ UIFont * launchButtonFont;
                                                        clockwise:YES];
     CAShapeLayer *circleLayer = [CAShapeLayer layer];
     circleLayer.bounds = CGRectMake(0, 0, 2.0*radius, 2.0*radius);
-    circleLayer.path   = circle.CGPath;
+    circleLayer.path = circle.CGPath;
     //circleLayer.strokeColor = [UIColor orangeColor].CGColor;
     circleLayer.strokeColor =  color.CGColor;
     UIColor *fill = [[UIColor whiteColor]colorWithAlphaComponent:.5];

@@ -101,6 +101,7 @@
         
         dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 150, 20)];
         dateLabel.tag = 6;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [cell.contentView addSubview:label];
         [cell.contentView addSubview:border];
@@ -166,9 +167,11 @@
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //NSLog(@"didSelectRow Called at index: %i", (int)[indexPath row]);
+    NSLog(@"didSelectRow Called at index: %i", (int)[indexPath row]);
     NSMutableDictionary *json = [[NSMutableDictionary alloc]init];
     int i = (int)[indexPath row] - 1;
+    if(i < 0)return;
+    
     if(saveBedJson.count > 0)json = saveBedJson[i];
     NSString *name = [json objectForKey:@"name"];
     NSString *local_id = [json objectForKey:@"local_id"];

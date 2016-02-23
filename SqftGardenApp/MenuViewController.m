@@ -33,20 +33,18 @@ ApplicationGlobals *appGlobals;
     self.view.backgroundColor = [UIColor blackColor];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if([indexPath row] == 0){
         [appGlobals clearCurrentGardenModel];
         [self.navigationController performSegueWithIdentifier:@"showMain" sender:self.navigationController];
         return;
     }
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell* cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     tableView.separatorColor = [UIColor clearColor];
     cell.layer.backgroundColor= [UIColor blackColor].CGColor;
@@ -55,8 +53,7 @@ ApplicationGlobals *appGlobals;
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 
     UITouch *touch = [[event allTouches] anyObject];
     UIView *touchedView;

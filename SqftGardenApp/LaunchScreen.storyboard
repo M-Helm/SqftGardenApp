@@ -30,7 +30,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" image="grow_logo_1200x550px.png" translatesAutoresizingMaskIntoConstraints="NO" id="md7-sq-16G">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" image="growlogo_2_1200x400px.png" translatesAutoresizingMaskIntoConstraints="NO" id="md7-sq-16G">
                                 <rect key="frame" x="157" y="72" width="286" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="gbs-Nc-4R2"/>
@@ -58,6 +58,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="grow_logo_1200x550px.png" width="1202" height="550"/>
+        <image name="growlogo_2_1200x400px.png" width="1200" height="400"/>
     </resources>
 </document>

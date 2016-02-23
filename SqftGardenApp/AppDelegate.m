@@ -14,14 +14,12 @@
 
 @implementation AppDelegate
 
-bool doTrack = NO;
+bool doTrack = YES;
 
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
-
 
     ApplicationSetup *appSetup = [[ApplicationSetup alloc] init];
     [appSetup setupApplication];

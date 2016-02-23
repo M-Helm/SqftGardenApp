@@ -14,9 +14,9 @@
 
 @end
 
-@implementation ApplicationSetup
-
-DBManager *dbManager;
+@implementation ApplicationSetup{
+    DBManager *dbManager;
+}
 
 -(BOOL)setupApplication{
     dbManager = [DBManager getSharedDBManager];
