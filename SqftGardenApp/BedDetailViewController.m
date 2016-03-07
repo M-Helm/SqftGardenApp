@@ -220,13 +220,14 @@ NSDate *harvestFromTransplantDate;
     //maturityDate = [maturityDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
     
     NSString *maturityStr = [dateFormatter stringFromDate:harvestFromPlantingDate];
+    NSString *transplantMaturityStr = [dateFormatter stringFromDate:harvestFromTransplantDate];
     //NSDate *plantingDate = [frostDate dateByAddingTimeInterval:60*60*24*appGlobals.selectedPlant.model.plantingDelta];
     NSString *plantingStr = [dateFormatter stringFromDate:plantingDate];
     NSString *transStr = [dateFormatter stringFromDate:transplantDate];
     
 
     if(appGlobals.selectedPlant.model.startInside && !appGlobals.selectedPlant.model.startSeed){
-        text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Start inside %@ \r\u2055 Harden & Transplant %@  \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.model.population,insideStr, transStr, maturityStr];
+        text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Start inside %@ \r\u2055 Harden & Transplant %@  \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.model.population,insideStr, transStr, transplantMaturityStr];
     }
     if(appGlobals.selectedPlant.model.startSeed && !appGlobals.selectedPlant.model.startInside){
         text = [NSString stringWithFormat:@"\r\u2055 Plant %i per Square \r\u2055 Plant seeds %@ \r\u2055 Harvest %@ \r",appGlobals.selectedPlant.model.population,plantingStr, maturityStr];
