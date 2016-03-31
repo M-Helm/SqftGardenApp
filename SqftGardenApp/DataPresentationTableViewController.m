@@ -368,9 +368,13 @@ CGFloat height;
                      animations:^{
                          
                          if(!plant.model.startSeed){
+                             int cludge = 0; //using this so the leeks grow bar reaches to harvest.
+                             if(plant.model.startInsideDelta < -79){
+                                 cludge = 30;
+                             }
                             cell.growingView.frame = CGRectMake(frame.origin.x,
                                                                 frame.origin.y,
-                                                                ((25 + plant.model.maturity + plant.model.startInsideDelta)*daysPerPoint),
+                                                                ((cludge + 25 + plant.model.maturity + plant.model.startInsideDelta)*daysPerPoint),
                                                                 frame.size.height);
                             
                          }
@@ -561,7 +565,7 @@ CGFloat height;
     [toolBar enableSaveButton:NO];
     [toolBar enableIsoButton:NO];
     [toolBar enableDateOverride:YES];
-    }
+}
 
 - (NSArray *)sortArray:(NSArray *)array ByKey:(NSString *)key Ascending:(bool)ascending{
 

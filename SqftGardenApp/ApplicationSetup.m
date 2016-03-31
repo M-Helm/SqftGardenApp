@@ -20,7 +20,7 @@
 
 -(BOOL)setupApplication{
     dbManager = [DBManager getSharedDBManager];
-    [dbManager dropTable:@"plants"];
+    //[dbManager dropTable:@"plants"];
     //[dbManager dropTable:@"saves"];
     //[dbManager dropTable:@"plant_classes"];
     //[dbManager dropTable:@"version"];
