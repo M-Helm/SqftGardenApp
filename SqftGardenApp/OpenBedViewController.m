@@ -58,6 +58,9 @@ int localIdOfSelected;
     [tracker set:kGAIScreenName value:@"openBedViewController"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
+- (void) viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;

@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import <Google/Analytics.h>
 #import <FBSDKShareKit/FBSDKShareKit.h>
+#import <Appirater.h>
 #import "SqftGardenModel.h"
 #import "SelectPlantView.h"
 #import "DateSelectView.h"

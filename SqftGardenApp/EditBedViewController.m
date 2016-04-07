@@ -102,6 +102,7 @@ DBManager *dbManager;
     [self.currentGardenModel setRows:self.bedRowCount];
     [self.currentGardenModel setColumns:self.bedColumnCount];
     [self initViews];
+    [Appirater tryToShowPrompt];
 }
 
 - (void) viewWillAppear:(BOOL)animated{

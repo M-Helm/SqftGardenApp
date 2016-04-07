@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Google/Analytics.h>
+#import <Appirater.h>
 
 
 

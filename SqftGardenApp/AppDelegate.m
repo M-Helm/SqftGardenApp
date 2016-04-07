@@ -36,6 +36,15 @@ bool doTrack = NO;
     
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];
+    //1053329069
+    [Appirater setAppId:@"1053329069"];
+    [Appirater setDaysUntilPrompt:0];
+    [Appirater setUsesUntilPrompt:2];
+    [Appirater setSignificantEventsUntilPrompt:-1];
+    [Appirater setTimeBeforeReminding:0];
+    [Appirater setDebug:YES];
+
+    
     return YES;
     
 }
