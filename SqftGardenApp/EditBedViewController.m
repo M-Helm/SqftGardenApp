@@ -95,7 +95,6 @@ DBManager *dbManager;
         }
         return;
     }
-    
     self.bedCellCount = self.bedRowCount * self.bedColumnCount;
     self.bedViewArray = [self buildBedViewArray];
     self.selectPlantArray = [self buildClassSelectArray];

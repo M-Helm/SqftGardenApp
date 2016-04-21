@@ -42,9 +42,31 @@
 
     [self makeSavesTable];
     [self makeClassesTable];
+    [self updateClasses];
     //[self moveSavedGardens];
     [self makeVersionTable];
     
+    return YES;
+}
+-(BOOL)updateClasses{
+    if([dbManager checkTableExists:@"plant_classes"]){
+        int classCount = [dbManager getTableRowCount:@"plant_classes"];
+        
+        //load the init plant list into an array
+        NSString *path = [[NSBundle mainBundle] bundlePath];
+        NSString *filePath = [path stringByAppendingPathComponent:dbManager.plantListName];
+        NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+        NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *e = nil;
+        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
+        NSLog(@"classes in db %i || classes in initList %i",classCount, (int)jsonArray.count);
+        
+        //if we have more classes in the array, drop the old table and load the new list into the db
+        if(classCount < (int)jsonArray.count){
+            [dbManager dropTable:@"plant_classes"];
+            [self makeClassesTable];
+        }
+    }
     return YES;
 }
 -(BOOL)updatePlants{

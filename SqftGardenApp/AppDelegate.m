@@ -41,9 +41,9 @@ bool doTrack = NO;
     [Appirater setDaysUntilPrompt:0];
     [Appirater setUsesUntilPrompt:2];
     [Appirater setSignificantEventsUntilPrompt:-1];
-    [Appirater setTimeBeforeReminding:0];
-    [Appirater setDebug:YES];
-
+    [Appirater setTimeBeforeReminding:2];
+    [Appirater setDebug:NO];
+    
     
     return YES;
     

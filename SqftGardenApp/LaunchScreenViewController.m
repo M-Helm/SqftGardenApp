@@ -16,7 +16,7 @@
 
 @implementation LaunchScreenViewController
 ApplicationGlobals *appGlobals;
-const int launchButtonDiskSize = 120;
+const int launchButtonDiskSize = 100;
 const int launchButtonSeperator = launchButtonDiskSize + 10;
 UIFont * launchButtonFont;
 
@@ -79,7 +79,7 @@ UIFont * launchButtonFont;
     [newButton addGestureRecognizer:singleFingerTapNew];
     [self.view addSubview:newButton];
     CGRect fm = newButton.frame;
-    fm.origin.y =  width/3+10;
+    fm.origin.y =  width/3+20;
     
     [UIView animateWithDuration:1 animations:^{
         newButton.frame = fm;
@@ -108,7 +108,7 @@ UIFont * launchButtonFont;
     [openButton addGestureRecognizer:singleFingerTapOpen];
     [self.view addSubview:openButton];
     CGRect fm = openButton.frame;
-    fm.origin.y =  width/3+10+launchButtonSeperator;
+    fm.origin.y =  width/3+20+launchButtonSeperator;
     
     [UIView animateWithDuration:1.2 animations:^{
         openButton.frame = fm;
@@ -136,7 +136,7 @@ UIFont * launchButtonFont;
     [aboutButton addGestureRecognizer:singleFingerTapOpen];
     [self.view addSubview:aboutButton];
     CGRect fm = aboutButton.frame;
-    fm.origin.y =  width/3+10+(launchButtonSeperator*2);
+    fm.origin.y =  width/3+20+(launchButtonSeperator*2);
     
     [UIView animateWithDuration:.75 animations:^{
         aboutButton.frame = fm;
