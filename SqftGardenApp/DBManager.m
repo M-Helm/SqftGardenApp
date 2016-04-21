@@ -21,7 +21,6 @@
 static sqlite3 *database = nil;
 static sqlite3_stmt *statement = nil;
 static NSString *appName = @"sqftGardenApp";
-NSString* initClassListName = @"init_plant_classes.txt";
 
 
 + (id)getSharedDBManager {
@@ -30,6 +29,7 @@ NSString* initClassListName = @"init_plant_classes.txt";
         if (sharedDBManager == nil){
             sharedDBManager = [[self alloc] init];
             sharedDBManager.plantListName = @"init_plants.txt";
+            sharedDBManager.classListName = @"init_plant_classes.txt";
             //NSLog(@"alloc shared DBManager");
         }
     }
@@ -56,7 +56,7 @@ NSString* initClassListName = @"init_plant_classes.txt";
 -(NSArray*)getInitPlantClasses{
     //[self createTable:@"plants"];
     NSString *path = [[NSBundle mainBundle] bundlePath];
-    NSString *filePath = [path stringByAppendingPathComponent:initClassListName];
+    NSString *filePath = [path stringByAppendingPathComponent:self.classListName];
     NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     
     NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];

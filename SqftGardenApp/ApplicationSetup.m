@@ -54,7 +54,7 @@
         
         //load the init plant list into an array
         NSString *path = [[NSBundle mainBundle] bundlePath];
-        NSString *filePath = [path stringByAppendingPathComponent:dbManager.plantListName];
+        NSString *filePath = [path stringByAppendingPathComponent:dbManager.classListName];
         NSString *contentStr = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
         NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
         NSError *e = nil;
@@ -80,13 +80,12 @@
         NSData *jsonData = [contentStr dataUsingEncoding:NSUTF8StringEncoding];
         NSError *e = nil;
         NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: jsonData options: NSJSONReadingMutableContainers error: &e];
-        NSLog(@"plants in db %i plants in initList %i",plantCount, (int)jsonArray.count);
+        NSLog(@"plants in db %i plants in initList %i error: %@",plantCount, (int)jsonArray.count ,e);
         
         //if we have more plants in the array, drop the old table and load the new list into the db
         if(plantCount < (int)jsonArray.count){
             [dbManager dropTable:@"plants"];
             [self makePlantsTable];
-            
             [dbManager getInitPlants];
             NSLog(@"init plants");
         }

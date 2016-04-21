@@ -39,5 +39,6 @@
 
 @property(nonatomic) int bedRowCount;
 @property(nonatomic) NSString *plantListName;
+@property(nonatomic) NSString *classListName;
 
 @end
